@@ -68,6 +68,15 @@ export function starsToRating(stars: 0 | 1 | 2 | 3): Grade {
   }
 }
 
+/** Map an exercise score (0–1) to an FSRS grade — the scorePct analog of
+ * starsToRating, for lesson results that don't produce stars. */
+export function scoreToRating(scorePct: number): Grade {
+  if (scorePct >= 0.95) return Rating.Easy;
+  if (scorePct >= 0.8) return Rating.Good;
+  if (scorePct >= 0.6) return Rating.Hard;
+  return Rating.Again;
+}
+
 /** Advance a card by a grade at `nowMs`, returning the new serialized state. */
 export function reviewCard(state: FsrsState, rating: Grade, nowMs: number): FsrsState {
   const { card } = engine.next(stateToCard(state), new Date(nowMs), rating);

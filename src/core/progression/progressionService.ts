@@ -3,21 +3,30 @@
  * skill-gated unlocks (build-spec §6.6, doc 04 §2, doc 03 §4.4).
  *
  * GUARDRAILS enforced here (see CLAUDE.md §4):
- *  - Hands lock opens ONLY from playing attempts; Head lock ONLY from AFK.
+ *  - Hands lock opens ONLY from playing; Head lock ONLY from ear/theory work.
+ *  - Keyboard EXERCISES can raise the Hands lock but are capped BELOW the
+ *    mastery threshold — only an at-tempo, un-assisted performance take can
+ *    Hands-master a skill.
  *  - A skill is GOLD only when BOTH locks pass threshold.
  *  - Playing tier derives ONLY from Hands mastery — never from Head/AFK progress.
  *  - Song unlocks require the required skills to be Hands-mastered (demonstrated
  *    playing skill), never currency or grind.
- *  - Hands mastery requires the at-tempo, un-assisted mastery star.
  *  - AFK preview ("Scouting") is capped at +1 tier above the playing tier.
  *
  * Pure functions over plain state so they are trivially unit-tested.
  */
 import type { Attempt, Skill, SkillProgress, Song, Tier } from '@/core/types';
+import type { ExerciseType, LessonMode, XpTrack } from '@/core/curriculum/types';
 
 export const HANDS_THRESHOLD = 0.85;
 export const HEAD_THRESHOLD = 0.85;
 export const SCOUTING_LOOKAHEAD = 1; // +1 tier preview cap (doc 04 §3)
+
+/**
+ * Ceiling on what any exercise can do to the Hands lock — strictly below
+ * HANDS_THRESHOLD, so drills alone can never Hands-master a skill.
+ */
+export const EXERCISE_HANDS_CAP = 0.8;
 
 /**
  * How much a playing attempt opens a skill's Hands lock. Only the mastery star
@@ -52,6 +61,77 @@ export function applyPlayingAttempt(
   nowMs: number,
 ): SkillProgress {
   const handsLock = Math.max(prev.handsLock, handsContribution(attempt));
+  const next: SkillProgress = { ...prev, handsLock };
+  if (!next.masteredAt && isGold(next)) next.masteredAt = nowMs;
+  return next;
+}
+
+/**
+ * Which XP track an exercise type feeds. HARD-CODED in core — never authored
+ * in content — so a content file can't route ear/theory work into Hands
+ * (guardrail #1). Keyboard exercises (you physically play) are Hands; ear,
+ * theory, and listening are Head. AFK/woodshed variants re-route to Head in
+ * Phase 6 by mode, not by editing this map.
+ */
+export function trackForExerciseType(t: ExerciseType): XpTrack {
+  switch (t) {
+    case 'play-chart':
+    case 'fragment':
+    case 'note-id':
+    case 'build-chord':
+    case 'rhythm-tap':
+      return 'hands';
+    default:
+      return 'head';
+  }
+}
+
+/**
+ * How much a HEAD (ear/theory) result opens the Head lock. Only strong results
+ * approach mastery; weak passes leave the lock visibly unfinished.
+ */
+export function headContribution(scorePct: number): number {
+  if (scorePct >= 0.95) return 1;
+  if (scorePct >= 0.85) return HEAD_THRESHOLD;
+  if (scorePct >= 0.7) return 0.6;
+  if (scorePct >= 0.5) return 0.35;
+  return 0.15;
+}
+
+/** Apply an ear/theory result to one skill. Touches ONLY the Head lock. */
+export function applyHeadAttempt(
+  prev: SkillProgress,
+  scorePct: number,
+  nowMs: number,
+): SkillProgress {
+  const headLock = Math.max(prev.headLock, headContribution(scorePct));
+  const next: SkillProgress = { ...prev, headLock };
+  if (!next.masteredAt && isGold(next)) next.masteredAt = nowMs;
+  return next;
+}
+
+/**
+ * How much a KEYBOARD EXERCISE opens the Hands lock: mode-scaled and capped at
+ * EXERCISE_HANDS_CAP (< HANDS_THRESHOLD). Scouting/woodshed exercises
+ * contribute nothing — exploration is never mastery evidence.
+ */
+export function exerciseHandsContribution(scorePct: number, mode: LessonMode): number {
+  const cap =
+    mode === 'guided' ? 0.4
+    : mode === 'supported' ? 0.6
+    : mode === 'independent' || mode === 'performance' ? EXERCISE_HANDS_CAP
+    : 0; // scouting / woodshed
+  return cap * Math.min(Math.max(scorePct, 0), 1);
+}
+
+/** Apply a keyboard-exercise result to one skill. Touches ONLY the Hands lock. */
+export function applyExerciseAttempt(
+  prev: SkillProgress,
+  scorePct: number,
+  mode: LessonMode,
+  nowMs: number,
+): SkillProgress {
+  const handsLock = Math.max(prev.handsLock, exerciseHandsContribution(scorePct, mode));
   const next: SkillProgress = { ...prev, handsLock };
   if (!next.masteredAt && isGold(next)) next.masteredAt = nowMs;
   return next;
