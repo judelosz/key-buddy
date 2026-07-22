@@ -16,13 +16,13 @@ export interface LoggedNote {
 interface AppState {
   screen: Screen;
   inputStatus: InputStatus;
-  providerKind: 'virtual' | 'midi';
+  midiEnabled: boolean;
   calibrationOffsetMs: number;
   recentNotes: LoggedNote[];
 
   setScreen: (s: Screen) => void;
   setInputStatus: (s: InputStatus) => void;
-  setProviderKind: (k: 'virtual' | 'midi') => void;
+  setMidiEnabled: (v: boolean) => void;
   setCalibrationOffsetMs: (ms: number) => void;
   logNote: (n: NotePlayed) => void;
   clearNotes: () => void;
@@ -33,13 +33,13 @@ const MAX_LOG = 24;
 export const useAppStore = create<AppState>((set) => ({
   screen: 'home',
   inputStatus: { kind: 'no-provider' },
-  providerKind: 'virtual',
+  midiEnabled: false,
   calibrationOffsetMs: 0,
   recentNotes: [],
 
   setScreen: (screen) => set({ screen }),
   setInputStatus: (inputStatus) => set({ inputStatus }),
-  setProviderKind: (providerKind) => set({ providerKind }),
+  setMidiEnabled: (midiEnabled) => set({ midiEnabled }),
   setCalibrationOffsetMs: (calibrationOffsetMs) => set({ calibrationOffsetMs }),
   logNote: (n) =>
     set((state) => {

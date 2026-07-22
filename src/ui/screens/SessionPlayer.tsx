@@ -11,6 +11,7 @@ import { ChordSymbols } from '@/ui/components/ChordSymbols';
 import { StaffNotation } from '@/ui/components/StaffNotation';
 import { SessionReport } from '@/ui/components/SessionReport';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
+import { KeyboardHint } from '@/ui/components/KeyboardHint';
 
 const COUNT_IN_BEATS = 4;
 const TEMPO_OPTIONS = [
@@ -244,6 +245,8 @@ export function SessionPlayer() {
           Count-in — start on the next bar.
         </p>
       )}
+
+      {!playing && <KeyboardHint />}
 
       <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
         <PianoKeyboard />

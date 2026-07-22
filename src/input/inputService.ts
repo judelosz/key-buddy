@@ -1,12 +1,14 @@
 /**
  * InputService — source-agnostic note input (build-spec §6.1).
  *
- * Providers (MIDI keyboard, on-screen virtual keyboard, and later mic §12) emit
- * a RAW note (pitch, velocity, uncalibrated timestamp). InputService applies the
- * one-time calibration offset and re-emits a unified, calibrated `NotePlayed`
- * stream that the ScoringEngine and visualizer consume. Nothing downstream knows
- * or cares which provider produced a note — so the deferred mic provider slots
- * in here with zero downstream change.
+ * Providers (MIDI keyboard, on-screen/computer-key virtual keyboard, and later
+ * mic §12) emit a RAW note (pitch, velocity, uncalibrated timestamp).
+ * InputService applies the one-time calibration offset and re-emits a unified,
+ * calibrated `NotePlayed` stream that the ScoringEngine and visualizer consume.
+ *
+ * MULTIPLE providers can be active at once: the virtual keyboard stays live even
+ * when a MIDI device is connected, so a laptop with no keyboard always works and
+ * you can mix on-screen + hardware freely.
  *
  * Clock: raw timestamps are in the `performance.now()` domain (Web MIDI's
  * event.timeStamp and our virtual provider both use it), so input and the audio
@@ -42,10 +44,13 @@ export interface InputProvider {
 type NoteListener = (n: NotePlayed) => void;
 type StatusListener = (s: InputStatus) => void;
 
+interface Entry {
+  offNote: () => void;
+  offStatus: () => void;
+}
+
 export class InputService {
-  private provider: InputProvider | null = null;
-  private providerUnsub: (() => void) | null = null;
-  private providerStatusUnsub: (() => void) | null = null;
+  private readonly entries = new Map<InputProvider, Entry>();
   private offsetMs = 0;
   private readonly noteListeners = new Set<NoteListener>();
   private readonly statusListeners = new Set<StatusListener>();
@@ -58,19 +63,50 @@ export class InputService {
     return this.offsetMs;
   }
 
+  /**
+   * Combined status: MIDI takes precedence when present (so hardware
+   * connect/error states surface), otherwise the always-on virtual keyboard.
+   */
   getStatus(): InputStatus {
-    return this.provider?.getStatus() ?? { kind: 'no-provider' };
+    const providers = [...this.entries.keys()];
+    const midi = providers.find((p) => p.source === 'midi');
+    if (midi) return midi.getStatus();
+    const virtual = providers.find((p) => p.source === 'virtual');
+    if (virtual) return virtual.getStatus();
+    return { kind: 'no-provider' };
   }
 
-  /** Swap the active provider (stops the previous one). */
-  async useProvider(provider: InputProvider): Promise<void> {
-    this.teardownProvider();
-    this.provider = provider;
-    this.providerUnsub = provider.onRawNote((raw) => this.emitNote(raw, provider.source));
-    this.providerStatusUnsub = provider.onStatusChange((s) => this.emitStatus(s));
-    this.emitStatus({ kind: 'connecting' });
+  hasProvider(provider: InputProvider): boolean {
+    return this.entries.has(provider);
+  }
+
+  /** Add a provider alongside any already active ones. */
+  async addProvider(provider: InputProvider): Promise<void> {
+    if (this.entries.has(provider)) return;
+    const offNote = provider.onRawNote((raw) => this.emitNote(raw, provider.source));
+    const offStatus = provider.onStatusChange(() => this.emitStatus(this.getStatus()));
+    this.entries.set(provider, { offNote, offStatus });
     await provider.start();
-    this.emitStatus(provider.getStatus());
+    this.emitStatus(this.getStatus());
+  }
+
+  removeProvider(provider: InputProvider): void {
+    const entry = this.entries.get(provider);
+    if (!entry) return;
+    entry.offNote();
+    entry.offStatus();
+    provider.stop();
+    this.entries.delete(provider);
+    this.emitStatus(this.getStatus());
+  }
+
+  /** Replace all active providers with a single one (used by tests). */
+  async useProvider(provider: InputProvider): Promise<void> {
+    for (const existing of [...this.entries.keys()]) {
+      if (existing !== provider) this.removeProvider(existing);
+    }
+    this.emitStatus({ kind: 'connecting' });
+    await this.addProvider(provider);
   }
 
   onNote(cb: NoteListener): () => void {
@@ -84,7 +120,7 @@ export class InputService {
   }
 
   dispose(): void {
-    this.teardownProvider();
+    for (const provider of [...this.entries.keys()]) this.removeProvider(provider);
     this.noteListeners.clear();
     this.statusListeners.clear();
   }
@@ -101,14 +137,5 @@ export class InputService {
 
   private emitStatus(s: InputStatus): void {
     for (const l of this.statusListeners) l(s);
-  }
-
-  private teardownProvider(): void {
-    this.providerUnsub?.();
-    this.providerStatusUnsub?.();
-    this.provider?.stop();
-    this.providerUnsub = null;
-    this.providerStatusUnsub = null;
-    this.provider = null;
   }
 }

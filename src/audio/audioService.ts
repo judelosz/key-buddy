@@ -23,9 +23,13 @@ export interface MetronomeTick {
 
 export class AudioService {
   private initialized = false;
-  private instrument: Tone.PolySynth | null = null;
-  private clickHi: Tone.MembraneSynth | null = null;
-  private clickLo: Tone.MembraneSynth | null = null;
+  private synth: Tone.PolySynth | null = null; // fallback until samples load
+  private sampler: Tone.Sampler | null = null; // sampled grand piano
+  private samplerReady = false;
+  // Woodblock metronome: a short pitched "tok" plus a filtered noise transient.
+  private clickTone: Tone.Synth | null = null;
+  private clickNoise: Tone.NoiseSynth | null = null;
+  private clickFilter: Tone.Filter | null = null;
   private metronomeId: number | null = null;
   private beatCounter = 0;
   private beatsPerBar = 4;
@@ -40,20 +44,56 @@ export class AudioService {
   async init(): Promise<void> {
     if (this.initialized) return;
     await Tone.start();
-    this.instrument = new Tone.PolySynth(Tone.Synth, {
+
+    // Fallback synth — plays immediately while the piano samples download.
+    this.synth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle' },
       envelope: { attack: 0.005, decay: 0.2, sustain: 0.3, release: 0.8 },
     }).toDestination();
-    this.instrument.volume.value = -8;
+    this.synth.volume.value = -8;
 
-    this.clickHi = new Tone.MembraneSynth().toDestination();
-    this.clickLo = new Tone.MembraneSynth().toDestination();
-    this.clickHi.volume.value = -6;
-    this.clickLo.volume.value = -12;
+    // Sampled grand piano (Salamander, via the Tone.js sample CDN). Loads in the
+    // background; playNote swaps to it once ready, and stays on the synth if
+    // offline. Samples every minor third, pitch-shifted between.
+    this.sampler = new Tone.Sampler({
+      urls: {
+        A2: 'A2.mp3', C3: 'C3.mp3', 'D#3': 'Ds3.mp3', 'F#3': 'Fs3.mp3',
+        A3: 'A3.mp3', C4: 'C4.mp3', 'D#4': 'Ds4.mp3', 'F#4': 'Fs4.mp3',
+        A4: 'A4.mp3', C5: 'C5.mp3', 'D#5': 'Ds5.mp3', 'F#5': 'Fs5.mp3',
+        A5: 'A5.mp3', C6: 'C6.mp3',
+      },
+      baseUrl: 'https://tonejs.github.io/audio/salamander/',
+      release: 1,
+      onload: () => {
+        this.samplerReady = true;
+      },
+    }).toDestination();
+    this.sampler.volume.value = -4;
+
+    // Woodblock click: a dry pitched "tok" + a short band-passed noise transient.
+    this.clickTone = new Tone.Synth({
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 0.001, decay: 0.05, sustain: 0, release: 0.02 },
+    }).toDestination();
+    this.clickTone.volume.value = -8;
+
+    this.clickFilter = new Tone.Filter({ type: 'bandpass', frequency: 2000, Q: 1.4 }).toDestination();
+    this.clickNoise = new Tone.NoiseSynth({
+      noise: { type: 'pink' },
+      envelope: { attack: 0.001, decay: 0.02, sustain: 0 },
+    }).connect(this.clickFilter);
+    this.clickNoise.volume.value = -14;
 
     this.anchorPerfMs = performance.now();
     this.anchorAudioMs = Tone.getContext().currentTime * 1000;
     this.initialized = true;
+  }
+
+  /** Trigger one metronome woodblock; accented on the downbeat. */
+  private triggerClick(time: number, accent: boolean): void {
+    this.clickFilter?.frequency.setValueAtTime(accent ? 2500 : 1800, time);
+    this.clickTone?.triggerAttackRelease(accent ? 'C6' : 'G5', 0.05, time, accent ? 0.9 : 0.6);
+    this.clickNoise?.triggerAttackRelease(0.03, time, accent ? 0.6 : 0.4);
   }
 
   get isInitialized(): boolean {
@@ -88,9 +128,15 @@ export class AudioService {
   }
 
   playNote(pitch: number, durationSec = 0.5, velocity = 0.8, time?: number): void {
-    if (!this.instrument) return;
+    const instrument = this.samplerReady && this.sampler ? this.sampler : this.synth;
+    if (!instrument) return;
     const freq = Tone.Frequency(pitch, 'midi').toFrequency();
-    this.instrument.triggerAttackRelease(freq, durationSec, time, velocity);
+    instrument.triggerAttackRelease(freq, durationSec, time, velocity);
+  }
+
+  /** True once the sampled piano has finished downloading (else the synth plays). */
+  get pianoReady(): boolean {
+    return this.samplerReady;
   }
 
   /**
@@ -109,12 +155,10 @@ export class AudioService {
     transport.bpm.value = bpm;
     const beatSec = 60 / bpm;
 
-    // Precise click audio.
+    // Precise click audio (woodblock).
     this.metronomeId = transport.scheduleRepeat((time) => {
       const beat = this.beatCounter++;
-      const accent = beat % this.beatsPerBar === 0;
-      const click = accent ? this.clickHi : this.clickLo;
-      click?.triggerAttackRelease(accent ? 'C3' : 'C2', 0.03, time);
+      this.triggerClick(time, beat % this.beatsPerBar === 0);
     }, '4n');
     this.beatCounter = 0;
 

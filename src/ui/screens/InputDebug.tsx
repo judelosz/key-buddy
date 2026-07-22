@@ -1,15 +1,28 @@
-import { AlertTriangle, Keyboard, Piano, Trash2, Usb } from 'lucide-react';
-import { inputService, useMidiInput, useVirtualInput } from '@/input';
-import type { InputStatus } from '@/input';
+import { AlertTriangle, Piano, Trash2, Usb, Check } from 'lucide-react';
+import {
+  inputService,
+  enableMidiInput,
+  disableMidiInput,
+  isMidiEnabled,
+  type InputStatus,
+} from '@/input';
 import { useAppStore } from '@/ui/store/appStore';
 import { midiToName } from '@/core/music';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
+import { KeyboardHint } from '@/ui/components/KeyboardHint';
 
 function StatusBanner({ status }: { status: InputStatus }) {
+  if (status.kind === 'ready' && status.source === 'midi') {
+    return (
+      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
+        <Piano size={16} /> MIDI connected: {status.deviceName}
+      </div>
+    );
+  }
   if (status.kind === 'ready') {
     return (
       <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
-        <Piano size={16} /> Connected: {status.deviceName}
+        <Check size={16} /> On-screen &amp; computer keys ready
       </div>
     );
   }
@@ -19,7 +32,7 @@ function StatusBanner({ status }: { status: InputStatus }) {
   const message =
     status.kind === 'no-device' || status.kind === 'unsupported' || status.kind === 'error'
       ? status.message
-      : 'No input provider active.';
+      : 'No input active.';
   return (
     <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
       <AlertTriangle size={16} /> {message}
@@ -29,16 +42,20 @@ function StatusBanner({ status }: { status: InputStatus }) {
 
 export function InputDebug() {
   const status = useAppStore((s) => s.inputStatus);
-  const providerKind = useAppStore((s) => s.providerKind);
-  const setProviderKind = useAppStore((s) => s.setProviderKind);
+  const midiEnabled = useAppStore((s) => s.midiEnabled);
+  const setMidiEnabled = useAppStore((s) => s.setMidiEnabled);
   const recentNotes = useAppStore((s) => s.recentNotes);
   const clearNotes = useAppStore((s) => s.clearNotes);
   const offset = useAppStore((s) => s.calibrationOffsetMs);
 
-  const switchTo = async (kind: 'virtual' | 'midi') => {
-    setProviderKind(kind);
-    if (kind === 'midi') await useMidiInput();
-    else await useVirtualInput();
+  const toggleMidi = async () => {
+    if (isMidiEnabled()) {
+      disableMidiInput();
+      setMidiEnabled(false);
+    } else {
+      await enableMidiInput();
+      setMidiEnabled(true);
+    }
     useAppStore.getState().setInputStatus(inputService.getStatus());
   };
 
@@ -47,44 +64,35 @@ export function InputDebug() {
       <div>
         <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Input debug</h2>
         <p className="mt-1 text-sm text-ink-soft">
-          Verify the note stream from either input source. Calibration offset applied:{' '}
+          Verify the note stream. The on-screen &amp; computer keyboard is always active; connect a
+          MIDI device to play alongside it. Calibration offset applied:{' '}
           <span className="font-medium tabular-nums text-ink">{offset} ms</span>.
         </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex rounded-full bg-sand p-1">
-          <button
-            type="button"
-            onClick={() => void switchTo('virtual')}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
-              providerKind === 'virtual' ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
-            }`}
-          >
-            <Keyboard size={15} /> On-screen
-          </button>
-          <button
-            type="button"
-            onClick={() => void switchTo('midi')}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
-              providerKind === 'midi' ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
-            }`}
-          >
-            <Usb size={15} /> MIDI keyboard
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => void toggleMidi()}
+          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-soft transition hover:-translate-y-px active:translate-y-px ${
+            midiEnabled ? 'bg-mint text-ink' : 'bg-surface text-ink'
+          }`}
+        >
+          <Usb size={15} /> {midiEnabled ? 'Disconnect MIDI' : 'Connect MIDI keyboard'}
+        </button>
         <StatusBanner status={status} />
       </div>
 
-      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+      <KeyboardHint />
+
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <PianoKeyboard />
       </div>
 
       <div className="rounded-3xl border border-line bg-surface shadow-soft">
         <div className="flex items-center justify-between border-b border-line px-4 py-2">
-          <h3 className="text-sm font-medium text-ink">
-            Incoming notes{' '}
-            <span className="text-ink-soft">({recentNotes.length})</span>
+          <h3 className="font-display text-sm font-semibold text-ink">
+            Incoming notes <span className="text-ink-soft">({recentNotes.length})</span>
           </h3>
           <button
             type="button"

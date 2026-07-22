@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { inputService, useVirtualInput } from '@/input';
+import { inputService, enableVirtualInput } from '@/input';
 import { audioService } from '@/audio/audioService';
 import { useAppStore } from '@/ui/store/appStore';
 
@@ -19,7 +19,7 @@ export function useInputWiring(): void {
       if (audioService.isInitialized) audioService.playNote(n.pitch, 0.4, n.velocity / 127);
     });
     const offStatus = inputService.onStatusChange(setInputStatus);
-    void useVirtualInput().then(() => setInputStatus(inputService.getStatus()));
+    void enableVirtualInput().then(() => setInputStatus(inputService.getStatus()));
 
     return () => {
       offNote();
