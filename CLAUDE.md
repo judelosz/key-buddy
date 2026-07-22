@@ -45,7 +45,11 @@ content JSON → ContentService → services; InputService → ScoringEngine →
 
 **Current module status (update as built):**
 - ✅ `core/types.ts`, `core/content/` (ContentService + bundled loader + validation)
-- ⛔ scoring / progression / rewards / srs / audio / input / data — not yet implemented (Phases 1–3)
+- ✅ `core/scoring/` (ScoringEngine + tier timing windows) — pure, 34 unit tests
+- ✅ `input/` (InputService + midi/virtual providers + calibration) — source-agnostic, calibrated stream
+- ✅ `audio/audioService.ts` (Tone.js PolySynth + metronome/Transport master clock, perf↔audio clock bridge)
+- ✅ `ui/` debug surfaces: Input debug (note stream), Calibration, on-screen keyboard
+- ⛔ progression / rewards / srs / data — not yet implemented (Phase 3); visualizer/notation/report — Phase 2
 
 ---
 
@@ -91,7 +95,8 @@ From build-spec §0.1#4, doc 03 §9, doc 04 §8:
 
 ## 6. Open questions & TODOs
 
-- **Piano sample assets.** Tone.Sampler needs samples; v1 starts with a lightweight sampled piano + `Tone.Synth` fallback. Full organ/Rhodes/Wurli sound packs = Phase 6 cosmetics. (Sourcing TBD.)
+- **Piano sample assets.** Tone.Sampler needs samples; v1 currently uses a `Tone.PolySynth` (triangle) placeholder. Add a lightweight sampled piano, then organ/Rhodes/Wurli sound packs = Phase 6 cosmetics. (Sourcing TBD.)
+- **Bundle size.** Tone.js pushes the JS bundle >500 kB (141 kB gzip). Lazy-load AudioService (dynamic import on first audio use) before shipping; fine for local dev now.
 - **Deferred: microphone / acoustic input** (build-spec §12). Not in v1. The app must clearly tell a user without a MIDI device that MIDI (or the virtual keyboard) is required. Do not assume mic support exists.
 - **Chart authoring** proceeds as phases need it: Ode to Joy + 12-Bar Blues in C first, expanding toward the doc-02 §8 eight-song v1 set.
 - Notation depth, mic-scoring transparency, PWA/mobile, cosmetic art budget, social layer — revisit in later phases (build-spec §10).
@@ -100,4 +105,5 @@ From build-spec §0.1#4, doc 03 §9, doc 04 §8:
 
 ## 7. Changelog (dated, human-readable)
 
+- **2026-07-22 — Phase 1 (Input + Audio + Scoring core).** ScoringEngine (pure `(Chart, NotePlayed[], tempo, tier) → Attempt`) with tier-interpolated timing windows, per-note grades, timing histogram, 1–3 stars + at-tempo/un-assisted mastery star — 34 deterministic unit tests. Source-agnostic InputService with WEBMIDI.js + virtual-keyboard providers (shared `performance.now()` clock), one-time latency calibration (pure median-offset computation). AudioService (Tone.js PolySynth + metronome/Transport as master clock, audio↔perf clock bridge for Phase-2 alignment). Input-debug + calibration screens + on-screen keyboard; verified in-browser (clean calibrated note stream). Decisions: timing windows interpolate linearly tier 1↔30; match window capped at ~1 beat (beyond = Miss); XP/Riffs left 0 by ScoringEngine (RewardService fills). Note: Tone.js pushes the bundle >500 kB — lazy-load later (added to TODOs).
 - **2026-07-22 — Phase 0 (Scaffold).** Vite+React+TS(strict), Tailwind, Zustand, Dexie, Vitest, Playwright wired. Domain model (`core/types.ts`), ContentService with validation + Vite-glob chart loading, seed `skills.json`/`songs.json`, placeholder shell. dev/test/typecheck/build all green. git initialized.
