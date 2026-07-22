@@ -1,6 +1,6 @@
-# CLAUDE.md — Piano Pro engineering memory
+# AGENTS.md — Piano Pro engineering memory
 
-This is the **living engineering memory** for the project (build-spec §0.1). It is a map + decision log, not a duplicate of the design docs. Keep it current: at the end of any task that adds a module, changes the data model, alters a scoring/reward/algorithm parameter, or resolves an open question, update the relevant section **in the same commit**. Treat an out-of-date `CLAUDE.md` as a bug.
+This is the **living engineering memory** for the project (build-spec §0.1). It is a map + decision log, not a duplicate of the design docs. Keep it current: at the end of any task that adds a module, changes the data model, alters a scoring/reward/algorithm parameter, or resolves an open question, update the relevant section **in the same commit**. Treat an out-of-date `AGENTS.md` as a bug.
 
 ---
 
@@ -15,6 +15,7 @@ Design source-of-truth (in `docs/`). **Note the on-disk numbering — build-spec
 - `docs/03-gamification-design.md` — scoring, XP/currency, streaks, flow, roadmap, goals, guardrails (build-spec calls this "02").
 - `docs/04-afk-mode-design.md` — Woodshed/AFK two-lock model.
 - `docs/05-build-spec.md` — the engineering plan (source of truth for *how*).
+- `docs/06-comprehensive-curriculum-plan.md` — implementation-ready 30-tier syllabus, module anatomy, exercise catalog, mastery rubric, and content contract.
 
 Scope in progress: **MVP = Phases 0–3.** Phases 4–6 (SessionBuilder, adaptive difficulty, AFK, roadmap/goals/cosmetics/onboarding) and mic input are deferred.
 
@@ -100,7 +101,7 @@ Warm, genre-grounded light UI (tokens in `tailwind.config.ts`; globals in `src/i
 - **Content is JSON** under `src/content/`; validate on load (`validateContent`).
 - **Tests:** Vitest unit tests in `tests/unit/**` (`*.test.ts[x]`), Playwright e2e in `tests/e2e/**`. Simulate MIDI via the virtual provider for deterministic e2e.
 - **Run/build/test:** `npm run dev | test | typecheck | build | e2e`.
-- **Commits:** conventional commits (`type(scope): description`); commit CLAUDE.md updates alongside the change.
+- **Commits:** conventional commits (`type(scope): description`); commit AGENTS.md updates alongside the change.
 
 ---
 
@@ -109,14 +110,16 @@ Warm, genre-grounded light UI (tokens in `tailwind.config.ts`; globals in `src/i
 - **Piano sample assets.** Now a `Tone.Sampler` playing the Salamander grand piano (14 samples, every minor third A2–C6) fetched from `https://tonejs.github.io/audio/salamander/`, with the `Tone.PolySynth` synth as fallback until samples load / when offline. **Caveat: needs internet on first load** (browser-cached after). To go fully offline-first, bundle the samples locally (`public/samples/`) and repoint `baseUrl`. Organ/Rhodes/Wurli sound packs = Phase 6 cosmetics.
 - **Bundle size.** Tone.js **and VexFlow** dominate the single JS chunk (~1.8 MB). Lazy-load AudioService (first audio use) and StaffNotation/VexFlow (only when the staff toggle is on), and code-split, before shipping. Fonts are separate ~20 kB woff/woff2 assets (fine). OK for local dev now.
 - **Deferred: microphone / acoustic input** (build-spec §12). Not in v1. The app must clearly tell a user without a MIDI device that MIDI (or the virtual keyboard) is required. Do not assume mic support exists.
-- **Chart authoring** proceeds as phases need it: Ode to Joy + 12-Bar Blues in C first, expanding toward the doc-02 §8 eight-song v1 set.
+- **Chart authoring** proceeds as phases need it: Tier 1–10 starter path first (Ode to Joy, When the Saints, Amazing Grace, Oh! Susanna, 12-Bar Blues, Frankie and Johnny, C.C. Rider, Red River Valley, This Little Light of Mine), expanding toward the doc-06 30-tier syllabus.
+- **Curriculum decision resolved:** use the doc-06 module anatomy (`discover → copy → recognize → vary → combine → apply → checkpoint`) and five instructional strands (technique/movement, rhythm/groove, harmony/theory, ear/musicianship, repertoire/creativity) while retaining the six existing data families.
+- **Curriculum assessment decision resolved:** tier advancement requires current-tier Hands mastery, a boss-song mastery star, an ≥80% theory/ear checkpoint, and at least one delayed spaced review; Gold remains optional for advancement and still requires both locks.
 - Notation depth, mic-scoring transparency, PWA/mobile, cosmetic art budget, social layer — revisit in later phases (build-spec §10).
 
 ---
 
 ## 7. Changelog (dated, human-readable)
 
-- **2026-07-22 — Slimmer notes + Preview + Pause/Restart.** (1) Falling notes now draw as a slim bar centered on each key (~60% white / ~86% black) so a note clearly maps to one key. (2) **Preview ("Watch") mode**: `PlaySession` gained a `'preview'` mode that plays the chart back on the sampled piano (`AudioService.scheduleChartAudio`, scheduled on the Transport so it stops/pauses cleanly) with the notes falling, no input scoring, finishing back to `idle` (never `done`, so no attempt is recorded). (3) **Pause/Resume + Restart** during a scored take: `PlaySession.pause/resume/restart` + a `'paused'` phase (input ignored while paused); `AudioService.pause/resumeTransport`. SessionPlayer shows phase-driven controls (Watch/Play when idle · Stop during preview · Restart+Pause/Resume during a take). Verified all three in-browser.
+- **2026-07-22 — Comprehensive curriculum plan.** Added `docs/06-comprehensive-curriculum-plan.md`, defining the 30-tier beginner-to-functional-fluency syllabus, repeatable Duolingo-style module anatomy, keyboard/AFK exercise catalog, tier gates, mastery rubric, content-authoring contract, feedback rules, research basis, and implementation order. Resolved curriculum questions in this file: retain blues as the recommended first branch, prioritize chord symbols/ear/groove while progressively adding staff reading, and use adaptive session lengths around a 20-minute default.
 - **2026-07-22 — Multi-octave keyboard + live key highlighting.** Play view now shows a comfortable minimum window of ~3 octaves (`displayRange`, default C3–B5, widened to fit songs that reach further) instead of a tight single octave. PianoKeyboard now highlights the pressed key from the **unified input stream** (`inputService.onNote`), so MIDI, computer keys, and on-screen taps all light the key (was: only on-screen/computer-key via the component's own handler; MIDI didn't highlight).
 - **2026-07-22 — Falling-notes/keyboard alignment + MIDI-on-Play.** New `core/pianoLayout.ts` (shared key geometry) so falling notes drop exactly onto their keys; PianoKeyboard rewritten to position keys by % from `keyRects`, FallingNotes places note columns from the same rects, SessionPlayer derives a shared whole-octave range (`octaveRange`) from the chart (now includes LH bass that used to fall outside the fixed C4–C6 keyboard) and stacks canvas + keyboard in one full-width container. Reusable `MidiConnectButton` added to the Play toolbar (and InputDebug) — MIDI connects alongside the always-on virtual keyboard and reaches scoring while playing.
 - **2026-07-22 — Audio + input polish.** (1) Metronome is now a **woodblock** (dry pitched "tok" + band-passed pink-noise transient, accented downbeat) instead of the bass MembraneSynth. (2) Note playback uses a **sampled grand piano** (Tone.Sampler, Salamander via CDN) with the synth as fallback while loading / offline — verified all 14 samples fetch 200. (3) InputService now supports **concurrent providers**: the virtual (on-screen + computer-key) keyboard is always active, so laptop-key play works with no MIDI and continues alongside a connected device (was single-provider, replaced on MIDI select). Computer-key map lives in `virtualProvider.ts` (`COMPUTER_KEY_MAP`: Z–M white / S,D,G,H,J black / Q–U octave up); new `KeyboardHint` shown on Play + Input; InputDebug reworked to a "Connect MIDI" toggle. `appStore.providerKind` → `midiEnabled`.

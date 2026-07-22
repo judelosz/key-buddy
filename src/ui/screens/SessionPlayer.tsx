@@ -1,10 +1,23 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Play, Music, Eye, EyeOff, ChevronLeft, FileMusic, Star, Lock } from 'lucide-react';
+import {
+  Play,
+  PlayCircle,
+  Pause,
+  RotateCcw,
+  Square,
+  Music,
+  Eye,
+  EyeOff,
+  ChevronLeft,
+  FileMusic,
+  Star,
+  Lock,
+} from 'lucide-react';
 import type { Assist, Attempt, Chart, NoteGrade, Song } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import type { AttemptReward } from '@/core/session/recordAttempt';
-import { PlaySession, type PlayPhase } from '@/ui/session/playSession';
+import { PlaySession, type PlayPhase, type PlayMode } from '@/ui/session/playSession';
 import { audioService } from '@/audio/audioService';
 import { FallingNotes } from '@/ui/components/FallingNotes';
 import { displayRange } from '@/core/pianoLayout';
@@ -30,6 +43,7 @@ export function SessionPlayer() {
   const [showFalling, setShowFalling] = useState(true);
   const [showStaff, setShowStaff] = useState(false);
   const [phase, setPhase] = useState<PlayPhase>('idle');
+  const [mode, setMode] = useState<PlayMode>('play');
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [reward, setReward] = useState<AttemptReward | null>(null);
   const [currentBar, setCurrentBar] = useState(-1);
@@ -84,23 +98,28 @@ export function SessionPlayer() {
     liveGradesRef.current = new Map();
   }, []);
 
-  const start = useCallback(async () => {
-    if (!song || !chart) return;
-    liveGradesRef.current = new Map();
-    setAttempt(null);
-    setReward(null);
-    setCurrentBar(-1);
-    const assists: Assist[] = showFalling ? ['falling-notes'] : [];
-    await sessionRef.current!.start({
-      chart,
-      targetTempoBPM: song.tempoTargetBPM,
-      tempoBPM: Math.round(song.tempoTargetBPM * tempoPct),
-      tier: song.tier,
-      beatsPerBar: chart.timeSignature.beatsPerBar,
-      countInBeats: COUNT_IN_BEATS,
-      assists,
-    });
-  }, [song, chart, tempoPct, showFalling]);
+  const start = useCallback(
+    async (playMode: PlayMode = 'play') => {
+      if (!song || !chart) return;
+      liveGradesRef.current = new Map();
+      setAttempt(null);
+      setReward(null);
+      setCurrentBar(-1);
+      setMode(playMode);
+      const assists: Assist[] = showFalling ? ['falling-notes'] : [];
+      await sessionRef.current!.start({
+        chart,
+        targetTempoBPM: song.tempoTargetBPM,
+        tempoBPM: Math.round(song.tempoTargetBPM * tempoPct),
+        tier: song.tier,
+        beatsPerBar: chart.timeSignature.beatsPerBar,
+        countInBeats: COUNT_IN_BEATS,
+        assists,
+        mode: playMode,
+      });
+    },
+    [song, chart, tempoPct, showFalling],
+  );
 
   // Record the completed take into progression/rewards/persistence exactly once.
   useEffect(() => {
@@ -133,7 +152,10 @@ export function SessionPlayer() {
     );
   }
 
-  const playing = phase === 'playing' || phase === 'count-in';
+  // "active" = a session is running (incl. paused): lock the setup controls
+  // and keep the visualizer drawing.
+  const active = phase !== 'idle' && phase !== 'done';
+  const session = sessionRef.current;
 
   return (
     <div className="flex flex-col gap-4">
@@ -167,7 +189,7 @@ export function SessionPlayer() {
                 <button
                   key={cid}
                   type="button"
-                  disabled={playing}
+                  disabled={active}
                   onClick={() => pickArrangement(cid)}
                   className={`rounded-full px-3 py-1.5 capitalize transition ${
                     chart.id === cid ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
@@ -185,7 +207,7 @@ export function SessionPlayer() {
             <button
               key={t.label}
               type="button"
-              disabled={playing}
+              disabled={active}
               onClick={() => setTempoPct(t.pct)}
               className={`rounded-full px-3 py-1.5 tabular-nums transition ${
                 tempoPct === t.pct ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
@@ -198,7 +220,7 @@ export function SessionPlayer() {
 
         <button
           type="button"
-          disabled={playing}
+          disabled={active}
           onClick={() => setShowFalling((v) => !v)}
           className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
             showFalling ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
@@ -221,14 +243,65 @@ export function SessionPlayer() {
 
         <div className="ml-auto flex items-center gap-2">
           <MidiConnectButton compact />
-          <button
-            type="button"
-            disabled={playing}
-            onClick={() => void start()}
-            className="inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
-          >
-            <Play size={16} className="fill-ink" /> {phase === 'count-in' ? 'Get ready…' : 'Play'}
-          </button>
+
+          {!active && (
+            <>
+              <button
+                type="button"
+                onClick={() => void start('preview')}
+                className="inline-flex items-center gap-2 rounded-full bg-peri-soft px-4 py-2.5 font-display text-sm font-semibold text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+                title="Watch and hear the song play through first, without scoring."
+              >
+                <PlayCircle size={16} /> Watch
+              </button>
+              <button
+                type="button"
+                onClick={() => void start('play')}
+                className="inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+              >
+                <Play size={16} className="fill-ink" /> Play
+              </button>
+            </>
+          )}
+
+          {mode === 'preview' && active && (
+            <button
+              type="button"
+              onClick={() => session?.cancel()}
+              className="inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+            >
+              <Square size={15} /> Stop
+            </button>
+          )}
+
+          {mode === 'play' && active && (
+            <>
+              <button
+                type="button"
+                onClick={() => session?.restart()}
+                className="inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+              >
+                <RotateCcw size={15} /> Restart
+              </button>
+              {phase === 'paused' ? (
+                <button
+                  type="button"
+                  onClick={() => session?.resume()}
+                  className="inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px active:translate-y-px"
+                >
+                  <Play size={16} className="fill-ink" /> Resume
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => session?.pause()}
+                  className="inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px active:translate-y-px"
+                >
+                  <Pause size={15} /> Pause
+                </button>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -236,13 +309,21 @@ export function SessionPlayer() {
 
       {showStaff && <StaffNotation chart={chart} />}
 
-      {phase === 'count-in' && (
+      {phase === 'count-in' && mode === 'play' && (
         <p className="text-center font-display text-sm font-medium text-amber-deep">
           Count-in — start on the next bar.
         </p>
       )}
+      {mode === 'preview' && active && (
+        <p className="text-center font-display text-sm font-medium text-peri-deep">
+          Preview — watch and listen, then hit Play when you&rsquo;re ready.
+        </p>
+      )}
+      {phase === 'paused' && (
+        <p className="text-center font-display text-sm font-medium text-ink-soft">Paused</p>
+      )}
 
-      {!playing && <KeyboardHint />}
+      {!active && <KeyboardHint />}
 
       {/* Falling notes and the keyboard share one full-width container and the
           same pitch range, so each note drops straight onto its key. */}
@@ -255,7 +336,7 @@ export function SessionPlayer() {
             lowPitch={range.low}
             highPitch={range.high}
             liveGradesRef={liveGradesRef}
-            active={playing}
+            active={active}
           />
         ) : (
           <div className="flex h-32 items-center justify-center text-sm text-ink-soft">

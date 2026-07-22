@@ -3,6 +3,13 @@
  * score. Bridges the AudioService Transport, the InputService note stream, the
  * LiveGrader (real-time colour), and the offline ScoringEngine (authoritative
  * Attempt). Kept as a plain class so it isn't tangled in React effect lifecycles.
+ *
+ * Modes:
+ *  - 'play'    — scored take; finishes to 'done' with an Attempt.
+ *  - 'preview' — "watch it first": the chart plays back on the piano and the
+ *                notes fall, no input scoring, finishes back to 'idle'.
+ *
+ * Supports pause/resume and restart during a scored take.
  */
 import type { Assist, Attempt, Chart, NotePlayed, Tier } from '@/core/types';
 import { scoreAttempt } from '@/core/scoring/scoringEngine';
@@ -10,7 +17,8 @@ import { LiveGrader, type LiveGrade } from '@/core/scoring/liveGrader';
 import { audioService } from '@/audio/audioService';
 import { inputService } from '@/input';
 
-export type PlayPhase = 'idle' | 'count-in' | 'playing' | 'done';
+export type PlayMode = 'play' | 'preview';
+export type PlayPhase = 'idle' | 'count-in' | 'playing' | 'paused' | 'done';
 
 export interface PlaySessionOptions {
   chart: Chart;
@@ -20,6 +28,7 @@ export interface PlaySessionOptions {
   beatsPerBar: number;
   countInBeats: number;
   assists: Assist[];
+  mode?: PlayMode;
 }
 
 export interface PlaySessionCallbacks {
@@ -30,12 +39,14 @@ export interface PlaySessionCallbacks {
 
 export class PlaySession {
   phase: PlayPhase = 'idle';
+  mode: PlayMode = 'play';
   chartStartPerfMs = 0;
   private opts: PlaySessionOptions | null = null;
   private grader: LiveGrader | null = null;
   private played: NotePlayed[] = [];
   private offTick: (() => void) | null = null;
   private offNote: (() => void) | null = null;
+  private prePausePhase: PlayPhase = 'playing';
 
   constructor(private readonly cb: PlaySessionCallbacks = {}) {}
 
@@ -43,6 +54,7 @@ export class PlaySession {
     await audioService.init();
     this.cancel();
     this.opts = opts;
+    this.mode = opts.mode ?? 'play';
     this.played = [];
     this.grader = null;
     this.setPhase('count-in');
@@ -64,6 +76,27 @@ export class PlaySession {
     });
 
     audioService.startMetronome(opts.tempoBPM, opts.beatsPerBar);
+    if (this.mode === 'preview') {
+      audioService.scheduleChartAudio(opts.chart.notes, opts.countInBeats);
+    }
+  }
+
+  /** Restart the current take from the top with the same options. */
+  restart(): void {
+    if (this.opts) void this.start(this.opts);
+  }
+
+  pause(): void {
+    if (this.phase !== 'playing' && this.phase !== 'count-in') return;
+    this.prePausePhase = this.phase;
+    audioService.pauseTransport();
+    this.setPhase('paused');
+  }
+
+  resume(): void {
+    if (this.phase !== 'paused') return;
+    audioService.resumeTransport();
+    this.setPhase(this.prePausePhase);
   }
 
   cancel(): void {
@@ -76,7 +109,7 @@ export class PlaySession {
   }
 
   private handleNote(n: NotePlayed): void {
-    if (this.phase !== 'playing' || !this.grader) return;
+    if (this.mode !== 'play' || this.phase !== 'playing' || !this.grader) return;
     this.played.push(n);
     const g = this.grader.feed(n);
     if (g) this.cb.onLiveGrade?.(g);
@@ -91,6 +124,13 @@ export class PlaySession {
 
     const opts = this.opts;
     if (!opts) return;
+
+    // Preview just watches — no scoring, no attempt.
+    if (this.mode === 'preview') {
+      this.setPhase('idle');
+      return;
+    }
+
     const attempt = scoreAttempt({
       chart: opts.chart,
       played: this.played,

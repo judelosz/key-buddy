@@ -35,6 +35,8 @@ export class AudioService {
   private beatsPerBar = 4;
   private lastEmittedBeat = -1;
   private rafId: number | null = null;
+  private currentBeatSec = 0.5;
+  private chartAudioIds: number[] = [];
   private tickListeners = new Set<(t: MetronomeTick) => void>();
 
   // Clock anchor (captured once) mapping audio seconds ↔ performance.now() ms.
@@ -154,6 +156,7 @@ export class AudioService {
     this.lastEmittedBeat = -1;
     transport.bpm.value = bpm;
     const beatSec = 60 / bpm;
+    this.currentBeatSec = beatSec;
 
     // Precise click audio (woodblock).
     this.metronomeId = transport.scheduleRepeat((time) => {
@@ -186,8 +189,38 @@ export class AudioService {
     this.rafId = requestAnimationFrame(loop);
   }
 
+  /**
+   * Schedule the chart's notes to play back on the sampled piano (for Preview /
+   * "watch it first"). Times are anchored to the running Transport start, after
+   * the count-in. Call right after startMetronome.
+   */
+  scheduleChartAudio(
+    notes: ReadonlyArray<{ pitches: number[]; startBeat: number; durationBeats: number }>,
+    countInBeats: number,
+  ): void {
+    const transport = Tone.getTransport();
+    for (const n of notes) {
+      const at = (countInBeats + n.startBeat) * this.currentBeatSec; // transport seconds
+      const dur = Math.max(0.15, n.durationBeats * this.currentBeatSec * 0.9);
+      const id = transport.schedule((time) => {
+        for (const p of n.pitches) this.playNote(p, dur, 0.85, time);
+      }, at);
+      this.chartAudioIds.push(id);
+    }
+  }
+
+  pauseTransport(): void {
+    Tone.getTransport().pause();
+  }
+
+  resumeTransport(): void {
+    Tone.getTransport().start();
+  }
+
   stopMetronome(): void {
     const transport = Tone.getTransport();
+    for (const id of this.chartAudioIds) transport.clear(id);
+    this.chartAudioIds = [];
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;

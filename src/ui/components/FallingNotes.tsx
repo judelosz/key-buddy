@@ -118,8 +118,12 @@ export function FallingNotes({
         for (const pitch of note.pitches) {
           const r = rects.get(pitch);
           if (!r) continue;
+          // Slim bar centered on the key, so each note clearly maps to one key.
+          const frac = r.black ? 0.86 : 0.6;
+          const nw = Math.max(3, r.width * frac);
+          const nx = r.x + (r.width - nw) / 2;
           ctx.fillStyle = color;
-          roundRect(ctx, r.x + 1.5, y - noteH, Math.max(2, r.width - 3), noteH, 4);
+          roundRect(ctx, nx, y - noteH, nw, noteH, 4);
           ctx.fill();
         }
       }
