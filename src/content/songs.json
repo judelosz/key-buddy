@@ -1,0 +1,39 @@
+[
+  {
+    "id": "ode-to-joy",
+    "title": "Ode to Joy (theme)",
+    "source": "Ludwig van Beethoven",
+    "year": 1824,
+    "publicDomain": true,
+    "licenseNote": "Composition public domain; arrangement is original to this app.",
+    "genre": "foundation",
+    "tier": 1,
+    "key": "C",
+    "tempoTargetBPM": 96,
+    "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+    "feel": "straight",
+    "requiredSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse"],
+    "taughtSkills": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "arrangementLevels": ["simplified"],
+    "chartIds": ["ode-to-joy--simplified"],
+    "fragmentIds": []
+  },
+  {
+    "id": "12-bar-blues-c",
+    "title": "12-Bar Blues in C",
+    "source": "Traditional",
+    "publicDomain": true,
+    "licenseNote": "Traditional 12-bar form; arrangement is original to this app.",
+    "genre": "blues",
+    "tier": 6,
+    "key": "C",
+    "tempoTargetBPM": 84,
+    "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+    "feel": "shuffle",
+    "requiredSkills": ["harmony-i-iv-v", "chord-major-triad", "harmony-12bar-form"],
+    "taughtSkills": ["harmony-12bar-form", "chord-dom7", "lh-root-notes"],
+    "arrangementLevels": ["simplified", "full"],
+    "chartIds": ["12-bar-blues-c--simplified", "12-bar-blues-c--full"],
+    "fragmentIds": []
+  }
+]
