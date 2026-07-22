@@ -4,7 +4,7 @@
  * and the theory/ear checkpoint is a necessary condition that can gate but
  * never substitute for Hands evidence (guardrail #1 refinement).
  */
-import type { SkillProgress, Tier } from '@/core/types';
+import type { PlayerState, SkillProgress, Tier } from '@/core/types';
 import { isHandsMastered } from '@/core/progression/progressionService';
 import type { Assessment, LessonProgress, TierGate } from './types';
 
@@ -71,6 +71,64 @@ export function evaluateTierGate(
     delayedReviewPassed,
     handsXp,
     passed,
+  };
+}
+
+export interface GateEvaluationInputs {
+  tierGates: readonly TierGate[];
+  assessments: readonly Assessment[];
+  skillProgressById: ReadonlyMap<string, SkillProgress>;
+  lessonProgressById: ReadonlyMap<string, LessonProgress>;
+  /** Honest boss evidence: chartId → has a mastery star ever been earned. */
+  chartMasteryById: ReadonlyMap<string, boolean>;
+}
+
+export interface GateAdvanceResult {
+  player: PlayerState;
+  /** Status of the (possibly new) current tier's gate; null when unauthored. */
+  gateStatus: TierGateStatus | null;
+  tierAdvanced: boolean;
+}
+
+/**
+ * Re-derive playerLevel from learningTier and advance one tier if the current
+ * gate is fully passed. The shared gate step for BOTH reducers — Free Play
+ * chart takes and curriculum lessons must count identically.
+ */
+export function applyGateAdvance(
+  player: PlayerState,
+  inputs: GateEvaluationInputs,
+  nowMs: number,
+): GateAdvanceResult {
+  const statusFor = (tier: Tier, tierHandsXP: number): TierGateStatus | null => {
+    const gate = inputs.tierGates.find((g) => g.tier === tier);
+    if (!gate) return null;
+    return evaluateTierGate(
+      gate,
+      inputs.assessments,
+      inputs.skillProgressById,
+      inputs.lessonProgressById,
+      inputs.chartMasteryById.get(gate.bossChartId) ?? false,
+      tierHandsXP,
+    );
+  };
+
+  const base: PlayerState = { ...player, playerLevel: player.learningTier };
+  const status = statusFor(base.learningTier, base.tierHandsXP);
+  if (!status?.passed) return { player: base, gateStatus: status, tierAdvanced: false };
+
+  const newTier = base.learningTier + 1;
+  const advanced: PlayerState = {
+    ...base,
+    learningTier: newTier,
+    playerLevel: newTier,
+    tierHandsXP: 0,
+    tierGatePassedAt: { ...base.tierGatePassedAt, [status.tier]: nowMs },
+  };
+  return {
+    player: advanced,
+    gateStatus: statusFor(newTier, 0) ?? status,
+    tierAdvanced: true,
   };
 }
 

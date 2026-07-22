@@ -42,6 +42,32 @@ export function installDevTest(): void {
         await useGameStore.getState().init();
         return useGameStore.getState().recordAttempt(song, chart, cannedMasteryAttempt(chart.id));
       },
+      /** Complete a lesson through the real reducer with a canned result. */
+      async recordCannedLesson(lessonId: string, scorePct = 1) {
+        const content = getContent();
+        const lesson = content.getLesson(lessonId);
+        const module = lesson ? content.getModule(lesson.moduleId) : undefined;
+        if (!lesson || !module) throw new Error(`unknown lesson ${lessonId}`);
+        await useGameStore.getState().init();
+        if (lesson.exerciseType === 'play-chart' || lesson.exerciseType === 'fragment') {
+          const song = lesson.chartId ? content.getSong(content.getChart(lesson.chartId)?.songId ?? '') : undefined;
+          const chartId = lesson.chartId ?? lesson.fragmentId ?? '';
+          if (!song) throw new Error(`lesson ${lessonId} has no resolvable song`);
+          return useGameStore
+            .getState()
+            .recordLesson(lesson, module, { song, attempt: cannedMasteryAttempt(chartId) });
+        }
+        return useGameStore.getState().recordLesson(lesson, module, {
+          result: {
+            lessonId: lesson.id,
+            exerciseType: lesson.exerciseType,
+            promptCount: 5,
+            correctCount: Math.round(5 * scorePct),
+            scorePct,
+            details: [],
+          },
+        });
+      },
       async reset() {
         await repository.clearAll();
       },

@@ -11,6 +11,9 @@ import {
   handsContribution,
   isHandsMastered,
   applyPlayingAttempt,
+  applyExerciseAttempt,
+  EXERCISE_HANDS_CAP,
+  HANDS_THRESHOLD,
 } from '@/core/progression/progressionService';
 import {
   levelForXp,
@@ -19,9 +22,15 @@ import {
   xpForAttempt,
   RIFF_SINKS,
 } from '@/core/rewards/rewardService';
+import { awardHeadXp } from '@/core/rewards/lessonXp';
+import { applyGateAdvance } from '@/core/curriculum/tierGate';
+import type { Assessment, TierGate } from '@/core/curriculum/types';
 import { newCard, reviewCard } from '@/core/srs/fsrs';
 import { Rating } from 'ts-fsrs';
-import type { Attempt, Skill, SkillProgress, Song } from '@/core/types';
+import type { Attempt, PlayerState, Skill, SkillProgress, Song } from '@/core/types';
+import { initialPlayerState } from '@/data/repository';
+
+const basePlayer = (): PlayerState => initialPlayerState();
 
 function attempt(over: Partial<Attempt> = {}): Attempt {
   return {
@@ -41,19 +50,65 @@ const skill = (id: string, tier: number): Skill => ({
   id, name: id, family: 'chords-voicings', tier, genre: 'foundation', prerequisites: [], description: '',
 });
 
-describe('#1 Player Level & playing tier derive ONLY from Hands progress', () => {
+describe('#1 Head evidence can GATE but never SUBSTITUTE (level & tier from Hands)', () => {
+  // Phase-4 refinement: a tier gate may REQUIRE a theory/ear checkpoint
+  // (necessary condition), but Head/theory work alone can never raise
+  // learningTier, playerLevel, or currentPlayingTier.
   it('a fully Head-locked skill never raises the playing tier', () => {
     const skills = [skill('hi', 20)];
     const headOnly = new Map([['hi', sp({ skillId: 'hi', headLock: 1, handsLock: 0 })]]);
     expect(computePlayingTier(skills, headOnly)).toBe(1);
   });
-  it('Head XP is not an input to levelForXp (level reads playing XP only)', () => {
-    const playingXp = 300;
-    const headTrackXp = 999_999;
-    // levelForXp takes only playing XP; there is no signature that accepts head XP.
-    expect(levelForXp(playingXp)).toBe(levelForXp(playingXp));
-    // Adding head XP to a separate accumulator cannot change the level:
-    expect(levelForXp(playingXp)).not.toBe(levelForXp(playingXp + headTrackXp));
+  it('perfect Head evidence everywhere cannot advance the learning tier', () => {
+    const gate: TierGate = {
+      tier: 1,
+      coreSkillIds: ['s1'],
+      bossSongId: 'boss',
+      bossChartId: 'boss--simplified',
+      checkpointAssessmentIds: ['assess'],
+      requiresDelayedReview: false,
+      handsXpBand: 1, // trivially reachable — Hands mastery is what's missing
+    };
+    const assessments: Assessment[] = [
+      { id: 'assess', scope: 'tier', tier: 1, lessonId: 'quiz', passScorePct: 0.8, remediationLessonIds: [] },
+    ];
+    // 100% on the theory/ear checkpoint, Head lock maxed, boss never mastered.
+    const player: PlayerState = { ...basePlayer(), tierHandsXP: 999 };
+    const { player: after, tierAdvanced } = applyGateAdvance(
+      player,
+      {
+        tierGates: [gate],
+        assessments,
+        skillProgressById: new Map([['s1', sp({ skillId: 's1', headLock: 1 })]]),
+        lessonProgressById: new Map([
+          ['quiz', { lessonId: 'quiz', bestScorePct: 1, attempts: 9, attemptsOnLastDate: 1 }],
+        ]),
+        chartMasteryById: new Map(),
+      },
+      0,
+    );
+    expect(tierAdvanced).toBe(false);
+    expect(after.learningTier).toBe(1);
+    expect(after.playerLevel).toBe(1);
+  });
+  it('Head XP accumulates on its own track and never moves level or tier', () => {
+    const before = basePlayer();
+    const after = awardHeadXp(before, 999_999);
+    expect(after.headTrackXP).toBe(999_999);
+    expect(after.totalXP).toBe(before.totalXP);
+    expect(after.tierHandsXP).toBe(before.tierHandsXP);
+    expect(after.playerLevel).toBe(before.playerLevel);
+    expect(after.learningTier).toBe(before.learningTier);
+    // The legacy XP-level curve still ignores head XP by construction.
+    expect(levelForXp(300)).not.toBe(levelForXp(300 + 999_999));
+  });
+});
+
+describe('#1b Exercises can never Hands-master a skill (cap < threshold)', () => {
+  it('a perfect independent exercise stays below the mastery threshold', () => {
+    expect(EXERCISE_HANDS_CAP).toBeLessThan(HANDS_THRESHOLD);
+    const p = applyExerciseAttempt(sp(), 1, 'independent', 1);
+    expect(isHandsMastered(p)).toBe(false);
   });
 });
 
