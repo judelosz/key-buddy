@@ -1,20 +1,28 @@
-import { Piano, SlidersHorizontal, Bug, Home, Play } from 'lucide-react';
+import { useEffect } from 'react';
+import { Piano, SlidersHorizontal, Bug, Home, Play, TrendingUp } from 'lucide-react';
 import { getContent } from '@/core/content/bundled';
 import { useAppStore, type Screen } from '@/ui/store/appStore';
+import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { InputDebug } from '@/ui/screens/InputDebug';
 import { Calibration } from '@/ui/screens/Calibration';
 import { SessionPlayer } from '@/ui/screens/SessionPlayer';
+import { Progress } from '@/ui/screens/Progress';
 
 const NAV: { id: Screen; label: string; icon: typeof Home }[] = [
   { id: 'home', label: 'Home', icon: Home },
   { id: 'play', label: 'Play', icon: Play },
+  { id: 'progress', label: 'Progress', icon: TrendingUp },
   { id: 'calibration', label: 'Calibration', icon: SlidersHorizontal },
   { id: 'input-debug', label: 'Input debug', icon: Bug },
 ];
 
 export default function App() {
   useInputWiring();
+  const initGame = useGameStore((s) => s.init);
+  useEffect(() => {
+    void initGame();
+  }, [initGame]);
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
 
@@ -51,6 +59,7 @@ export default function App() {
       <main>
         {screen === 'home' && <HomeScreen />}
         {screen === 'play' && <SessionPlayer />}
+        {screen === 'progress' && <Progress />}
         {screen === 'calibration' && <Calibration />}
         {screen === 'input-debug' && <InputDebug />}
       </main>
@@ -83,23 +92,26 @@ function HomeScreen() {
         <ul className="mt-3 space-y-1.5 text-sm text-neutral-300">
           <li>✅ Phase 0 — scaffold, domain model, content service</li>
           <li>✅ Phase 1 — input (MIDI + virtual), audio, scoring engine</li>
-          <li className="text-neutral-500">◻︎ Phase 2 — playable song loop (next)</li>
-          <li className="text-neutral-500">◻︎ Phase 3 — progression, rewards, persistence</li>
+          <li>✅ Phase 2 — playable song loop (falling notes, grades, report)</li>
+          <li>✅ Phase 3 — progression, rewards, spaced review, persistence</li>
+          <li className="text-neutral-500">
+            MVP complete — next: interleaved sessions, adaptive difficulty, Woodshed/AFK
+          </li>
         </ul>
         <div className="mt-4 flex gap-2">
           <button
             type="button"
-            onClick={() => setScreen('calibration')}
+            onClick={() => setScreen('play')}
             className="rounded-lg bg-grade-perfect px-3 py-1.5 text-sm font-medium text-ink"
           >
-            Calibrate input
+            Play a song
           </button>
           <button
             type="button"
-            onClick={() => setScreen('input-debug')}
+            onClick={() => setScreen('calibration')}
             className="rounded-lg border border-ink-line px-3 py-1.5 text-sm text-neutral-300"
           >
-            Open input debug
+            Calibrate input
           </button>
         </div>
       </section>

@@ -12,8 +12,8 @@
     "tempoTargetBPM": 96,
     "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
     "feel": "straight",
-    "requiredSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse"],
-    "taughtSkills": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "requiredSkills": [],
+    "taughtSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse"],
     "arrangementLevels": ["simplified"],
     "chartIds": ["ode-to-joy--simplified"],
     "fragmentIds": []
@@ -30,8 +30,8 @@
     "tempoTargetBPM": 84,
     "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
     "feel": "shuffle",
-    "requiredSkills": ["harmony-i-iv-v", "chord-major-triad", "harmony-12bar-form"],
-    "taughtSkills": ["harmony-12bar-form", "chord-dom7", "lh-root-notes"],
+    "requiredSkills": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "taughtSkills": ["harmony-12bar-form", "chord-dom7", "chord-major-triad", "harmony-i-iv-v", "lh-root-notes"],
     "arrangementLevels": ["simplified", "full"],
     "chartIds": ["12-bar-blues-c--simplified", "12-bar-blues-c--full"],
     "fragmentIds": []

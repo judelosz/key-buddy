@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { NotePlayed } from '@/core/types';
 import type { InputStatus } from '@/input';
 
-export type Screen = 'home' | 'play' | 'input-debug' | 'calibration';
+export type Screen = 'home' | 'play' | 'progress' | 'input-debug' | 'calibration';
 
 export interface LoggedNote {
   pitch: number;

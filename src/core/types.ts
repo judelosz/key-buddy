@@ -222,6 +222,7 @@ export interface FsrsState {
   difficulty: number;
   elapsedDays: number;
   scheduledDays: number;
+  learningSteps: number;
   reps: number;
   lapses: number;
   state: 0 | 1 | 2 | 3; // New | Learning | Review | Relearning

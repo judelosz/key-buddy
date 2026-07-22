@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Play, Music, Eye, EyeOff, ChevronLeft, FileMusic } from 'lucide-react';
+import { Play, Music, Eye, EyeOff, ChevronLeft, FileMusic, Star, Lock } from 'lucide-react';
 import type { Assist, Attempt, Chart, NoteGrade, Song } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
+import { useGameStore } from '@/ui/store/gameStore';
+import type { AttemptReward } from '@/core/session/recordAttempt';
 import { PlaySession, type PlayPhase } from '@/ui/session/playSession';
 import { audioService } from '@/audio/audioService';
 import { FallingNotes } from '@/ui/components/FallingNotes';
@@ -26,11 +28,14 @@ export function SessionPlayer() {
   const [showStaff, setShowStaff] = useState(false);
   const [phase, setPhase] = useState<PlayPhase>('idle');
   const [attempt, setAttempt] = useState<Attempt | null>(null);
+  const [reward, setReward] = useState<AttemptReward | null>(null);
   const [currentBar, setCurrentBar] = useState(-1);
   const [, setGradeVersion] = useState(0);
 
+  const recordAttempt = useGameStore((s) => s.recordAttempt);
   const liveGradesRef = useRef<Map<string, NoteGrade>>(new Map());
   const sessionRef = useRef<PlaySession | null>(null);
+  const recordedIdRef = useRef<string | null>(null);
 
   if (!sessionRef.current) {
     sessionRef.current = new PlaySession({
@@ -75,6 +80,7 @@ export function SessionPlayer() {
     if (!song || !chart) return;
     liveGradesRef.current = new Map();
     setAttempt(null);
+    setReward(null);
     setCurrentBar(-1);
     const assists: Assist[] = showFalling ? ['falling-notes'] : [];
     await sessionRef.current!.start({
@@ -88,6 +94,14 @@ export function SessionPlayer() {
     });
   }, [song, chart, tempoPct, showFalling]);
 
+  // Record the completed take into progression/rewards/persistence exactly once.
+  useEffect(() => {
+    if (phase === 'done' && attempt && song && chart && recordedIdRef.current !== attempt.id) {
+      recordedIdRef.current = attempt.id;
+      void recordAttempt(song, chart, attempt).then(setReward);
+    }
+  }, [phase, attempt, song, chart, recordAttempt]);
+
   useEffect(() => () => sessionRef.current?.cancel(), []);
 
   if (!song || !chart) {
@@ -100,6 +114,7 @@ export function SessionPlayer() {
         attempt={attempt}
         chart={chart}
         song={song}
+        reward={reward}
         onRetry={() => void start()}
         onDone={() => {
           setSong(null);
@@ -235,31 +250,82 @@ export function SessionPlayer() {
 
 function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => void }) {
   const byTier = useMemo(() => [...songs].sort((a, b) => a.tier - b.tier), [songs]);
+  const isUnlocked = useGameStore((s) => s.isUnlocked);
+  const unlockProgress = useGameStore((s) => s.unlockProgress);
+  const bestStars = useGameStore((s) => s.bestStars);
+  const content = getContent();
+
   return (
     <div className="flex flex-col gap-4">
       <div>
         <h2 className="text-xl font-semibold tracking-tight">Play a song</h2>
         <p className="mt-1 text-sm text-neutral-400">
-          Pick a chart. Connect your MIDI keyboard or use the on-screen keys.
+          Songs unlock by demonstrated skill — master the prerequisites to earn them. Connect your
+          MIDI keyboard or use the on-screen keys.
         </p>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
-        {byTier.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() => onPick(s)}
-            className="rounded-xl border border-ink-line bg-ink-soft p-4 text-left transition-colors hover:border-neutral-600"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="font-medium">{s.title}</h3>
-              <span className="rounded bg-ink px-2 py-0.5 text-xs text-neutral-400">T{s.tier}</span>
-            </div>
-            <p className="mt-1 text-xs capitalize text-neutral-500">
-              {s.genre} · {s.key} · {s.tempoTargetBPM} BPM · {s.feel}
-            </p>
-          </button>
-        ))}
+        {byTier.map((s) => {
+          const unlocked = isUnlocked(s.id);
+          const prog = unlockProgress(s);
+          const stars = bestStars(s.chartIds[0]);
+          return (
+            <button
+              key={s.id}
+              type="button"
+              disabled={!unlocked}
+              onClick={() => onPick(s)}
+              data-testid={`song-${s.id}`}
+              className={`rounded-xl border p-4 text-left transition-colors ${
+                unlocked
+                  ? 'border-ink-line bg-ink-soft hover:border-neutral-600'
+                  : 'cursor-not-allowed border-ink-line/60 bg-ink-soft/40'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className={`font-medium ${unlocked ? '' : 'text-neutral-500'}`}>{s.title}</h3>
+                <span className="rounded bg-ink px-2 py-0.5 text-xs text-neutral-400">T{s.tier}</span>
+              </div>
+              <p className="mt-1 text-xs capitalize text-neutral-500">
+                {s.genre} · {s.key} · {s.tempoTargetBPM} BPM · {s.feel}
+              </p>
+              {unlocked ? (
+                <div className="mt-2 flex items-center gap-1">
+                  {[1, 2, 3].map((n) => (
+                    <Star
+                      key={n}
+                      size={14}
+                      className={n <= stars ? 'fill-grade-good text-grade-good' : 'text-ink-line'}
+                    />
+                  ))}
+                  {stars === 0 && <span className="text-xs text-neutral-500">Not yet played</span>}
+                </div>
+              ) : (
+                <div className="mt-2">
+                  <div className="mb-1 flex items-center gap-1.5 text-xs text-neutral-500">
+                    <Lock size={12} /> {prog.requiredCount - prog.masteredCount} skill
+                    {prog.requiredCount - prog.masteredCount === 1 ? '' : 's'} to unlock:{' '}
+                    {prog.remainingSkillIds
+                      .map((id) => content.getSkill(id)?.name ?? id)
+                      .join(', ')}
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-ink">
+                    <div
+                      className="h-full rounded-full bg-grade-good/70"
+                      style={{
+                        width: `${
+                          prog.requiredCount === 0
+                            ? 100
+                            : Math.round((prog.masteredCount / prog.requiredCount) * 100)
+                        }%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

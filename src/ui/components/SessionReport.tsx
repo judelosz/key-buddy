@@ -1,18 +1,21 @@
-import { Lightbulb, RotateCcw, Star } from 'lucide-react';
+import { Lightbulb, RotateCcw, Star, Zap, Coins, Sparkles, Unlock, Flame } from 'lucide-react';
 import type { Attempt, Chart, Song } from '@/core/types';
 import { barAccuracies, generateTip } from '@/core/scoring/feedback';
+import type { AttemptReward } from '@/core/session/recordAttempt';
+import { getContent } from '@/core/content/bundled';
 
 interface SessionReportProps {
   attempt: Attempt;
   chart: Chart;
   song: Song;
+  reward: AttemptReward | null;
   onRetry: () => void;
   onDone: () => void;
 }
 
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 
-export function SessionReport({ attempt, chart, song, onRetry, onDone }: SessionReportProps) {
+export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }: SessionReportProps) {
   const bars = barAccuracies(attempt, chart);
   const tip = generateTip(attempt, chart);
   const mean = Math.round(attempt.timingHistogram.meanMs);
@@ -43,6 +46,8 @@ export function SessionReport({ attempt, chart, song, onRetry, onDone }: Session
           un-assisted.
         </div>
       )}
+
+      {reward && <RewardPanel reward={reward} />}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Metric label="Notes correct" value={pct(attempt.notesCorrectPct)} />
@@ -118,6 +123,46 @@ export function SessionReport({ attempt, chart, song, onRetry, onDone }: Session
           Done
         </button>
       </div>
+    </div>
+  );
+}
+
+function RewardPanel({ reward }: { reward: AttemptReward }) {
+  const content = getContent();
+  const unlockedTitles = reward.newlyUnlockedSongIds
+    .map((id) => content.getSong(id)?.title)
+    .filter((t): t is string => Boolean(t));
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-ink-line bg-ink-soft p-4">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm" data-testid="reward-panel">
+        <span className="inline-flex items-center gap-1.5 text-grade-perfect">
+          <Zap size={16} /> +{reward.xp} XP
+        </span>
+        <span className="inline-flex items-center gap-1.5 text-grade-good">
+          <Coins size={16} /> +{reward.riffs} Riffs
+        </span>
+        <span className="inline-flex items-center gap-1.5 text-neutral-300">
+          <Flame size={16} /> {reward.streak}-day streak
+          {reward.usedFreeze && <span className="text-xs text-neutral-500">(freeze used)</span>}
+        </span>
+        {reward.leveledUp && (
+          <span className="inline-flex items-center gap-1.5 font-medium text-grade-perfect">
+            <Sparkles size={16} /> Level up!
+          </span>
+        )}
+      </div>
+
+      {reward.encoreTriggered && (
+        <div className="flex items-center gap-2 rounded-lg bg-grade-good/10 px-3 py-1.5 text-sm text-grade-good">
+          <Sparkles size={15} /> Encore bonus! +{reward.encoreRiffs} Riffs for a great take.
+        </div>
+      )}
+
+      {unlockedTitles.length > 0 && (
+        <div className="flex items-center gap-2 rounded-lg bg-grade-perfect/10 px-3 py-1.5 text-sm text-grade-perfect">
+          <Unlock size={15} /> Unlocked: {unlockedTitles.join(', ')} — you earned it by getting better.
+        </div>
+      )}
     </div>
   );
 }

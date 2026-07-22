@@ -82,11 +82,16 @@ describe('ContentService queries', () => {
     expect(blues.every((s) => s.genre === 'blues')).toBe(true);
   });
 
-  it('gates song unlocks on mastered skills', () => {
-    const ode = svc.getSong('ode-to-joy')!;
-    const withoutAll = new Set(['geo-note-names']);
-    const withAll = new Set(ode.requiredSkills);
-    expect(svc.unlockedSongs(withoutAll).map((s) => s.id)).not.toContain('ode-to-joy');
-    expect(svc.unlockedSongs(withAll).map((s) => s.id)).toContain('ode-to-joy');
+  it('always unlocks the entry song (no required skills)', () => {
+    expect(svc.unlockedSongs(new Set()).map((s) => s.id)).toContain('ode-to-joy');
+  });
+
+  it('gates a song with required skills on mastery', () => {
+    const blues = svc.getSong('12-bar-blues-c')!;
+    expect(blues.requiredSkills.length).toBeGreaterThan(0);
+    const none = new Set<string>();
+    const all = new Set(blues.requiredSkills);
+    expect(svc.unlockedSongs(none).map((s) => s.id)).not.toContain('12-bar-blues-c');
+    expect(svc.unlockedSongs(all).map((s) => s.id)).toContain('12-bar-blues-c');
   });
 });
