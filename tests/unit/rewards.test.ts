@@ -31,7 +31,8 @@ const song = (tier: number): Song => ({
   requiredSkills: [], taughtSkills: [], arrangementLevels: ['simplified'], chartIds: [], fragmentIds: [],
 });
 const player = (over: Partial<PlayerState> = {}): PlayerState => ({
-  playerLevel: 1, totalXP: 0, currentPlayingTier: 1, headTrackXP: 0, riffs: 0,
+  playerLevel: 1, totalXP: 0, currentPlayingTier: 1, learningTier: 1, tierHandsXP: 0,
+  tierGatePassedAt: {}, headTrackXP: 0, riffs: 0,
   streak: 0, streakFreezes: 0, cosmeticsOwned: [], equippedCosmetics: {}, calibrationOffsetMs: 0, ...over,
 });
 

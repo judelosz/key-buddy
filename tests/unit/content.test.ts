@@ -12,6 +12,11 @@ const empty: RawContent = {
   charts: [],
   fragments: [],
   minigames: [],
+  modules: [],
+  lessons: [],
+  assessments: [],
+  theoryConcepts: [],
+  tierGates: [],
 };
 
 describe('validateContent', () => {

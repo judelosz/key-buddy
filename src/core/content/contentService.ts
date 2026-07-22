@@ -1,8 +1,9 @@
 /**
  * ContentService — loads and validates the static content (skills, songs,
- * charts, fragments, minigames) and exposes the queries other services need
- * (by tier, genre, skill). Pure and testable: construct it with a RawContent
- * bundle; see ./bundled.ts for the wiring that imports the shipped JSON.
+ * charts, fragments, minigames, and the curriculum layer) and exposes the
+ * queries other services need. Pure and testable: construct it with a
+ * RawContent bundle; see ./bundled.ts for the wiring that imports the shipped
+ * JSON. Validation lives in ./validate.ts + curriculum/validateCurriculum.ts.
  *
  * build-spec §6.10.
  */
@@ -15,6 +16,16 @@ import type {
   Song,
   Tier,
 } from '@/core/types';
+import type {
+  Assessment,
+  CurriculumLesson,
+  Module,
+  TheoryConcept,
+  TierGate,
+} from '@/core/curriculum/types';
+import { ContentValidationError, validateContent } from './validate';
+
+export { ContentValidationError, validateContent };
 
 export interface RawContent {
   skills: Skill[];
@@ -22,98 +33,34 @@ export interface RawContent {
   charts: Chart[];
   fragments: Fragment[];
   minigames: MiniGame[];
-}
-
-export class ContentValidationError extends Error {
-  constructor(public readonly problems: string[]) {
-    super(`Content failed validation:\n- ${problems.join('\n- ')}`);
-    this.name = 'ContentValidationError';
-  }
-}
-
-/**
- * Referential-integrity + shape checks. Returns a list of human-readable
- * problems (empty = valid). Charts are allowed to be absent for a song's
- * declared chartIds during early build phases; that is reported as a warning
- * problem only when `requireCharts` is true.
- */
-export function validateContent(raw: RawContent, requireCharts = false): string[] {
-  const problems: string[] = [];
-  const skillIds = new Set(raw.skills.map((s) => s.id));
-  const songIds = new Set(raw.songs.map((s) => s.id));
-  const chartIds = new Set(raw.charts.map((c) => c.id));
-
-  const dupCheck = (ids: string[], label: string) => {
-    const seen = new Set<string>();
-    for (const id of ids) {
-      if (seen.has(id)) problems.push(`Duplicate ${label} id: ${id}`);
-      seen.add(id);
-    }
-  };
-  dupCheck(raw.skills.map((s) => s.id), 'skill');
-  dupCheck(raw.songs.map((s) => s.id), 'song');
-  dupCheck(raw.charts.map((c) => c.id), 'chart');
-
-  for (const skill of raw.skills) {
-    for (const pre of skill.prerequisites) {
-      if (!skillIds.has(pre)) {
-        problems.push(`Skill ${skill.id} lists missing prerequisite ${pre}`);
-      }
-    }
-    if (skill.tier < 1 || skill.tier > 30) {
-      problems.push(`Skill ${skill.id} has out-of-range tier ${skill.tier}`);
-    }
-  }
-
-  for (const song of raw.songs) {
-    for (const req of song.requiredSkills) {
-      if (!skillIds.has(req)) {
-        problems.push(`Song ${song.id} requires missing skill ${req}`);
-      }
-    }
-    for (const taught of song.taughtSkills) {
-      if (!skillIds.has(taught)) {
-        problems.push(`Song ${song.id} teaches missing skill ${taught}`);
-      }
-    }
-    if (requireCharts) {
-      for (const cid of song.chartIds) {
-        if (!chartIds.has(cid)) {
-          problems.push(`Song ${song.id} references missing chart ${cid}`);
-        }
-      }
-    }
-  }
-
-  for (const chart of raw.charts) {
-    if (!songIds.has(chart.songId)) {
-      problems.push(`Chart ${chart.id} references missing song ${chart.songId}`);
-    }
-    if (chart.notes.length === 0) {
-      problems.push(`Chart ${chart.id} has no notes`);
-    }
-    for (const note of chart.notes) {
-      if (note.pitches.length === 0) {
-        problems.push(`Chart ${chart.id} note ${note.id} has no pitches`);
-      }
-      if (note.durationBeats <= 0) {
-        problems.push(`Chart ${chart.id} note ${note.id} has non-positive duration`);
-      }
-    }
-  }
-
-  return problems;
+  modules: Module[];
+  lessons: CurriculumLesson[];
+  assessments: Assessment[];
+  theoryConcepts: TheoryConcept[];
+  tierGates: TierGate[];
 }
 
 export class ContentService {
   private readonly skillById: Map<string, Skill>;
   private readonly songById: Map<string, Song>;
   private readonly chartById: Map<string, Chart>;
+  private readonly fragmentById: Map<string, Fragment>;
+  private readonly moduleById: Map<string, Module>;
+  private readonly lessonById: Map<string, CurriculumLesson>;
+  private readonly assessmentById: Map<string, Assessment>;
+  private readonly conceptById: Map<string, TheoryConcept>;
+  private readonly gateByTier: Map<number, TierGate>;
 
   constructor(private readonly raw: RawContent) {
     this.skillById = new Map(raw.skills.map((s) => [s.id, s]));
     this.songById = new Map(raw.songs.map((s) => [s.id, s]));
     this.chartById = new Map(raw.charts.map((c) => [c.id, c]));
+    this.fragmentById = new Map(raw.fragments.map((f) => [f.id, f]));
+    this.moduleById = new Map(raw.modules.map((m) => [m.id, m]));
+    this.lessonById = new Map(raw.lessons.map((l) => [l.id, l]));
+    this.assessmentById = new Map(raw.assessments.map((a) => [a.id, a]));
+    this.conceptById = new Map(raw.theoryConcepts.map((t) => [t.id, t]));
+    this.gateByTier = new Map(raw.tierGates.map((g) => [g.tier, g]));
   }
 
   /** Throws ContentValidationError if the bundle is invalid. */
@@ -129,6 +76,16 @@ export class ContentService {
   get songs(): readonly Song[] {
     return this.raw.songs;
   }
+  /** Modules in authored order (tier, then file order). */
+  get modules(): readonly Module[] {
+    return this.raw.modules;
+  }
+  get assessments(): readonly Assessment[] {
+    return this.raw.assessments;
+  }
+  get tierGates(): readonly TierGate[] {
+    return this.raw.tierGates;
+  }
 
   getSkill(id: string): Skill | undefined {
     return this.skillById.get(id);
@@ -138,6 +95,41 @@ export class ContentService {
   }
   getChart(id: string): Chart | undefined {
     return this.chartById.get(id);
+  }
+  getFragment(id: string): Fragment | undefined {
+    return this.fragmentById.get(id);
+  }
+  getModule(id: string): Module | undefined {
+    return this.moduleById.get(id);
+  }
+  getLesson(id: string): CurriculumLesson | undefined {
+    return this.lessonById.get(id);
+  }
+  getAssessment(id: string): Assessment | undefined {
+    return this.assessmentById.get(id);
+  }
+  getTheoryConcept(id: string): TheoryConcept | undefined {
+    return this.conceptById.get(id);
+  }
+  getTierGate(tier: Tier): TierGate | undefined {
+    return this.gateByTier.get(tier);
+  }
+
+  /** A module's lessons in path order. */
+  lessonsForModule(moduleId: string): CurriculumLesson[] {
+    const module = this.moduleById.get(moduleId);
+    if (!module) return [];
+    return module.lessonIds
+      .map((id) => this.lessonById.get(id))
+      .filter((l): l is CurriculumLesson => l !== undefined);
+  }
+
+  modulesForTier(tier: Tier): Module[] {
+    return this.raw.modules.filter((m) => m.tier === tier);
+  }
+
+  lessonsTeachingSkill(skillId: string): CurriculumLesson[] {
+    return this.raw.lessons.filter((l) => l.skillIds.includes(skillId));
   }
 
   songsByTier(tier: Tier): Song[] {

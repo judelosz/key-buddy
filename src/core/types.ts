@@ -21,6 +21,12 @@ export type SkillFamily =
 /** Genre branches; 'foundation' is the shared trunk (doc 01 §4). */
 export type Genre = 'foundation' | 'blues' | 'gospel' | 'country';
 
+/** Curriculum arcs — the five macro-phases of the 30-tier syllabus (doc 06 §6). */
+export type Arc = 'foundation' | 'blues' | 'country' | 'gospel' | 'fluency';
+
+/** The five instructional strands that thread through every tier (doc 06 §4). */
+export type Strand = 'technique' | 'rhythm' | 'harmony' | 'ear' | 'repertoire';
+
 /** Difficulty tier on the 30-tier scale (doc 01 §7). 1–30. */
 export type Tier = number;
 
@@ -115,6 +121,25 @@ export interface Fragment {
 
 // ─── Content: skills ────────────────────────────────────────────────────────
 
+/**
+ * Machine-checkable pass rule for a skill's unassisted checkpoint (doc 06 §9).
+ * Percentages are 0–1 fractions.
+ */
+export interface SkillAssessment {
+  minStars: 0 | 1 | 2 | 3;
+  minNotesCorrectPct: number;
+  minGoodOrBetterPct: number;
+  requiresAtTempo: boolean;
+  requiresNoAssists: boolean;
+  /** Evidence across N separate sessions — recorded now, enforced Phase 5. */
+  repeatedSessions?: number;
+}
+
+/**
+ * A teachable micro-skill. The optional curriculum fields (doc 06 §9) are
+ * required — and validated — on any skill referenced by a Module; seed/legacy
+ * skills may omit them until they join the authored curriculum.
+ */
 export interface Skill {
   id: string;
   name: string;
@@ -124,6 +149,17 @@ export interface Skill {
   prerequisites: string[]; // skill IDs
   theoryConceptId?: string;
   description: string;
+
+  // Curriculum fields (doc 06 §9) — optional until a Module references the skill.
+  arc?: Arc;
+  strand?: Strand;
+  /** Plain-language outcome, e.g. "Play C–F–G–C triads at a steady pulse". */
+  outcome?: string;
+  moduleId?: string;
+  assessment?: SkillAssessment;
+  /** Skill IDs this skill is expected to transfer into later. */
+  transferTargets?: string[];
+  commonErrors?: string[];
 }
 
 // ─── Content: mini-games (AFK — designed now, built Phase 5) ─────────────────
@@ -178,8 +214,8 @@ export interface TimingHistogram {
  */
 export interface Attempt {
   id: string;
-  refId: string; // chartId or miniGameId
-  refKind: 'chart' | 'minigame';
+  refId: string; // chartId, fragmentId, or miniGameId
+  refKind: 'chart' | 'fragment' | 'minigame';
   timestamp: number;
   perNoteGrades: PerNoteGrade[];
   timingHistogram: TimingHistogram;
@@ -217,6 +253,9 @@ export interface SkillProgress {
   /** FSRS scheduling state serialized; see srs module. */
   freshness: FsrsState;
   lastReviewed?: number;
+  /** Set when a passing result landed while the FSRS card was due and the
+   * skill was already functional — the tier gate's delayed-review evidence. */
+  delayedReviewPassedAt?: number;
 }
 
 /** Opaque-ish FSRS card state (kept serializable for persistence). */
@@ -259,19 +298,31 @@ export interface Goal {
  * Global player state + wallet (build-spec §5).
  *
  * GUARDRAIL (encoded here, enforced in ProgressionService/RewardService):
- *   `playerLevel` and `currentPlayingTier` derive ONLY from Hands progress and
- *   playing attempts. `headTrackXP` is a SEPARATE accumulator that can never
- *   feed them. Do not add a code path that lets headTrackXP influence
- *   playerLevel / currentPlayingTier.
+ *   Head evidence can GATE but never SUBSTITUTE. A tier gate may require a
+ *   theory/ear checkpoint (necessary condition, doc 06 §5.4), but Head/theory
+ *   work alone can never raise `learningTier`, `playerLevel`, or
+ *   `currentPlayingTier`, and `headTrackXP` never feeds `totalXP` or
+ *   `tierHandsXP`. Do not add a code path that violates this.
  */
 export interface PlayerState {
   // Hands / playing track — the only inputs to level & tier.
+  /** User-facing Level. Always equals `learningTier` (tier gates passed + 1). */
   playerLevel: number;
-  totalXP: number; // playing (Hands) XP only
+  totalXP: number; // lifetime playing (Hands) XP only
+  /** Highest tier with a Hands-mastered skill (drives the Scouting cap). */
   currentPlayingTier: Tier;
+  /** The curriculum tier the player is working in: tier gates passed + 1. */
+  learningTier: Tier;
+  /** Hands XP accumulated within the current learning tier (meter fill). */
+  tierHandsXP: number;
+  /** Epoch ms each tier gate was passed at, keyed by tier. */
+  tierGatePassedAt: Record<number, number>;
 
   // Head / knowledge track — strictly separate (doc 04 §5).
   headTrackXP: number;
+
+  // First-run flag: set when onboarding completes (epoch ms).
+  onboardedAt?: number;
 
   // Economy & habit.
   riffs: number;
