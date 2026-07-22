@@ -13,7 +13,7 @@ import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { LevelMeter } from '@/ui/components/LevelMeter';
 import { Missions } from '@/ui/missions/Missions';
-import { SessionPlayer } from '@/ui/screens/SessionPlayer';
+import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
 import { Settings } from '@/ui/screens/Settings';
 import { AfkComingSoon } from '@/ui/screens/AfkComingSoon';
@@ -76,7 +76,7 @@ export default function App() {
 
       <main>
         {screen === 'missions' && <Missions />}
-        {screen === 'free-play' && <SessionPlayer />}
+        {screen === 'free-play' && <FreePlay />}
         {screen === 'afk' && <AfkComingSoon />}
         {screen === 'progress' && <Progress />}
         {screen === 'settings' && <Settings />}

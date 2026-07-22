@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   Play,
   PlayCircle,
@@ -10,8 +10,6 @@ import {
   EyeOff,
   ChevronLeft,
   FileMusic,
-  Star,
-  Lock,
 } from 'lucide-react';
 import type { Assist, Attempt, Chart, NoteGrade, Song } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
@@ -35,12 +33,62 @@ const TEMPO_OPTIONS = [
   { label: '100%', pct: 1 },
 ];
 
-export function SessionPlayer() {
+/**
+ * How a lesson (or Free Play) is allowed to configure a take. The policy is
+ * derived from the lesson mode — guided lessons force assists on, independent
+ * and performance lessons force them off — so a checkpoint can't silently
+ * become an assisted take.
+ */
+export interface ChartPlayerPolicy {
+  /** 'choice' shows the tempo control; a number pins tempo to that fraction of target. */
+  tempo: 'choice' | number;
+  /** Falling-notes assist: user toggle, forced on (guided), or forced off (independent+). */
+  fallingNotes: 'choice' | 'on' | 'off';
+  /** Show the Watch/preview button. */
+  allowWatch: boolean;
+  /** Allow switching arrangements (Free Play). */
+  allowArrangementChoice: boolean;
+}
+
+export const FREE_PLAY_POLICY: ChartPlayerPolicy = {
+  tempo: 'choice',
+  fallingNotes: 'choice',
+  allowWatch: true,
+  allowArrangementChoice: true,
+};
+
+export interface ChartPlayerProps {
+  song: Song;
+  chart: Chart;
+  policy?: ChartPlayerPolicy;
+  /** Back/Done navigation (leave the player). */
+  onExit: () => void;
+  /** Fires once per completed, recorded take (after rewards resolve). */
+  onRecorded?: (attempt: Attempt, reward: AttemptReward) => void;
+  /** Optional context banner rendered above the controls (lesson prompts). */
+  banner?: ReactNode;
+  /** Label for the exit button (defaults to "Songs"). */
+  exitLabel?: string;
+}
+
+/**
+ * The full take loop for one chart: count-in → play (metronome clock) →
+ * offline scoring → session report. Extracted from the Phase-2 SessionPlayer
+ * so Free Play and curriculum lessons share one player.
+ */
+export function ChartPlayer({
+  song,
+  chart: initialChart,
+  policy = FREE_PLAY_POLICY,
+  onExit,
+  onRecorded,
+  banner,
+  exitLabel = 'Songs',
+}: ChartPlayerProps) {
   const content = getContent();
-  const [song, setSong] = useState<Song | null>(null);
-  const [chart, setChart] = useState<Chart | null>(null);
-  const [tempoPct, setTempoPct] = useState(0.75);
-  const [showFalling, setShowFalling] = useState(true);
+  const [chart, setChart] = useState<Chart>(initialChart);
+  const [tempoPct, setTempoPct] = useState(policy.tempo === 'choice' ? 0.75 : policy.tempo);
+  const [showFalling, setShowFalling] = useState(policy.fallingNotes !== 'off');
   const [showStaff, setShowStaff] = useState(false);
   const [phase, setPhase] = useState<PlayPhase>('idle');
   const [mode, setMode] = useState<PlayMode>('play');
@@ -65,42 +113,41 @@ export function SessionPlayer() {
     });
   }
 
-  const beatsPerBar = chart?.timeSignature.beatsPerBar ?? 4;
+  // Re-arm when the host swaps songs/charts under us.
+  useEffect(() => {
+    setChart(initialChart);
+    setAttempt(null);
+    setPhase('idle');
+    liveGradesRef.current = new Map();
+  }, [initialChart]);
+
+  const beatsPerBar = chart.timeSignature.beatsPerBar;
   const range = useMemo(() => {
-    if (!chart) return { low: 48, high: 83 };
     const pitches = chart.notes.flatMap((n) => n.pitches);
     return displayRange(Math.min(...pitches), Math.max(...pitches));
   }, [chart]);
 
   // Track the current bar for the chord strip while playing.
   useEffect(() => {
-    if (phase !== 'playing' || !chart) return;
-    const beatMs = 60000 / ((song?.tempoTargetBPM ?? 90) * tempoPct);
+    if (phase !== 'playing') return;
+    const beatMs = 60000 / (song.tempoTargetBPM * tempoPct);
     const id = window.setInterval(() => {
       const beat = (audioService.getTransportSeconds() * 1000) / beatMs - COUNT_IN_BEATS;
       setCurrentBar(Math.floor(beat / beatsPerBar));
     }, 120);
     return () => window.clearInterval(id);
-  }, [phase, chart, song, tempoPct, beatsPerBar]);
-
-  const loadSong = useCallback((s: Song) => {
-    const c = getContent().getChart(s.chartIds[0]);
-    setSong(s);
-    setChart(c ?? null);
-    setAttempt(null);
-    setPhase('idle');
-    liveGradesRef.current = new Map();
-  }, []);
+  }, [phase, song, tempoPct, beatsPerBar]);
 
   const pickArrangement = useCallback((chartId: string) => {
-    setChart(getContent().getChart(chartId) ?? null);
+    const c = getContent().getChart(chartId);
+    if (!c) return;
+    setChart(c);
     setAttempt(null);
     liveGradesRef.current = new Map();
   }, []);
 
   const start = useCallback(
     async (playMode: PlayMode = 'play') => {
-      if (!song || !chart) return;
       liveGradesRef.current = new Map();
       setAttempt(null);
       setReward(null);
@@ -118,22 +165,21 @@ export function SessionPlayer() {
         mode: playMode,
       });
     },
-    [song, chart, tempoPct, showFalling],
+    [song, chart, tempoPct, showFalling, policy.tempo],
   );
 
   // Record the completed take into progression/rewards/persistence exactly once.
   useEffect(() => {
-    if (phase === 'done' && attempt && song && chart && recordedIdRef.current !== attempt.id) {
+    if (phase === 'done' && attempt && recordedIdRef.current !== attempt.id) {
       recordedIdRef.current = attempt.id;
-      void recordAttempt(song, chart, attempt).then(setReward);
+      void recordAttempt(song, chart, attempt).then((r) => {
+        setReward(r);
+        onRecorded?.(attempt, r);
+      });
     }
-  }, [phase, attempt, song, chart, recordAttempt]);
+  }, [phase, attempt, song, chart, recordAttempt, onRecorded]);
 
   useEffect(() => () => sessionRef.current?.cancel(), []);
-
-  if (!song || !chart) {
-    return <SongPicker songs={[...content.songs]} onPick={loadSong} />;
-  }
 
   if (phase === 'done' && attempt) {
     return (
@@ -143,11 +189,7 @@ export function SessionPlayer() {
         song={song}
         reward={reward}
         onRetry={() => void start()}
-        onDone={() => {
-          setSong(null);
-          setChart(null);
-          setPhase('idle');
-        }}
+        onDone={onExit}
       />
     );
   }
@@ -156,6 +198,8 @@ export function SessionPlayer() {
   // and keep the visualizer drawing.
   const active = phase !== 'idle' && phase !== 'done';
   const session = sessionRef.current;
+  const showTempoControl = policy.tempo === 'choice';
+  const showFallingToggle = policy.fallingNotes === 'choice';
 
   return (
     <div className="flex flex-col gap-4">
@@ -164,12 +208,11 @@ export function SessionPlayer() {
           type="button"
           onClick={() => {
             sessionRef.current?.cancel();
-            setSong(null);
-            setChart(null);
+            onExit();
           }}
           className="inline-flex items-center gap-1 text-sm text-ink-soft hover:text-ink"
         >
-          <ChevronLeft size={16} /> Songs
+          <ChevronLeft size={16} /> {exitLabel}
         </button>
         <div className="text-right">
           <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{song.title}</h2>
@@ -179,8 +222,10 @@ export function SessionPlayer() {
         </div>
       </div>
 
+      {banner}
+
       <div className="flex flex-wrap items-center gap-3">
-        {song.chartIds.length > 1 && (
+        {policy.allowArrangementChoice && song.chartIds.length > 1 && (
           <div className="inline-flex rounded-full bg-sand p-1 text-sm">
             {song.chartIds.map((cid) => {
               const c = content.getChart(cid);
@@ -202,34 +247,38 @@ export function SessionPlayer() {
           </div>
         )}
 
-        <div className="inline-flex overflow-hidden rounded-2xl border border-line text-sm">
-          {TEMPO_OPTIONS.map((t) => (
-            <button
-              key={t.label}
-              type="button"
-              disabled={active}
-              onClick={() => setTempoPct(t.pct)}
-              className={`rounded-full px-3 py-1.5 tabular-nums transition ${
-                tempoPct === t.pct ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
+        {showTempoControl && (
+          <div className="inline-flex overflow-hidden rounded-2xl border border-line text-sm">
+            {TEMPO_OPTIONS.map((t) => (
+              <button
+                key={t.label}
+                type="button"
+                disabled={active}
+                onClick={() => setTempoPct(t.pct)}
+                className={`rounded-full px-3 py-1.5 tabular-nums transition ${
+                  tempoPct === t.pct ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        )}
 
-        <button
-          type="button"
-          disabled={active}
-          onClick={() => setShowFalling((v) => !v)}
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
-            showFalling ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
-          }`}
-          title="The falling-notes view is scaffolding — turn it off for the mastery star."
-        >
-          {showFalling ? <Eye size={15} /> : <EyeOff size={15} />}
-          Falling notes {showFalling ? 'on' : 'off'}
-        </button>
+        {showFallingToggle && (
+          <button
+            type="button"
+            disabled={active}
+            onClick={() => setShowFalling((v) => !v)}
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
+              showFalling ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
+            }`}
+            title="The falling-notes view is scaffolding — turn it off for the mastery star."
+          >
+            {showFalling ? <Eye size={15} /> : <EyeOff size={15} />}
+            Falling notes {showFalling ? 'on' : 'off'}
+          </button>
+        )}
 
         <button
           type="button"
@@ -246,14 +295,16 @@ export function SessionPlayer() {
 
           {!active && (
             <>
-              <button
-                type="button"
-                onClick={() => void start('preview')}
-                className="inline-flex items-center gap-2 rounded-full bg-peri-soft px-4 py-2.5 font-display text-sm font-semibold text-peri-deep transition hover:-translate-y-px active:translate-y-px"
-                title="Watch and hear the song play through first, without scoring."
-              >
-                <PlayCircle size={16} /> Watch
-              </button>
+              {policy.allowWatch && (
+                <button
+                  type="button"
+                  onClick={() => void start('preview')}
+                  className="inline-flex items-center gap-2 rounded-full bg-peri-soft px-4 py-2.5 font-display text-sm font-semibold text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+                  title="Watch and hear the song play through first, without scoring."
+                >
+                  <PlayCircle size={16} /> Watch
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => void start('play')}
@@ -346,93 +397,6 @@ export function SessionPlayer() {
         <div className="border-t border-line pb-2 pt-1">
           <PianoKeyboard lowPitch={range.low} highPitch={range.high} />
         </div>
-      </div>
-    </div>
-  );
-}
-
-function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => void }) {
-  const byTier = useMemo(() => [...songs].sort((a, b) => a.tier - b.tier), [songs]);
-  const isUnlocked = useGameStore((s) => s.isUnlocked);
-  const unlockProgress = useGameStore((s) => s.unlockProgress);
-  const bestStars = useGameStore((s) => s.bestStars);
-  const content = getContent();
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Play a song</h2>
-        <p className="mt-1 text-sm text-ink-soft">
-          Songs unlock by demonstrated skill — master the prerequisites to earn them. Connect your
-          MIDI keyboard or use the on-screen keys.
-        </p>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {byTier.map((s) => {
-          const unlocked = isUnlocked(s.id);
-          const prog = unlockProgress(s);
-          const stars = bestStars(s.chartIds[0]);
-          return (
-            <button
-              key={s.id}
-              type="button"
-              disabled={!unlocked}
-              onClick={() => onPick(s)}
-              data-testid={`song-${s.id}`}
-              className={`rounded-3xl p-5 text-left transition ${
-                unlocked
-                  ? 'bg-surface shadow-soft hover:-translate-y-0.5 hover:shadow-lift'
-                  : 'cursor-not-allowed border border-dashed border-line bg-transparent'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <h3 className={`font-display font-semibold ${unlocked ? 'text-ink' : 'text-ink-soft'}`}>
-                  {s.title}
-                </h3>
-                <span className="rounded-full bg-sand px-2.5 py-0.5 font-display text-xs font-semibold text-ink-soft">
-                  T{s.tier}
-                </span>
-              </div>
-              <p className="mt-1 text-xs capitalize text-ink-soft">
-                {s.genre} · {s.key} · {s.tempoTargetBPM} BPM · {s.feel}
-              </p>
-              {unlocked ? (
-                <div className="mt-2 flex items-center gap-1">
-                  {[1, 2, 3].map((n) => (
-                    <Star
-                      key={n}
-                      size={16}
-                      className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
-                    />
-                  ))}
-                  {stars === 0 && <span className="ml-1 text-xs text-ink-soft">Not yet played</span>}
-                </div>
-              ) : (
-                <div className="mt-2">
-                  <div className="mb-1 flex items-center gap-1.5 text-xs text-ink-soft">
-                    <Lock size={12} /> {prog.requiredCount - prog.masteredCount} skill
-                    {prog.requiredCount - prog.masteredCount === 1 ? '' : 's'} to unlock:{' '}
-                    {prog.remainingSkillIds
-                      .map((id) => content.getSkill(id)?.name ?? id)
-                      .join(', ')}
-                  </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-sand">
-                    <div
-                      className="h-full rounded-full bg-mint-deep/70 transition-[width] duration-700"
-                      style={{
-                        width: `${
-                          prog.requiredCount === 0
-                            ? 100
-                            : Math.round((prog.masteredCount / prog.requiredCount) * 100)
-                        }%`,
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-            </button>
-          );
-        })}
       </div>
     </div>
   );
