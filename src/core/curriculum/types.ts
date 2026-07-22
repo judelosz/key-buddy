@@ -212,6 +212,8 @@ export interface QualifyingPerformance {
   date: string; // YYYY-MM-DD
   atTempo: boolean;
   attemptId: string;
+  /** Which arrangement it was played on (absent on pre-v3 rows). */
+  chartId?: string;
 }
 
 export interface SongMastery {

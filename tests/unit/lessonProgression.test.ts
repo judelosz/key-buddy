@@ -214,28 +214,15 @@ describe('song mastery foundation', () => {
     expect(m1.lastAttemptId).toBe('a1');
   });
 
-  it('accumulates qualifying dates only for mastery-star takes, one per day', () => {
+  it('without a chart (legacy path), qualifying never accrues and level stops at Started', () => {
     let m = initialSongMastery('song-1');
-    m = updateSongMastery(m, { kind: 'chart-attempt', attempt: attempt(), todayISO: '2026-07-22' });
-    expect(m.qualifyingSessionDates).toEqual([]);
     m = updateSongMastery(m, {
       kind: 'chart-attempt',
       attempt: attempt({ id: 'a2', masteryStar: true }),
       todayISO: '2026-07-22',
     });
-    m = updateSongMastery(m, {
-      kind: 'chart-attempt',
-      attempt: attempt({ id: 'a3', masteryStar: true }),
-      todayISO: '2026-07-22',
-    });
-    expect(m.qualifyingSessionDates).toEqual(['2026-07-22']);
-    m = updateSongMastery(m, {
-      kind: 'chart-attempt',
-      attempt: attempt({ id: 'a4', masteryStar: true }),
-      todayISO: '2026-07-23',
-    });
-    expect(m.qualifyingSessionDates).toEqual(['2026-07-22', '2026-07-23']);
-    // Level never advances past Started in Phase 4 (sections arrive Phase 5).
+    // Section evidence is required for qualifying — no chart, no qualifying.
+    expect(m.qualifyingPerformances).toEqual([]);
     expect(m.level).toBe(1);
   });
 });

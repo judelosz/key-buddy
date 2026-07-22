@@ -13,12 +13,18 @@ export interface BarAccuracy {
   score: number;
 }
 
-export function barAccuracies(attempt: Attempt, chart: Chart): BarAccuracy[] {
+/** noteEventId → 0-based bar, for any consumer that attributes results to bars. */
+export function barOfNoteEvents(chart: Pick<Chart, 'notes' | 'timeSignature'>): Map<string, number> {
   const beatsPerBar = chart.timeSignature.beatsPerBar;
   const barOfEvent = new Map<string, number>();
   for (const note of chart.notes) {
     barOfEvent.set(note.id, Math.floor(note.startBeat / beatsPerBar));
   }
+  return barOfEvent;
+}
+
+export function barAccuracies(attempt: Attempt, chart: Chart): BarAccuracy[] {
+  const barOfEvent = barOfNoteEvents(chart);
 
   const totals = new Map<number, { correct: number; count: number; wrong: number }>();
   const bucket = (bar: number) => {
