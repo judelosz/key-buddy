@@ -35,6 +35,12 @@ export function barAccuracies(attempt: Attempt, chart: Chart): BarAccuracy[] {
 export function generateTip(attempt: Attempt, chart: Chart): string {
   const mean = Math.round(attempt.timingHistogram.meanMs);
 
+  if (attempt.extraNotes >= Math.max(2, Math.ceil(chart.notes.length * 0.2))) {
+    return `You hit ${attempt.extraNotes} extra note${
+      attempt.extraNotes === 1 ? '' : 's'
+    } — play only the notes shown, and keep stray fingers off the keys.`;
+  }
+
   if (attempt.notesCorrectPct < 0.6) {
     return 'Focus on the right notes first — slow the tempo and aim for accuracy before timing.';
   }

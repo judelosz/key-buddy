@@ -6,7 +6,7 @@ A personal-use, gamified piano-learning web app for a complete beginner working 
 
 ## Status
 
-Building the MVP (**Phases 0–3** of the build spec): scaffold → input/audio/scoring core → one playable song loop → progression, rewards, spaced review, and local persistence. See `CLAUDE.md` for the live architecture map, decision log, and guardrails, and `docs/` for the design source-of-truth.
+The MVP vertical slice (**Phases 0–3**) is implemented. The current phase is **MVP hardening and user testing (Phase 3.5)** before curriculum expansion. See [`docs/07-development-roadmap.md`](docs/07-development-roadmap.md) for the phase plan, exit criteria, and test windows; see `CLAUDE.md` for the live architecture map, decision log, and guardrails.
 
 ## Tech stack
 
@@ -41,4 +41,4 @@ tests/       unit/ (Vitest)  e2e/ (Playwright)
 
 ## Documentation
 
-The four design docs in `docs/` are the source of truth for *what* and *why*; `docs/05-build-spec.md` is the source of truth for *how*. `CLAUDE.md` is the living engineering memory — read it before making changes.
+The design docs in `docs/` are the source of truth for *what* and *why*; `docs/05-build-spec.md` is the source of truth for *how*; [`docs/07-development-roadmap.md`](docs/07-development-roadmap.md) is the delivery plan with phase exit criteria and test windows. `CLAUDE.md` is the living engineering memory — read it before making changes.

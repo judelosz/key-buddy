@@ -183,7 +183,9 @@ export interface Attempt {
   timestamp: number;
   perNoteGrades: PerNoteGrade[];
   timingHistogram: TimingHistogram;
-  notesCorrectPct: number; // 0–1
+  /** Wrong/extra notes the player hit that don't belong in the chart. */
+  extraNotes: number;
+  notesCorrectPct: number; // 0–1, correct events ÷ (events + extra notes)
   goodOrBetterPct: number; // 0–1 of hits with Good+ timing
   greatOrBetterPct: number; // 0–1 of hits with Great+ timing
   stars: 0 | 1 | 2 | 3;

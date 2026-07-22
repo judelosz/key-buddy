@@ -59,7 +59,11 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
       {reward && <RewardPanel reward={reward} />}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Metric label="Notes correct" value={pct(attempt.notesCorrectPct)} />
+        <Metric
+          label="Accuracy"
+          value={pct(attempt.notesCorrectPct)}
+          sub={attempt.extraNotes > 0 ? `${attempt.extraNotes} extra note${attempt.extraNotes === 1 ? '' : 's'}` : undefined}
+        />
         <Metric label="Good+ timing" value={pct(attempt.goodOrBetterPct)} />
         <Metric label="Great+ timing" value={pct(attempt.greatOrBetterPct)} />
         <Metric

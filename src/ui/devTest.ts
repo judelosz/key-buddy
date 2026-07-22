@@ -16,6 +16,7 @@ function cannedMasteryAttempt(chartId: string): Attempt {
     timestamp: Date.now(),
     perNoteGrades: [],
     timingHistogram: { buckets: [], meanMs: 0, medianMs: 0, stdDevMs: 0 },
+    extraNotes: 0,
     notesCorrectPct: 1,
     goodOrBetterPct: 1,
     greatOrBetterPct: 1,

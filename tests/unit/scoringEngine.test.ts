@@ -129,12 +129,15 @@ describe('rush vs drag summary', () => {
 // ─── wrong notes & misses ───────────────────────────────────────────────────
 
 describe('wrong note', () => {
-  it('marks a wrong pitch as a miss and lowers correctness', () => {
+  it('marks a wrong pitch as a miss AND counts it as an extra note', () => {
+    // Plays 99 instead of 60: the 60 event misses, and 99 is a wrong note.
     const played = [play(99, 0), play(62, 1000), play(64, 2000), play(65, 3000)];
     const a = scoreAttempt(base({ played }));
     expect(a.perNoteGrades[0].grade).toBe('miss');
     expect(a.perNoteGrades[0].pitchCorrect).toBe(false);
-    expect(a.notesCorrectPct).toBeCloseTo(0.75, 5);
+    expect(a.extraNotes).toBe(1);
+    // 3 correct ÷ (4 expected + 1 wrong) = 0.6 — lower than the old 0.75.
+    expect(a.notesCorrectPct).toBeCloseTo(0.6, 5);
   });
 
   it('marks not-played notes as misses', () => {
@@ -164,10 +167,48 @@ describe('chords', () => {
     expect(a.perNoteGrades[0].grade).toBe('miss');
   });
 
-  it('still credits the chord when an extra note is also played', () => {
+  it('credits the chord but still counts the extra note against accuracy', () => {
     const played = [play(60, 0), play(64, 0), play(67, 0), play(61, 0)];
     const a = scoreAttempt(base({ chart: cChord, played }));
-    expect(a.perNoteGrades[0].pitchCorrect).toBe(true);
+    expect(a.perNoteGrades[0].pitchCorrect).toBe(true); // chord complete
+    expect(a.extraNotes).toBe(1); // the stray C# is a wrong note
+    expect(a.notesCorrectPct).toBeCloseTo(0.5, 5); // 1 ÷ (1 + 1)
+  });
+});
+
+// ─── wrong/extra notes penalize the score ───────────────────────────────────
+
+describe('extra notes count against the score', () => {
+  const played = (extras: number[]) => [
+    play(60, 0),
+    play(62, 1000),
+    play(64, 2000),
+    play(65, 3000),
+    ...extras.map((p, i) => play(p, 500 + i)), // stray notes near the start
+  ];
+
+  it('a clean take with no extras scores full accuracy', () => {
+    const a = scoreAttempt(base({ played: played([]) }));
+    expect(a.extraNotes).toBe(0);
+    expect(a.notesCorrectPct).toBe(1);
+    expect(a.stars).toBe(3);
+  });
+
+  it('mashing extra wrong notes drops accuracy and stars', () => {
+    // 4 correct + 4 wrong pitches (not in the chart) → 4 ÷ 8 = 0.5.
+    const a = scoreAttempt(base({ played: played([73, 75, 78, 80]) }));
+    expect(a.extraNotes).toBe(4);
+    expect(a.notesCorrectPct).toBeCloseTo(0.5, 5);
+    expect(a.stars).toBeLessThan(3);
+  });
+
+  it('does not double-penalize a merely mistimed correct-pitch note', () => {
+    // Play E (64) so late its event misses (beyond the match window), but E IS
+    // a chart pitch nearby, so it is not also counted as a wrong/extra note.
+    const late = [play(60, 0), play(62, 1000), play(64, 2700), play(65, 3000)];
+    const a = scoreAttempt(base({ played: late }));
+    expect(a.perNoteGrades[2].grade).toBe('miss'); // the 64 event missed
+    expect(a.extraNotes).toBe(0); // but no double penalty as a wrong note
   });
 });
 

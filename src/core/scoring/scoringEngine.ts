@@ -43,7 +43,6 @@ export interface ScoreParams {
   attemptId?: string;
 }
 
-const gradeIsHit = (g: NoteGrade): boolean => g !== 'miss';
 const gradeGoodOrBetter = (g: NoteGrade): boolean =>
   g === 'perfect' || g === 'great' || g === 'good';
 const gradeGreatOrBetter = (g: NoteGrade): boolean => g === 'perfect' || g === 'great';
@@ -166,9 +165,33 @@ export function scoreAttempt(params: ScoreParams): Attempt {
   });
 
   const total = perNoteGrades.length;
-  const hits = perNoteGrades.filter((g) => gradeIsHit(g.grade));
   const correct = perNoteGrades.filter((g) => g.pitchCorrect);
-  const notesCorrectPct = total === 0 ? 0 : correct.length / total;
+
+  // Count WRONG notes: played notes never matched to an event AND whose pitch
+  // isn't expected anywhere nearby in time (so a merely mistimed correct-pitch
+  // note or a double isn't double-penalized). These count against accuracy.
+  const onsetsByPitch = new Map<number, number[]>();
+  for (const event of events) {
+    const onset = startTimeMs + event.startBeat * beatMs;
+    for (const pitch of event.pitches) {
+      const arr = onsetsByPitch.get(pitch);
+      if (arr) arr.push(onset);
+      else onsetsByPitch.set(pitch, [onset]);
+    }
+  }
+  const wrongWindowMs = Math.max(matchMs, beatMs);
+  let extraNotes = 0;
+  for (const slot of slots) {
+    if (slot.consumed) continue;
+    const onsets = onsetsByPitch.get(slot.note.pitch);
+    const nearRealNote =
+      onsets?.some((o) => Math.abs(slot.note.timestampMs - o) <= wrongWindowMs) ?? false;
+    if (!nearRealNote) extraNotes += 1;
+  }
+
+  // Accuracy folds wrong notes into the denominator: right notes ÷ (expected
+  // notes + wrong notes). Playing extra/incorrect notes now lowers the score.
+  const notesCorrectPct = total + extraNotes === 0 ? 0 : correct.length / (total + extraNotes);
 
   // Timing percentages are over correctly-played notes (the "hits").
   const hitCount = correct.length;
@@ -186,9 +209,6 @@ export function scoreAttempt(params: ScoreParams): Attempt {
   const atTempo = tempoBPM >= targetTempoBPM * 0.99;
   const masteryStar = stars === 3 && atTempo && assistsUsed.length === 0;
 
-  // hits var referenced for extras accounting / debug parity.
-  void hits;
-
   return {
     id: params.attemptId ?? crypto.randomUUID(),
     refId: chart.id,
@@ -196,6 +216,7 @@ export function scoreAttempt(params: ScoreParams): Attempt {
     timestamp: Date.now(),
     perNoteGrades,
     timingHistogram,
+    extraNotes,
     notesCorrectPct,
     goodOrBetterPct,
     greatOrBetterPct,
