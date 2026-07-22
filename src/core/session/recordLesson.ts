@@ -21,6 +21,7 @@ import type {
 } from '@/core/curriculum/types';
 import type { ExerciseResult } from '@/core/exercise/types';
 import {
+  DELAYED_REVIEW_MIN_GAP_MS,
   applyExerciseAttempt,
   applyHeadAttempt,
   trackForExerciseType,
@@ -263,8 +264,11 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
             ? applyExerciseAttempt(prev, scorePct, lesson.mode, nowMs)
             : applyHeadAttempt(prev, scorePct, nowMs);
         const lockBefore = track === 'hands' ? prev.handsLock : prev.headLock;
-        const passedDelayedReview =
-          passed && lockBefore >= FUNCTIONAL_LOCK && isDue(prev.freshness, nowMs);
+        const delayedEnough =
+          isDue(prev.freshness, nowMs) ||
+          (prev.lastReviewed !== undefined &&
+            nowMs - prev.lastReviewed >= DELAYED_REVIEW_MIN_GAP_MS);
+        const passedDelayedReview = passed && lockBefore >= FUNCTIONAL_LOCK && delayedEnough;
         return {
           ...withLock,
           freshness: reviewCard(prev.freshness, rating, nowMs),

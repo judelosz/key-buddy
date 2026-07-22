@@ -1,11 +1,73 @@
 [
   {
     "tier": 1,
-    "coreSkillIds": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse", "rhythm-time-sig-44"],
+    "coreSkillIds": [
+      "geo-note-names",
+      "mech-five-finger-c",
+      "rhythm-steady-pulse",
+      "rhythm-time-sig-44"
+    ],
     "bossSongId": "ode-to-joy",
     "bossChartId": "ode-to-joy--simplified",
-    "checkpointAssessmentIds": ["assess-t1-checkpoint"],
+    "checkpointAssessmentIds": [
+      "assess-t1-checkpoint"
+    ],
     "requiresDelayedReview": true,
-    "handsXpBand": 120
+    "handsXpBand": 45
+  },
+  {
+    "tier": 2,
+    "coreSkillIds": [
+      "lh-root-notes"
+    ],
+    "bossSongId": "when-the-saints",
+    "bossChartId": "when-the-saints--simplified",
+    "checkpointAssessmentIds": [
+      "assess-t2-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 28
+  },
+  {
+    "tier": 3,
+    "coreSkillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "bossSongId": "oh-susanna",
+    "bossChartId": "oh-susanna--simplified",
+    "checkpointAssessmentIds": [
+      "assess-t3-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 28
+  },
+  {
+    "tier": 4,
+    "coreSkillIds": [
+      "chord-major-triad",
+      "harmony-i-iv-v"
+    ],
+    "bossSongId": "shell-be-comin",
+    "bossChartId": "shell-be-comin--full",
+    "checkpointAssessmentIds": [
+      "assess-t4-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 35
+  },
+  {
+    "tier": 5,
+    "coreSkillIds": [
+      "scale-c-major",
+      "rep-melody-accompaniment",
+      "rhythm-time-sig-34"
+    ],
+    "bossSongId": "amazing-grace",
+    "bossChartId": "amazing-grace--simplified",
+    "checkpointAssessmentIds": [
+      "assess-t5-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 38
   }
 ]

@@ -295,7 +295,13 @@ export const useGameStore = create<GameState>((set, get) => {
     },
 
     nextLesson: () =>
-      nextRecommendedLesson(getContent(), get().lessonProgressById, get().player.learningTier),
+      nextRecommendedLesson(
+        getContent(),
+        get().lessonProgressById,
+        get().player.learningTier,
+        get().skillProgressById,
+        Date.now(),
+      ),
 
     tierGateStatus: () => {
       const state = get();

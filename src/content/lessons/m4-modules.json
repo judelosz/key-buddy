@@ -1,0 +1,479 @@
+[
+  {
+    "id": "l-bt-theory",
+    "moduleId": "m4-build-triad",
+    "order": 0,
+    "title": "Chords are built, not memorized",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "chord-major-triad"
+    ],
+    "prompt": "Every major chord is the same recipe: 1-3-5. Learn the recipe once, own every chord.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-chord-construction",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-bt-build-c",
+    "moduleId": "m4-build-triad",
+    "order": 1,
+    "title": "Build C major",
+    "mode": "guided",
+    "exerciseType": "build-chord",
+    "skillIds": [
+      "chord-major-triad"
+    ],
+    "prompt": "C, E, G — together or one at a time, any octave.",
+    "successRule": "Build it correctly 2 of 3 times.",
+    "passCriteria": {
+      "minScorePct": 0.66
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "chords": [
+        "C"
+      ],
+      "count": 3
+    }
+  },
+  {
+    "id": "l-bt-build-cfg",
+    "moduleId": "m4-build-triad",
+    "order": 2,
+    "title": "Three chords, one recipe",
+    "mode": "supported",
+    "exerciseType": "build-chord",
+    "skillIds": [
+      "chord-major-triad"
+    ],
+    "prompt": "C, F, and G major — the same 1-3-5 shape from three roots.",
+    "successRule": "Build 5 of 6 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "chords": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-bt-ear",
+    "moduleId": "m4-build-triad",
+    "order": 3,
+    "title": "Major or minor?",
+    "mode": "supported",
+    "exerciseType": "chord-ear",
+    "skillIds": [
+      "chord-major-triad"
+    ],
+    "prompt": "Bright and settled, or shaded and darker — your ear knows before you can name it.",
+    "successRule": "Get 5 of 6 right.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "qualities": [
+        "major",
+        "minor"
+      ],
+      "roots": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-bt-checkpoint",
+    "moduleId": "m4-build-triad",
+    "order": 4,
+    "title": "Checkpoint: chords on demand",
+    "mode": "independent",
+    "exerciseType": "build-chord",
+    "skillIds": [
+      "chord-major-triad"
+    ],
+    "prompt": "Six chords, no hints, any inversion.",
+    "successRule": "Build 5 of 6 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.85
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "chords": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-ofv-theory",
+    "moduleId": "m4-one-four-five",
+    "order": 0,
+    "title": "Three chords run everything",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "harmony-i-iv-v"
+    ],
+    "prompt": "I, IV, and V: home, away, and the pull back home. Most songs you love live here.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-primary-chords",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-ofv-build",
+    "moduleId": "m4-one-four-five",
+    "order": 1,
+    "title": "Build the family",
+    "mode": "supported",
+    "exerciseType": "build-chord",
+    "skillIds": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "prompt": "C (I), F (IV), G7 (V7) — the V gets a seventh for extra pull.",
+    "successRule": "Build 5 of 6 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "chords": [
+        "C",
+        "F",
+        "G7"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-ofv-changes",
+    "moduleId": "m4-one-four-five",
+    "order": 2,
+    "title": "Change without stopping",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "prompt": "Whole-note chords: C to F to C to G7 and home. The change happens BEFORE the beat.",
+    "successRule": "Finish the drill with most chords on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-change-drill-cfg"
+  },
+  {
+    "id": "l-ofv-ear",
+    "moduleId": "m4-one-four-five",
+    "order": 3,
+    "title": "Hear the lean",
+    "mode": "supported",
+    "exerciseType": "chord-ear",
+    "skillIds": [
+      "ear-tonic-away"
+    ],
+    "prompt": "Major sits at rest; the dominant seventh leans forward, asking to resolve.",
+    "successRule": "Get 5 of 6 right.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "qualities": [
+        "major",
+        "dom7"
+      ],
+      "roots": [
+        "C",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-ofv-vary",
+    "moduleId": "m4-one-four-five",
+    "order": 4,
+    "title": "Changes, shuffled",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "prompt": "Same three chords in a new order — reading the symbols, not the memory.",
+    "successRule": "Two stars on the shuffled drill.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-change-drill-varied"
+  },
+  {
+    "id": "l-ofv-checkpoint",
+    "moduleId": "m4-one-four-five",
+    "order": 5,
+    "title": "Checkpoint: changes, no help",
+    "mode": "independent",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-i-iv-v"
+    ],
+    "prompt": "The shuffled changes with chord symbols only.",
+    "successRule": "Two stars with no visual help.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-change-drill-varied"
+  },
+  {
+    "id": "l-wt-theory",
+    "moduleId": "m4-waltz-time",
+    "order": 0,
+    "title": "Three beats to a bar",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "ONE-two-three: the waltz. Amazing Grace lives here.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-time-sig-34",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-wt-tap",
+    "moduleId": "m4-waltz-time",
+    "order": 1,
+    "title": "Tap the waltz",
+    "mode": "supported",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "Lean into beat one; let two and three float.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [
+      "metronome-count-in"
+    ],
+    "generatorParams": {
+      "beats": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "bpm": 80,
+      "countInBeats": 3,
+      "beatsPerBar": 3
+    }
+  },
+  {
+    "id": "l-wt-checkpoint",
+    "moduleId": "m4-waltz-time",
+    "order": 2,
+    "title": "Checkpoint: three bars of three",
+    "mode": "independent",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "Nine beats, three bars, no count-in crutch after the first.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "beats": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "bpm": 84,
+      "countInBeats": 3,
+      "beatsPerBar": 3
+    }
+  },
+  {
+    "id": "l-mt-watch",
+    "moduleId": "m4-mountain",
+    "order": 0,
+    "title": "Watch the Mountain",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "harmony-i-iv-v"
+    ],
+    "prompt": "First the melody — then we flip it into full accompaniment.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "shell-be-comin--simplified",
+    "generatorParams": {
+      "promptText": "This one you already have the hands for. Listen for the three chords underneath."
+    }
+  },
+  {
+    "id": "l-mt-melody",
+    "moduleId": "m4-mountain",
+    "order": 1,
+    "title": "The melody",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "mech-pentascale-cfg",
+      "lh-root-notes"
+    ],
+    "prompt": "Sixteen bars of tune over bass roots — familiar ground.",
+    "successRule": "Earn at least one star.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "shell-be-comin--simplified"
+  },
+  {
+    "id": "l-mt-triads",
+    "moduleId": "m4-mountain",
+    "order": 2,
+    "title": "The triad bed",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "chord-major-triad",
+      "harmony-i-iv-v"
+    ],
+    "prompt": "Now the right hand plays CHORDS — two pushes per bar over the bass.",
+    "successRule": "Finish the pattern with most chords on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-mountain-triads"
+  },
+  {
+    "id": "l-mt-accomp",
+    "moduleId": "m4-mountain",
+    "order": 3,
+    "title": "Full accompaniment",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "lh-root-notes"
+    ],
+    "prompt": "The \"band\" arrangement: roots below, triads above, all three chords.",
+    "successRule": "Earn at least one star.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "shell-be-comin--full"
+  },
+  {
+    "id": "l-mt-gate-quiz",
+    "moduleId": "m4-mountain",
+    "order": 4,
+    "title": "Tier 4 check: chords and meter",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "rhythm-time-sig-34",
+      "ear-tonic-away"
+    ],
+    "prompt": "Triads, the I-IV-V family, and 3/4 — the Tier 4 knowledge check.",
+    "successRule": "Answer at least 80% correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-tier4-checkpoint",
+    "generatorParams": {
+      "count": 6
+    }
+  },
+  {
+    "id": "l-mt-boss",
+    "moduleId": "m4-mountain",
+    "order": 5,
+    "title": "Performance: the accompaniment",
+    "mode": "performance",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "lh-root-notes"
+    ],
+    "prompt": "The full arrangement at 100 BPM — chords changing without the pulse blinking.",
+    "successRule": "Earn the mastery star: three stars at tempo, no assists.",
+    "passCriteria": {
+      "requiresMasteryStar": true
+    },
+    "assistOptions": [],
+    "chartId": "shell-be-comin--full"
+  }
+]

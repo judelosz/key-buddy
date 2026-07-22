@@ -19,6 +19,7 @@ import type {
 } from '@/core/types';
 import type { SongMastery } from '@/core/curriculum/types';
 import {
+  DELAYED_REVIEW_MIN_GAP_MS,
   applyPlayingAttempt,
   computePlayingTier,
   unlockedSongIds,
@@ -115,10 +116,11 @@ export function recordChartAttempt(input: RecordAttemptInput): RecordAttemptResu
   const rating = starsToRating(attempt.stars);
   const changedSkills = taught.map((prev) => {
     const withHands = applyPlayingAttempt(prev, attempt, nowMs);
+    const delayedEnough =
+      isDue(prev.freshness, nowMs) ||
+      (prev.lastReviewed !== undefined && nowMs - prev.lastReviewed >= DELAYED_REVIEW_MIN_GAP_MS);
     const passedDelayedReview =
-      attempt.stars >= 2 &&
-      prev.handsLock >= FUNCTIONAL_HANDS_LOCK &&
-      isDue(prev.freshness, nowMs);
+      attempt.stars >= 2 && prev.handsLock >= FUNCTIONAL_HANDS_LOCK && delayedEnough;
     return {
       ...withHands,
       freshness: reviewCard(prev.freshness, rating, nowMs),

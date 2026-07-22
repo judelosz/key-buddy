@@ -5,6 +5,55 @@
     "tier": 1,
     "lessonId": "l-fm-gate-quiz",
     "passScorePct": 0.8,
-    "remediationLessonIds": ["l-mk-theory-map", "l-sb-theory-44"]
+    "remediationLessonIds": [
+      "l-mk-theory-map",
+      "l-sb-theory-44"
+    ]
+  },
+  {
+    "id": "assess-t2-checkpoint",
+    "scope": "tier",
+    "tier": 2,
+    "lessonId": "l-rm-checkpoint",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-rm-theory-staff",
+      "l-rm-theory-24"
+    ]
+  },
+  {
+    "id": "assess-t3-checkpoint",
+    "scope": "tier",
+    "tier": 3,
+    "lessonId": "l-ss-checkpoint",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-ss-theory",
+      "l-pf-eighths"
+    ]
+  },
+  {
+    "id": "assess-t4-checkpoint",
+    "scope": "tier",
+    "tier": 4,
+    "lessonId": "l-mt-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-bt-theory",
+      "l-ofv-theory",
+      "l-wt-theory"
+    ]
+  },
+  {
+    "id": "assess-t5-checkpoint",
+    "scope": "tier",
+    "tier": 5,
+    "lessonId": "l-ag-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-cs-theory",
+      "l-sy-theory",
+      "l-sy-cadence"
+    ]
   }
 ]

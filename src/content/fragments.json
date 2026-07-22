@@ -3,19 +3,94 @@
     "id": "frag-quarter-pulse",
     "sourceSongId": "ode-to-joy",
     "label": "Steady quarter-note pulse",
-    "skillTags": ["rhythm-steady-pulse"],
+    "skillTags": [
+      "rhythm-steady-pulse"
+    ],
     "chart": {
-      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
-      "chordSymbols": [{ "bar": 0, "beat": 0, "symbol": "C" }],
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
       "notes": [
-        { "id": "p0", "pitches": [60], "startBeat": 0, "durationBeats": 1, "hand": "right" },
-        { "id": "p1", "pitches": [60], "startBeat": 1, "durationBeats": 1, "hand": "right" },
-        { "id": "p2", "pitches": [60], "startBeat": 2, "durationBeats": 1, "hand": "right" },
-        { "id": "p3", "pitches": [60], "startBeat": 3, "durationBeats": 1, "hand": "right" },
-        { "id": "p4", "pitches": [60], "startBeat": 4, "durationBeats": 1, "hand": "right" },
-        { "id": "p5", "pitches": [60], "startBeat": 5, "durationBeats": 1, "hand": "right" },
-        { "id": "p6", "pitches": [60], "startBeat": 6, "durationBeats": 1, "hand": "right" },
-        { "id": "p7", "pitches": [60], "startBeat": 7, "durationBeats": 1, "hand": "right" }
+        {
+          "id": "p0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p1",
+          "pitches": [
+            60
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p2",
+          "pitches": [
+            60
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p3",
+          "pitches": [
+            60
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p4",
+          "pitches": [
+            60
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p5",
+          "pitches": [
+            60
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p6",
+          "pitches": [
+            60
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "p7",
+          "pitches": [
+            60
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        }
       ]
     }
   },
@@ -23,31 +98,173 @@
     "id": "frag-ode-bars-1-4",
     "sourceSongId": "ode-to-joy",
     "label": "Ode to Joy — first phrase (bars 1–4)",
-    "skillTags": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
     "chart": {
-      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
       "chordSymbols": [
-        { "bar": 0, "beat": 0, "symbol": "C" },
-        { "bar": 1, "beat": 0, "symbol": "G" },
-        { "bar": 2, "beat": 0, "symbol": "C" },
-        { "bar": 3, "beat": 0, "symbol": "G7" }
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "G"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        }
       ],
       "notes": [
-        { "id": "f1e0", "pitches": [64], "startBeat": 0, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e1", "pitches": [64], "startBeat": 1, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e2", "pitches": [65], "startBeat": 2, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e3", "pitches": [67], "startBeat": 3, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e4", "pitches": [67], "startBeat": 4, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e5", "pitches": [65], "startBeat": 5, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e6", "pitches": [64], "startBeat": 6, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e7", "pitches": [62], "startBeat": 7, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e8", "pitches": [60], "startBeat": 8, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e9", "pitches": [60], "startBeat": 9, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e10", "pitches": [62], "startBeat": 10, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e11", "pitches": [64], "startBeat": 11, "durationBeats": 1, "hand": "right" },
-        { "id": "f1e12", "pitches": [64], "startBeat": 12, "durationBeats": 1.5, "hand": "right" },
-        { "id": "f1e13", "pitches": [62], "startBeat": 13.5, "durationBeats": 0.5, "hand": "right" },
-        { "id": "f1e14", "pitches": [62], "startBeat": 14, "durationBeats": 2, "hand": "right" }
+        {
+          "id": "f1e0",
+          "pitches": [
+            64
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e1",
+          "pitches": [
+            64
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e2",
+          "pitches": [
+            65
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e5",
+          "pitches": [
+            65
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e6",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e7",
+          "pitches": [
+            62
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e9",
+          "pitches": [
+            60
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e10",
+          "pitches": [
+            62
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e11",
+          "pitches": [
+            64
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f1e12",
+          "pitches": [
+            64
+          ],
+          "startBeat": 12,
+          "durationBeats": 1.5,
+          "hand": "right"
+        },
+        {
+          "id": "f1e13",
+          "pitches": [
+            62
+          ],
+          "startBeat": 13.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "f1e14",
+          "pitches": [
+            62
+          ],
+          "startBeat": 14,
+          "durationBeats": 2,
+          "hand": "right"
+        }
       ]
     }
   },
@@ -55,31 +272,2377 @@
     "id": "frag-ode-bars-5-8",
     "sourceSongId": "ode-to-joy",
     "label": "Ode to Joy — second phrase (bars 5–8)",
-    "skillTags": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
     "chart": {
-      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
       "chordSymbols": [
-        { "bar": 0, "beat": 0, "symbol": "C" },
-        { "bar": 1, "beat": 0, "symbol": "G" },
-        { "bar": 2, "beat": 0, "symbol": "C" },
-        { "bar": 3, "beat": 0, "symbol": "G7" }
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "G"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        }
       ],
       "notes": [
-        { "id": "f2e0", "pitches": [64], "startBeat": 0, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e1", "pitches": [64], "startBeat": 1, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e2", "pitches": [65], "startBeat": 2, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e3", "pitches": [67], "startBeat": 3, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e4", "pitches": [67], "startBeat": 4, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e5", "pitches": [65], "startBeat": 5, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e6", "pitches": [64], "startBeat": 6, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e7", "pitches": [62], "startBeat": 7, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e8", "pitches": [60], "startBeat": 8, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e9", "pitches": [60], "startBeat": 9, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e10", "pitches": [62], "startBeat": 10, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e11", "pitches": [64], "startBeat": 11, "durationBeats": 1, "hand": "right" },
-        { "id": "f2e12", "pitches": [62], "startBeat": 12, "durationBeats": 1.5, "hand": "right" },
-        { "id": "f2e13", "pitches": [60], "startBeat": 13.5, "durationBeats": 0.5, "hand": "right" },
-        { "id": "f2e14", "pitches": [60], "startBeat": 14, "durationBeats": 2, "hand": "right" }
+        {
+          "id": "f2e0",
+          "pitches": [
+            64
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e1",
+          "pitches": [
+            64
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e2",
+          "pitches": [
+            65
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e5",
+          "pitches": [
+            65
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e6",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e7",
+          "pitches": [
+            62
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e9",
+          "pitches": [
+            60
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e10",
+          "pitches": [
+            62
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e11",
+          "pitches": [
+            64
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "f2e12",
+          "pitches": [
+            62
+          ],
+          "startBeat": 12,
+          "durationBeats": 1.5,
+          "hand": "right"
+        },
+        {
+          "id": "f2e13",
+          "pitches": [
+            60
+          ],
+          "startBeat": 13.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "f2e14",
+          "pitches": [
+            60
+          ],
+          "startBeat": 14,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-lh-roots-c",
+    "sourceSongId": "when-the-saints",
+    "label": "Left hand: C roots on the downbeat",
+    "skillTags": [
+      "lh-root-notes"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "lrc0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrc1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrc2",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrc3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-lh-roots-cfg",
+    "sourceSongId": "when-the-saints",
+    "label": "Left hand: roots change C → F → G7 → C",
+    "skillTags": [
+      "lh-root-notes"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "lrf0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrf1",
+          "pitches": [
+            53
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrf2",
+          "pitches": [
+            55
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lrf3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-melody-1-8",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints — melody, first half",
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 7,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "sm0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm1",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm2",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "sm4",
+          "pitches": [
+            60
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm5",
+          "pitches": [
+            64
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm6",
+          "pitches": [
+            65
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm7",
+          "pitches": [
+            67
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "sm8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 17,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm9",
+          "pitches": [
+            64
+          ],
+          "startBeat": 18,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm10",
+          "pitches": [
+            65
+          ],
+          "startBeat": 19,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sm11",
+          "pitches": [
+            67
+          ],
+          "startBeat": 20,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sm12",
+          "pitches": [
+            64
+          ],
+          "startBeat": 22,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sm13",
+          "pitches": [
+            60
+          ],
+          "startBeat": 24,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sm14",
+          "pitches": [
+            64
+          ],
+          "startBeat": 26,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sm15",
+          "pitches": [
+            62
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-hands-9-16",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints — both hands, second half",
+    "skillTags": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 6,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 7,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "sh0",
+          "pitches": [
+            64
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh1",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh2",
+          "pitches": [
+            62
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh3",
+          "pitches": [
+            60
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh4",
+          "pitches": [
+            60
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh5",
+          "pitches": [
+            64
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh6",
+          "pitches": [
+            67
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh7",
+          "pitches": [
+            65
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "sh8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 17,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh9",
+          "pitches": [
+            64
+          ],
+          "startBeat": 18,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh10",
+          "pitches": [
+            65
+          ],
+          "startBeat": 19,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sh11",
+          "pitches": [
+            67
+          ],
+          "startBeat": 20,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh12",
+          "pitches": [
+            64
+          ],
+          "startBeat": 22,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh13",
+          "pitches": [
+            60
+          ],
+          "startBeat": 24,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh14",
+          "pitches": [
+            62
+          ],
+          "startBeat": 26,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sh15",
+          "pitches": [
+            60
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "shl0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl2",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl3",
+          "pitches": [
+            53
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl4",
+          "pitches": [
+            48
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl5",
+          "pitches": [
+            48
+          ],
+          "startBeat": 20,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl6",
+          "pitches": [
+            55
+          ],
+          "startBeat": 24,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "shl7",
+          "pitches": [
+            48
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pentascale-c",
+    "sourceSongId": "oh-susanna",
+    "label": "C pentascale, up and down",
+    "skillTags": [
+      "mech-pentascale-cfg"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "pc0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc3",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc5",
+          "pitches": [
+            65
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc6",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc7",
+          "pitches": [
+            62
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pc8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pentascale-f",
+    "sourceSongId": "oh-susanna",
+    "label": "F pentascale, up and down",
+    "skillTags": [
+      "mech-pentascale-cfg"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "F"
+        }
+      ],
+      "notes": [
+        {
+          "id": "pf0",
+          "pitches": [
+            65
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf1",
+          "pitches": [
+            67
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf2",
+          "pitches": [
+            69
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf3",
+          "pitches": [
+            70
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf4",
+          "pitches": [
+            72
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf5",
+          "pitches": [
+            70
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf6",
+          "pitches": [
+            69
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf7",
+          "pitches": [
+            67
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pf8",
+          "pitches": [
+            65
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pentascale-g",
+    "sourceSongId": "oh-susanna",
+    "label": "G pentascale, up and down",
+    "skillTags": [
+      "mech-pentascale-cfg"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "G"
+        }
+      ],
+      "notes": [
+        {
+          "id": "pg0",
+          "pitches": [
+            67
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg1",
+          "pitches": [
+            69
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg2",
+          "pitches": [
+            71
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg3",
+          "pitches": [
+            72
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg4",
+          "pitches": [
+            74
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg5",
+          "pitches": [
+            72
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg6",
+          "pitches": [
+            71
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg7",
+          "pitches": [
+            69
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "pg8",
+          "pitches": [
+            67
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pentascale-shift",
+    "sourceSongId": "oh-susanna",
+    "label": "Position shift: C → F → G",
+    "skillTags": [
+      "mech-pentascale-cfg"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "G"
+        }
+      ],
+      "notes": [
+        {
+          "id": "ps0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps3",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps5",
+          "pitches": [
+            65
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps6",
+          "pitches": [
+            67
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps7",
+          "pitches": [
+            69
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps8",
+          "pitches": [
+            70
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps9",
+          "pitches": [
+            72
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps10",
+          "pitches": [
+            67
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps11",
+          "pitches": [
+            69
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps12",
+          "pitches": [
+            71
+          ],
+          "startBeat": 12,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps13",
+          "pitches": [
+            72
+          ],
+          "startBeat": 13,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "ps14",
+          "pitches": [
+            74
+          ],
+          "startBeat": 14,
+          "durationBeats": 1,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-susanna-verse",
+    "sourceSongId": "oh-susanna",
+    "label": "Susanna — verse phrase",
+    "skillTags": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "sv0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 3,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "sv1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 3.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "sv2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv5",
+          "pitches": [
+            69
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv6",
+          "pitches": [
+            67
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv7",
+          "pitches": [
+            64
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv9",
+          "pitches": [
+            62
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv10",
+          "pitches": [
+            64
+          ],
+          "startBeat": 12,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv11",
+          "pitches": [
+            64
+          ],
+          "startBeat": 13,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv12",
+          "pitches": [
+            62
+          ],
+          "startBeat": 14,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv13",
+          "pitches": [
+            60
+          ],
+          "startBeat": 15,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "sv14",
+          "pitches": [
+            62
+          ],
+          "startBeat": 16,
+          "durationBeats": 3,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-change-drill-cfg",
+    "sourceSongId": "shell-be-comin",
+    "label": "Change drill: C → F → C → G7 → C",
+    "skillTags": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cd0",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cd1",
+          "pitches": [
+            65,
+            69,
+            72
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cd2",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cd3",
+          "pitches": [
+            65,
+            67,
+            71
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cd4",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-change-drill-varied",
+    "sourceSongId": "shell-be-comin",
+    "label": "Change drill, shuffled order",
+    "skillTags": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cv0",
+          "pitches": [
+            65,
+            69,
+            72
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cv1",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cv2",
+          "pitches": [
+            65,
+            67,
+            71
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cv3",
+          "pitches": [
+            65,
+            69,
+            72
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cv4",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-mountain-triads",
+    "sourceSongId": "shell-be-comin",
+    "label": "Mountain — triad bed, first bars",
+    "skillTags": [
+      "chord-major-triad",
+      "harmony-i-iv-v"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "mt0",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 0,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt1",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 2,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt2",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt3",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt4",
+          "pitches": [
+            65,
+            67,
+            71
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt5",
+          "pitches": [
+            65,
+            67,
+            71
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt6",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 12,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mt7",
+          "pitches": [
+            64,
+            67,
+            72
+          ],
+          "startBeat": 14,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "mtl0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "mtl1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "mtl2",
+          "pitches": [
+            55
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "mtl3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-c-scale-rh",
+    "sourceSongId": "amazing-grace",
+    "label": "C major scale, one octave up and down",
+    "skillTags": [
+      "scale-c-major"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cs0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs3",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs4",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs5",
+          "pitches": [
+            69
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs6",
+          "pitches": [
+            71
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs7",
+          "pitches": [
+            72
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs8",
+          "pitches": [
+            71
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs9",
+          "pitches": [
+            69
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs10",
+          "pitches": [
+            67
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs11",
+          "pitches": [
+            65
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs12",
+          "pitches": [
+            64
+          ],
+          "startBeat": 12,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs13",
+          "pitches": [
+            62
+          ],
+          "startBeat": 13,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cs14",
+          "pitches": [
+            60
+          ],
+          "startBeat": 14,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-c-scale-fill",
+    "sourceSongId": "amazing-grace",
+    "label": "Scale-tone fill over C",
+    "skillTags": [
+      "scale-c-major"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cf0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf4",
+          "pitches": [
+            69
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf5",
+          "pitches": [
+            67
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf6",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "cf7",
+          "pitches": [
+            62
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf8",
+          "pitches": [
+            64
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "cf9",
+          "pitches": [
+            60
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-grace-melody-1-8",
+    "sourceSongId": "amazing-grace",
+    "label": "Amazing Grace — melody, first half",
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-time-sig-34"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 3,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 6,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "gm0",
+          "pitches": [
+            55
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm1",
+          "pitches": [
+            60
+          ],
+          "startBeat": 3,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm3",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm4",
+          "pitches": [
+            62
+          ],
+          "startBeat": 8,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm5",
+          "pitches": [
+            60
+          ],
+          "startBeat": 9,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm6",
+          "pitches": [
+            57
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm7",
+          "pitches": [
+            55
+          ],
+          "startBeat": 12,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm8",
+          "pitches": [
+            55
+          ],
+          "startBeat": 14,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm9",
+          "pitches": [
+            60
+          ],
+          "startBeat": 15,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm10",
+          "pitches": [
+            64
+          ],
+          "startBeat": 17,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm11",
+          "pitches": [
+            64
+          ],
+          "startBeat": 18,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "gm12",
+          "pitches": [
+            62
+          ],
+          "startBeat": 20,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "gm13",
+          "pitches": [
+            67
+          ],
+          "startBeat": 21,
+          "durationBeats": 5,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-grace-lh",
+    "sourceSongId": "amazing-grace",
+    "label": "Amazing Grace — left hand waltz roots",
+    "skillTags": [
+      "lh-root-notes",
+      "rhythm-time-sig-34"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 3,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 6,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "gl0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 3,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 6,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl2",
+          "pitches": [
+            53
+          ],
+          "startBeat": 9,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl4",
+          "pitches": [
+            48
+          ],
+          "startBeat": 15,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl5",
+          "pitches": [
+            55
+          ],
+          "startBeat": 18,
+          "durationBeats": 3,
+          "hand": "left"
+        },
+        {
+          "id": "gl6",
+          "pitches": [
+            55
+          ],
+          "startBeat": 21,
+          "durationBeats": 3,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pinetops-groove-cell",
+    "sourceSongId": "pinetops-boogie",
+    "label": "Pinetop's groove — one repeating cell",
+    "skillTags": [
+      "rhythm-steady-pulse"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "pt0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt1",
+          "pitches": [
+            55
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt2",
+          "pitches": [
+            60
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt3",
+          "pitches": [
+            55
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt4",
+          "pitches": [
+            60
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt5",
+          "pitches": [
+            55
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt6",
+          "pitches": [
+            60
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "left"
+        },
+        {
+          "id": "pt7",
+          "pitches": [
+            55
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "left"
+        }
       ]
     }
   }

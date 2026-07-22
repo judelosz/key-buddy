@@ -10,13 +10,29 @@
     "tier": 1,
     "key": "C",
     "tempoTargetBPM": 96,
-    "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
     "feel": "straight",
     "requiredSkills": [],
-    "taughtSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse", "rhythm-time-sig-44"],
-    "arrangementLevels": ["simplified"],
-    "chartIds": ["ode-to-joy--simplified"],
-    "fragmentIds": ["frag-quarter-pulse", "frag-ode-bars-1-4", "frag-ode-bars-5-8"]
+    "taughtSkills": [
+      "geo-note-names",
+      "mech-five-finger-c",
+      "rhythm-steady-pulse",
+      "rhythm-time-sig-44"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "ode-to-joy--simplified"
+    ],
+    "fragmentIds": [
+      "frag-quarter-pulse",
+      "frag-ode-bars-1-4",
+      "frag-ode-bars-5-8"
+    ]
   },
   {
     "id": "12-bar-blues-c",
@@ -28,12 +44,208 @@
     "tier": 6,
     "key": "C",
     "tempoTargetBPM": 84,
-    "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
     "feel": "shuffle",
-    "requiredSkills": ["mech-five-finger-c", "rhythm-steady-pulse"],
-    "taughtSkills": ["harmony-12bar-form", "chord-dom7", "chord-major-triad", "harmony-i-iv-v", "lh-root-notes"],
-    "arrangementLevels": ["simplified", "full"],
-    "chartIds": ["12-bar-blues-c--simplified", "12-bar-blues-c--full"],
+    "requiredSkills": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "taughtSkills": [
+      "harmony-12bar-form",
+      "chord-dom7",
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified",
+      "full"
+    ],
+    "chartIds": [
+      "12-bar-blues-c--simplified",
+      "12-bar-blues-c--full"
+    ],
     "fragmentIds": []
+  },
+  {
+    "id": "when-the-saints",
+    "title": "When the Saints Go Marching In",
+    "source": "Traditional",
+    "publicDomain": true,
+    "licenseNote": "Traditional; arrangement is original to this app.",
+    "genre": "foundation",
+    "tier": 2,
+    "key": "C",
+    "tempoTargetBPM": 96,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "straight",
+    "requiredSkills": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "taughtSkills": [
+      "lh-root-notes",
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "when-the-saints--simplified"
+    ],
+    "fragmentIds": [
+      "frag-saints-melody-1-8",
+      "frag-saints-hands-9-16",
+      "frag-lh-roots-c",
+      "frag-lh-roots-cfg"
+    ]
+  },
+  {
+    "id": "oh-susanna",
+    "title": "Oh! Susanna",
+    "source": "Stephen Foster",
+    "year": 1848,
+    "publicDomain": true,
+    "licenseNote": "Composition public domain; arrangement is original to this app.",
+    "genre": "country",
+    "tier": 3,
+    "key": "C",
+    "tempoTargetBPM": 92,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "straight",
+    "requiredSkills": [
+      "lh-root-notes"
+    ],
+    "taughtSkills": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "oh-susanna--simplified"
+    ],
+    "fragmentIds": [
+      "frag-susanna-verse",
+      "frag-pentascale-c",
+      "frag-pentascale-f",
+      "frag-pentascale-g",
+      "frag-pentascale-shift"
+    ]
+  },
+  {
+    "id": "shell-be-comin",
+    "title": "She'll Be Comin' 'Round the Mountain",
+    "source": "Traditional",
+    "publicDomain": true,
+    "licenseNote": "Traditional; arrangement is original to this app.",
+    "genre": "country",
+    "tier": 4,
+    "key": "C",
+    "tempoTargetBPM": 100,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "straight",
+    "requiredSkills": [
+      "mech-pentascale-cfg"
+    ],
+    "taughtSkills": [
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified",
+      "full"
+    ],
+    "chartIds": [
+      "shell-be-comin--simplified",
+      "shell-be-comin--full"
+    ],
+    "fragmentIds": [
+      "frag-mountain-triads",
+      "frag-change-drill-cfg",
+      "frag-change-drill-varied"
+    ]
+  },
+  {
+    "id": "amazing-grace",
+    "title": "Amazing Grace",
+    "source": "Traditional / John Newton",
+    "publicDomain": true,
+    "licenseNote": "Composition public domain; arrangement (in C) is original to this app.",
+    "genre": "gospel",
+    "tier": 5,
+    "key": "C",
+    "tempoTargetBPM": 90,
+    "timeSignature": {
+      "beatsPerBar": 3,
+      "beatUnit": 4
+    },
+    "feel": "waltz",
+    "requiredSkills": [
+      "chord-major-triad",
+      "harmony-i-iv-v"
+    ],
+    "taughtSkills": [
+      "rep-melody-accompaniment",
+      "scale-c-major",
+      "rhythm-time-sig-34",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "amazing-grace--simplified"
+    ],
+    "fragmentIds": [
+      "frag-grace-melody-1-8",
+      "frag-grace-lh",
+      "frag-c-scale-rh",
+      "frag-c-scale-fill"
+    ]
+  },
+  {
+    "id": "pinetops-boogie",
+    "title": "Pinetop's Boogie Woogie",
+    "source": "Pinetop Smith",
+    "year": 1928,
+    "publicDomain": true,
+    "licenseNote": "Composition public domain; fragments are original simplifications.",
+    "genre": "blues",
+    "tier": 24,
+    "key": "C",
+    "tempoTargetBPM": 140,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "shuffle",
+    "requiredSkills": [
+      "harmony-12bar-form",
+      "chord-dom7",
+      "rhythm-swing-feel"
+    ],
+    "taughtSkills": [],
+    "arrangementLevels": [],
+    "chartIds": [],
+    "fragmentIds": [
+      "frag-pinetops-groove-cell"
+    ]
   }
 ]

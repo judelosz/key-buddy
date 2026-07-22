@@ -34,9 +34,11 @@ export function Missions() {
         {next ? (
           <div className="relative">
             <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
-              {next.module.title} ·{' '}
-              {moduleProgressFor(next.module.id)?.completedLessons ?? 0}/
-              {next.module.lessonIds.length}
+              {next.review
+                ? 'Spaced review — bring back a skill'
+                : `${next.module.title} · ${
+                    moduleProgressFor(next.module.id)?.completedLessons ?? 0
+                  }/${next.module.lessonIds.length}`}
             </p>
             <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">
               {next.lesson.title}
@@ -57,14 +59,14 @@ export function Missions() {
         ) : (
           <div className="relative">
             <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
-              Path clear
+              All caught up
             </p>
             <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">
-              You&rsquo;ve finished every authored mission!
+              Nothing due right now.
             </h2>
             <p className="mt-2 max-w-md text-sm text-ink-soft">
-              More tiers are on the way. Meanwhile, Free Play keeps every take counting toward your
-              skills.
+              Reviews come due as skills age — check back tomorrow to keep them fresh. Meanwhile,
+              Free Play keeps every take counting toward your skills.
             </p>
             <button
               type="button"

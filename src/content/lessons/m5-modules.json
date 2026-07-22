@@ -1,0 +1,360 @@
+[
+  {
+    "id": "l-cs-theory",
+    "moduleId": "m5-c-scale",
+    "order": 0,
+    "title": "Degrees: the number map",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "scale-c-major"
+    ],
+    "prompt": "Seven notes, numbered 1-7. Numbers beat letters — they transpose.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-scale-degrees",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-cs-play",
+    "moduleId": "m5-c-scale",
+    "order": 1,
+    "title": "One octave, thumb tuck",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "scale-c-major"
+    ],
+    "prompt": "The thumb slips under after finger 3 — slow is smooth, smooth is fast.",
+    "successRule": "Finish the scale with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-c-scale-rh"
+  },
+  {
+    "id": "l-cs-fill",
+    "moduleId": "m5-c-scale",
+    "order": 2,
+    "title": "Make it musical",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "scale-c-major"
+    ],
+    "prompt": "Scale tones become a fill — this is why scales exist.",
+    "successRule": "Two stars on the fill.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-c-scale-fill"
+  },
+  {
+    "id": "l-cs-checkpoint",
+    "moduleId": "m5-c-scale",
+    "order": 3,
+    "title": "Checkpoint: the even scale",
+    "mode": "independent",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "scale-c-major"
+    ],
+    "prompt": "Up and down, even as a metronome, no falling notes.",
+    "successRule": "Two stars with no visual help.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-c-scale-rh"
+  },
+  {
+    "id": "l-sy-theory",
+    "moduleId": "m5-chord-symbols",
+    "order": 0,
+    "title": "Read the symbols",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "theory-chord-symbols"
+    ],
+    "prompt": "C, F, G, G7 above the staff tell you the harmony at a glance.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-chord-symbols",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-sy-ear",
+    "moduleId": "m5-chord-symbols",
+    "order": 1,
+    "title": "Name the color",
+    "mode": "supported",
+    "exerciseType": "chord-ear",
+    "skillIds": [
+      "theory-chord-symbols"
+    ],
+    "prompt": "Major, minor, or that buzzing dominant seventh.",
+    "successRule": "Get 5 of 6 right.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "qualities": [
+        "major",
+        "minor",
+        "dom7"
+      ],
+      "roots": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-sy-cadence",
+    "moduleId": "m5-chord-symbols",
+    "order": 2,
+    "title": "Finished or asking?",
+    "mode": "supported",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "ear-phrase-ending"
+    ],
+    "prompt": "Phrases end at home (finished) or on the dominant (asking a question).",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-cadence",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-sy-checkpoint",
+    "moduleId": "m5-chord-symbols",
+    "order": 3,
+    "title": "Checkpoint: symbols cold",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "theory-chord-symbols"
+    ],
+    "prompt": "Symbols to sounds to spellings — no hints.",
+    "successRule": "Answer at least 85% correctly.",
+    "passCriteria": {
+      "minScorePct": 0.85
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-chord-symbols",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-ag-watch",
+    "moduleId": "m5-amazing-grace",
+    "order": 0,
+    "title": "Hear Amazing Grace in 3/4",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "The whole tier converges here: waltz time, scale tones, and both hands.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "amazing-grace--simplified",
+    "generatorParams": {
+      "promptText": "Count ONE-two-three under the melody. The bass plays only on ONE."
+    }
+  },
+  {
+    "id": "l-ag-melody",
+    "moduleId": "m5-amazing-grace",
+    "order": 1,
+    "title": "Melody, first half",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-five-finger-c",
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "The melody climbs from below middle C — reach down with confidence.",
+    "successRule": "Finish the phrase with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-grace-melody-1-8"
+  },
+  {
+    "id": "l-ag-tap34",
+    "moduleId": "m5-amazing-grace",
+    "order": 2,
+    "title": "The waltz pulse, again",
+    "mode": "supported",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "Re-enter 3/4 before you play in it — old skill, new song.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [
+      "metronome-count-in"
+    ],
+    "generatorParams": {
+      "beats": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "bpm": 90,
+      "countInBeats": 3,
+      "beatsPerBar": 3
+    }
+  },
+  {
+    "id": "l-ag-lh",
+    "moduleId": "m5-amazing-grace",
+    "order": 3,
+    "title": "The waltz left hand",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "One dotted-half root per bar — a heartbeat in three.",
+    "successRule": "Finish the pattern with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-grace-lh"
+  },
+  {
+    "id": "l-ag-full",
+    "moduleId": "m5-amazing-grace",
+    "order": 4,
+    "title": "The whole hymn",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "rep-melody-accompaniment",
+      "scale-c-major"
+    ],
+    "prompt": "Melody and accompaniment together, at your tempo.",
+    "successRule": "Earn at least one star.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "amazing-grace--simplified"
+  },
+  {
+    "id": "l-ag-gate-quiz",
+    "moduleId": "m5-amazing-grace",
+    "order": 5,
+    "title": "Tier 5 check: degrees, symbols, cadences",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "scale-c-major",
+      "theory-chord-symbols",
+      "ear-phrase-ending",
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "The Tier 5 knowledge check — everything the arc taught.",
+    "successRule": "Answer at least 80% correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-tier5-checkpoint",
+    "generatorParams": {
+      "count": 6
+    }
+  },
+  {
+    "id": "l-ag-boss",
+    "moduleId": "m5-amazing-grace",
+    "order": 6,
+    "title": "Performance: Amazing Grace",
+    "mode": "performance",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "rep-melody-accompaniment",
+      "scale-c-major",
+      "rhythm-time-sig-34"
+    ],
+    "prompt": "The Tier 5 boss: the full hymn at 90 BPM, unassisted, in waltz time.",
+    "successRule": "Earn the mastery star: three stars at tempo, no assists.",
+    "passCriteria": {
+      "requiresMasteryStar": true
+    },
+    "assistOptions": [],
+    "chartId": "amazing-grace--simplified"
+  },
+  {
+    "id": "l-ag-stretch",
+    "moduleId": "m5-amazing-grace",
+    "order": 7,
+    "title": "Boss Challenge: Pinetop's pulse",
+    "mode": "scouting",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "rhythm-steady-pulse"
+    ],
+    "prompt": "Here's where today's steady pulse lives in a much bigger piece — Pinetop's Boogie Woogie, nineteen tiers up. Just explore.",
+    "successRule": "No stars, no failure — just keep the groove for two bars.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-pinetops-groove-cell",
+    "stretchBoss": true
+  }
+]

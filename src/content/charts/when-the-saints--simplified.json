@@ -1,0 +1,408 @@
+{
+  "id": "when-the-saints--simplified",
+  "songId": "when-the-saints",
+  "arrangementLevel": "simplified",
+  "timeSignature": {
+    "beatsPerBar": 4,
+    "beatUnit": 4
+  },
+  "chordSymbols": [
+    {
+      "bar": 0,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 7,
+      "beat": 0,
+      "symbol": "G7"
+    },
+    {
+      "bar": 8,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 11,
+      "beat": 0,
+      "symbol": "F"
+    },
+    {
+      "bar": 12,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 14,
+      "beat": 0,
+      "symbol": "G7"
+    },
+    {
+      "bar": 15,
+      "beat": 0,
+      "symbol": "C"
+    }
+  ],
+  "notes": [
+    {
+      "id": "sr0",
+      "pitches": [
+        60
+      ],
+      "startBeat": 1,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr1",
+      "pitches": [
+        64
+      ],
+      "startBeat": 2,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr2",
+      "pitches": [
+        65
+      ],
+      "startBeat": 3,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr3",
+      "pitches": [
+        67
+      ],
+      "startBeat": 4,
+      "durationBeats": 4,
+      "hand": "right"
+    },
+    {
+      "id": "sr4",
+      "pitches": [
+        60
+      ],
+      "startBeat": 9,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr5",
+      "pitches": [
+        64
+      ],
+      "startBeat": 10,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr6",
+      "pitches": [
+        65
+      ],
+      "startBeat": 11,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr7",
+      "pitches": [
+        67
+      ],
+      "startBeat": 12,
+      "durationBeats": 4,
+      "hand": "right"
+    },
+    {
+      "id": "sr8",
+      "pitches": [
+        60
+      ],
+      "startBeat": 17,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr9",
+      "pitches": [
+        64
+      ],
+      "startBeat": 18,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr10",
+      "pitches": [
+        65
+      ],
+      "startBeat": 19,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr11",
+      "pitches": [
+        67
+      ],
+      "startBeat": 20,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr12",
+      "pitches": [
+        64
+      ],
+      "startBeat": 22,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr13",
+      "pitches": [
+        60
+      ],
+      "startBeat": 24,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr14",
+      "pitches": [
+        64
+      ],
+      "startBeat": 26,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr15",
+      "pitches": [
+        62
+      ],
+      "startBeat": 28,
+      "durationBeats": 4,
+      "hand": "right"
+    },
+    {
+      "id": "sr16",
+      "pitches": [
+        64
+      ],
+      "startBeat": 33,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr17",
+      "pitches": [
+        64
+      ],
+      "startBeat": 34,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr18",
+      "pitches": [
+        62
+      ],
+      "startBeat": 35,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr19",
+      "pitches": [
+        60
+      ],
+      "startBeat": 36,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr20",
+      "pitches": [
+        60
+      ],
+      "startBeat": 38,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr21",
+      "pitches": [
+        64
+      ],
+      "startBeat": 40,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr22",
+      "pitches": [
+        67
+      ],
+      "startBeat": 42,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr23",
+      "pitches": [
+        65
+      ],
+      "startBeat": 44,
+      "durationBeats": 4,
+      "hand": "right"
+    },
+    {
+      "id": "sr24",
+      "pitches": [
+        60
+      ],
+      "startBeat": 49,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr25",
+      "pitches": [
+        64
+      ],
+      "startBeat": 50,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr26",
+      "pitches": [
+        65
+      ],
+      "startBeat": 51,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "sr27",
+      "pitches": [
+        67
+      ],
+      "startBeat": 52,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr28",
+      "pitches": [
+        64
+      ],
+      "startBeat": 54,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr29",
+      "pitches": [
+        60
+      ],
+      "startBeat": 56,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr30",
+      "pitches": [
+        62
+      ],
+      "startBeat": 58,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "sr31",
+      "pitches": [
+        60
+      ],
+      "startBeat": 60,
+      "durationBeats": 4,
+      "hand": "right"
+    },
+    {
+      "id": "sl0",
+      "pitches": [
+        48
+      ],
+      "startBeat": 32,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl1",
+      "pitches": [
+        48
+      ],
+      "startBeat": 36,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl2",
+      "pitches": [
+        48
+      ],
+      "startBeat": 40,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl3",
+      "pitches": [
+        53
+      ],
+      "startBeat": 44,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl4",
+      "pitches": [
+        48
+      ],
+      "startBeat": 48,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl5",
+      "pitches": [
+        48
+      ],
+      "startBeat": 52,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl6",
+      "pitches": [
+        55
+      ],
+      "startBeat": 56,
+      "durationBeats": 4,
+      "hand": "left"
+    },
+    {
+      "id": "sl7",
+      "pitches": [
+        48
+      ],
+      "startBeat": 60,
+      "durationBeats": 4,
+      "hand": "left"
+    }
+  ]
+}

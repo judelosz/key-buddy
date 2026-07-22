@@ -1,0 +1,376 @@
+[
+  {
+    "id": "l-lh-listen",
+    "moduleId": "m2-left-hand",
+    "order": 0,
+    "title": "Hear the left hand arrive",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "The Saints — listen for the bass notes landing on the downbeats in the second half.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "when-the-saints--simplified",
+    "generatorParams": {
+      "promptText": "The left hand plays one anchor note per bar — right on beat 1."
+    }
+  },
+  {
+    "id": "l-lh-bed",
+    "moduleId": "m2-left-hand",
+    "order": 1,
+    "title": "Anchor the downbeat",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "One C in the bass, every bar, exactly on beat 1. Let it ring.",
+    "successRule": "Finish the pattern with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-lh-roots-c"
+  },
+  {
+    "id": "l-lh-low-notes",
+    "moduleId": "m2-left-hand",
+    "order": 2,
+    "title": "Find the bass keys",
+    "mode": "supported",
+    "exerciseType": "note-id",
+    "skillIds": [
+      "geo-note-names"
+    ],
+    "prompt": "C, F, and G live below middle C too — the map repeats everywhere.",
+    "successRule": "Play 5 of 6 asked-for keys correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "noteNames": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-lh-changes",
+    "moduleId": "m2-left-hand",
+    "order": 3,
+    "title": "Roots that move",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "C, then F, then G — the bass tells the harmony where to go.",
+    "successRule": "Two stars on the changing roots.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-lh-roots-cfg"
+  },
+  {
+    "id": "l-lh-combine",
+    "moduleId": "m2-left-hand",
+    "order": 4,
+    "title": "Both hands, second half",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "prompt": "Melody on top, anchors underneath — the Saints second half, hands together.",
+    "successRule": "Two stars, hands together.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-hands-9-16"
+  },
+  {
+    "id": "l-lh-checkpoint",
+    "moduleId": "m2-left-hand",
+    "order": 5,
+    "title": "Checkpoint: moving roots, no help",
+    "mode": "independent",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "The changing roots again — no falling notes, chord symbols only.",
+    "successRule": "Two stars with no visual help.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-lh-roots-cfg"
+  },
+  {
+    "id": "l-rm-theory-staff",
+    "moduleId": "m2-reading-map",
+    "order": 0,
+    "title": "The staff points the way",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "notation-staff-direction"
+    ],
+    "prompt": "Notes climbing the staff climb the keyboard. Bar lines slice the beats.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-staff-direction",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-rm-ear",
+    "moduleId": "m2-reading-map",
+    "order": 1,
+    "title": "Same or different?",
+    "mode": "supported",
+    "exerciseType": "interval-ear",
+    "skillIds": [
+      "ear-pitch-direction"
+    ],
+    "prompt": "Two notes — trust your ears before your eyes.",
+    "successRule": "Get 5 of 6 right.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "variant": "same-different",
+      "count": 6
+    }
+  },
+  {
+    "id": "l-rm-theory-24",
+    "moduleId": "m2-reading-map",
+    "order": 2,
+    "title": "Two beats to a bar",
+    "mode": "supported",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "rhythm-time-sig-24"
+    ],
+    "prompt": "2/4 is a march: ONE-two, ONE-two. Half the bar of 4/4.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-time-sig-24",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-rm-tap-24",
+    "moduleId": "m2-reading-map",
+    "order": 3,
+    "title": "Tap a 2/4 march",
+    "mode": "supported",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-time-sig-24",
+      "rhythm-steady-pulse"
+    ],
+    "prompt": "Feel the accent land every TWO beats now, not every four.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [
+      "metronome-count-in"
+    ],
+    "generatorParams": {
+      "beats": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "bpm": 84,
+      "countInBeats": 2,
+      "beatsPerBar": 2
+    }
+  },
+  {
+    "id": "l-rm-checkpoint",
+    "moduleId": "m2-reading-map",
+    "order": 4,
+    "title": "Tier 2 check: reading and meter",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "notation-staff-direction",
+      "rhythm-time-sig-24",
+      "ear-pitch-direction"
+    ],
+    "prompt": "Staff direction, bar lines, and 2/4 vs 4/4 — the Tier 2 knowledge check.",
+    "successRule": "Answer at least 80% correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-tier2-checkpoint",
+    "generatorParams": {
+      "count": 6
+    }
+  },
+  {
+    "id": "l-st-watch",
+    "moduleId": "m2-saints",
+    "order": 0,
+    "title": "Watch the Saints march",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "Notice the pickup — the melody starts before the first full bar.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "when-the-saints--simplified",
+    "generatorParams": {
+      "promptText": "The tune starts on beat 2 — a pickup. Count the empty beat 1."
+    }
+  },
+  {
+    "id": "l-st-melody",
+    "moduleId": "m2-saints",
+    "order": 1,
+    "title": "Melody, first half",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
+    "prompt": "Just the right hand: the famous rising phrase, three times.",
+    "successRule": "Finish the phrase with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-melody-1-8"
+  },
+  {
+    "id": "l-st-hands",
+    "moduleId": "m2-saints",
+    "order": 2,
+    "title": "Hands together, second half",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "prompt": "The left hand anchors while the melody finishes the story.",
+    "successRule": "Finish the section with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-hands-9-16"
+  },
+  {
+    "id": "l-st-full",
+    "moduleId": "m2-saints",
+    "order": 3,
+    "title": "The whole song",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "prompt": "All sixteen bars. If a note slips, the next downbeat is your friend.",
+    "successRule": "Earn at least one star.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "when-the-saints--simplified"
+  },
+  {
+    "id": "l-st-vary",
+    "moduleId": "m2-saints",
+    "order": 4,
+    "title": "Start from the second half",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "prompt": "Entering mid-song proves the music lives in you, not on the screen.",
+    "successRule": "Two stars on the second half.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-saints-hands-9-16"
+  },
+  {
+    "id": "l-st-boss",
+    "moduleId": "m2-saints",
+    "order": 5,
+    "title": "Performance: When the Saints",
+    "mode": "performance",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "prompt": "Full tempo, both hands, no help. March it home.",
+    "successRule": "Earn the mastery star: three stars at 96 BPM, no assists.",
+    "passCriteria": {
+      "requiresMasteryStar": true
+    },
+    "assistOptions": [],
+    "chartId": "when-the-saints--simplified"
+  }
+]

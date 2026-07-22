@@ -3,7 +3,7 @@
  * recommended next action. The gameStore wraps these; the UI never computes
  * path logic itself.
  */
-import type { Tier } from '@/core/types';
+import type { SkillProgress, Tier } from '@/core/types';
 import type { CurriculumLesson, LessonProgress, Module } from './types';
 
 export interface CurriculumSource {
@@ -66,17 +66,25 @@ export function isModuleAvailable(
 export interface RecommendedLesson {
   module: Module;
   lesson: CurriculumLesson;
+  /** True when this is a spaced-review repeat, not new material. */
+  review?: boolean;
 }
 
 /**
  * The one dominant "Continue" action: the first incomplete lesson of the
- * first available, incomplete module at or below the learning tier. Null when
- * every authored module is done (path exhausted).
+ * first available, incomplete module at or below the learning tier.
+ *
+ * When every available lesson is done but the tier gate hasn't opened (XP
+ * band or delayed review still pending), fall back to the most-overdue
+ * completed lesson as spaced review — practicing toward the gate IS the path
+ * (doc 06 §3.5). Null only when nothing is due either.
  */
 export function nextRecommendedLesson(
   source: CurriculumSource,
   lessonProgressById: ReadonlyMap<string, LessonProgress>,
   learningTier: Tier,
+  skillProgressById?: ReadonlyMap<string, SkillProgress>,
+  nowMs?: number,
 ): RecommendedLesson | null {
   for (const module of source.modules) {
     if (!isModuleAvailable(module, source, lessonProgressById, learningTier)) continue;
@@ -85,5 +93,26 @@ export function nextRecommendedLesson(
     const lesson = source.getLesson(progress.nextLessonId);
     if (lesson) return { module, lesson };
   }
-  return null;
+
+  if (!skillProgressById || nowMs === undefined) return null;
+  let best: { rec: RecommendedLesson; overdueMs: number } | null = null;
+  for (const module of source.modules) {
+    if (module.tier > learningTier) continue;
+    for (const id of module.lessonIds) {
+      const lesson = source.getLesson(id);
+      if (!lesson) continue;
+      // Listening again teaches nothing; scouting is exploration, not review.
+      if (lesson.exerciseType === 'listen' || lesson.mode === 'scouting') continue;
+      if (lessonProgressById.get(id)?.completedAt === undefined) continue;
+      let overdueMs = -1;
+      for (const sid of lesson.skillIds) {
+        const p = skillProgressById.get(sid);
+        if (p && p.freshness.due <= nowMs) overdueMs = Math.max(overdueMs, nowMs - p.freshness.due);
+      }
+      if (overdueMs >= 0 && (best === null || overdueMs > best.overdueMs)) {
+        best = { rec: { module, lesson, review: true }, overdueMs };
+      }
+    }
+  }
+  return best?.rec ?? null;
 }

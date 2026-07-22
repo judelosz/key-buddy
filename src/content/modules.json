@@ -15,7 +15,10 @@
       "l-mk-ear-direction",
       "l-mk-checkpoint"
     ],
-    "coreSkillIds": ["geo-note-names", "ear-pitch-direction"],
+    "coreSkillIds": [
+      "geo-note-names",
+      "ear-pitch-direction"
+    ],
     "bossLessonId": "l-mk-checkpoint"
   },
   {
@@ -24,7 +27,9 @@
     "tier": 1,
     "title": "Find the Beat",
     "promise": "Lock into a steady pulse and count the bar",
-    "prerequisiteModuleIds": ["m1-meet-keyboard"],
+    "prerequisiteModuleIds": [
+      "m1-meet-keyboard"
+    ],
     "lessonIds": [
       "l-sb-listen",
       "l-sb-tap-quarters",
@@ -33,7 +38,10 @@
       "l-sb-theory-44",
       "l-sb-checkpoint"
     ],
-    "coreSkillIds": ["rhythm-steady-pulse", "rhythm-time-sig-44"],
+    "coreSkillIds": [
+      "rhythm-steady-pulse",
+      "rhythm-time-sig-44"
+    ],
     "bossLessonId": "l-sb-checkpoint"
   },
   {
@@ -42,7 +50,10 @@
     "tier": 1,
     "title": "Your First Melody",
     "promise": "Play Ode to Joy — really play it, in time",
-    "prerequisiteModuleIds": ["m1-meet-keyboard", "m1-steady-beat"],
+    "prerequisiteModuleIds": [
+      "m1-meet-keyboard",
+      "m1-steady-beat"
+    ],
     "lessonIds": [
       "l-fm-watch",
       "l-fm-frag1",
@@ -53,7 +64,283 @@
       "l-fm-gate-quiz",
       "l-fm-boss"
     ],
-    "coreSkillIds": ["mech-five-finger-c"],
+    "coreSkillIds": [
+      "mech-five-finger-c"
+    ],
     "bossLessonId": "l-fm-boss"
+  },
+  {
+    "id": "m2-left-hand",
+    "arc": "foundation",
+    "tier": 2,
+    "title": "The Left Hand Keeps Time",
+    "promise": "Anchor every bar with a bass root",
+    "prerequisiteModuleIds": [
+      "m1-first-melody"
+    ],
+    "lessonIds": [
+      "l-lh-listen",
+      "l-lh-bed",
+      "l-lh-low-notes",
+      "l-lh-changes",
+      "l-lh-combine",
+      "l-lh-checkpoint"
+    ],
+    "coreSkillIds": [
+      "lh-root-notes"
+    ],
+    "bossLessonId": "l-lh-checkpoint"
+  },
+  {
+    "id": "m2-reading-map",
+    "arc": "foundation",
+    "tier": 2,
+    "title": "Reading the Map",
+    "promise": "Staff direction, bar lines, and 2/4",
+    "prerequisiteModuleIds": [
+      "m2-left-hand"
+    ],
+    "lessonIds": [
+      "l-rm-theory-staff",
+      "l-rm-ear",
+      "l-rm-theory-24",
+      "l-rm-tap-24",
+      "l-rm-checkpoint"
+    ],
+    "coreSkillIds": [
+      "notation-staff-direction",
+      "rhythm-time-sig-24"
+    ],
+    "bossLessonId": "l-rm-checkpoint"
+  },
+  {
+    "id": "m2-saints",
+    "arc": "foundation",
+    "tier": 2,
+    "title": "When the Saints",
+    "promise": "Your first two-handed song, start to finish",
+    "prerequisiteModuleIds": [
+      "m2-reading-map"
+    ],
+    "lessonIds": [
+      "l-st-watch",
+      "l-st-melody",
+      "l-st-hands",
+      "l-st-full",
+      "l-st-vary",
+      "l-st-boss"
+    ],
+    "coreSkillIds": [],
+    "bossLessonId": "l-st-boss"
+  },
+  {
+    "id": "m3-steps-skips",
+    "arc": "foundation",
+    "tier": 3,
+    "title": "Steps and Skips",
+    "promise": "Name every move a melody makes",
+    "prerequisiteModuleIds": [
+      "m2-saints"
+    ],
+    "lessonIds": [
+      "l-ss-theory",
+      "l-ss-ear",
+      "l-ss-notes",
+      "l-ss-checkpoint"
+    ],
+    "coreSkillIds": [
+      "theory-steps-skips"
+    ],
+    "bossLessonId": "l-ss-checkpoint"
+  },
+  {
+    "id": "m3-pentascales",
+    "arc": "foundation",
+    "tier": 3,
+    "title": "Pentascales on the Move",
+    "promise": "Take the five-finger shape to F and G",
+    "prerequisiteModuleIds": [
+      "m3-steps-skips"
+    ],
+    "lessonIds": [
+      "l-pf-listen",
+      "l-pf-c",
+      "l-pf-f",
+      "l-pf-g",
+      "l-pf-eighths",
+      "l-pf-checkpoint"
+    ],
+    "coreSkillIds": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes"
+    ],
+    "bossLessonId": "l-pf-checkpoint"
+  },
+  {
+    "id": "m3-susanna",
+    "arc": "foundation",
+    "tier": 3,
+    "title": "Oh! Susanna",
+    "promise": "Eighth-note pickups in a real country tune",
+    "prerequisiteModuleIds": [
+      "m3-pentascales"
+    ],
+    "lessonIds": [
+      "l-su-watch",
+      "l-su-phrase",
+      "l-su-tap",
+      "l-su-full",
+      "l-su-boss"
+    ],
+    "coreSkillIds": [],
+    "bossLessonId": "l-su-boss"
+  },
+  {
+    "id": "m4-build-triad",
+    "arc": "foundation",
+    "tier": 4,
+    "title": "Build a Chord",
+    "promise": "The 1-3-5 recipe for every major chord",
+    "prerequisiteModuleIds": [
+      "m3-susanna"
+    ],
+    "lessonIds": [
+      "l-bt-theory",
+      "l-bt-build-c",
+      "l-bt-build-cfg",
+      "l-bt-ear",
+      "l-bt-checkpoint"
+    ],
+    "coreSkillIds": [
+      "chord-major-triad"
+    ],
+    "bossLessonId": "l-bt-checkpoint"
+  },
+  {
+    "id": "m4-one-four-five",
+    "arc": "foundation",
+    "tier": 4,
+    "title": "The Three Chords That Run Everything",
+    "promise": "I, IV, and V — home, away, and the pull back",
+    "prerequisiteModuleIds": [
+      "m4-build-triad"
+    ],
+    "lessonIds": [
+      "l-ofv-theory",
+      "l-ofv-build",
+      "l-ofv-changes",
+      "l-ofv-ear",
+      "l-ofv-vary",
+      "l-ofv-checkpoint"
+    ],
+    "coreSkillIds": [
+      "harmony-i-iv-v",
+      "ear-tonic-away"
+    ],
+    "bossLessonId": "l-ofv-checkpoint"
+  },
+  {
+    "id": "m4-waltz-time",
+    "arc": "foundation",
+    "tier": 4,
+    "title": "Three Beats to a Bar",
+    "promise": "Feel and count the waltz",
+    "prerequisiteModuleIds": [
+      "m4-one-four-five"
+    ],
+    "lessonIds": [
+      "l-wt-theory",
+      "l-wt-tap",
+      "l-wt-checkpoint"
+    ],
+    "coreSkillIds": [
+      "rhythm-time-sig-34"
+    ],
+    "bossLessonId": "l-wt-checkpoint"
+  },
+  {
+    "id": "m4-mountain",
+    "arc": "foundation",
+    "tier": 4,
+    "title": "Comin' 'Round the Mountain",
+    "promise": "Turn three chords into a real accompaniment",
+    "prerequisiteModuleIds": [
+      "m4-waltz-time"
+    ],
+    "lessonIds": [
+      "l-mt-watch",
+      "l-mt-melody",
+      "l-mt-triads",
+      "l-mt-accomp",
+      "l-mt-gate-quiz",
+      "l-mt-boss"
+    ],
+    "coreSkillIds": [],
+    "bossLessonId": "l-mt-boss"
+  },
+  {
+    "id": "m5-c-scale",
+    "arc": "foundation",
+    "tier": 5,
+    "title": "The C Major Scale",
+    "promise": "One octave, even tone, and a musical fill",
+    "prerequisiteModuleIds": [
+      "m4-mountain"
+    ],
+    "lessonIds": [
+      "l-cs-theory",
+      "l-cs-play",
+      "l-cs-fill",
+      "l-cs-checkpoint"
+    ],
+    "coreSkillIds": [
+      "scale-c-major"
+    ],
+    "bossLessonId": "l-cs-checkpoint"
+  },
+  {
+    "id": "m5-chord-symbols",
+    "arc": "foundation",
+    "tier": 5,
+    "title": "Symbols and Phrases",
+    "promise": "Read the harmony and hear where phrases land",
+    "prerequisiteModuleIds": [
+      "m5-c-scale"
+    ],
+    "lessonIds": [
+      "l-sy-theory",
+      "l-sy-ear",
+      "l-sy-cadence",
+      "l-sy-checkpoint"
+    ],
+    "coreSkillIds": [
+      "theory-chord-symbols",
+      "ear-phrase-ending"
+    ],
+    "bossLessonId": "l-sy-checkpoint"
+  },
+  {
+    "id": "m5-amazing-grace",
+    "arc": "foundation",
+    "tier": 5,
+    "title": "Amazing Grace",
+    "promise": "The Tier 5 boss — a whole hymn in 3/4, both hands",
+    "prerequisiteModuleIds": [
+      "m5-chord-symbols"
+    ],
+    "lessonIds": [
+      "l-ag-watch",
+      "l-ag-melody",
+      "l-ag-tap34",
+      "l-ag-lh",
+      "l-ag-full",
+      "l-ag-gate-quiz",
+      "l-ag-boss",
+      "l-ag-stretch"
+    ],
+    "coreSkillIds": [
+      "rep-melody-accompaniment"
+    ],
+    "bossLessonId": "l-ag-boss"
   }
 ]

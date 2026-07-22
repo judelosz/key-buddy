@@ -29,6 +29,14 @@ export const SCOUTING_LOOKAHEAD = 1; // +1 tier preview cap (doc 04 §3)
 export const EXERCISE_HANDS_CAP = 0.8;
 
 /**
+ * A successful retrieval this long after the previous review of an already
+ * functional skill counts as the tier gate's delayed-review evidence
+ * (doc 07 gate step 5: "spaced evidence across separated sessions"). An
+ * FSRS-due card passed also counts, whatever the gap.
+ */
+export const DELAYED_REVIEW_MIN_GAP_MS = 48 * 3_600_000;
+
+/**
  * How much a playing attempt opens a skill's Hands lock. Only the mastery star
  * (3 stars, at target tempo, un-assisted) fully opens it — this is the
  * "mastery = at-tempo, un-assisted" guardrail made concrete.

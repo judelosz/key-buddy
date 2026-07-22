@@ -1,0 +1,350 @@
+[
+  {
+    "id": "l-ss-theory",
+    "moduleId": "m3-steps-skips",
+    "order": 0,
+    "title": "Steps and skips",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "theory-steps-skips"
+    ],
+    "prompt": "Melodies mostly walk (steps) and sometimes leap (skips). Naming the move helps your hands find it.",
+    "successRule": "Answer 4 of 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-steps-skips",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-ss-ear",
+    "moduleId": "m3-steps-skips",
+    "order": 1,
+    "title": "Hear the size of the move",
+    "mode": "supported",
+    "exerciseType": "interval-ear",
+    "skillIds": [
+      "ear-pitch-direction",
+      "theory-steps-skips"
+    ],
+    "prompt": "Up or down — and soon, how far. Keep your ears ahead of your fingers.",
+    "successRule": "Get 5 of 6 right.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "variant": "direction",
+      "count": 6
+    }
+  },
+  {
+    "id": "l-ss-notes",
+    "moduleId": "m3-steps-skips",
+    "order": 2,
+    "title": "The wider map: C to A",
+    "mode": "supported",
+    "exerciseType": "note-id",
+    "skillIds": [
+      "geo-note-names"
+    ],
+    "prompt": "One key past G — A joins the crew for Susanna.",
+    "successRule": "Play 6 of 7 asked-for keys correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "noteNames": [
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "A"
+      ],
+      "count": 7
+    }
+  },
+  {
+    "id": "l-ss-checkpoint",
+    "moduleId": "m3-steps-skips",
+    "order": 3,
+    "title": "Tier 3 check: moves and subdivisions",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "theory-steps-skips",
+      "rhythm-eighth-notes",
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "Steps, skips, eighth notes, and the three home positions.",
+    "successRule": "Answer at least 80% correctly.",
+    "passCriteria": {
+      "minScorePct": 0.8
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-tier3-checkpoint",
+    "generatorParams": {
+      "count": 6
+    }
+  },
+  {
+    "id": "l-pf-listen",
+    "moduleId": "m3-pentascales",
+    "order": 0,
+    "title": "One shape, three homes",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "The same five-finger shape starting on C, F, then G.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-pentascale-shift",
+    "generatorParams": {
+      "promptText": "Same shape, three starting keys. Hear how each feels like a new home."
+    }
+  },
+  {
+    "id": "l-pf-c",
+    "moduleId": "m3-pentascales",
+    "order": 1,
+    "title": "C position, up and down",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "Five fingers, five keys, even as a clock.",
+    "successRule": "Finish the pattern with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-pentascale-c"
+  },
+  {
+    "id": "l-pf-f",
+    "moduleId": "m3-pentascales",
+    "order": 2,
+    "title": "F position — meet B♭",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "The F shape needs one black key. Let finger 4 sit on B♭.",
+    "successRule": "Two stars on the F pattern.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-pentascale-f"
+  },
+  {
+    "id": "l-pf-g",
+    "moduleId": "m3-pentascales",
+    "order": 3,
+    "title": "G position",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "Back to all white keys, one step higher than home.",
+    "successRule": "Two stars on the G pattern.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
+    "fragmentId": "frag-pentascale-g"
+  },
+  {
+    "id": "l-pf-eighths",
+    "moduleId": "m3-pentascales",
+    "order": 4,
+    "title": "Split the beat",
+    "mode": "supported",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-eighth-notes"
+    ],
+    "prompt": "Two taps per click now: \"1-and-2-and\". Even halves.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [
+      "metronome-count-in"
+    ],
+    "generatorParams": {
+      "beats": [
+        0,
+        0.5,
+        1,
+        1.5,
+        2,
+        2.5,
+        3,
+        3.5
+      ],
+      "bpm": 72,
+      "countInBeats": 4,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "l-pf-checkpoint",
+    "moduleId": "m3-pentascales",
+    "order": 5,
+    "title": "Checkpoint: shift on demand",
+    "mode": "independent",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "C into F into G, one run, no falling notes.",
+    "successRule": "Two stars with no visual help.",
+    "passCriteria": {
+      "minStars": 2
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-pentascale-shift"
+  },
+  {
+    "id": "l-su-watch",
+    "moduleId": "m3-susanna",
+    "order": 0,
+    "title": "Watch Oh! Susanna",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "mech-pentascale-cfg"
+    ],
+    "prompt": "Foster’s tune bounces on eighth-note pickups — hear the \"banjo\" lilt.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "oh-susanna--simplified",
+    "generatorParams": {
+      "promptText": "Hear the quick two-note pickups that launch each phrase."
+    }
+  },
+  {
+    "id": "l-su-phrase",
+    "moduleId": "m3-susanna",
+    "order": 1,
+    "title": "The verse phrase",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes"
+    ],
+    "prompt": "One phrase, slowly — the pickup eighths are the only fast part.",
+    "successRule": "Finish the phrase with most notes on their beats.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-susanna-verse"
+  },
+  {
+    "id": "l-su-tap",
+    "moduleId": "m3-susanna",
+    "order": 2,
+    "title": "Tap the pickup rhythm",
+    "mode": "supported",
+    "exerciseType": "rhythm-tap",
+    "skillIds": [
+      "rhythm-eighth-notes"
+    ],
+    "prompt": "Two quick taps into a downbeat — Susanna’s signature move.",
+    "successRule": "70% of taps in time.",
+    "passCriteria": {
+      "minScorePct": 0.7
+    },
+    "assistOptions": [
+      "metronome-count-in"
+    ],
+    "generatorParams": {
+      "beats": [
+        3,
+        3.5,
+        4,
+        5,
+        6,
+        7,
+        7.5,
+        8
+      ],
+      "bpm": 80,
+      "countInBeats": 4,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "l-su-full",
+    "moduleId": "m3-susanna",
+    "order": 3,
+    "title": "The whole song",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes",
+      "lh-root-notes"
+    ],
+    "prompt": "Verse and chorus, hands together, at your tempo.",
+    "successRule": "Earn at least one star.",
+    "passCriteria": {
+      "minStars": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "oh-susanna--simplified"
+  },
+  {
+    "id": "l-su-boss",
+    "moduleId": "m3-susanna",
+    "order": 4,
+    "title": "Performance: Oh! Susanna",
+    "mode": "performance",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "mech-pentascale-cfg",
+      "rhythm-eighth-notes",
+      "lh-root-notes"
+    ],
+    "prompt": "Full tempo, no help — keep the lilt light.",
+    "successRule": "Earn the mastery star: three stars at 92 BPM, no assists.",
+    "passCriteria": {
+      "requiresMasteryStar": true
+    },
+    "assistOptions": [],
+    "chartId": "oh-susanna--simplified"
+  }
+]
