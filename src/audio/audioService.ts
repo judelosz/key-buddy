@@ -29,6 +29,8 @@ export class AudioService {
   private metronomeId: number | null = null;
   private beatCounter = 0;
   private beatsPerBar = 4;
+  private lastEmittedBeat = -1;
+  private rafId: number | null = null;
   private tickListeners = new Set<(t: MetronomeTick) => void>();
 
   // Clock anchor (captured once) mapping audio seconds ↔ performance.now() ms.
@@ -72,6 +74,11 @@ export class AudioService {
     return performance.now();
   }
 
+  /** Seconds elapsed on the Transport since it started (0 at start). */
+  getTransportSeconds(): number {
+    return Tone.getTransport().seconds;
+  }
+
   setBpm(bpm: number): void {
     Tone.getTransport().bpm.value = bpm;
   }
@@ -87,39 +94,60 @@ export class AudioService {
   }
 
   /**
-   * Start the metronome/Transport at the given tempo. Each beat fires a click
-   * and notifies tick listeners with the sounding time in both clock domains.
+   * Start the metronome/Transport at the given tempo. Click AUDIO is scheduled
+   * precisely on the Transport; the logical beat TICKS (used to drive the play
+   * session and calibration) are emitted from a rAF loop reading the same
+   * Transport clock. Both derive from one clock, but the tick loop doesn't
+   * depend on Tone.Draw's animation scheduler (which proved unreliable for
+   * driving app state), so phase transitions and completion always fire.
    */
   startMetronome(bpm: number, beatsPerBar = 4): void {
     const transport = Tone.getTransport();
     this.stopMetronome();
-    this.beatCounter = 0;
     this.beatsPerBar = beatsPerBar;
+    this.lastEmittedBeat = -1;
     transport.bpm.value = bpm;
+    const beatSec = 60 / bpm;
 
+    // Precise click audio.
     this.metronomeId = transport.scheduleRepeat((time) => {
       const beat = this.beatCounter++;
-      const barBeat = beat % this.beatsPerBar;
-      const accent = barBeat === 0;
+      const accent = beat % this.beatsPerBar === 0;
       const click = accent ? this.clickHi : this.clickLo;
       click?.triggerAttackRelease(accent ? 'C3' : 'C2', 0.03, time);
-
-      const tick: MetronomeTick = {
-        beat,
-        barBeat,
-        perfMs: this.audioTimeToPerfMs(time),
-        audioTime: time,
-      };
-      Tone.getDraw().schedule(() => {
-        for (const l of this.tickListeners) l(tick);
-      }, time);
     }, '4n');
+    this.beatCounter = 0;
 
-    transport.start();
+    const startAudioTime = Tone.now() + 0.05;
+    transport.start(startAudioTime);
+
+    // Logical beat ticks off a rAF loop (robust, same clock as the visualizer).
+    const loop = () => {
+      const sec = transport.seconds;
+      const beat = Math.floor(sec / beatSec + 1e-6);
+      while (this.lastEmittedBeat < beat) {
+        this.lastEmittedBeat++;
+        const b = this.lastEmittedBeat;
+        const audioTime = startAudioTime + b * beatSec;
+        const tick: MetronomeTick = {
+          beat: b,
+          barBeat: ((b % beatsPerBar) + beatsPerBar) % beatsPerBar,
+          perfMs: this.audioTimeToPerfMs(audioTime),
+          audioTime,
+        };
+        for (const l of this.tickListeners) l(tick);
+      }
+      this.rafId = requestAnimationFrame(loop);
+    };
+    this.rafId = requestAnimationFrame(loop);
   }
 
   stopMetronome(): void {
     const transport = Tone.getTransport();
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
     if (this.metronomeId !== null) {
       transport.clear(this.metronomeId);
       this.metronomeId = null;

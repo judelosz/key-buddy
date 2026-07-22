@@ -26,6 +26,7 @@ import type {
   TimingHistogram,
 } from '@/core/types';
 import { matchWindowMs, windowsForTier, type TimingWindows } from './timingWindows';
+import { gradeTiming } from './grade';
 
 export interface ScoreParams {
   chart: Chart;
@@ -50,16 +51,6 @@ const gradeGreatOrBetter = (g: NoteGrade): boolean => g === 'perfect' || g === '
 interface PlayedSlot {
   note: NotePlayed;
   consumed: boolean;
-}
-
-/** Grade a single onset deviation once pitch is confirmed present. */
-function gradeTiming(deviationMs: number, w: TimingWindows, matchMs: number): NoteGrade {
-  const abs = Math.abs(deviationMs);
-  if (abs <= w.perfect) return 'perfect';
-  if (abs <= w.great) return 'great';
-  if (abs <= w.good) return 'good';
-  if (abs <= matchMs) return deviationMs < 0 ? 'early' : 'late';
-  return 'miss';
 }
 
 function judgeEvent(

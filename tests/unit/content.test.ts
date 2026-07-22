@@ -19,6 +19,11 @@ describe('validateContent', () => {
     expect(validateContent(rawContent)).toEqual([]);
   });
 
+  it('resolves every song chartId to a shipped chart (requireCharts)', () => {
+    expect(validateContent(rawContent, true)).toEqual([]);
+    expect(rawContent.charts.length).toBeGreaterThanOrEqual(3);
+  });
+
   it('flags a missing prerequisite', () => {
     const problems = validateContent({
       ...empty,

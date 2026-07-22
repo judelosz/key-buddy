@@ -1,12 +1,14 @@
-import { Piano, SlidersHorizontal, Bug, Home } from 'lucide-react';
+import { Piano, SlidersHorizontal, Bug, Home, Play } from 'lucide-react';
 import { getContent } from '@/core/content/bundled';
 import { useAppStore, type Screen } from '@/ui/store/appStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { InputDebug } from '@/ui/screens/InputDebug';
 import { Calibration } from '@/ui/screens/Calibration';
+import { SessionPlayer } from '@/ui/screens/SessionPlayer';
 
 const NAV: { id: Screen; label: string; icon: typeof Home }[] = [
   { id: 'home', label: 'Home', icon: Home },
+  { id: 'play', label: 'Play', icon: Play },
   { id: 'calibration', label: 'Calibration', icon: SlidersHorizontal },
   { id: 'input-debug', label: 'Input debug', icon: Bug },
 ];
@@ -48,6 +50,7 @@ export default function App() {
 
       <main>
         {screen === 'home' && <HomeScreen />}
+        {screen === 'play' && <SessionPlayer />}
         {screen === 'calibration' && <Calibration />}
         {screen === 'input-debug' && <InputDebug />}
       </main>

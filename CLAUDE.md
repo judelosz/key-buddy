@@ -49,7 +49,8 @@ content JSON → ContentService → services; InputService → ScoringEngine →
 - ✅ `input/` (InputService + midi/virtual providers + calibration) — source-agnostic, calibrated stream
 - ✅ `audio/audioService.ts` (Tone.js PolySynth + metronome/Transport master clock, perf↔audio clock bridge)
 - ✅ `ui/` debug surfaces: Input debug (note stream), Calibration, on-screen keyboard
-- ⛔ progression / rewards / srs / data — not yet implemented (Phase 3); visualizer/notation/report — Phase 2
+- ✅ Phase 2 song loop: `ui/session/playSession.ts` (count-in→play→score), FallingNotes (Canvas), ChordSymbols, StaffNotation (VexFlow, secondary), SessionReport, `core/scoring/{grade,liveGrader,feedback}.ts`; charts `content/charts/*.json`
+- ⛔ progression / rewards / srs / data — not yet implemented (Phase 3)
 
 ---
 
@@ -105,5 +106,6 @@ From build-spec §0.1#4, doc 03 §9, doc 04 §8:
 
 ## 7. Changelog (dated, human-readable)
 
+- **2026-07-22 — Phase 2 (Single playable song loop).** Full take loop: `PlaySession` orchestrates count-in → play (metronome clock) → offline scoring → report. FallingNotes Canvas visualizer synced to Transport; ChordSymbols strip (primary notation) with current-bar highlight; StaffNotation (VexFlow treble staff, secondary/best-effort, toggle off by default, defensive try/catch); LiveGrader for real-time per-note colour; SessionReport with star rating, timing histogram, weak-bar heat-map, and one actionable tip (`core/scoring/feedback.ts`, tested). Authored charts: Ode to Joy (simplified) + 12-Bar Blues in C (simplified triads / full dom7). 3 Playwright smoke e2e (nav, player render, input log). **Key fix:** metronome beat ticks now drive off a rAF loop reading the Transport clock (was `Tone.getDraw()`, which didn't reliably fire app-state callbacks and left the play phase stuck). Verified full loop in-browser incl. report. Falling-notes visualizer is treated as an `assist` (mastery star withheld while on) — honest per guardrail #4.
 - **2026-07-22 — Phase 1 (Input + Audio + Scoring core).** ScoringEngine (pure `(Chart, NotePlayed[], tempo, tier) → Attempt`) with tier-interpolated timing windows, per-note grades, timing histogram, 1–3 stars + at-tempo/un-assisted mastery star — 34 deterministic unit tests. Source-agnostic InputService with WEBMIDI.js + virtual-keyboard providers (shared `performance.now()` clock), one-time latency calibration (pure median-offset computation). AudioService (Tone.js PolySynth + metronome/Transport as master clock, audio↔perf clock bridge for Phase-2 alignment). Input-debug + calibration screens + on-screen keyboard; verified in-browser (clean calibrated note stream). Decisions: timing windows interpolate linearly tier 1↔30; match window capped at ~1 beat (beyond = Miss); XP/Riffs left 0 by ScoringEngine (RewardService fills). Note: Tone.js pushes the bundle >500 kB — lazy-load later (added to TODOs).
 - **2026-07-22 — Phase 0 (Scaffold).** Vite+React+TS(strict), Tailwind, Zustand, Dexie, Vitest, Playwright wired. Domain model (`core/types.ts`), ContentService with validation + Vite-glob chart loading, seed `skills.json`/`songs.json`, placeholder shell. dev/test/typecheck/build all green. git initialized.
