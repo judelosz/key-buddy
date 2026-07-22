@@ -60,8 +60,8 @@ export function Calibration() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Latency calibration</h2>
-        <p className="mt-1 max-w-prose text-sm text-neutral-400">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Latency calibration</h2>
+        <p className="mt-1 max-w-prose text-sm text-ink-soft">
           The audio stack adds a little delay, so honest playing can read as
           &ldquo;late.&rdquo; Tap any key (or the space-mapped keys) on each click for a
           couple of bars and we&rsquo;ll measure the offset and subtract it from every
@@ -74,20 +74,20 @@ export function Calibration() {
           type="button"
           onClick={() => void run()}
           disabled={phase === 'running'}
-          className="inline-flex items-center gap-2 rounded-lg bg-grade-perfect px-4 py-2 text-sm font-medium text-ink disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-full bg-rose px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-50"
         >
           <Activity size={16} />
           {phase === 'running' ? 'Listening — tap the clicks…' : 'Start calibration'}
         </button>
-        <span className="text-sm text-neutral-400">
+        <span className="text-sm text-ink-soft">
           Current offset:{' '}
-          <span className="font-medium tabular-nums text-neutral-200">{savedOffset} ms</span>
+          <span className="font-medium tabular-nums text-ink">{savedOffset} ms</span>
         </span>
       </div>
 
       {phase === 'done' && result && (
-        <div className="flex items-center gap-3 rounded-lg border border-ink-line bg-ink-soft px-4 py-3 text-sm">
-          <Check size={18} className="text-grade-perfect" />
+        <div className="flex items-center gap-3 rounded-2xl bg-mint-soft px-4 py-3 text-sm text-mint-deep">
+          <Check size={18} />
           <span>
             Measured <span className="font-medium tabular-nums">{Math.round(result.offsetMs)} ms</span>{' '}
             from {result.sampleCount} taps (±{Math.round(result.stdDevMs)} ms). Applied and saved.
@@ -95,7 +95,7 @@ export function Calibration() {
         </div>
       )}
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
         <PianoKeyboard />
       </div>
     </div>

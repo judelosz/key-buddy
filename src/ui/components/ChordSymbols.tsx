@@ -14,10 +14,10 @@ export function ChordSymbols({ chart, currentBar }: ChordSymbolsProps) {
       {chart.chordSymbols.map((cs, i) => (
         <div
           key={`${cs.bar}-${cs.beat}-${i}`}
-          className={`min-w-[52px] rounded-md border px-2.5 py-1.5 text-center text-sm font-semibold transition-colors ${
+          className={`min-w-[52px] rounded-xl px-2.5 py-1.5 text-center font-display text-sm font-semibold transition ${
             cs.bar === currentBar
-              ? 'border-grade-perfect bg-grade-perfect/15 text-grade-perfect'
-              : 'border-ink-line bg-ink text-neutral-300'
+              ? 'scale-105 bg-rose text-ink shadow-soft'
+              : 'bg-sand text-ink-soft'
           }`}
         >
           {cs.symbol}

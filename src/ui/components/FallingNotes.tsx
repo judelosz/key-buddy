@@ -4,12 +4,12 @@ import { isBlackKey, midiToName } from '@/core/music';
 import { audioService } from '@/audio/audioService';
 
 const GRADE_COLORS: Record<NoteGrade, string> = {
-  perfect: '#22c55e',
-  great: '#86efac',
-  good: '#eab308',
-  early: '#f97316',
-  late: '#a855f7',
-  miss: '#ef4444',
+  perfect: '#34B378',
+  great: '#7FD0A6',
+  good: '#E3A72E',
+  early: '#EC7A3B',
+  late: '#9A72D6',
+  miss: '#E5646B',
 };
 
 interface FallingNotesProps {
@@ -64,21 +64,21 @@ export function FallingNotes({
       const transportSec = active && audioService.isInitialized ? audioService.getTransportSeconds() : 0;
       const playheadBeat = (transportSec * 1000) / beatMs - countInBeats;
 
-      // background
-      ctx.fillStyle = '#141821';
+      // background (warm ivory lane)
+      ctx.fillStyle = '#F6F1E8';
       ctx.fillRect(0, 0, width, height);
 
       // lane shading for black keys
       for (let i = 0; i < lanes; i++) {
         const pitch = minPitch + i;
         if (isBlackKey(pitch)) {
-          ctx.fillStyle = 'rgba(255,255,255,0.02)';
+          ctx.fillStyle = 'rgba(43,38,32,0.035)';
           ctx.fillRect(i * laneW, 0, laneW, height);
         }
       }
 
       // beat gridlines
-      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.strokeStyle = 'rgba(43,38,32,0.07)';
       ctx.lineWidth = 1;
       for (let b = Math.floor(playheadBeat); b < playheadBeat + LOOKAHEAD_BEATS + 1; b++) {
         const y = hitLineY - (b - playheadBeat) * pxPerBeat;
@@ -99,8 +99,8 @@ export function FallingNotes({
         const passed = note.startBeat < playheadBeat - 0.5;
         let color: string;
         if (grade) color = GRADE_COLORS[grade];
-        else if (passed) color = 'rgba(239,68,68,0.35)'; // un-hit & passed → faint miss
-        else color = note.hand === 'left' ? '#5b8def' : '#d8dee9';
+        else if (passed) color = 'rgba(229,100,107,0.30)'; // un-hit & passed → faint miss
+        else color = note.hand === 'left' ? '#7681CE' : '#CDBBB0';
 
         for (const pitch of note.pitches) {
           const lane = pitch - minPitch;
@@ -111,17 +111,17 @@ export function FallingNotes({
         }
       }
 
-      // hit line
-      ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-      ctx.lineWidth = 2;
+      // hit line (rose)
+      ctx.strokeStyle = 'rgba(199,116,137,0.9)';
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.moveTo(0, hitLineY);
       ctx.lineTo(width, hitLineY);
       ctx.stroke();
 
       // pitch labels (C notes only, to avoid clutter)
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
-      ctx.font = '10px system-ui';
+      ctx.fillStyle = 'rgba(43,38,32,0.4)';
+      ctx.font = '600 11px Nunito, system-ui';
       for (let i = 0; i < lanes; i++) {
         const pitch = minPitch + i;
         if (pitch % 12 === 0) {
@@ -139,7 +139,7 @@ export function FallingNotes({
     <canvas
       ref={canvasRef}
       style={{ width: '100%', height }}
-      className="rounded-xl border border-ink-line"
+      className="rounded-3xl border border-line shadow-soft"
       data-testid="falling-notes"
     />
   );

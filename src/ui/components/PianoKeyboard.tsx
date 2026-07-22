@@ -81,8 +81,8 @@ export function PianoKeyboard({
             aria-label={midiToName(pitch)}
             data-pitch={pitch}
             onPointerDown={() => void trigger(pitch)}
-            className={`relative flex-1 rounded-b-md border border-ink-line transition-colors ${
-              active.has(pitch) ? 'bg-grade-perfect text-ink' : 'bg-neutral-100 text-neutral-500'
+            className={`relative flex-1 rounded-b-xl border border-line transition-colors ${
+              active.has(pitch) ? 'bg-rose text-ink' : 'bg-white text-ink-soft'
             }`}
           >
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center text-[10px] font-medium">
@@ -104,11 +104,11 @@ export function PianoKeyboard({
                   aria-label={midiToName(sharp)}
                   data-pitch={sharp}
                   onPointerDown={() => void trigger(sharp)}
-                  className={`pointer-events-auto absolute right-0 top-0 z-10 h-full w-[62%] translate-x-1/2 rounded-b-md border border-black text-[9px] ${
-                    active.has(sharp) ? 'bg-grade-perfect' : 'bg-ink'
+                  className={`pointer-events-auto absolute right-0 top-0 z-10 h-full w-[62%] translate-x-1/2 rounded-b-lg text-[9px] transition-colors ${
+                    active.has(sharp) ? 'bg-rose-deep text-white' : 'bg-ink text-white/70'
                   }`}
                 >
-                  <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center text-neutral-400">
+                  <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center">
                     {showKeyHints && REVERSE_KEY_MAP[sharp]
                       ? REVERSE_KEY_MAP[sharp].toUpperCase()
                       : ''}

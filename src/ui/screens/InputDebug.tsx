@@ -8,20 +8,20 @@ import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 function StatusBanner({ status }: { status: InputStatus }) {
   if (status.kind === 'ready') {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-grade-perfect/40 bg-grade-perfect/10 px-4 py-2 text-sm text-grade-perfect">
+      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
         <Piano size={16} /> Connected: {status.deviceName}
       </div>
     );
   }
   if (status.kind === 'connecting') {
-    return <div className="rounded-lg bg-ink-soft px-4 py-2 text-sm text-neutral-400">Connecting…</div>;
+    return <div className="rounded-2xl bg-sand px-4 py-2 text-sm text-ink-soft">Connecting…</div>;
   }
   const message =
     status.kind === 'no-device' || status.kind === 'unsupported' || status.kind === 'error'
       ? status.message
       : 'No input provider active.';
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-grade-early/40 bg-grade-early/10 px-4 py-2 text-sm text-grade-early">
+    <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
       <AlertTriangle size={16} /> {message}
     </div>
   );
@@ -45,20 +45,20 @@ export function InputDebug() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Input debug</h2>
-        <p className="mt-1 text-sm text-neutral-400">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Input debug</h2>
+        <p className="mt-1 text-sm text-ink-soft">
           Verify the note stream from either input source. Calibration offset applied:{' '}
-          <span className="font-medium tabular-nums text-neutral-200">{offset} ms</span>.
+          <span className="font-medium tabular-nums text-ink">{offset} ms</span>.
         </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex overflow-hidden rounded-lg border border-ink-line">
+        <div className="inline-flex rounded-full bg-sand p-1">
           <button
             type="button"
             onClick={() => void switchTo('virtual')}
-            className={`inline-flex items-center gap-2 px-3 py-2 text-sm ${
-              providerKind === 'virtual' ? 'bg-ink-line text-neutral-100' : 'text-neutral-400'
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
+              providerKind === 'virtual' ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
             }`}
           >
             <Keyboard size={15} /> On-screen
@@ -66,8 +66,8 @@ export function InputDebug() {
           <button
             type="button"
             onClick={() => void switchTo('midi')}
-            className={`inline-flex items-center gap-2 px-3 py-2 text-sm ${
-              providerKind === 'midi' ? 'bg-ink-line text-neutral-100' : 'text-neutral-400'
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
+              providerKind === 'midi' ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
             }`}
           >
             <Usb size={15} /> MIDI keyboard
@@ -76,31 +76,31 @@ export function InputDebug() {
         <StatusBanner status={status} />
       </div>
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
         <PianoKeyboard />
       </div>
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft">
-        <div className="flex items-center justify-between border-b border-ink-line px-4 py-2">
-          <h3 className="text-sm font-medium text-neutral-300">
+      <div className="rounded-3xl border border-line bg-surface shadow-soft">
+        <div className="flex items-center justify-between border-b border-line px-4 py-2">
+          <h3 className="text-sm font-medium text-ink">
             Incoming notes{' '}
-            <span className="text-neutral-500">({recentNotes.length})</span>
+            <span className="text-ink-soft">({recentNotes.length})</span>
           </h3>
           <button
             type="button"
             onClick={clearNotes}
-            className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-300"
+            className="inline-flex items-center gap-1 text-xs text-ink-soft hover:text-ink"
           >
             <Trash2 size={13} /> Clear
           </button>
         </div>
         {recentNotes.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-neutral-500">
+          <p className="px-4 py-6 text-sm text-ink-soft">
             Play the keyboard above (or your MIDI device) to see calibrated events.
           </p>
         ) : (
           <table className="w-full text-left text-sm">
-            <thead className="text-xs uppercase tracking-wide text-neutral-500">
+            <thead className="text-xs uppercase tracking-wide text-ink-soft">
               <tr>
                 <th className="px-4 py-2 font-medium">Note</th>
                 <th className="px-4 py-2 font-medium">MIDI</th>
@@ -111,12 +111,12 @@ export function InputDebug() {
             </thead>
             <tbody>
               {recentNotes.map((n, i) => (
-                <tr key={`${n.timestampMs}-${i}`} className="border-t border-ink-line/60">
+                <tr key={`${n.timestampMs}-${i}`} className="border-t border-line">
                   <td className="px-4 py-1.5 font-medium">{midiToName(n.pitch)}</td>
-                  <td className="px-4 py-1.5 tabular-nums text-neutral-400">{n.pitch}</td>
-                  <td className="px-4 py-1.5 tabular-nums text-neutral-400">{n.velocity}</td>
-                  <td className="px-4 py-1.5 text-neutral-400">{n.source}</td>
-                  <td className="px-4 py-1.5 tabular-nums text-neutral-400">
+                  <td className="px-4 py-1.5 tabular-nums text-ink-soft">{n.pitch}</td>
+                  <td className="px-4 py-1.5 tabular-nums text-ink-soft">{n.velocity}</td>
+                  <td className="px-4 py-1.5 text-ink-soft">{n.source}</td>
+                  <td className="px-4 py-1.5 tabular-nums text-ink-soft">
                     {n.deltaMs === null ? '—' : n.deltaMs}
                   </td>
                 </tr>

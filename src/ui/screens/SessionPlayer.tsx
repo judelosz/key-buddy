@@ -137,13 +137,13 @@ export function SessionPlayer() {
             setSong(null);
             setChart(null);
           }}
-          className="inline-flex items-center gap-1 text-sm text-neutral-400 hover:text-neutral-200"
+          className="inline-flex items-center gap-1 text-sm text-ink-soft hover:text-ink"
         >
           <ChevronLeft size={16} /> Songs
         </button>
         <div className="text-right">
-          <h2 className="font-semibold tracking-tight">{song.title}</h2>
-          <p className="text-xs text-neutral-500">
+          <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{song.title}</h2>
+          <p className="text-xs text-ink-soft">
             {song.genre} · tier {song.tier} · {chart.arrangementLevel} · target {song.tempoTargetBPM} BPM
           </p>
         </div>
@@ -151,7 +151,7 @@ export function SessionPlayer() {
 
       <div className="flex flex-wrap items-center gap-3">
         {song.chartIds.length > 1 && (
-          <div className="inline-flex overflow-hidden rounded-lg border border-ink-line text-sm">
+          <div className="inline-flex rounded-full bg-sand p-1 text-sm">
             {song.chartIds.map((cid) => {
               const c = content.getChart(cid);
               if (!c) return null;
@@ -161,8 +161,8 @@ export function SessionPlayer() {
                   type="button"
                   disabled={playing}
                   onClick={() => pickArrangement(cid)}
-                  className={`px-3 py-1.5 capitalize ${
-                    chart.id === cid ? 'bg-ink-line text-neutral-100' : 'text-neutral-400'
+                  className={`rounded-full px-3 py-1.5 capitalize transition ${
+                    chart.id === cid ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
                   }`}
                 >
                   {c.arrangementLevel}
@@ -172,15 +172,15 @@ export function SessionPlayer() {
           </div>
         )}
 
-        <div className="inline-flex overflow-hidden rounded-lg border border-ink-line text-sm">
+        <div className="inline-flex overflow-hidden rounded-2xl border border-line text-sm">
           {TEMPO_OPTIONS.map((t) => (
             <button
               key={t.label}
               type="button"
               disabled={playing}
               onClick={() => setTempoPct(t.pct)}
-              className={`px-3 py-1.5 tabular-nums ${
-                tempoPct === t.pct ? 'bg-ink-line text-neutral-100' : 'text-neutral-400'
+              className={`rounded-full px-3 py-1.5 tabular-nums transition ${
+                tempoPct === t.pct ? 'bg-surface text-ink shadow-soft' : 'text-ink-soft'
               }`}
             >
               {t.label}
@@ -192,7 +192,9 @@ export function SessionPlayer() {
           type="button"
           disabled={playing}
           onClick={() => setShowFalling((v) => !v)}
-          className="inline-flex items-center gap-2 rounded-lg border border-ink-line px-3 py-1.5 text-sm text-neutral-300"
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
+            showFalling ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
+          }`}
           title="The falling-notes view is scaffolding — turn it off for the mastery star."
         >
           {showFalling ? <Eye size={15} /> : <EyeOff size={15} />}
@@ -202,8 +204,8 @@ export function SessionPlayer() {
         <button
           type="button"
           onClick={() => setShowStaff((v) => !v)}
-          className={`inline-flex items-center gap-2 rounded-lg border border-ink-line px-3 py-1.5 text-sm ${
-            showStaff ? 'text-neutral-100' : 'text-neutral-400'
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
+            showStaff ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
           }`}
         >
           <FileMusic size={15} /> Staff
@@ -213,9 +215,9 @@ export function SessionPlayer() {
           type="button"
           disabled={playing}
           onClick={() => void start()}
-          className="ml-auto inline-flex items-center gap-2 rounded-lg bg-grade-perfect px-4 py-2 text-sm font-medium text-ink disabled:opacity-60"
+          className="ml-auto inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
         >
-          <Play size={16} /> {phase === 'count-in' ? 'Get ready…' : 'Play'}
+          <Play size={16} className="fill-ink" /> {phase === 'count-in' ? 'Get ready…' : 'Play'}
         </button>
       </div>
 
@@ -232,16 +234,18 @@ export function SessionPlayer() {
           active={playing}
         />
       ) : (
-        <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-ink-line text-sm text-neutral-500">
+        <div className="flex h-40 items-center justify-center rounded-3xl border border-dashed border-line text-sm text-ink-soft">
           <Music size={16} className="mr-2" /> Falling notes hidden — play by ear and chord symbols.
         </div>
       )}
 
       {phase === 'count-in' && (
-        <p className="text-center text-sm text-grade-good">Count-in — start on the next bar.</p>
+        <p className="text-center font-display text-sm font-medium text-amber-deep">
+          Count-in — start on the next bar.
+        </p>
       )}
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
         <PianoKeyboard />
       </div>
     </div>
@@ -258,8 +262,8 @@ function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => voi
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Play a song</h2>
-        <p className="mt-1 text-sm text-neutral-400">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Play a song</h2>
+        <p className="mt-1 text-sm text-ink-soft">
           Songs unlock by demonstrated skill — master the prerequisites to earn them. Connect your
           MIDI keyboard or use the on-screen keys.
         </p>
@@ -276,17 +280,21 @@ function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => voi
               disabled={!unlocked}
               onClick={() => onPick(s)}
               data-testid={`song-${s.id}`}
-              className={`rounded-xl border p-4 text-left transition-colors ${
+              className={`rounded-3xl p-5 text-left transition ${
                 unlocked
-                  ? 'border-ink-line bg-ink-soft hover:border-neutral-600'
-                  : 'cursor-not-allowed border-ink-line/60 bg-ink-soft/40'
+                  ? 'bg-surface shadow-soft hover:-translate-y-0.5 hover:shadow-lift'
+                  : 'cursor-not-allowed border border-dashed border-line bg-transparent'
               }`}
             >
               <div className="flex items-center justify-between">
-                <h3 className={`font-medium ${unlocked ? '' : 'text-neutral-500'}`}>{s.title}</h3>
-                <span className="rounded bg-ink px-2 py-0.5 text-xs text-neutral-400">T{s.tier}</span>
+                <h3 className={`font-display font-semibold ${unlocked ? 'text-ink' : 'text-ink-soft'}`}>
+                  {s.title}
+                </h3>
+                <span className="rounded-full bg-sand px-2.5 py-0.5 font-display text-xs font-semibold text-ink-soft">
+                  T{s.tier}
+                </span>
               </div>
-              <p className="mt-1 text-xs capitalize text-neutral-500">
+              <p className="mt-1 text-xs capitalize text-ink-soft">
                 {s.genre} · {s.key} · {s.tempoTargetBPM} BPM · {s.feel}
               </p>
               {unlocked ? (
@@ -294,24 +302,24 @@ function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => voi
                   {[1, 2, 3].map((n) => (
                     <Star
                       key={n}
-                      size={14}
-                      className={n <= stars ? 'fill-grade-good text-grade-good' : 'text-ink-line'}
+                      size={16}
+                      className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
                     />
                   ))}
-                  {stars === 0 && <span className="text-xs text-neutral-500">Not yet played</span>}
+                  {stars === 0 && <span className="ml-1 text-xs text-ink-soft">Not yet played</span>}
                 </div>
               ) : (
                 <div className="mt-2">
-                  <div className="mb-1 flex items-center gap-1.5 text-xs text-neutral-500">
+                  <div className="mb-1 flex items-center gap-1.5 text-xs text-ink-soft">
                     <Lock size={12} /> {prog.requiredCount - prog.masteredCount} skill
                     {prog.requiredCount - prog.masteredCount === 1 ? '' : 's'} to unlock:{' '}
                     {prog.remainingSkillIds
                       .map((id) => content.getSkill(id)?.name ?? id)
                       .join(', ')}
                   </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-ink">
+                  <div className="h-2 overflow-hidden rounded-full bg-sand">
                     <div
-                      className="h-full rounded-full bg-grade-good/70"
+                      className="h-full rounded-full bg-mint-deep/70 transition-[width] duration-700"
                       style={{
                         width: `${
                           prog.requiredCount === 0

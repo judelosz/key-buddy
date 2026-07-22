@@ -16,7 +16,7 @@ export function Progress() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-semibold tracking-tight">Your progress</h2>
+      <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Your progress</h2>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat icon={<TrendingUp size={16} />} label="Playing tier" value={player.currentPlayingTier} />
@@ -25,27 +25,27 @@ export function Progress() {
         <Stat icon={<Flame size={16} />} label="Streak" value={`${player.streak}d`} />
       </div>
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
         <div className="mb-1 flex items-center justify-between text-sm">
-          <span className="text-neutral-300">Level {player.playerLevel}</span>
-          <span className="text-neutral-500">
+          <span className="text-ink">Level {player.playerLevel}</span>
+          <span className="text-ink-soft">
             {player.totalXP} XP total · {span - intoLevel} to level {player.playerLevel + 1}
           </span>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-ink">
+        <div className="h-2 overflow-hidden rounded-full bg-sand">
           <div
-            className="h-full rounded-full bg-grade-perfect"
+            className="h-full rounded-full bg-peri-deep transition-[width] duration-700"
             style={{ width: `${Math.round((intoLevel / span) * 100)}%` }}
           />
         </div>
-        <p className="mt-2 text-xs text-neutral-500">
+        <p className="mt-2 text-xs text-ink-soft">
           Level &amp; tier come from your playing (Hands) only — AFK/theory fills the Head track
           separately.
         </p>
       </div>
 
-      <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
-        <h3 className="mb-3 text-sm font-medium text-neutral-300">Skills (two locks)</h3>
+      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+        <h3 className="mb-3 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
         <div className="grid gap-2 sm:grid-cols-2">
           {content.skills.map((skill) => {
             const p = skillProgressById.get(skill.id);
@@ -54,11 +54,11 @@ export function Progress() {
             return (
               <div
                 key={skill.id}
-                className="flex items-center justify-between rounded-lg bg-ink px-3 py-2"
+                className="flex items-center justify-between rounded-2xl bg-sand px-3 py-2"
               >
                 <div>
-                  <div className="text-sm text-neutral-200">{skill.name}</div>
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-sm text-ink">{skill.name}</div>
+                  <div className="text-xs text-ink-soft">
                     {skill.genre} · tier {skill.tier}
                   </div>
                 </div>
@@ -70,31 +70,31 @@ export function Progress() {
             );
           })}
         </div>
-        <p className="mt-3 text-xs text-neutral-500">
+        <p className="mt-3 text-xs text-ink-soft">
           A skill goes gold only when both locks open. The Head lock opens in Woodshed/AFK mode
           (coming soon).
         </p>
       </div>
 
       {lockedSongs.length > 0 && (
-        <div className="rounded-xl border border-ink-line bg-ink-soft p-4">
-          <h3 className="mb-3 text-sm font-medium text-neutral-300">Next unlocks</h3>
+        <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+          <h3 className="mb-3 font-display text-sm font-semibold text-ink">Next unlocks</h3>
           <div className="flex flex-col gap-3">
             {lockedSongs.map((song) => {
               const prog = unlockProgress(song);
               return (
                 <div key={song.id}>
                   <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className={prog.unlocked ? 'text-grade-perfect' : 'text-neutral-300'}>
+                    <span className={prog.unlocked ? 'font-medium text-mint-deep' : 'text-ink'}>
                       {song.title} {prog.unlocked && '· unlocked'}
                     </span>
-                    <span className="text-xs text-neutral-500">
+                    <span className="text-xs text-ink-soft">
                       {prog.masteredCount}/{prog.requiredCount} skills
                     </span>
                   </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-ink">
+                  <div className="h-2 overflow-hidden rounded-full bg-sand">
                     <div
-                      className="h-full rounded-full bg-grade-good/70"
+                      className="h-full rounded-full bg-mint-deep/70 transition-[width] duration-700"
                       style={{ width: `${Math.round((prog.masteredCount / prog.requiredCount) * 100)}%` }}
                     />
                   </div>
@@ -110,10 +110,10 @@ export function Progress() {
 
 function Stat({ icon, label, value }: { icon: ReactNode; label: string; value: string | number }) {
   return (
-    <div className="rounded-xl bg-ink-soft border border-ink-line px-4 py-3">
-      <div className="flex items-center gap-1.5 text-neutral-400">{icon}</div>
-      <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
-      <div className="text-xs text-neutral-400">{label}</div>
+    <div className="rounded-3xl bg-surface px-4 py-3 shadow-soft">
+      <div className="flex items-center gap-1.5 text-ink-soft">{icon}</div>
+      <div className="mt-1 font-display text-2xl font-semibold tabular-nums text-ink">{value}</div>
+      <div className="text-xs text-ink-soft">{label}</div>
     </div>
   );
 }
@@ -123,7 +123,7 @@ function LockPip({ on, icon, title }: { on: boolean; icon: ReactNode; title: str
     <span
       title={title}
       className={`flex h-6 w-6 items-center justify-center rounded-full ${
-        on ? 'bg-grade-perfect/20 text-grade-perfect' : 'bg-ink-line text-neutral-600'
+        on ? 'bg-mint-soft text-mint-deep' : 'bg-sand text-ink-soft'
       }`}
     >
       {icon}

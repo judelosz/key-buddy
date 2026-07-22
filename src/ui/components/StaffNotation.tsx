@@ -79,10 +79,10 @@ export function StaffNotation({ chart, maxBars = 4 }: StaffNotationProps) {
   }, [chart, maxBars]);
 
   return (
-    <div className="rounded-xl border border-ink-line bg-white/95 p-2">
+    <div className="rounded-3xl border border-line bg-surface p-3 shadow-soft">
       <div ref={hostRef} className="overflow-x-auto" data-testid="staff-notation" />
       {failed && (
-        <p className="px-2 py-3 text-sm text-neutral-600">
+        <p className="px-2 py-3 text-sm text-ink-soft">
           Staff view unavailable for this chart — use the chord symbols and falling notes.
         </p>
       )}
