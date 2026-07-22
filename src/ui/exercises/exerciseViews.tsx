@@ -22,11 +22,16 @@ export function KeyboardExerciseView({
   /** False on independent/performance lessons — finding keys IS the test. */
   noteLabels?: boolean;
 }) {
+  const range = runner.spec.keyboardRange;
   return (
     <div className="flex flex-col gap-4">
       <KeyboardHint />
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
-        <PianoKeyboard labels={noteLabels ? 'notes' : 'none'} />
+        <PianoKeyboard
+          lowPitch={range?.low}
+          highPitch={range?.high}
+          labels={noteLabels ? 'notes' : 'none'}
+        />
       </div>
       {showCheck && (
         <button
@@ -70,6 +75,7 @@ export function ChoiceExerciseView({
 
 /** rhythm-tap: the player's own first tap launches the count-in. */
 export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
+  const range = runner.spec.keyboardRange;
   return (
     <div className="flex flex-col gap-4">
       {!runner.tapsRunning ? (
@@ -84,7 +90,7 @@ export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
       )}
       <KeyboardHint />
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
-        <PianoKeyboard />
+        <PianoKeyboard lowPitch={range?.low} highPitch={range?.high} />
       </div>
     </div>
   );

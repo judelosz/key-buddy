@@ -30,7 +30,7 @@ export class ExerciseRunner {
   tapsRunning = false;
 
   constructor(
-    spec: ExerciseSpec,
+    readonly spec: ExerciseSpec,
     private readonly cb: ExerciseRunnerCallbacks,
   ) {
     this.engine = new ExerciseEngine(spec);

@@ -108,6 +108,41 @@ describe('generateExercise', () => {
     expect(a.prompts.map((p) => p.id)).toEqual(b.prompts.map((p) => p.id));
   });
 
+  it('gives every exercise the shared default keyboard window (C3–B5)', () => {
+    const spec = generateExercise(
+      lesson({ generatorParams: { noteNames: ['C', 'D', 'E'], count: 3 } }),
+      { tier: 1 },
+      seededRand(),
+    );
+    expect(spec.keyboardRange).toEqual({ low: 48, high: 83 });
+  });
+
+  it('lets a lesson author its keyboard range via generatorParams (octave-aligned)', () => {
+    const spec = generateExercise(
+      lesson({
+        generatorParams: { noteNames: ['C', 'F', 'G'], count: 3, lowPitch: 50, highPitch: 70 },
+      }),
+      { tier: 2 },
+      seededRand(),
+    );
+    // 50 (D3) floors to C3 = 48; 70 (A#4) ceils to B4 = 71.
+    expect(spec.keyboardRange).toEqual({ low: 48, high: 71 });
+  });
+
+  it('widens the window when ear-prompt audio reaches beyond the default', () => {
+    const spec = generateExercise(
+      lesson({
+        exerciseType: 'chord-ear',
+        generatorParams: { qualities: ['major'], roots: ['C'], count: 2 },
+      }),
+      { tier: 4 },
+      seededRand(),
+    );
+    // Chord audio sits inside C3–B5 → default window, never narrower.
+    expect(spec.keyboardRange?.low).toBeLessThanOrEqual(48);
+    expect(spec.keyboardRange?.high).toBeGreaterThanOrEqual(83);
+  });
+
   it('throws on an exercise type with no generator', () => {
     expect(() =>
       generateExercise(lesson({ exerciseType: 'play-chart' }), { tier: 1 }, seededRand()),

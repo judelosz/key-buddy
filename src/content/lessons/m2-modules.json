@@ -63,7 +63,9 @@
         "F",
         "G"
       ],
-      "count": 6
+      "count": 6,
+      "lowPitch": 48,
+      "highPitch": 71
     }
   },
   {

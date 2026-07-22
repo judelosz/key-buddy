@@ -44,6 +44,12 @@ export interface ExerciseSpec {
   exerciseType: ExerciseType;
   tier: Tier;
   prompts: ExercisePrompt[];
+  /**
+   * On-screen keyboard window for this exercise (whole octaves). Derived from
+   * the exercise's own pitches — never narrower than the app-wide default —
+   * or authored per lesson via generatorParams.lowPitch/highPitch.
+   */
+  keyboardRange?: { low: number; high: number };
 }
 
 export type ResponseEvent =

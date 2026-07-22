@@ -62,6 +62,14 @@ export function octaveRange(minPitch: number, maxPitch: number): { low: number; 
 export const MIN_DISPLAY_LOW = 48; // C3
 export const MIN_DISPLAY_HIGH = 83; // B5
 
+/**
+ * The app-wide standard keyboard window (3 octaves, C3–B5) — the same floor
+ * the chart player uses, so every surface (exercises, onboarding, calibration)
+ * shows one consistent baseline keyboard. Content widens from here: charts via
+ * displayRange(), exercises via ExerciseSpec.keyboardRange.
+ */
+export const DEFAULT_KEYBOARD_RANGE = { low: MIN_DISPLAY_LOW, high: MIN_DISPLAY_HIGH } as const;
+
 /** Octave range covering the song, but never narrower than the default window. */
 export function displayRange(minPitch: number, maxPitch: number): { low: number; high: number } {
   const { low, high } = octaveRange(minPitch, maxPitch);

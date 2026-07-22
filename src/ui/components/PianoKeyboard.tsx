@@ -3,7 +3,7 @@ import { COMPUTER_KEY_MAP } from '@/input/providers/virtualProvider';
 import { virtualProvider, inputService } from '@/input';
 import { audioService } from '@/audio/audioService';
 import { midiToName } from '@/core/music';
-import { keyRects } from '@/core/pianoLayout';
+import { DEFAULT_KEYBOARD_RANGE, keyRects } from '@/core/pianoLayout';
 
 interface PianoKeyboardProps {
   lowPitch?: number;
@@ -28,9 +28,12 @@ async function ensureAudio(): Promise<void> {
   if (!audioService.isInitialized) await audioService.init();
 }
 
+/** Above this many white keys, only C landmarks keep labels (density guard). */
+const MAX_FULLY_LABELED_WHITES = 21; // 3 octaves
+
 export function PianoKeyboard({
-  lowPitch = 60,
-  highPitch = 84,
+  lowPitch = DEFAULT_KEYBOARD_RANGE.low,
+  highPitch = DEFAULT_KEYBOARD_RANGE.high,
   labels = 'notes',
   height = 150,
 }: PianoKeyboardProps) {
@@ -41,6 +44,9 @@ export function PianoKeyboard({
   const rects = useMemo(() => keyRects(lowPitch, highPitch, 100), [lowPitch, highPitch]);
   const whites = rects.filter((r) => !r.black);
   const blacks = rects.filter((r) => r.black);
+  const denseLabels = whites.length > MAX_FULLY_LABELED_WHITES;
+  const showLabel = (pitch: number) =>
+    labels === 'notes' && (!denseLabels || pitch % 12 === 0);
 
   const flash = useCallback((pitch: number) => {
     setActive((prev) => new Set(prev).add(pitch));
@@ -95,7 +101,7 @@ export function PianoKeyboard({
           }`}
           style={{ left: `calc(${r.x}% + 1px)`, width: `calc(${r.width}% - 2px)` }}
         >
-          {labels === 'notes' && (
+          {showLabel(r.pitch) && (
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center text-[10px] font-medium">
               {keyLabel(r.pitch)}
             </span>
@@ -114,7 +120,7 @@ export function PianoKeyboard({
           }`}
           style={{ left: `${r.x}%`, width: `${r.width}%`, height: '62%' }}
         >
-          {labels === 'notes' && (
+          {showLabel(r.pitch) && (
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center">
               {keyLabel(r.pitch)}
             </span>

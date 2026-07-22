@@ -6,6 +6,7 @@
 import type { Tier } from '@/core/types';
 import type { CurriculumLesson, TheoryConcept } from '@/core/curriculum/types';
 import { midiToName, nameToPitchClass, parseChordSymbol, voiceChord } from '@/core/music';
+import { DEFAULT_KEYBOARD_RANGE, displayRange, octaveRange } from '@/core/pianoLayout';
 import type { AudioChord, ExercisePrompt, ExerciseSpec } from './types';
 
 export interface GeneratorContext {
@@ -217,6 +218,26 @@ function listen(lesson: CurriculumLesson): ExercisePrompt[] {
   ];
 }
 
+/**
+ * The exercise's on-screen keyboard window. An authored
+ * generatorParams.lowPitch/highPitch override wins (octave-aligned as given);
+ * otherwise derive from any absolute pitches the exercise involves, never
+ * narrower than the app-wide default (keyboard grading is octave-agnostic, so
+ * every visible octave is a valid answer).
+ */
+function keyboardRangeFor(
+  lesson: CurriculumLesson,
+  prompts: readonly ExercisePrompt[],
+): { low: number; high: number } {
+  const p = lesson.generatorParams ?? {};
+  if (typeof p.lowPitch === 'number' && typeof p.highPitch === 'number') {
+    return octaveRange(p.lowPitch, p.highPitch);
+  }
+  const pitches = prompts.flatMap((pr) => pr.audio?.flatMap((a) => a.pitches) ?? []);
+  if (pitches.length === 0) return { ...DEFAULT_KEYBOARD_RANGE };
+  return displayRange(Math.min(...pitches), Math.max(...pitches));
+}
+
 // ─── Dispatch ────────────────────────────────────────────────────────────────
 
 /**
@@ -257,5 +278,11 @@ export function generateExercise(
   if (prompts.length === 0) {
     throw new Error(`Exercise ${lesson.id} generated no prompts — check generatorParams`);
   }
-  return { lessonId: lesson.id, exerciseType: lesson.exerciseType, tier: ctx.tier, prompts };
+  return {
+    lessonId: lesson.id,
+    exerciseType: lesson.exerciseType,
+    tier: ctx.tier,
+    prompts,
+    keyboardRange: keyboardRangeFor(lesson, prompts),
+  };
 }
