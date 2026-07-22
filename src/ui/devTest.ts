@@ -45,6 +45,13 @@ export function installDevTest(): void {
       async reset() {
         await repository.clearAll();
       },
+      /** Skip the first-run onboarding gate (persists onboardedAt). */
+      async completeOnboarding() {
+        await useGameStore.getState().init();
+        await useGameStore.getState().completeOnboarding();
+        const { useAppStore } = await import('@/ui/store/appStore');
+        useAppStore.getState().setShowOnboarding(false);
+      },
     },
   });
 }

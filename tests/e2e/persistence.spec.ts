@@ -1,14 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { seamReady, skipOnboarding } from './helpers';
 
 /**
  * Plays a canned mastery take through the real progression/reward/persistence
  * path (via the dev test seam), then asserts the earned state survives a reload
  * and that the skill-gated unlock fired.
  */
-// The dev seam installs via async import; wait for it before driving it.
-const seamReady = (page: import('@playwright/test').Page) =>
-  page.waitForFunction(() => '__pianoTest' in window);
-
 test('progress and unlocks persist across reload', async ({ page }) => {
   await page.goto('/');
   await seamReady(page);
@@ -18,7 +15,7 @@ test('progress and unlocks persist across reload', async ({ page }) => {
     await window.__pianoTest.reset();
   });
   await page.reload();
-  await seamReady(page);
+  await skipOnboarding(page);
   const reward = await page.evaluate(async () => {
     // @ts-expect-error dev-only seam
     return window.__pianoTest.recordCanned();
@@ -31,7 +28,7 @@ test('progress and unlocks persist across reload', async ({ page }) => {
   await expect(page.getByText('1d')).toBeVisible(); // 1-day streak
   await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
 
-  // Reload — state is loaded from IndexedDB, not reset.
+  // Reload — state is loaded from IndexedDB, not reset (incl. onboardedAt).
   await page.reload();
   await seamReady(page);
   await page.getByRole('button', { name: 'Progress' }).click();

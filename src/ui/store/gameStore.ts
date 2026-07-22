@@ -20,10 +20,16 @@ interface GameState {
 
   init: () => Promise<void>;
   recordAttempt: (song: Song, chart: Chart, attempt: Attempt) => Promise<AttemptReward>;
+  /** Marks first-run onboarding done (persists onboardedAt; no-op on replay). */
+  completeOnboarding: () => Promise<void>;
   isUnlocked: (songId: string) => boolean;
   unlockProgress: (song: Song) => UnlockProgress;
   bestStars: (chartId: string) => number;
 }
+
+/** Single-flight init: concurrent callers (app mount, dev seam) share one load
+ * so a late-resolving duplicate can't overwrite fresher state. */
+let initPromise: Promise<void> | null = null;
 
 export const useGameStore = create<GameState>((set, get) => ({
   loaded: false,
@@ -33,20 +39,22 @@ export const useGameStore = create<GameState>((set, get) => ({
   unlockedIds: new Set(),
   lastReward: null,
 
-  init: async () => {
-    if (get().loaded) return;
-    const content = getContent();
-    let player = await repository.loadPlayerState();
-    if (!player) {
-      player = initialPlayerState();
-      await repository.savePlayerState(player);
-    }
-    const progressList = await repository.loadAllSkillProgress();
-    const skillProgressById = new Map(progressList.map((p) => [p.skillId, p]));
-    const chartBest = await repository.loadAllChartBest();
-    const chartBestById = new Map(Object.entries(chartBest));
-    const unlockedIds = unlockedSongIds(content.songs, skillProgressById);
-    set({ loaded: true, player, skillProgressById, chartBestById, unlockedIds });
+  init: () => {
+    initPromise ??= (async () => {
+      const content = getContent();
+      let player = await repository.loadPlayerState();
+      if (!player) {
+        player = initialPlayerState();
+        await repository.savePlayerState(player);
+      }
+      const progressList = await repository.loadAllSkillProgress();
+      const skillProgressById = new Map(progressList.map((p) => [p.skillId, p]));
+      const chartBest = await repository.loadAllChartBest();
+      const chartBestById = new Map(Object.entries(chartBest));
+      const unlockedIds = unlockedSongIds(content.songs, skillProgressById);
+      set({ loaded: true, player, skillProgressById, chartBestById, unlockedIds });
+    })();
+    return initPromise;
   },
 
   recordAttempt: async (song, chart, attempt) => {
@@ -89,6 +97,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     ]);
 
     return res.reward;
+  },
+
+  completeOnboarding: async () => {
+    const { player } = get();
+    if (player.onboardedAt !== undefined) return;
+    const next = { ...player, onboardedAt: Date.now() };
+    set({ player: next });
+    await repository.savePlayerState(next);
   },
 
   isUnlocked: (songId) => get().unlockedIds.has(songId),

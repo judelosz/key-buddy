@@ -1,13 +1,16 @@
 import { test, expect } from '@playwright/test';
+import { skipOnboarding } from './helpers';
 
 test('loads and shows the Missions hub', async ({ page }) => {
   await page.goto('/');
+  await skipOnboarding(page);
   await expect(page.getByRole('heading', { name: 'Piano Pro' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Ready to play?' })).toBeVisible();
 });
 
 test('navigates to Free Play and loads a song', async ({ page }) => {
   await page.goto('/');
+  await skipOnboarding(page);
   await page.getByRole('button', { name: 'Free Play', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Play a song' })).toBeVisible();
 
@@ -20,12 +23,14 @@ test('navigates to Free Play and loads a song', async ({ page }) => {
 
 test('AFK tab shows the Woodshed explainer', async ({ page }) => {
   await page.goto('/');
+  await skipOnboarding(page);
   await page.getByRole('button', { name: 'AFK Mode', exact: true }).click();
   await expect(page.getByRole('heading', { name: /The Woodshed/ })).toBeVisible();
 });
 
 test('settings input monitor logs a virtual key press', async ({ page }) => {
   await page.goto('/');
+  await skipOnboarding(page);
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   await page.getByRole('button', { name: /Input monitor/ }).click();
   // Click the first white key (C4) inside the expanded monitor.

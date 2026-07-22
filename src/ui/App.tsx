@@ -12,6 +12,7 @@ import { useAppStore, type Screen } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { LevelMeter } from '@/ui/components/LevelMeter';
+import { Onboarding } from '@/ui/onboarding/Onboarding';
 import { Missions } from '@/ui/missions/Missions';
 import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
@@ -34,8 +35,22 @@ export default function App() {
   }, [initGame]);
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
+  const showOnboarding = useAppStore((s) => s.showOnboarding);
+  const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
+  const loaded = useGameStore((s) => s.loaded);
   const player = useGameStore((s) => s.player);
   const levelBounds = levelForXpBounds(player.totalXP, player.playerLevel);
+
+  // First-run: no persisted onboardedAt → land on onboarding, not the shell.
+  const firstRun = loaded && player.onboardedAt === undefined;
+  useEffect(() => {
+    if (firstRun) setShowOnboarding(true);
+  }, [firstRun, setShowOnboarding]);
+
+  if (!loaded) return null;
+  if (showOnboarding || firstRun) {
+    return <Onboarding replay={player.onboardedAt !== undefined} />;
+  }
 
   return (
     <div className="mx-auto flex min-h-full max-w-4xl flex-col gap-8 px-5 py-8 sm:px-6">

@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Volume2 } from 'lucide-react';
+import { GraduationCap, Volume2 } from 'lucide-react';
 import { audioService } from '@/audio/audioService';
 import { repository } from '@/data/dexieRepository';
 import { useAppStore } from '@/ui/store/appStore';
@@ -71,6 +71,21 @@ export function Settings() {
                 : 'Playing on the built-in synth — the sampled piano loads in the background (needs internet the first time).'}
             </span>
           )}
+        </div>
+      </Section>
+
+      <Section title="Learning">
+        <div className="flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={() => useAppStore.getState().setShowOnboarding(true)}
+            className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+          >
+            <GraduationCap size={16} /> Replay the intro tour
+          </button>
+          <span className="text-sm text-ink-soft">
+            A one-minute refresher on Missions, XP, and mastery.
+          </span>
         </div>
       </Section>
 
