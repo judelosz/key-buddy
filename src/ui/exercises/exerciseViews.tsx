@@ -65,18 +65,15 @@ export function ChoiceExerciseView({
   );
 }
 
-/** rhythm-tap: start the metronome, tap any key on the clicks. */
+/** rhythm-tap: the player's own first tap launches the count-in. */
 export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
   return (
     <div className="flex flex-col gap-4">
       {!runner.tapsRunning ? (
-        <button
-          type="button"
-          onClick={() => void runner.startTaps()}
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
-        >
-          <Drum size={18} /> Start the count-in
-        </button>
+        <p className="flex items-center gap-2 font-display text-sm font-medium text-amber-deep">
+          <Drum size={16} className="animate-pop" />
+          Tap any key when you&rsquo;re ready — your first tap starts the count-in.
+        </p>
       ) : (
         <p className="font-display text-sm font-medium text-amber-deep">
           Count-in… then tap any key right on each click.

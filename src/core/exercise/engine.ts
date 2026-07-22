@@ -94,6 +94,10 @@ export class ExerciseEngine {
       }
 
       case 'taps': {
+        // Nothing counts until the count-in anchors the grid — a stray key
+        // press (or the launch tap that starts the metronome) is never an
+        // "extra" against the score.
+        if (this.promptShownAt === null) return {};
         if (e.kind === 'note') {
           this.matchTap(e.note.timestampMs, expected);
           return {};

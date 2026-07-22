@@ -39,6 +39,14 @@ export class ExerciseRunner {
   /** Start listening and arm the first prompt. */
   begin(): void {
     this.offNote = inputService.onNote((note) => {
+      // Taps prompts start on the player's OWN first tap — hands already in
+      // position, the count-in launches from them, not from a mouse click.
+      // That launch tap is consumed (never scored, never an extra).
+      const prompt = this.currentPrompt;
+      if (prompt?.expected.kind === 'taps' && !this.tapsRunning) {
+        void this.startTaps();
+        return;
+      }
       this.handle(this.engine.feed({ kind: 'note', note }));
     });
     this.armPrompt();
@@ -86,9 +94,10 @@ export class ExerciseRunner {
     const prompt = this.currentPrompt;
     if (!prompt || prompt.expected.kind !== 'taps' || this.tapsRunning) return;
     const expected = prompt.expected;
-    await audioService.init();
+    // Guard BEFORE the async init so two quick taps can't double-start.
     this.tapsRunning = true;
     this.cb.onChange();
+    await audioService.init();
 
     const totalBeats =
       expected.countInBeats + Math.max(...expected.beats, 0) + 1.5;

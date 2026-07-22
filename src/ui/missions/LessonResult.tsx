@@ -1,4 +1,4 @@
-import { ArrowRight, Award, Brain, Hand, RotateCcw, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Award, Brain, Hand, RotateCcw, Sparkles, TrendingUp } from 'lucide-react';
 import type { LessonReward } from '@/core/session/recordLesson';
 import type { CurriculumLesson } from '@/core/curriculum/types';
 import { useCountUp } from '@/ui/hooks/useCountUp';
@@ -104,23 +104,44 @@ export function LessonResult({ lesson, reward, onContinue, onRetry }: LessonResu
         </div>
       )}
 
+      {/* Pass → Replay + Continue; fail → Go Back + Try Again. The dominant
+          action always points the right way: forward on a pass, retry on a fail. */}
       <div className="flex items-center gap-3">
-        {!reward.passed && (
-          <button
-            type="button"
-            onClick={onRetry}
-            className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
-          >
-            <RotateCcw size={15} /> Try again
-          </button>
+        {reward.passed ? (
+          <>
+            <button
+              type="button"
+              onClick={onRetry}
+              className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+            >
+              <RotateCcw size={15} /> Replay
+            </button>
+            <button
+              type="button"
+              onClick={onContinue}
+              className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+            >
+              Continue <ArrowRight size={18} />
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={onContinue}
+              className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+            >
+              <ArrowLeft size={15} /> Go Back
+            </button>
+            <button
+              type="button"
+              onClick={onRetry}
+              className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+            >
+              <RotateCcw size={16} /> Try Again
+            </button>
+          </>
         )}
-        <button
-          type="button"
-          onClick={onContinue}
-          className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
-        >
-          Continue <ArrowRight size={18} />
-        </button>
       </div>
     </div>
   );

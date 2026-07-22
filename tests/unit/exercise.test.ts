@@ -203,6 +203,29 @@ describe('ExerciseEngine', () => {
     expect(done.done?.goodOrBetterPct).toBeCloseTo(3 / 4);
   });
 
+  it('ignores taps before the count-in anchors the grid (launch/stray taps are free)', () => {
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1],
+        bpm: 60,
+        countInBeats: 0,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    // The launch tap (and any stray press) arrives before prompt-shown.
+    engine.feed({ kind: 'note', note: note(60, 9_000) });
+    engine.feed({ kind: 'prompt-shown', atMs: 10_000 });
+    engine.feed({ kind: 'note', note: note(60, 10_010) });
+    engine.feed({ kind: 'note', note: note(60, 11_020) });
+    const done = engine.feed({ kind: 'commit', atMs: 12_000 });
+    // 2 good ÷ 2 targets — the pre-anchor tap was not an extra.
+    expect(done.promptResult?.scorePct).toBe(1);
+    expect(done.promptResult?.correct).toBe(true);
+  });
+
   it('counts missed targets and extra taps against the score', () => {
     const tapsPrompt = {
       id: 'p0',
