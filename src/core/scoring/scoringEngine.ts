@@ -108,7 +108,7 @@ function judgeEvent(
   };
 }
 
-function buildHistogram(deviations: number[]): TimingHistogram {
+export function buildHistogram(deviations: number[]): TimingHistogram {
   if (deviations.length === 0) {
     return { buckets: [], meanMs: 0, medianMs: 0, stdDevMs: 0 };
   }
