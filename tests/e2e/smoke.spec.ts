@@ -23,6 +23,15 @@ test('navigates to Free Play and loads a song', async ({ page }) => {
   await expect(page.getByTestId('piano-keyboard')).toBeVisible();
 });
 
+test('the header level ring opens the Progress tab from anywhere', async ({ page }) => {
+  await page.goto('/');
+  await skipOnboarding(page);
+  // From Free Play (any tab), the ring is a shortcut to Progress.
+  await page.getByRole('button', { name: 'Free Play', exact: true }).click();
+  await page.getByRole('button', { name: 'View your progress' }).click();
+  await expect(page.getByRole('heading', { name: 'Your progress' })).toBeVisible();
+});
+
 test('AFK tab shows the Woodshed explainer', async ({ page }) => {
   await page.goto('/');
   await skipOnboarding(page);

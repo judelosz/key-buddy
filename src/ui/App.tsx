@@ -83,11 +83,20 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <LevelMeter
-            level={meter.level}
-            fraction={Math.min(1, meter.tierHandsXP / Math.max(1, meter.band))}
-            gatesRemaining={meter.requirementsRemaining.length > 0}
-          />
+          {/* The level ring is a shortcut to the full story on the Progress tab. */}
+          <button
+            type="button"
+            onClick={() => setScreen('progress')}
+            aria-label="View your progress"
+            title="View your progress"
+            className="rounded-full transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+          >
+            <LevelMeter
+              level={meter.level}
+              fraction={Math.min(1, meter.tierHandsXP / Math.max(1, meter.band))}
+              gatesRemaining={meter.requirementsRemaining.length > 0}
+            />
+          </button>
         </div>
       </header>
 

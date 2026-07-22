@@ -24,14 +24,14 @@ test('progress and unlocks persist across reload', async ({ page }) => {
   expect(reward.newlyUnlockedSongIds).toContain('12-bar-blues-c');
 
   // Progress screen reflects the earned state.
-  await page.getByRole('button', { name: 'Progress' }).click();
+  await page.getByRole('button', { name: 'Progress', exact: true }).click();
   await expect(page.getByText('Advancing to Level 2')).toBeVisible();
   await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
 
   // Reload — state is loaded from IndexedDB, not reset (incl. onboardedAt).
   await page.reload();
   await seamReady(page);
-  await page.getByRole('button', { name: 'Progress' }).click();
+  await page.getByRole('button', { name: 'Progress', exact: true }).click();
   await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
 
   // The unlocked song is now playable in the picker.
