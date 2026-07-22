@@ -45,6 +45,11 @@ export interface Module {
   lessonIds: string[];
   /** Skills this module is responsible for teaching. */
   coreSkillIds: string[];
+  /** Earlier skills this module deliberately brings back (doc 06 §3.5 spiral;
+   * feeds SessionBuilder prerequisite-refresh and transfer re-entry). */
+  revisits: string[];
+  /** Later skills this module seeds — informational + transfer candidates. */
+  prepares: string[];
   /** The checkpoint lesson (mode independent/performance), when the module has one. */
   bossLessonId?: string;
 }
@@ -202,13 +207,29 @@ export interface TransferEvidence {
  * Phase 4 computes levels 0–1 only (charts have no sections yet); the
  * qualifying-evidence counters accumulate for the Phase-5 evidence engine.
  */
+/** One qualifying full-song performance (max one per calendar day). */
+export interface QualifyingPerformance {
+  date: string; // YYYY-MM-DD
+  atTempo: boolean;
+  attemptId: string;
+}
+
 export interface SongMastery {
   songId: string;
   level: 0 | 1 | 2 | 3 | 4 | 5;
   sectionProgress: Record<string, SectionMastery>;
   transitionProgress: Record<string, TransitionMastery>;
-  /** ISO dates of qualifying (mastery-quality, full-song) performances. */
+  /** ISO dates of qualifying performances (kept for back-compat; superset of
+   * qualifyingPerformances dates). */
   qualifyingSessionDates: string[];
+  /** Per-performance evidence (doc 06 §5.2: 5 performances / 5 days, ≥3 at tempo). */
+  qualifyingPerformances: QualifyingPerformance[];
+  /** Set when a qualifying performance landed after the song was absent from
+   * practice for a delay — the durable-mastery retrieval evidence. */
+  delayedRetrievalAt?: number;
+  /** Epoch ms of the most recent chart attempt on this song (any quality) —
+   * powers delayed-context detection. */
+  lastAttemptAt?: number;
   bestAttemptId?: string;
   lastAttemptId?: string;
   delayedReviewDue?: number;

@@ -129,6 +129,27 @@ export function validateCurriculum(raw: RawContent): string[] {
     if (module.bossLessonId && !module.lessonIds.includes(module.bossLessonId)) {
       problems.push(`Module ${module.id} bossLessonId ${module.bossLessonId} is not among its lessons`);
     }
+    // Spiral declarations (doc 06 §3.5 / doc 07 Phase 5): revisits look back,
+    // prepares look forward, and every module past Tier 1 revisits something.
+    for (const sid of module.revisits) {
+      const skill = skillById.get(sid);
+      if (!skill) {
+        problems.push(`Module ${module.id} revisits missing skill ${sid}`);
+      } else if (skill.tier > module.tier) {
+        problems.push(`Module ${module.id} revisits ${sid} (tier ${skill.tier}) — revisits must look back, not up`);
+      }
+    }
+    for (const sid of module.prepares) {
+      const skill = skillById.get(sid);
+      if (!skill) {
+        problems.push(`Module ${module.id} prepares missing skill ${sid}`);
+      } else if (skill.tier < module.tier) {
+        problems.push(`Module ${module.id} prepares ${sid} (tier ${skill.tier}) — prepares must look forward, not back`);
+      }
+    }
+    if (module.tier >= 2 && module.revisits.length === 0) {
+      problems.push(`Module ${module.id} (tier ${module.tier}) declares no revisits — every tier-2+ module must bring something back`);
+    }
     for (const coreId of module.coreSkillIds) {
       const skill = skillById.get(coreId);
       if (!skill) {
@@ -299,6 +320,12 @@ export function validateCurriculum(raw: RawContent): string[] {
       }
     }
 
+    const bossChart = raw.charts.find((c) => c.id === gate.bossChartId);
+    if (bossChart && (bossChart.sections?.length ?? 0) < 2) {
+      problems.push(
+        `Tier gate ${gate.tier} boss chart ${gate.bossChartId} needs at least 2 sections (SongMastery transitions)`,
+      );
+    }
     const bossSong = songById.get(gate.bossSongId);
     if (!bossSong) {
       problems.push(`Tier gate ${gate.tier} references missing boss song ${gate.bossSongId}`);

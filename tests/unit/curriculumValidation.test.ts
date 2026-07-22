@@ -52,13 +52,22 @@ const song = (id: string, over: Partial<Song> = {}): Song => ({
   ...over,
 });
 
-const chart = (id: string, songId: string): Chart => ({
+const chart = (id: string, songId: string, over: Partial<Chart> = {}): Chart => ({
   id,
   songId,
   arrangementLevel: 'simplified',
   timeSignature: { beatsPerBar: 4, beatUnit: 4 },
   chordSymbols: [],
-  notes: [{ id: 'n1', pitches: [60], startBeat: 0, durationBeats: 1, hand: 'right' }],
+  // Two bars, two sections — the minimum a boss chart needs.
+  notes: [
+    { id: 'n1', pitches: [60], startBeat: 0, durationBeats: 1, hand: 'right' },
+    { id: 'n2', pitches: [64], startBeat: 4, durationBeats: 1, hand: 'right' },
+  ],
+  sections: [
+    { id: 'A', label: 'First bar', startBar: 0, endBar: 0 },
+    { id: 'B', label: 'Second bar', startBar: 1, endBar: 1 },
+  ],
+  ...over,
 });
 
 const fragment = (id: string, sourceSongId: string): Fragment => ({
@@ -98,6 +107,8 @@ const moduleFx = (id: string, over: Partial<Module> = {}): Module => ({
   prerequisiteModuleIds: [],
   lessonIds: ['lesson-1'],
   coreSkillIds: ['skill-a'],
+  revisits: [],
+  prepares: [],
   ...over,
 });
 
@@ -309,6 +320,65 @@ describe('validateCurriculum', () => {
     raw.skills = [skill('skill-a', { outcome: undefined })];
     const problems = validateContent(raw);
     expect(problems.some((p) => p.includes('lacks curriculum fields'))).toBe(true);
+  });
+
+  it('flags missing, gapped, and short chart sections', () => {
+    const raw = validBundle();
+    raw.charts = [chart('boss-song--simplified', 'boss-song', { sections: undefined })];
+    expect(validateContent(raw).some((p) => p.includes('has no sections'))).toBe(true);
+
+    raw.charts = [
+      chart('boss-song--simplified', 'boss-song', {
+        sections: [
+          { id: 'A', label: 'A', startBar: 0, endBar: 0 },
+          { id: 'B', label: 'B', startBar: 2, endBar: 2 }, // gap: bar 1 uncovered
+        ],
+      }),
+    ];
+    expect(validateContent(raw).some((p) => p.includes('expected 1'))).toBe(true);
+
+    raw.charts = [
+      chart('boss-song--simplified', 'boss-song', {
+        sections: [{ id: 'A', label: 'A', startBar: 0, endBar: 0 }], // stops at bar 0 of 1
+      }),
+    ];
+    expect(validateContent(raw).some((p) => p.includes('but the chart has bars 0–1'))).toBe(true);
+  });
+
+  it('requires at least two sections on a boss chart', () => {
+    const raw = validBundle();
+    raw.charts = [
+      chart('boss-song--simplified', 'boss-song', {
+        sections: [{ id: 'A', label: 'All of it', startBar: 0, endBar: 1 }],
+      }),
+    ];
+    expect(validateContent(raw).some((p) => p.includes('needs at least 2 sections'))).toBe(true);
+  });
+
+  it('enforces spiral declarations: revisits look back, tier-2+ modules revisit something', () => {
+    const raw = validBundle();
+    // A tier-2 module with no revisits.
+    raw.skills = [...raw.skills, skill('skill-t2', { tier: 2, moduleId: 'mod-2' })];
+    raw.songs = [song('boss-song', { taughtSkills: ['skill-a', 'skill-t2'], tier: 2 })];
+    raw.modules = [
+      ...raw.modules,
+      moduleFx('mod-2', {
+        tier: 2,
+        lessonIds: [],
+        coreSkillIds: [],
+        prerequisiteModuleIds: ['mod-1'],
+      }),
+    ];
+    raw.tierGates = [gate(), gate({ tier: 2, coreSkillIds: ['skill-t2'] })];
+    let problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('declares no revisits'))).toBe(true);
+
+    // Revisiting a HIGHER-tier skill is looking up, not back.
+    raw.modules = raw.modules.map((m) =>
+      m.id === 'mod-1' ? { ...m, revisits: ['skill-t2'] } : m.id === 'mod-2' ? { ...m, revisits: ['skill-a'] } : m,
+    );
+    problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('revisits must look back'))).toBe(true);
   });
 
   it('flags a theory question with an out-of-range answer', () => {

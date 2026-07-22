@@ -4,8 +4,49 @@
  * curriculum/validateCurriculum.ts). Returns human-readable problems
  * (empty = valid).
  */
+import type { Chart } from '@/core/types';
 import { validateCurriculum } from '@/core/curriculum/validateCurriculum';
 import type { RawContent } from './contentService';
+
+/** Last 0-based bar index a chart's notes reach. */
+export function chartLastBar(chart: Pick<Chart, 'notes' | 'timeSignature'>): number {
+  const maxEnd = Math.max(...chart.notes.map((n) => n.startBeat + n.durationBeats));
+  return Math.ceil(maxEnd / chart.timeSignature.beatsPerBar) - 1;
+}
+
+/**
+ * Song charts must carry phrase-level sections covering every bar exactly
+ * once, in order — the substrate for SongMastery section/transition evidence.
+ */
+function validateChartSections(chart: Chart): string[] {
+  const problems: string[] = [];
+  if (!chart.sections || chart.sections.length === 0) {
+    problems.push(`Chart ${chart.id} has no sections (song charts must be sectioned)`);
+    return problems;
+  }
+  const lastBar = chartLastBar(chart);
+  const seen = new Set<string>();
+  let expectedStart = 0;
+  for (const s of chart.sections) {
+    if (seen.has(s.id)) problems.push(`Chart ${chart.id} has duplicate section id ${s.id}`);
+    seen.add(s.id);
+    if (s.startBar !== expectedStart) {
+      problems.push(
+        `Chart ${chart.id} section ${s.id} starts at bar ${s.startBar}, expected ${expectedStart} (sections must tile contiguously from bar 0)`,
+      );
+    }
+    if (s.endBar < s.startBar) {
+      problems.push(`Chart ${chart.id} section ${s.id} ends before it starts`);
+    }
+    expectedStart = s.endBar + 1;
+  }
+  if (expectedStart !== lastBar + 1) {
+    problems.push(
+      `Chart ${chart.id} sections cover bars 0–${expectedStart - 1} but the chart has bars 0–${lastBar}`,
+    );
+  }
+  return problems;
+}
 
 export class ContentValidationError extends Error {
   constructor(public readonly problems: string[]) {
@@ -83,6 +124,7 @@ export function validateContent(raw: RawContent, requireCharts = false): string[
         problems.push(`Chart ${chart.id} note ${note.id} has non-positive duration`);
       }
     }
+    problems.push(...validateChartSections(chart));
   }
 
   for (const fragment of raw.fragments) {

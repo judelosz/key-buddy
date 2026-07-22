@@ -535,5 +535,31 @@
       "durationBeats": 4,
       "hand": "left"
     }
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "label": "Chords settle in",
+      "startBar": 0,
+      "endBar": 3
+    },
+    {
+      "id": "A2",
+      "label": "Holding the pulse",
+      "startBar": 4,
+      "endBar": 7
+    },
+    {
+      "id": "B1",
+      "label": "The IV turn",
+      "startBar": 8,
+      "endBar": 11
+    },
+    {
+      "id": "A3",
+      "label": "Home stretch",
+      "startBar": 12,
+      "endBar": 15
+    }
   ]
 }

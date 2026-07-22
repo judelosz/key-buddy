@@ -33,7 +33,8 @@ const lesson = (over: Partial<CurriculumLesson> = {}): CurriculumLesson => ({
 
 const moduleFx = (over: Partial<Module> = {}): Module => ({
   id: 'm1', arc: 'foundation', tier: 1, title: 'M1', promise: '',
-  prerequisiteModuleIds: [], lessonIds: ['l-ear'], coreSkillIds: ['skill-a'], ...over,
+  prerequisiteModuleIds: [], lessonIds: ['l-ear'], coreSkillIds: ['skill-a'],
+  revisits: [], prepares: [], ...over,
 });
 
 const attempt = (over: Partial<Attempt> = {}): Attempt => ({

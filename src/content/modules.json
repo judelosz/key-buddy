@@ -19,7 +19,12 @@
       "geo-note-names",
       "ear-pitch-direction"
     ],
-    "bossLessonId": "l-mk-checkpoint"
+    "bossLessonId": "l-mk-checkpoint",
+    "revisits": [],
+    "prepares": [
+      "mech-five-finger-c",
+      "notation-staff-direction"
+    ]
   },
   {
     "id": "m1-steady-beat",
@@ -42,7 +47,12 @@
       "rhythm-steady-pulse",
       "rhythm-time-sig-44"
     ],
-    "bossLessonId": "l-sb-checkpoint"
+    "bossLessonId": "l-sb-checkpoint",
+    "revisits": [],
+    "prepares": [
+      "rhythm-time-sig-24",
+      "rhythm-eighth-notes"
+    ]
   },
   {
     "id": "m1-first-melody",
@@ -67,7 +77,14 @@
     "coreSkillIds": [
       "mech-five-finger-c"
     ],
-    "bossLessonId": "l-fm-boss"
+    "bossLessonId": "l-fm-boss",
+    "revisits": [
+      "geo-note-names",
+      "rhythm-steady-pulse"
+    ],
+    "prepares": [
+      "mech-pentascale-cfg"
+    ]
   },
   {
     "id": "m2-left-hand",
@@ -89,7 +106,13 @@
     "coreSkillIds": [
       "lh-root-notes"
     ],
-    "bossLessonId": "l-lh-checkpoint"
+    "bossLessonId": "l-lh-checkpoint",
+    "revisits": [
+      "geo-note-names"
+    ],
+    "prepares": [
+      "rep-melody-accompaniment"
+    ]
   },
   {
     "id": "m2-reading-map",
@@ -111,7 +134,15 @@
       "notation-staff-direction",
       "rhythm-time-sig-24"
     ],
-    "bossLessonId": "l-rm-checkpoint"
+    "bossLessonId": "l-rm-checkpoint",
+    "revisits": [
+      "ear-pitch-direction",
+      "rhythm-time-sig-44"
+    ],
+    "prepares": [
+      "rhythm-time-sig-34",
+      "theory-steps-skips"
+    ]
   },
   {
     "id": "m2-saints",
@@ -131,7 +162,14 @@
       "l-st-boss"
     ],
     "coreSkillIds": [],
-    "bossLessonId": "l-st-boss"
+    "bossLessonId": "l-st-boss",
+    "revisits": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "prepares": [
+      "mech-pentascale-cfg"
+    ]
   },
   {
     "id": "m3-steps-skips",
@@ -151,7 +189,14 @@
     "coreSkillIds": [
       "theory-steps-skips"
     ],
-    "bossLessonId": "l-ss-checkpoint"
+    "bossLessonId": "l-ss-checkpoint",
+    "revisits": [
+      "geo-note-names",
+      "ear-pitch-direction"
+    ],
+    "prepares": [
+      "scale-c-major"
+    ]
   },
   {
     "id": "m3-pentascales",
@@ -174,7 +219,15 @@
       "mech-pentascale-cfg",
       "rhythm-eighth-notes"
     ],
-    "bossLessonId": "l-pf-checkpoint"
+    "bossLessonId": "l-pf-checkpoint",
+    "revisits": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "prepares": [
+      "scale-c-major",
+      "chord-major-triad"
+    ]
   },
   {
     "id": "m3-susanna",
@@ -193,7 +246,14 @@
       "l-su-boss"
     ],
     "coreSkillIds": [],
-    "bossLessonId": "l-su-boss"
+    "bossLessonId": "l-su-boss",
+    "revisits": [
+      "lh-root-notes",
+      "rhythm-time-sig-44"
+    ],
+    "prepares": [
+      "harmony-i-iv-v"
+    ]
   },
   {
     "id": "m4-build-triad",
@@ -214,7 +274,15 @@
     "coreSkillIds": [
       "chord-major-triad"
     ],
-    "bossLessonId": "l-bt-checkpoint"
+    "bossLessonId": "l-bt-checkpoint",
+    "revisits": [
+      "geo-note-names",
+      "theory-steps-skips"
+    ],
+    "prepares": [
+      "harmony-i-iv-v",
+      "chord-dom7"
+    ]
   },
   {
     "id": "m4-one-four-five",
@@ -237,7 +305,15 @@
       "harmony-i-iv-v",
       "ear-tonic-away"
     ],
-    "bossLessonId": "l-ofv-checkpoint"
+    "bossLessonId": "l-ofv-checkpoint",
+    "revisits": [
+      "lh-root-notes",
+      "ear-pitch-direction"
+    ],
+    "prepares": [
+      "harmony-nashville-numbers",
+      "harmony-12bar-form"
+    ]
   },
   {
     "id": "m4-waltz-time",
@@ -256,7 +332,14 @@
     "coreSkillIds": [
       "rhythm-time-sig-34"
     ],
-    "bossLessonId": "l-wt-checkpoint"
+    "bossLessonId": "l-wt-checkpoint",
+    "revisits": [
+      "rhythm-time-sig-24",
+      "rhythm-steady-pulse"
+    ],
+    "prepares": [
+      "rhythm-swing-feel"
+    ]
   },
   {
     "id": "m4-mountain",
@@ -276,7 +359,14 @@
       "l-mt-boss"
     ],
     "coreSkillIds": [],
-    "bossLessonId": "l-mt-boss"
+    "bossLessonId": "l-mt-boss",
+    "revisits": [
+      "mech-pentascale-cfg",
+      "lh-root-notes"
+    ],
+    "prepares": [
+      "rep-melody-accompaniment"
+    ]
   },
   {
     "id": "m5-c-scale",
@@ -296,7 +386,14 @@
     "coreSkillIds": [
       "scale-c-major"
     ],
-    "bossLessonId": "l-cs-checkpoint"
+    "bossLessonId": "l-cs-checkpoint",
+    "revisits": [
+      "mech-pentascale-cfg",
+      "theory-steps-skips"
+    ],
+    "prepares": [
+      "harmony-nashville-numbers"
+    ]
   },
   {
     "id": "m5-chord-symbols",
@@ -317,7 +414,14 @@
       "theory-chord-symbols",
       "ear-phrase-ending"
     ],
-    "bossLessonId": "l-sy-checkpoint"
+    "bossLessonId": "l-sy-checkpoint",
+    "revisits": [
+      "chord-major-triad",
+      "harmony-i-iv-v"
+    ],
+    "prepares": [
+      "chord-dom7"
+    ]
   },
   {
     "id": "m5-amazing-grace",
@@ -341,6 +445,15 @@
     "coreSkillIds": [
       "rep-melody-accompaniment"
     ],
-    "bossLessonId": "l-ag-boss"
+    "bossLessonId": "l-ag-boss",
+    "revisits": [
+      "rhythm-time-sig-34",
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "prepares": [
+      "chord-dom7",
+      "harmony-12bar-form"
+    ]
   }
 ]

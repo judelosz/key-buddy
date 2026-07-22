@@ -404,5 +404,19 @@
       "durationBeats": 4,
       "hand": "left"
     }
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "label": "Melody alone — the rising call",
+      "startBar": 0,
+      "endBar": 7
+    },
+    {
+      "id": "B1",
+      "label": "Hands together — the answer home",
+      "startBar": 8,
+      "endBar": 15
+    }
   ]
 }

@@ -1077,5 +1077,25 @@
       "durationBeats": 1,
       "hand": "left"
     }
+  ],
+  "sections": [
+    {
+      "id": "I",
+      "label": "Bars 1–4 — home",
+      "startBar": 0,
+      "endBar": 3
+    },
+    {
+      "id": "IV",
+      "label": "Bars 5–8 — away and back",
+      "startBar": 4,
+      "endBar": 7
+    },
+    {
+      "id": "V",
+      "label": "Bars 9–12 — the turnaround",
+      "startBar": 8,
+      "endBar": 11
+    }
   ]
 }

@@ -19,9 +19,19 @@ export function initialSongMastery(songId: string): SongMastery {
     sectionProgress: {},
     transitionProgress: {},
     qualifyingSessionDates: [],
+    qualifyingPerformances: [],
     transferEvidence: [],
     weakSectionIds: [],
   };
+}
+
+/** Fill Phase-5 fields on rows persisted by the Phase-4 schema. Old qualifying
+ * dates required the mastery star, which implies at-tempo. Idempotent. */
+export function normalizeSongMastery(raw: SongMastery): SongMastery {
+  const qualifyingPerformances =
+    raw.qualifyingPerformances ??
+    raw.qualifyingSessionDates.map((date) => ({ date, atTempo: true, attemptId: 'pre-v3' }));
+  return { ...initialSongMastery(raw.songId), ...raw, qualifyingPerformances };
 }
 
 export type SongEvidence =

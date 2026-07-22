@@ -820,5 +820,31 @@
       "durationBeats": 2,
       "hand": "left"
     }
+  ],
+  "sections": [
+    {
+      "id": "V1",
+      "label": "Verse, first half",
+      "startBar": 0,
+      "endBar": 4
+    },
+    {
+      "id": "V2",
+      "label": "Verse, second half",
+      "startBar": 5,
+      "endBar": 8
+    },
+    {
+      "id": "C1",
+      "label": "Chorus",
+      "startBar": 9,
+      "endBar": 11
+    },
+    {
+      "id": "V3",
+      "label": "Final phrase",
+      "startBar": 12,
+      "endBar": 15
+    }
   ]
 }

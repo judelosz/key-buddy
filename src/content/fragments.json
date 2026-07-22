@@ -2645,5 +2645,207 @@
         }
       ]
     }
+  },
+  {
+    "id": "frag-pinetops-change-cell",
+    "sourceSongId": "pinetops-boogie",
+    "label": "Pinetop's I→IV change — one chord cell",
+    "skillTags": [
+      "harmony-i-iv-v",
+      "chord-major-triad"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F7"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "pcc0",
+          "pitches": [
+            64,
+            67,
+            70
+          ],
+          "startBeat": 0,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "pcc1",
+          "pitches": [
+            64,
+            67,
+            70
+          ],
+          "startBeat": 2,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "pcc2",
+          "pitches": [
+            63,
+            65,
+            69
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "pcc3",
+          "pitches": [
+            63,
+            65,
+            69
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "pcc4",
+          "pitches": [
+            64,
+            67,
+            70
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-pinetops-run-cell",
+    "sourceSongId": "pinetops-boogie",
+    "label": "Pinetop's right-hand run — scale tones at work",
+    "skillTags": [
+      "scale-c-major"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "prc0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc1",
+          "pitches": [
+            62
+          ],
+          "startBeat": 0.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc2",
+          "pitches": [
+            64
+          ],
+          "startBeat": 1,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc3",
+          "pitches": [
+            67
+          ],
+          "startBeat": 1.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc4",
+          "pitches": [
+            69
+          ],
+          "startBeat": 2,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc5",
+          "pitches": [
+            67
+          ],
+          "startBeat": 2.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc6",
+          "pitches": [
+            64
+          ],
+          "startBeat": 3,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc7",
+          "pitches": [
+            62
+          ],
+          "startBeat": 3.5,
+          "durationBeats": 0.5,
+          "hand": "right"
+        },
+        {
+          "id": "prc8",
+          "pitches": [
+            60
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "prc9",
+          "pitches": [
+            60
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        }
+      ]
+    }
   }
 ]

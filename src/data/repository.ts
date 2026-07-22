@@ -44,6 +44,7 @@ export function initialPlayerState(): PlayerState {
     currentPlayingTier: 1,
     learningTier: 1,
     tierHandsXP: 0,
+    tierXpBySong: {},
     tierGatePassedAt: {},
     headTrackXP: 0,
     riffs: 0,
@@ -69,6 +70,7 @@ export function normalizePlayerState(raw: Partial<PlayerState>): PlayerState {
     ...raw,
     learningTier,
     tierHandsXP: raw.tierHandsXP ?? 0,
+    tierXpBySong: raw.tierXpBySong ?? {},
     tierGatePassedAt: raw.tierGatePassedAt ?? {},
     playerLevel: learningTier,
   };

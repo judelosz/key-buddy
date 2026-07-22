@@ -319,5 +319,19 @@
       "durationBeats": 2,
       "hand": "right"
     }
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "label": "First phrase",
+      "startBar": 0,
+      "endBar": 3
+    },
+    {
+      "id": "A2",
+      "label": "Second phrase",
+      "startBar": 4,
+      "endBar": 7
+    }
   ]
 }

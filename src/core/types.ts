@@ -69,6 +69,20 @@ export interface NoteEvent {
   hand: Hand;
 }
 
+/**
+ * A named span of bars (doc 06 §5.2) — the unit of SongMastery section
+ * evidence and section drills. Transitions are derived between consecutive
+ * sections, never authored.
+ */
+export interface ChartSection {
+  id: string; // stable within the chart, e.g. "A1"
+  label: string; // learner-facing, e.g. "Verse, first half"
+  startBar: number; // inclusive, 0-based
+  endBar: number; // inclusive
+  /** Counts toward SongMastery coverage (default true). */
+  required?: boolean;
+}
+
 /** The ordered, tempo-independent note data of a song arrangement. */
 export interface Chart {
   id: string;
@@ -78,6 +92,9 @@ export interface Chart {
   /** Chord symbols aligned to bars, e.g. { bar: 0, symbol: 'C7' } (primary notation). */
   chordSymbols: ChordSymbol[];
   notes: NoteEvent[];
+  /** Phrase-level sections covering every bar; required on song charts
+   * (fragments' embedded charts are exempt). */
+  sections?: ChartSection[];
 }
 
 export type ArrangementLevel = 'simplified' | 'full';
@@ -233,6 +250,11 @@ export interface Attempt {
   assistsUsed: Assist[];
   xpAwarded: number;
   riffsAwarded: number;
+  /** Set when the take happened inside a practice session. */
+  sessionId?: string;
+  /** Set when the take was a section drill (a sliced sub-chart) — such
+   * attempts accrue section evidence only, never chart/boss mastery. */
+  sectionId?: string;
 }
 
 export type Assist = 'falling-notes' | 'note-names' | 'one-hand' | 'slow-down' | 'metronome-count-in';
@@ -256,6 +278,9 @@ export interface SkillProgress {
   /** Set when a passing result landed while the FSRS card was due and the
    * skill was already functional — the tier gate's delayed-review evidence. */
   delayedReviewPassedAt?: number;
+  /** Distinct ISO dates of passing Hands results (capped ~10) — evidence for
+   * `SkillAssessment.repeatedSessions` ("N separate sessions"). */
+  handsEvidenceDates?: string[];
 }
 
 /** Opaque-ish FSRS card state (kept serializable for persistence). */
@@ -315,6 +340,9 @@ export interface PlayerState {
   learningTier: Tier;
   /** Hands XP accumulated within the current learning tier (meter fill). */
   tierHandsXP: number;
+  /** Per-song Hands XP counted toward the CURRENT tier band (anti-grind cap:
+   * one song can't fill most of a tier). Reset when a gate passes. */
+  tierXpBySong: Record<string, number>;
   /** Epoch ms each tier gate was passed at, keyed by tier. */
   tierGatePassedAt: Record<number, number>;
 

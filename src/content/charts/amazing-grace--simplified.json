@@ -441,5 +441,31 @@
       "durationBeats": 3,
       "hand": "left"
     }
+  ],
+  "sections": [
+    {
+      "id": "P1",
+      "label": "Amazing grace…",
+      "startBar": 0,
+      "endBar": 4
+    },
+    {
+      "id": "P2",
+      "label": "…that saved a wretch",
+      "startBar": 5,
+      "endBar": 8
+    },
+    {
+      "id": "P3",
+      "label": "I once was lost",
+      "startBar": 9,
+      "endBar": 12
+    },
+    {
+      "id": "P4",
+      "label": "…but now am found",
+      "startBar": 13,
+      "endBar": 16
+    }
   ]
 }
