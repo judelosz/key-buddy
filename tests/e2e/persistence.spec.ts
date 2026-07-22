@@ -38,6 +38,6 @@ test('progress and unlocks persist across reload', async ({ page }) => {
   await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
 
   // The unlocked song is now playable in the picker.
-  await page.getByRole('button', { name: 'Play' }).click();
+  await page.getByRole('button', { name: 'Free Play' }).click();
   await expect(page.getByTestId('song-12-bar-blues-c')).toBeEnabled();
 });

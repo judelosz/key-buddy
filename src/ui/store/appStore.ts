@@ -2,7 +2,13 @@ import { create } from 'zustand';
 import type { NotePlayed } from '@/core/types';
 import type { InputStatus } from '@/input';
 
-export type Screen = 'home' | 'play' | 'progress' | 'input-debug' | 'calibration';
+export type Screen = 'missions' | 'free-play' | 'afk' | 'progress' | 'settings';
+
+/** Lesson currently open in the full-screen runner (rendered over Missions). */
+export interface ActiveLesson {
+  moduleId: string;
+  lessonId: string;
+}
 
 export interface LoggedNote {
   pitch: number;
@@ -15,12 +21,17 @@ export interface LoggedNote {
 
 interface AppState {
   screen: Screen;
+  /** True on first run (no onboardedAt) or when replaying the intro from Settings. */
+  showOnboarding: boolean;
+  activeLesson: ActiveLesson | null;
   inputStatus: InputStatus;
   midiEnabled: boolean;
   calibrationOffsetMs: number;
   recentNotes: LoggedNote[];
 
   setScreen: (s: Screen) => void;
+  setShowOnboarding: (v: boolean) => void;
+  setActiveLesson: (l: ActiveLesson | null) => void;
   setInputStatus: (s: InputStatus) => void;
   setMidiEnabled: (v: boolean) => void;
   setCalibrationOffsetMs: (ms: number) => void;
@@ -31,13 +42,17 @@ interface AppState {
 const MAX_LOG = 24;
 
 export const useAppStore = create<AppState>((set) => ({
-  screen: 'home',
+  screen: 'missions',
+  showOnboarding: false,
+  activeLesson: null,
   inputStatus: { kind: 'no-provider' },
   midiEnabled: false,
   calibrationOffsetMs: 0,
   recentNotes: [],
 
   setScreen: (screen) => set({ screen }),
+  setShowOnboarding: (showOnboarding) => set({ showOnboarding }),
+  setActiveLesson: (activeLesson) => set({ activeLesson }),
   setInputStatus: (inputStatus) => set({ inputStatus }),
   setMidiEnabled: (midiEnabled) => set({ midiEnabled }),
   setCalibrationOffsetMs: (calibrationOffsetMs) => set({ calibrationOffsetMs }),

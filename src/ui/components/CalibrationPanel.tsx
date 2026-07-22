@@ -12,7 +12,17 @@ const BPM = 90;
 
 type Phase = 'idle' | 'running' | 'done';
 
-export function Calibration() {
+interface CalibrationPanelProps {
+  /** Hide the intro copy when the host (e.g. onboarding) provides its own. */
+  showIntro?: boolean;
+}
+
+/**
+ * Embeddable latency-calibration flow: tap along with the metronome for a few
+ * bars; the measured offset is applied to every future timing judgment.
+ * Used by the Settings screen and the onboarding input-setup step.
+ */
+export function CalibrationPanel({ showIntro = true }: CalibrationPanelProps) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [result, setResult] = useState<CalibrationResult | null>(null);
   const setCalibrationOffsetMs = useAppStore((s) => s.setCalibrationOffsetMs);
@@ -58,18 +68,16 @@ export function Calibration() {
   }, [setCalibrationOffsetMs]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Latency calibration</h2>
-        <p className="mt-1 max-w-prose text-sm text-ink-soft">
-          The audio stack adds a little delay, so honest playing can read as
-          &ldquo;late.&rdquo; Tap any key (or the space-mapped keys) on each click for a
-          couple of bars and we&rsquo;ll measure the offset and subtract it from every
-          judgment. One-time, per device.
+    <div className="flex flex-col gap-5">
+      {showIntro && (
+        <p className="max-w-prose text-sm text-ink-soft">
+          The audio stack adds a little delay, so honest playing can read as &ldquo;late.&rdquo; Tap
+          any key on each click for a couple of bars and we&rsquo;ll measure the offset and subtract
+          it from every judgment. One-time, per device.
         </p>
-      </div>
+      )}
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <button
           type="button"
           onClick={() => void run()}
@@ -95,7 +103,7 @@ export function Calibration() {
         </div>
       )}
 
-      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <PianoKeyboard />
       </div>
     </div>
