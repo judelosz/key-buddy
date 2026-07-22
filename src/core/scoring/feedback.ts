@@ -6,8 +6,11 @@ import type { Attempt, Chart } from '@/core/types';
 
 export interface BarAccuracy {
   bar: number;
-  correctPct: number; // 0–1
-  count: number;
+  correctPct: number; // 0–1, correct events ÷ events in the bar
+  count: number; // chart events in the bar
+  wrong: number; // wrong notes played in the bar
+  /** 0–1 bar score folding in wrong notes: correct ÷ (events + wrong). */
+  score: number;
 }
 
 export function barAccuracies(attempt: Attempt, chart: Chart): BarAccuracy[] {
@@ -17,18 +20,32 @@ export function barAccuracies(attempt: Attempt, chart: Chart): BarAccuracy[] {
     barOfEvent.set(note.id, Math.floor(note.startBeat / beatsPerBar));
   }
 
-  const totals = new Map<number, { correct: number; count: number }>();
+  const totals = new Map<number, { correct: number; count: number; wrong: number }>();
+  const bucket = (bar: number) => {
+    let t = totals.get(bar);
+    if (!t) {
+      t = { correct: 0, count: 0, wrong: 0 };
+      totals.set(bar, t);
+    }
+    return t;
+  };
+
   for (const g of attempt.perNoteGrades) {
-    const bar = barOfEvent.get(g.noteEventId) ?? 0;
-    const t = totals.get(bar) ?? { correct: 0, count: 0 };
+    const t = bucket(barOfEvent.get(g.noteEventId) ?? 0);
     t.count += 1;
     if (g.pitchCorrect) t.correct += 1;
-    totals.set(bar, t);
   }
+  for (const w of attempt.wrongNotes) bucket(w.bar).wrong += 1;
 
   return [...totals.entries()]
     .sort((a, b) => a[0] - b[0])
-    .map(([bar, t]) => ({ bar, correctPct: t.count ? t.correct / t.count : 0, count: t.count }));
+    .map(([bar, t]) => ({
+      bar,
+      correctPct: t.count ? t.correct / t.count : 0,
+      count: t.count,
+      wrong: t.wrong,
+      score: t.count + t.wrong ? t.correct / (t.count + t.wrong) : 1,
+    }));
 }
 
 /** The single most useful next-step nudge, chosen by priority. */
@@ -54,11 +71,12 @@ export function generateTip(attempt: Attempt, chart: Chart): string {
 
   const bars = barAccuracies(attempt, chart);
   const weakest = bars.reduce<BarAccuracy | null>(
-    (min, b) => (min === null || b.correctPct < min.correctPct ? b : min),
+    (min, b) => (min === null || b.score < min.score ? b : min),
     null,
   );
-  if (weakest && weakest.correctPct < 0.7) {
-    return `Bar ${weakest.bar + 1} is the weak spot — drill it hands-slow, then bring it back up to tempo.`;
+  if (weakest && weakest.score < 0.7) {
+    const why = weakest.wrong > 0 ? 'wrong notes and misses' : 'misses';
+    return `Bar ${weakest.bar + 1} is the weak spot (${why}) — drill it hands-slow, then bring it back up to tempo.`;
   }
 
   if (attempt.stars === 3 && !attempt.atTempo) {

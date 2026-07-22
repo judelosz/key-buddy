@@ -198,6 +198,8 @@ describe('extra notes count against the score', () => {
     // 4 correct + 4 wrong pitches (not in the chart) → 4 ÷ 8 = 0.5.
     const a = scoreAttempt(base({ played: played([73, 75, 78, 80]) }));
     expect(a.extraNotes).toBe(4);
+    expect(a.wrongNotes).toHaveLength(4);
+    expect(a.wrongNotes.every((w) => Number.isInteger(w.bar))).toBe(true);
     expect(a.notesCorrectPct).toBeCloseTo(0.5, 5);
     expect(a.stars).toBeLessThan(3);
   });

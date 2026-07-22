@@ -1,5 +1,15 @@
 import type { ReactNode } from 'react';
-import { Lightbulb, RotateCcw, Star, Zap, Coins, Sparkles, Unlock, Flame } from 'lucide-react';
+import {
+  Lightbulb,
+  RotateCcw,
+  Star,
+  Zap,
+  Coins,
+  Sparkles,
+  Unlock,
+  Flame,
+  AlertTriangle,
+} from 'lucide-react';
 import type { Attempt, Chart, Song } from '@/core/types';
 import { barAccuracies, generateTip } from '@/core/scoring/feedback';
 import type { AttemptReward } from '@/core/session/recordAttempt';
@@ -104,19 +114,40 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
       </div>
 
       <div className="rounded-3xl bg-surface p-5 shadow-soft">
-        <h3 className="mb-3 font-display text-sm font-semibold text-ink">Weak-bar heat-map</h3>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="font-display text-sm font-semibold text-ink">Trouble spots by bar</h3>
+          {attempt.extraNotes > 0 && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-grade-miss/10 px-2.5 py-1 text-xs font-medium text-grade-miss">
+              <AlertTriangle size={13} /> {attempt.extraNotes} wrong note
+              {attempt.extraNotes === 1 ? '' : 's'}
+            </span>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
           {bars.map((b) => (
-            <div
-              key={b.bar}
-              title={`Bar ${b.bar + 1}: ${pct(b.correctPct)} correct`}
-              className="flex h-9 w-9 items-center justify-center rounded-xl font-display text-xs font-semibold text-ink"
-              style={{ backgroundColor: heat(b.correctPct) }}
-            >
-              {b.bar + 1}
+            <div key={b.bar} className="relative">
+              <div
+                title={`Bar ${b.bar + 1}: ${pct(b.correctPct)} correct${
+                  b.wrong > 0 ? `, ${b.wrong} wrong note${b.wrong === 1 ? '' : 's'}` : ''
+                }`}
+                className="flex h-10 w-10 items-center justify-center rounded-xl font-display text-xs font-semibold text-ink"
+                style={{ backgroundColor: heat(b.score) }}
+              >
+                {b.bar + 1}
+              </div>
+              {b.wrong > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-grade-miss px-1 text-[10px] font-bold text-white shadow-soft">
+                  {b.wrong}
+                </span>
+              )}
             </div>
           ))}
         </div>
+        <p className="mt-3 text-xs text-ink-soft">
+          Greener bars are cleaner; redder bars had misses or wrong notes. A{' '}
+          <span className="font-semibold text-grade-miss">red badge</span> marks how many wrong
+          notes landed in that bar.
+        </p>
       </div>
 
       <div className="flex items-start gap-3 rounded-3xl bg-amber-soft p-5">

@@ -176,7 +176,7 @@ Load and validate skills/songs/charts/fragments/minigames JSON; expose queries t
 
 ## 7. Screen inventory (UI)
 
-Journey Map (default: guided next-step path) · Session Player (falling-notes + notation + live grade colors + metronome) · Woodshed/AFK (mini-games) · Roadmap & Skill Tree (two-lock nodes, goal-gradient progress bars) · Goals · Stats (timing-improvement graph, streak, mastery) · Shop/Cosmetics · Onboarding + Calibration + input setup · Session Report (histogram, weak-bar heatmap, one tip).
+**Path / Journey Map** (default guided next-step route; one dominant recommended action) · **Onboarding** (input setup, what the app teaches, Path vs Free Play, Riffs, unlocks, mastery, then launch Module 1) · **Free Play** (open practice of unlocked songs/arrangements using the same player and scoring) · Session Player (falling-notes + notation + live grade colors + metronome) · Woodshed/AFK (mini-games) · Roadmap & Skill Tree (two-lock nodes, goal-gradient progress bars) · Goals · Stats (timing-improvement graph, streak, mastery) · Shop/Cosmetics · Calibration · Session Report (histogram, weak-bar heatmap, one tip).
 
 Design-system note: a `symbolic-frontend` skill/brand may be applied for styling; keep visuals light, clean, satisfying hover/feedback, minimal emoji.
 
@@ -194,13 +194,15 @@ Build in vertical slices so there's a runnable loop early. Update `CLAUDE.md` at
 
 **Phase 3 — Progression + rewards + persistence.** Skill tree data, ProgressionService (two-lock), RewardService (XP/Riffs/streak + guardrails), FSRS review queue, IndexedDB persistence. Skill-gated unlocks working.
 
-**Phase 4 — SessionBuilder + AdaptiveDifficulty.** Interleaved daily sessions, spaced review woven in, stretch-song fragments, flow-based tempo/assist adaptation.
+**Phase 4 — Curriculum/content vertical slice.** Implement the funneled Path experience, lightweight onboarding, Path vs Free Play separation, and a real Tier 1–5 module/song/exercise loop. Establish the content schemas and first curriculum assessments.
 
-**Phase 5 — Woodshed/AFK mode.** Mini-game engine, Head-lock coupling, +1 preview cap, streak-keeps-alive, rhythm-tap reusing the timing engine.
+**Phase 5 — SessionBuilder + AdaptiveDifficulty.** Interleaved daily sessions, spaced review woven in, stretch-song fragments, flow-based tempo/assist adaptation, and session lengths.
 
-**Phase 6 — Roadmap, Goals, Cosmetics, polish.** Journey Map, skill-tree UI with two-lock nodes, goal-setting, stats dashboard with timing-improvement graph, shop/cosmetics, variable-reward flourishes, onboarding.
+**Phase 6 — Woodshed/AFK mode.** Mini-game engine, Head-lock coupling, +1 preview cap, streak-keeps-alive, rhythm-tap reusing the timing engine.
 
-**Phase 7 — Content expansion.** Grow the song library beyond the v1 starter set across tiers/genres; author more charts and mini-games.
+**Phase 7 — Journey, goals, stats, cosmetics, and polish.** Expand the Path map, skill-tree UI, goal-setting, timing-improvement graph, shop/cosmetics, variable-reward flourishes, and returning-user motivation.
+
+**Phase 8 — Content expansion.** Grow the song library beyond the Tier 1–5 vertical slice across Tiers 6–30 and blues/gospel/country; author more charts, fragments, and mini-games.
 
 MVP = Phases 0–3 (a real, rewarding, honest single-song-plus-progression loop). Everything after deepens it.
 

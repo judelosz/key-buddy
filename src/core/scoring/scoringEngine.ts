@@ -179,15 +179,25 @@ export function scoreAttempt(params: ScoreParams): Attempt {
       else onsetsByPitch.set(pitch, [onset]);
     }
   }
+  const beatsPerBar = chart.timeSignature.beatsPerBar;
+  const maxEventBar = events.reduce(
+    (m, e) => Math.max(m, Math.floor(e.startBeat / beatsPerBar)),
+    0,
+  );
   const wrongWindowMs = Math.max(matchMs, beatMs);
-  let extraNotes = 0;
+  const wrongNotes: { pitch: number; bar: number }[] = [];
   for (const slot of slots) {
     if (slot.consumed) continue;
     const onsets = onsetsByPitch.get(slot.note.pitch);
     const nearRealNote =
       onsets?.some((o) => Math.abs(slot.note.timestampMs - o) <= wrongWindowMs) ?? false;
-    if (!nearRealNote) extraNotes += 1;
+    if (nearRealNote) continue;
+    // Attribute the wrong note to the bar it landed in (clamped to the song).
+    const beat = (slot.note.timestampMs - startTimeMs) / beatMs;
+    const bar = Math.min(maxEventBar, Math.max(0, Math.floor(beat / beatsPerBar)));
+    wrongNotes.push({ pitch: slot.note.pitch, bar });
   }
+  const extraNotes = wrongNotes.length;
 
   // Accuracy folds wrong notes into the denominator: right notes ÷ (expected
   // notes + wrong notes). Playing extra/incorrect notes now lowers the score.
@@ -216,6 +226,7 @@ export function scoreAttempt(params: ScoreParams): Attempt {
     timestamp: Date.now(),
     perNoteGrades,
     timingHistogram,
+    wrongNotes,
     extraNotes,
     notesCorrectPct,
     goodOrBetterPct,

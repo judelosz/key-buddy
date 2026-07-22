@@ -183,8 +183,10 @@ export interface Attempt {
   timestamp: number;
   perNoteGrades: PerNoteGrade[];
   timingHistogram: TimingHistogram;
-  /** Wrong/extra notes the player hit that don't belong in the chart. */
-  extraNotes: number;
+  /** Wrong/extra notes the player hit that don't belong in the chart, each
+   * attributed to the bar it fell in (for the report heat-map). */
+  wrongNotes: { pitch: Pitch; bar: number }[];
+  extraNotes: number; // = wrongNotes.length (convenience)
   notesCorrectPct: number; // 0–1, correct events ÷ (events + extra notes)
   goodOrBetterPct: number; // 0–1 of hits with Good+ timing
   greatOrBetterPct: number; // 0–1 of hits with Great+ timing

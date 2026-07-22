@@ -119,6 +119,135 @@ The existing six skill families remain the content taxonomy. For instructional s
 
 The app should not present these as five school subjects. The user should experience a module as “learn a shuffle groove,” with the theory, ear, movement, and song application woven through it.
 
+### 5.1 Scales are a recurring musical tool, not a detached exercise track
+
+Scales should be part of the curriculum from the beginning, but they should be taught for a musical reason rather than as pages of abstract finger drills. Every scale lesson should connect four representations: shape, sound, theory, and use in a riff, fill, bass line, melody, or improvisation.
+
+| Scale / pattern | First use | Genre connection | Curriculum role |
+|---|---|---|---|
+| Five-finger patterns | Tiers 1–2 | All genres | Keyboard geography, finger control, simple melodies |
+| C, F, and G major pentascales | Tiers 2–4 | All genres | Position shifts, I–IV–V songs, basic reading |
+| C major scale | Tiers 4–6 | All genres | Scale degrees, Nashville numbers, chord construction |
+| G and F major scales | Tiers 7–10 | Country and gospel | Transposition, key signatures, accompaniment in common keys |
+| Minor pentatonic | Tiers 8–12 | Blues and country | Blues vocabulary, fills, call-and-response |
+| Blues scale | Tiers 10–14 | Blues, gospel, country crossover | Improvisation, blue notes, turnarounds, expressive tension |
+| Major pentatonic | Tiers 11–15 | Country and gospel | Melodic fills, hymn/country phrasing, consonant improvisation |
+| D and B♭ major scales | Tiers 13–18 | Country and gospel | More key fluency and black-key geography |
+| Natural minor / relative minor pairs | Tiers 15–20 | Blues and gospel | Minor songs, modal color, chord/scale hearing |
+| Additional major/minor scales by circle of fifths | Tiers 20–30 | All genres | Transposition, lead-sheet fluency, arranging, improvisation |
+
+The app should not require all twelve major scales before the user can make meaningful music. It should require the next scale when it unlocks a real musical capability, then revisit the scale through spaced practice and varied applications.
+
+### 5.2 Scale lesson anatomy
+
+A scale module should use this sequence: locate the tonic; play the pattern slowly hands separately; hear its direction and color; say scale degrees or finger numbers; coordinate hands; vary rhythm, direction, register, or key; apply the scale to a riff or fill; then perform it evenly at target tempo without assists and use it in a fresh fragment.
+
+### 5.3 Genre-specific scale applications
+
+- **Blues:** minor pentatonic and blues scale for two-bar call-and-response, turnarounds, and phrase endings. Emphasize resolving blue-note tension toward stable chord tones.
+- **Country:** major pentatonic for melody, fills, and “money licks,” connected to scale degrees 1, 3, 5, and 6 and Nashville numbers. Later combine major pentatonic with blues vocabulary.
+- **Gospel:** major scales for chord tones, passing motion, and melodic fills; later natural minor and chromatic approaches around ii–V–I progressions.
+
+This keeps scales tightly connected to the app’s preferred genres instead of imitating a purely classical technical syllabus.
+
+### 5.4 Strand ladders across the 30 tiers
+
+The tier table gives each tier a headline outcome. These ladders define what must be happening underneath that headline so a strand does not disappear for several tiers and then reappear at an unrealistic difficulty.
+
+#### Technique and movement ladder
+
+| Tiers | Physical capability | What the app can observe | Required application |
+|---|---|---|---|
+| 1–2 | Comfortable seated setup, finger numbers, relaxed five-finger shape, independent finger lifts | Correct pitches, consistent onset spacing, excessive repeated-note timing variance | One-hand melody and LH root notes without stopping |
+| 3–5 | Position changes, first thumb tuck, legato/staccato contrast, basic release | Evenness across a position shift, note overlap, release timing | Pentascale pattern plus melody/accompaniment in C, F, and G |
+| 6–10 | Chord shape changes, relaxed repeated chords, hands-together pulse, basic inversion movement | Chord onset alignment, missed/extra chord tones, change latency, timing drift | I–IV–V and dom7 changes through a full 12-bar form |
+| 11–15 | Voice-leading between inversions, RH phrase movement, LH/RH role separation | Distance between selected voicings, change consistency, melody timing over accompaniment | Comping, fills, turnaround, and boom-chick patterns |
+| 16–22 | Walking-bass movement, guide-tone control, spread voicings, controlled chromatic approaches | Bass-line continuity, chord-tone accuracy, timing under independence, velocity balance proxy | Bass plus comping, ii–V–I, gospel passing motion, transposition |
+| 23–30 | Efficient repetition, faster pattern recovery, register/texture control, expressive release and pedal decisions | Stable timing at multiple tempos, recovery after misses, dynamic/velocity trends where reliable | Boogie, arrangement, improvisation, one-take performance |
+
+The product must be careful with physical coaching. MIDI can support feedback about timing, pitch, duration, velocity, and coordination proxies; it cannot reliably determine wrist tension, posture, fingering quality, or injury risk. Those remain instructional cues and user self-checks unless a future sensor/video feature supports them.
+
+#### Rhythm and groove ladder
+
+| Tiers | Rhythmic capability | Ear / counting target | Required application |
+|---|---|---|---|
+| 1–2 | Beat, downbeat, quarter notes, simple 2/4 and 4/4 | Count 1–2–3–4; identify whether a phrase starts together | Melody with metronome and LH roots on beat 1 |
+| 3–5 | Eighth notes, rests, phrase boundaries, 3/4 waltz, and time-signature reading | Identify 2/4, 3/4, and 4/4 from notation/audio; tap the beat while counting the measure | Simple accompaniment and Amazing Grace/Home on the Range |
+| 6–10 | Shuffle/swing ratio, backbeat, harmonic rhythm, playing through a miss | Distinguish straight vs shuffle; maintain 12-bar count | Shuffle bass, chord comping, full blues form |
+| 11–15 | Syncopation, anticipations, space, fills that land on form boundaries | Hear whether a fill supports or crowds the phrase | Country boom-chick, blues turnaround, gospel groove |
+| 16–22 | Walking-bass subdivision, ii–V–I cadence timing, groove switching | Identify meter/feel and track form while texture changes | Three-style medley and transposed accompaniment |
+| 23–30 | Faster subdivisions, dynamic groove, rubato within a pulse, recovery | Maintain internal pulse through errors and listen critically to rush/drag | Boogie, backing-track improvisation, performance take |
+
+Rhythm mastery should use more than note-onset percentages. A player must also demonstrate continuity: keep the pulse, complete the form, and recover on the next beat after an error. Rhythm-tap exercises should reuse the same calibration and timing concepts as keyboard play.
+
+#### Time-signature progression
+
+Time signatures are a foundational literacy skill and should be taught explicitly rather than appearing only as metadata on a chart. The learner should understand that the top number describes the number of beats or pulses in a measure, while the bottom number identifies the note-value reference used by the notation. The app should teach this through counting and sound, not definition-only quizzes.
+
+| Tier band | Time-signature outcome | Exercise types | Musical application |
+|---|---|---|---|
+| 1–2 | Recognize the bar line, downbeat, and 4/4; count four quarter-note beats | Count aloud, tap steady pulse, choose the downbeat, complete a missing beat | Ode to Joy and simple 4/4 melodies |
+| 3–5 | Distinguish 2/4, 3/4, and 4/4; feel strong/weak beat patterns | Hear-and-identify, tap one measure, conduct with directional gestures, place notes into a bar | March-like 2/4, waltz/3/4 Amazing Grace, common-time songs |
+| 6–10 | Read meter while tracking a 12-bar form and shuffle subdivision | Count-in selection, bar-completion, straight/shuffle comparison, rhythm clapback | 4/4 blues and shuffle; preserve the form across 12 bars |
+| 11–15 | Maintain meter through syncopation, anticipations, and fills | Tap the pulse while clapping offbeats; identify whether a fill begins before or after the beat | Country boom-chick, blues turnarounds, gospel syncopation |
+| 16–22 | Switch feel without losing the underlying meter; recognize compound or triplet-based subdivision when introduced | Meter/feel identification, phrase-length prediction, groove switching, form tracking | Walking bass, gospel grooves, medley transitions |
+| 23–30 | Read unfamiliar meters and make expressive rhythmic choices while preserving form | First-look rhythm reading, internal-count test, recovery after an interrupted bar, arrangement analysis | Lead sheets, backing tracks, arranging, performance |
+
+Time-signature mastery should require three kinds of evidence: identify the meter visually or aurally, count/tap it independently, and play a musical phrase without losing the bar structure. The app should not imply that a user understands 3/4 merely because they completed a chart labeled `3/4`.
+
+#### Harmony and theory ladder
+
+| Tiers | Knowledge capability | Retrieval / construction target | Required application |
+|---|---|---|---|
+| 1–2 | Keyboard geography, steps/skips, tonic awareness, basic notation symbols | Find named notes; identify same/different and up/down | Five-finger melodies and simple roots |
+| 3–5 | Major scale degrees, I–IV–V, major triad construction, chord symbols | Build/name C, F, and G triads; identify tonic vs away | Melody with I–IV–V accompaniment |
+| 6–10 | 12-bar form, dom7 construction, Nashville numbers, key center | Label bars by number; build C7/F7/G7; hear major vs dom7 | Blues form and shuffle comping |
+| 11–15 | Inversions, pentatonic/blues formulas, diatonic triad qualities, transposition | Select nearest inversion; spell scale tones; convert letters to numbers | Fills, turnarounds, country 1–4–5 in C and G |
+| 16–22 | Diatonic sevenths, ii–V–I, extensions, secondary dominants, passing chords | Identify function and target; explain why a passing chord resolves | Gospel voicings, walking bass, three-key jam |
+| 23–30 | Reharmonization, slash chords, form/arrangement, chord-scale choices | Explain and compare substitutions; read unfamiliar lead sheets | Arrangement, improvisation, teaching-back, capstone |
+
+Theory is passed through retrieval and application, not recognition alone. “I have seen C7” is not enough; the user should be able to build it, hear it, locate it in a progression, and use it in a song.
+
+#### Ear and musicianship ladder
+
+| Tiers | Listening capability | Exercise progression | Transfer requirement |
+|---|---|---|---|
+| 1–2 | Pitch direction, repetition, pulse, short melodic memory | Up/down, same/different, clap or tap back two beats | Copy a short melody and keep a steady pulse |
+| 3–5 | Steps/skips, phrase ending, tonic, major triad color | Interval direction, melody playback, tonic/home identification | Predict or sing/play the ending of a simple phrase |
+| 6–10 | Form, I–IV–V, dom7 color, straight/shuffle feel | Chord-quality ID, progression-by-number, feel ID, 12-bar count | Choose a matching accompaniment and recover after a miss |
+| 11–15 | Inversion/bass movement, pentatonic/blues color, call-and-response | Hear bass direction, identify scale color, echo two-bar phrases | Improvise an answer and resolve to a chord tone |
+| 16–22 | ii–V–I, extensions, passing chords, genre distinction | Progression ID, “what changed?”, voice-leading hearing, groove ID | Choose a gospel/country/blues treatment from audio alone |
+| 23–30 | Phrase, tension/release, arrangement, self-diagnosis | Melodic dictation, harmonic analysis by ear, motif memory, playback | Create, record, and critique a coherent multi-chorus performance |
+
+The Head lock should move from recognition to prediction and production. At later tiers, the strongest evidence is not merely naming what was heard but reproducing it, choosing a useful response, or explaining the musical function.
+
+#### Repertoire and creativity ladder
+
+| Tiers | Repertoire capability | Arrangement progression | Creative requirement |
+|---|---|---|---|
+| 1–2 | Finish a short melody with support | RH melody, then LH pulse/root | Choose a starting note or ending and perform without restarting |
+| 3–5 | Play a complete simple song | Melody plus roots/triads; basic dynamics | Memorize a short phrase and make one musical choice |
+| 6–10 | Hold a repeated form | 12-bar triads → dom7s → shuffle comping | Add a simple turnaround or two-bar response |
+| 11–15 | Use vocabulary in context | Inversions, fills, boom-chick, transposed fragments | Improvise within a restricted scale and leave space |
+| 16–22 | Accompany and switch styles | Walking bass, gospel extensions, ii–V–I, lead-sheet form | Sustain a groove while melody or app guidance drops out |
+| 23–30 | Arrange and perform independently | Reharmonization, backing track, intros/outros, texture | Multi-chorus improvisation, one-take performance, teach-back |
+
+Repertoire should maintain three simultaneous roles: **current song** for achievable mastery, **review songs** for durable retention, and **stretch fragments** for aspiration. Free Play can draw from current and review songs but must not be confused with a curriculum checkpoint.
+
+### 5.5 Cross-strand gates
+
+Each major tier checkpoint should require the strands to meet in one task. The gate is not complete if the user can pass only one component:
+
+| Checkpoint | Technique | Rhythm | Harmony / scale | Ear | Musical proof |
+|---|---|---|---|---|---|
+| Tier 5 foundation | Melody + root/chord coordination | Steady pulse through full song | C scale degrees and I–IV–V | Hear phrase ending / tonic | Complete simple song without restart |
+| Tier 10 first branch | Shuffle bass + chord changes | Maintain 12-bar form and swing | Dom7s, numbers, minor pentatonic preview | Hear straight/shuffle and chord color | Full blues chorus at target tempo |
+| Tier 15 vocabulary | Inversion changes + fills | Syncopation and intentional space | Pentatonic/blues scale, transposition | Hear bass movement and phrase response | Song plus transposed fragment |
+| Tier 22 genre fluency | Independent accompaniment | Switch groove without losing pulse | ii–V–I, extensions, passing motion | Distinguish genre treatments | Three-style medley |
+| Tier 30 functional fluency | Efficient, expressive performance | Hold form through errors | Explain key, progression, scale, and voicing | Identify and reproduce a short idea | Play, transpose, improvise, and teach-back |
+
+This cross-strand structure prevents a player from advancing by grinding charts, memorizing theory answers, or completing isolated scale drills without musical transfer.
+
 ## 5. Mastery and progression rules
 
 ### 5.1 Skill mastery rubric
@@ -173,7 +302,7 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 | 2 | Add the left hand as a timekeeper | Staff direction, bar lines, 2/4 and 4/4; hear same/different | LH single roots; hands separately, then together in parallel rhythms | When the Saints, RH melody + LH roots | 8 bars hands together at ≥80 BPM without stopping |
 | 3 | Move beyond one 5-finger position | Step vs skip; C major pentascale; recognize repeated phrase | Thumb tuck introduction; controlled position shift; eighth-note counting | Twinkle / ABC or Oh! Susanna | Locate/play a 5-note pattern starting on C, F, and G |
 | 4 | Play primary chords in a real song | I, IV, V in C; major triad = 1–3–5; hear tonic vs away | Blocked triads, relaxed chord release, LH root + RH chord | She’ll Be Comin’ ’Round the Mountain | Identify/play I–IV–V in C with 75% variation accuracy |
-| 5 | Coordinate melody and simple accompaniment | Chord symbols C, F, G; phrase and cadence; hear “home” | LH root notes on beat 1; RH melody legato; basic dynamics | Amazing Grace or Home on the Range | Boss: full song/arrangement at target tempo, no falling notes |
+| 5 | Coordinate melody and simple accompaniment | C major scale degrees 1–7; chord symbols C, F, G; phrase and cadence; hear “home” | LH root notes on beat 1; RH melody legato; basic dynamics | Amazing Grace or Home on the Range | Play C major slowly and use its tones in a short melody/fill; boss song at target tempo |
 
 **Arc unlock:** the user has a playable foundation and may choose a first branch. Blues is recommended, but country and gospel preview modules are available.
 
@@ -183,7 +312,7 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 |---:|---|---|---|---|---|
 | 6 | Feel and remember the 12-bar form | I–IV–V map: bars 1–4 / 5–6 / 1–2 / 5–6 / 1–2; hear turnaround to I | Quarter-note chord comping; count 12 bars without losing place | **12-Bar Blues in C**, plain triads | Complete three 12-bar choruses; name each chord by number |
 | 7 | Introduce dominant 7ths | Dom7 = 1–3–5–♭7; major vs dom7 by ear | Add the seventh without squeezing; release together | 12-Bar Blues with C7/F7/G7 | Build and play three dom7s; 80% chord-ear accuracy |
-| 8 | Establish shuffle feel | Straight vs swung eighths; shuffle notation; beat 2/4 backbeat | LH long-short root/fifth; no accent on every note | Frankie and Johnny or a shuffle fragment | Four bars of shuffle at 80% target tempo, then full 12-bar loop |
+| 8 | Establish shuffle feel | Straight vs swung eighths; shuffle notation; beat 2/4 backbeat; minor pentatonic sound | LH long-short root/fifth; no accent on every note | Frankie and Johnny or a shuffle fragment | Four bars of shuffle at 80% target tempo, then answer a 2-bar phrase with minor-pentatonic notes |
 | 9 | Apply chord changes without stopping | Harmonic rhythm; phrase endings; hear I→IV and V→I | RH chord inversions for minimal movement; steady LH root | C.C. Rider or a 12-bar song | Three choruses with ≥85% correct chord onsets |
 | 10 | First branch checkpoint: groove + form | Nashville numbers 1, 4, 5; identify I–IV–V by ear | LH shuffle + RH dom7 comping; recover after a miss | **Blues boss: 12-bar Blues full arrangement** | Mastery star at target tempo; theory/ear checkpoint ≥80% |
 
@@ -192,7 +321,7 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 | Tier | Core outcome | Theory / ear | Movement / rhythm | Song or applied task | Gate |
 |---:|---|---|---|---|---|
 | 11 | Use inversions as a movement strategy | Root position, 1st/2nd inversion; hear bass movement | LH root + RH close-position chords; relaxed pivots | When the Saints gospel arrangement | Play I–IV–V in two inversion sets with no hand jump over 8 bars |
-| 12 | Play the major pentatonic and blues scale | Scale formula; ♭3/♭5/♭7 blues color; hear tension/resolution | RH five-note shapes in C and F; even finger crossing | Careless Love riff or 2-bar blues answer | Improvise four 2-bar answers using only allowed notes |
+| 12 | Play the major pentatonic and blues scale | Major vs minor pentatonic; ♭3/♭5/♭7 blues color; hear tension/resolution | RH scale shapes in C and F; even finger crossing; relaxed lateral movement | Careless Love riff or 2-bar blues answer | Improvise four 2-bar answers using allowed notes and resolve two phrases to chord tones |
 | 13 | Build a country accompaniment | Nashville numbers in C/G; diatonic triad qualities | Boom-chick: LH bass then RH chord; consistent release | Red River Valley or Wildwood Flower | Play 1–4–5 in C and G from numbers, not letter prompts |
 | 14 | Add a turnaround and fill | Dominant-to-tonic resolution; phrase space; call/response | RH fills between phrases; avoid filling over the melody | Blues with a Turnaround | Perform 3 different endings and leave intentional space |
 | 15 | Branch checkpoint: accompaniment + vocabulary | Transpose I–IV–V to F; hear major/minor/dom7 | Hands-independent groove; dynamic accents | **Country/gospel/blues choice boss** | One song in C plus one transposed fragment in F or G |
@@ -225,6 +354,38 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 Tiers 23–30 should not be interpreted as “advanced classical piano.” They define the first meaningful plateau of genre fluency. Later content can add faster keys, richer voicings, stride, gospel reharmonization, accompaniment in more meters, and more demanding repertoire without changing the trunk.
 
 ## 7. Standard lesson and session templates
+
+### 7.0 The learner-facing funnel
+
+The curriculum should be presented as a guided **Path**, not as a collection of equally weighted destinations. The first-run flow is:
+
+`welcome → input choice/calibration → what this app teaches → how Path works → what Riffs are → first module`
+
+After onboarding, the default home view should have one dominant action such as **Continue Module 1** or **Start today’s practice**. Secondary actions can include Review, Progress, and Free Play, but they should not visually compete with the recommended next step.
+
+The onboarding explanation should be brief and concrete:
+
+- **Modules** teach one small musical outcome through several exercise types.
+- **Songs** provide the musical application and reward for the skills being learned.
+- **Path** decides the recommended next lesson and gradually unlocks new material through demonstrated playing.
+- **Free Play** lets the user practice any already-unlocked song whenever they want.
+- **Riffs** are the app’s soft currency for cosmetics and convenience; they cannot buy stars, XP, skills, or song unlocks.
+- **Mastery** means playing accurately, in time, at the target tempo, without assists. Knowledge/ear progress and playing progress are tracked separately.
+
+Onboarding should end by launching the first module directly. It should not end on a blank dashboard or ask the user to choose among the entire skill tree. The user can replay onboarding later from Settings or Help.
+
+### 7.0.1 Path versus Free Play
+
+These are complementary product surfaces:
+
+| Surface | Purpose | Song access | Recommended for |
+|---|---|---|---|
+| Path | Teach the next skill in sequence | Current lesson song/fragments plus eligible unlocks | Beginners and daily practice |
+| Free Play | Open-ended practice and enjoyment | Any unlocked song/arrangement | Repetition, experimentation, and user choice |
+
+Free Play uses the same player, scoring, reports, and legitimate attempt recording as Path. The difference is context: a Free Play take is not necessarily the next curriculum lesson. It may strengthen an existing Hands lock, create review evidence, or simply be enjoyable practice.
+
+Free Play must not expose locked songs as if they are purchasable. A locked song can be previewed only through the existing Scouting/fragment rules, with a clear explanation of which demonstrated skills are missing.
 
 ### 7.1 A 20-minute keyboard session
 
@@ -289,6 +450,7 @@ AFK can open Head progress and preserve the habit, but it cannot create a Hands 
 - chord-symbol reading;
 - interval recognition on staff and keyboard;
 - rhythm reading with count-in;
+- time-signature identification, bar completion, and meter-switch exercises;
 - lead-sheet form markers, repeats, endings, and slash chords;
 - first-look sight-reading of a fresh, short fragment.
 
@@ -329,6 +491,13 @@ interface CurriculumSkill extends Skill {
     requiresAtTempo: boolean;
     requiresNoAssists: boolean;
     repeatedSessions?: number;
+  };
+  strandEvidence: {
+    technique?: string[];
+    rhythm?: string[];
+    harmony?: string[];
+    ear?: string[];
+    repertoire?: string[];
   };
   transferTargets: string[];
   commonErrors: string[];
@@ -390,7 +559,7 @@ The app should celebrate concrete capability: “You held a 12-bar form,” “y
 
 ## 11. Recommended implementation order
 
-1. **Content foundation:** replace the seed skill list with the Tier 1–10 trunk and Blues starter path; add module/lesson/assessment schemas and validation.
+1. **Content foundation:** replace the seed skill list with the Tier 1–10 trunk and Blues starter path; add module/lesson/assessment schemas and validation. Author at least one skill card per strand in every tier band.
 2. **Exercise primitives:** implement note ID, rhythm tap, chord builder, chord ear ID, progression ID, and fragment playback.
 3. **SessionBuilder:** assemble the standard lesson anatomy and enforce interleaving across skill families.
 4. **Mastery evidence:** keep current guardrails, then add repeated-session evidence and tier-gate checkpoints without allowing Head progress to raise playing tier.

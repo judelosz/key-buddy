@@ -48,6 +48,22 @@ The content layer currently contains:
 
 This is enough to prove the MVP loop, but not enough to validate the intended curriculum. The next meaningful product risk is no longer “can a chart play?” It is “does a beginner have a coherent next thing to learn, and does the app teach it in enough different ways?”
 
+### Product navigation decision: Path and Free Play are separate modes
+
+The post-MVP experience should have two clearly labeled ways to play:
+
+- **Path** — the guided curriculum roadmap. This is the default home experience and answers “what should I do next?” It funnels the user through onboarding, modules, reviews, assessments, and song unlocks.
+- **Free Play** — the open practice area. This is the current song-playing experience made explicit: the user can choose any unlocked song or arrangement and practice it outside the prescribed module sequence.
+
+Free Play should not disappear behind the curriculum, and the curriculum should not be reduced to a song picker. The two modes serve different intentions:
+
+| Mode | User question | Progression behavior | Default experience |
+|---|---|---|---|
+| Path | “What should I learn next?” | Advances the guided curriculum and skill gates | Default home route |
+| Free Play | “What do I want to play right now?” | Records attempts and rewards, but does not bypass skill gates | Explicit secondary route |
+
+This separation preserves autonomy without returning the beginner to a screen full of unexplained choices.
+
 ### Current roadmap state
 
 The older build spec labels Phases 0–3 as MVP and Phases 4–7 as future work. That is directionally correct but incomplete as a working delivery plan because:
@@ -220,6 +236,13 @@ This phase is deliberately not a feature sprint. It is the “make the MVP hones
 4. Establish a repeatable manual testing checklist for all future phases.
 5. Confirm that progression communicates what to do next.
 
+### Product navigation work
+
+- Add a default **Path** home state with one primary next action.
+- Add a separate **Free Play** entry point for unlocked songs.
+- Add lightweight first-run onboarding that explains the two modes, modules, skills, Riffs, song unlocking, and the role of MIDI/virtual input.
+- End onboarding by launching the first Path module rather than returning the user to a dashboard.
+
 ### Suggested hardening checklist
 
 - Test first-run flow with no MIDI device, virtual keyboard, and a connected MIDI device.
@@ -241,6 +264,10 @@ This phase is deliberately not a feature sprint. It is the “make the MVP hones
 - No known data-loss, stuck-session, duplicate-reward, or impossible-navigation bugs.
 - All automated checks pass: `npm run typecheck`, `npm test`, `npm run build`, and `npm run e2e`.
 - A user can explain what to do next without reading the design docs.
+- A first-time user is funneled directly from onboarding into the first module.
+- A returning user sees one recommended Path action and can intentionally choose Free Play.
+- The difference between Path progress and Free Play practice is clear before the first song attempt.
+- The user can explain that Riffs are a cosmetic/convenience currency, not a way to buy stars, XP, skills, or song unlocks.
 - Scoring feedback is actionable enough to choose the next practice action.
 - A short manual regression checklist is stored in the repository and can be rerun after future changes.
 
@@ -254,13 +281,22 @@ Create `docs/manual-mvp-test-checklist.md` during this phase. It should be a liv
 
 ### Goal
 
-Turn the written curriculum into a real beginner journey for Tiers 1–5. This is the highest-value next phase because the app currently proves mechanics but not teaching quality.
+Turn the written curriculum into a real beginner journey for Tiers 1–5. This is the highest-value next phase because the app currently proves mechanics but not teaching quality. This phase also establishes the first genuinely funneled user experience.
 
 ### Build
 
 - Add `Module`, `CurriculumLesson`, `Assessment`, `TheoryConcept`, and `TierGate` content types, or equivalent validated JSON shapes.
 - Implement the module anatomy: `discover → copy → recognize → vary → combine → apply → checkpoint`.
+- Add a **Path** route as the default curriculum home. It should show one recommended next module/lesson, the current module’s progress, due review, and the next song unlock.
+- Add a lightweight onboarding flow that ends at Module 1 rather than at a general-purpose dashboard.
+- Explain the product vocabulary during onboarding and at first use: skills, modules, Path, Free Play, Riffs, song unlocks, Hands/Head locks, and mastery.
+- Keep onboarding short enough to skip or replay later; it should orient rather than become a mandatory tutorial course.
+- Add a separate **Free Play** route containing the current song player and unlocked songs/arrangements. Free Play may be entered from onboarding, Path, or the main navigation, but it must not be the default first destination.
+- Make Free Play visibly distinct from a curriculum lesson: label it as practice, show whether a song is unlocked, and explain that attempts still count toward legitimate skill progress.
 - Add exercises for note ID, rhythm/pulse, chord building, chord ear ID, and simple theory retrieval.
+- Add scale exercises beginning with five-finger patterns, C/F/G pentascales, and the C major scale; every scale exercise must have a song, riff, fill, or ear-training application.
+- Author the Tier 1–5 strand ladders for technique/movement, rhythm/groove, harmony/theory, ear/musicianship, and repertoire/creativity; each tier must converge in a cross-strand checkpoint.
+- Include explicit time-signature content in the Tier 1–5 rhythm slice: 4/4 first, then 2/4 and 3/4, with visual identification, aural identification, counting/tapping, bar completion, and song application.
 - Add or author Tier 1–5 charts: Ode to Joy, When the Saints, Amazing Grace, Oh! Susanna, and one additional simple accompaniment song.
 - Add short fragments rather than requiring every lesson to be a full song.
 - Implement a guided next-step path while preserving optional review.
@@ -273,6 +309,8 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 - Every Tier 1–5 core skill has a guided exercise, a variation, a song application, and an assessment.
 - The app explains why an exercise exists and which song it supports.
 - A checkpoint can distinguish supported practice from independent performance.
+- On a clean install, onboarding funnels directly into the first module and the first module has a clear next action after every lesson.
+- The user can intentionally leave Path for Free Play and return to the same Path position without losing context.
 - Content validation catches missing prerequisites, broken references, and impossible tier gates.
 
 ### Test window
@@ -280,6 +318,9 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 - Play Tiers 1–5 as a complete beginner, without looking at implementation details.
 - Repeat the same module on a second day and verify review feels useful rather than repetitive.
 - Ask whether the user knows what to practice when they miss.
+- Start from a clean install and record every moment where the user wonders what to click.
+- Verify that the first onboarding explanation of Riffs is accurate and not mistaken for a progression currency.
+- Verify that Free Play feels available and satisfying without pulling the user away from the guided path by accident.
 - Try to game progression by replaying the easiest chart or doing only theory exercises.
 - Check whether the curriculum teaches the user to listen, count, and move—not only follow falling notes.
 

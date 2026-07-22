@@ -79,7 +79,7 @@ Blues, gospel, and country share more than they differ, so the app front-loads a
 
 **Physical & reading foundation:** keyboard geography and note names; correct posture and finger numbering; five-finger positions in C, G, F; simple hands-together coordination; reading enough notation/chord symbols to follow the app's prompts (chord-symbol literacy matters more than sight-reading for these genres).
 
-**Rhythm foundation:** steady pulse with a metronome; quarter/eighth/sixteenth subdivisions; and critically, the **swing/shuffle feel**, since it underpins blues and much of gospel and country.
+**Rhythm foundation:** steady pulse with a metronome; understanding and feeling 2/4, 3/4, and 4/4; quarter/eighth/sixteenth subdivisions; and critically, the **swing/shuffle feel**, since it underpins blues and much of gospel and country. Time signatures should be taught as felt meter plus notation, not as vocabulary memorization.
 
 **Chord foundation:** major and minor triads and how they're built (1-3-5 and 1-♭3-5); all inversions; the dominant 7th chord (the single most important sound for blues); reading chord symbols.
 
@@ -148,10 +148,12 @@ These genres overlap heavily, which the app should make explicit (a skill learne
 Theory runs *alongside* the physical skills, not before them, and every theory item is tied to something the user is playing (per Section 2.1). Research gives a clear beginner ordering:
 
 1. **Intervals & steps** — distance between notes; melodies as sequences of intervals.
-2. **The chromatic scale** — how the 12 notes are organized.
-3. **The major scale** — the foundation everything else derives from.
-4. **The circle of fifths & key signatures** — how keys relate; the fastest shortcut to knowing which chords sound good together and to transposing.
-5. **Chord construction** — stacking intervals from a root (major triad 1-3-5, minor 1-♭3-5, then 7ths and extensions).
+2. **Five-finger patterns and pentascales** — the first physical scale shapes, tied to keyboard geography and simple songs.
+3. **The chromatic scale** — how the 12 notes are organized.
+4. **The major scale** — first C, then F and G; scale degrees become the bridge to Nashville numbers, chord construction, and transposition.
+5. **Pentatonic and blues scales** — minor pentatonic/blues for blues vocabulary; major pentatonic for country and gospel fills.
+6. **The circle of fifths & key signatures** — how keys relate; the fastest shortcut to knowing which chords sound good together and to transposing.
+7. **Chord construction** — stacking intervals from a root (major triad 1-3-5, minor 1-♭3-5, then 7ths and extensions).
 
 Genre-specific theory layers on top: the 12-bar form and blues scale (blues), 2-5-1s / passing chords / substitutions (gospel), and the Nashville number system and diatonic chord qualities (country). Theory is delivered as short quizzes and drills interleaved into daily sessions rather than as standalone lessons.
 

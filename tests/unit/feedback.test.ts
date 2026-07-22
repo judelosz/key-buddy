@@ -40,6 +40,19 @@ describe('barAccuracies', () => {
     expect(bars[0]).toMatchObject({ bar: 0, correctPct: 1 });
     expect(bars[1]).toMatchObject({ bar: 1, correctPct: 0 });
   });
+
+  it('attributes wrong notes to the bar they were played in and lowers its score', () => {
+    // All 8 correct, plus two wrong notes (pitch 99) landing in bar 1 (beats 5 & 6).
+    const played = [
+      ...Array.from({ length: 8 }, (_, i) => play(60 + i, i * 1000)),
+      play(99, 5000),
+      play(99, 6000),
+    ];
+    const bars = barAccuracies(score(played), chart);
+    expect(bars[0]).toMatchObject({ wrong: 0, score: 1 }); // clean bar
+    expect(bars[1].wrong).toBe(2); // both wrong notes attributed here
+    expect(bars[1].score).toBeCloseTo(4 / 6, 5); // 4 correct ÷ (4 events + 2 wrong)
+  });
 });
 
 describe('generateTip', () => {

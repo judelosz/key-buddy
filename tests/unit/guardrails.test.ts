@@ -27,6 +27,7 @@ function attempt(over: Partial<Attempt> = {}): Attempt {
   return {
     id: 'a', refId: 'c', refKind: 'chart', timestamp: 0, perNoteGrades: [],
     timingHistogram: { buckets: [], meanMs: 0, medianMs: 0, stdDevMs: 0 },
+    wrongNotes: [],
     extraNotes: 0,
     notesCorrectPct: 1, goodOrBetterPct: 1, greatOrBetterPct: 1,
     stars: 3, masteryStar: true, atTempo: true, tempoBPM: 100, assistsUsed: [],
