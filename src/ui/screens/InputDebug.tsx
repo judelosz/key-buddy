@@ -1,15 +1,10 @@
-import { AlertTriangle, Piano, Trash2, Usb, Check } from 'lucide-react';
-import {
-  inputService,
-  enableMidiInput,
-  disableMidiInput,
-  isMidiEnabled,
-  type InputStatus,
-} from '@/input';
+import { AlertTriangle, Piano, Trash2, Check } from 'lucide-react';
+import { type InputStatus } from '@/input';
 import { useAppStore } from '@/ui/store/appStore';
 import { midiToName } from '@/core/music';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
+import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
 
 function StatusBanner({ status }: { status: InputStatus }) {
   if (status.kind === 'ready' && status.source === 'midi') {
@@ -42,22 +37,9 @@ function StatusBanner({ status }: { status: InputStatus }) {
 
 export function InputDebug() {
   const status = useAppStore((s) => s.inputStatus);
-  const midiEnabled = useAppStore((s) => s.midiEnabled);
-  const setMidiEnabled = useAppStore((s) => s.setMidiEnabled);
   const recentNotes = useAppStore((s) => s.recentNotes);
   const clearNotes = useAppStore((s) => s.clearNotes);
   const offset = useAppStore((s) => s.calibrationOffsetMs);
-
-  const toggleMidi = async () => {
-    if (isMidiEnabled()) {
-      disableMidiInput();
-      setMidiEnabled(false);
-    } else {
-      await enableMidiInput();
-      setMidiEnabled(true);
-    }
-    useAppStore.getState().setInputStatus(inputService.getStatus());
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -71,15 +53,7 @@ export function InputDebug() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={() => void toggleMidi()}
-          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-soft transition hover:-translate-y-px active:translate-y-px ${
-            midiEnabled ? 'bg-mint text-ink' : 'bg-surface text-ink'
-          }`}
-        >
-          <Usb size={15} /> {midiEnabled ? 'Disconnect MIDI' : 'Connect MIDI keyboard'}
-        </button>
+        <MidiConnectButton />
         <StatusBanner status={status} />
       </div>
 

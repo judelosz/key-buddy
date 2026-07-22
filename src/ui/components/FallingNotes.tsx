@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import type { Chart, NoteGrade } from '@/core/types';
-import { isBlackKey, midiToName } from '@/core/music';
+import { midiToName } from '@/core/music';
+import { keyRectMap, octaveRange } from '@/core/pianoLayout';
 import { audioService } from '@/audio/audioService';
 
 const GRADE_COLORS: Record<NoteGrade, string> = {
@@ -16,6 +17,9 @@ interface FallingNotesProps {
   chart: Chart;
   tempoBPM: number;
   countInBeats: number;
+  /** Pitch range — must match the keyboard below so notes drop onto their keys. */
+  lowPitch: number;
+  highPitch: number;
   /** Live per-note grades, mutated in place by the play session for zero-lag reads. */
   liveGradesRef: RefObject<Map<string, NoteGrade>>;
   /** Whether the take is running (drives the rAF clock read). */
@@ -29,9 +33,11 @@ export function FallingNotes({
   chart,
   tempoBPM,
   countInBeats,
+  lowPitch,
+  highPitch,
   liveGradesRef,
   active,
-  height = 320,
+  height = 300,
 }: FallingNotesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -41,10 +47,6 @@ export function FallingNotes({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const pitches = chart.notes.flatMap((n) => n.pitches);
-    const minPitch = Math.min(...pitches) - 1;
-    const maxPitch = Math.max(...pitches) + 1;
-    const lanes = maxPitch - minPitch + 1;
     const beatMs = 60000 / tempoBPM;
 
     let raf = 0;
@@ -57,9 +59,11 @@ export function FallingNotes({
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const hitLineY = height * 0.82;
+      // Same key geometry (in px) as the on-screen keyboard below.
+      const rects = keyRectMap(lowPitch, highPitch, width);
+
+      const hitLineY = height * 0.86;
       const pxPerBeat = hitLineY / LOOKAHEAD_BEATS;
-      const laneW = width / lanes;
 
       const transportSec = active && audioService.isInitialized ? audioService.getTransportSeconds() : 0;
       const playheadBeat = (transportSec * 1000) / beatMs - countInBeats;
@@ -68,19 +72,28 @@ export function FallingNotes({
       ctx.fillStyle = '#F6F1E8';
       ctx.fillRect(0, 0, width, height);
 
-      // lane shading for black keys
-      for (let i = 0; i < lanes; i++) {
-        const pitch = minPitch + i;
-        if (isBlackKey(pitch)) {
-          ctx.fillStyle = 'rgba(43,38,32,0.035)';
-          ctx.fillRect(i * laneW, 0, laneW, height);
+      // subtle black-key column shading
+      for (const r of rects.values()) {
+        if (r.black) {
+          ctx.fillStyle = 'rgba(43,38,32,0.04)';
+          ctx.fillRect(r.x, 0, r.width, hitLineY);
         }
       }
 
-      // beat gridlines
-      ctx.strokeStyle = 'rgba(43,38,32,0.07)';
+      // vertical separators between white keys
+      ctx.strokeStyle = 'rgba(43,38,32,0.06)';
       ctx.lineWidth = 1;
-      for (let b = Math.floor(playheadBeat); b < playheadBeat + LOOKAHEAD_BEATS + 1; b++) {
+      for (const r of rects.values()) {
+        if (r.black) continue;
+        ctx.beginPath();
+        ctx.moveTo(r.x, 0);
+        ctx.lineTo(r.x, hitLineY);
+        ctx.stroke();
+      }
+
+      // beat gridlines
+      ctx.strokeStyle = 'rgba(43,38,32,0.06)';
+      for (let b = Math.ceil(playheadBeat); b < playheadBeat + LOOKAHEAD_BEATS + 1; b++) {
         const y = hitLineY - (b - playheadBeat) * pxPerBeat;
         ctx.beginPath();
         ctx.moveTo(0, y);
@@ -88,7 +101,7 @@ export function FallingNotes({
         ctx.stroke();
       }
 
-      // notes
+      // notes — one rect per pitch, positioned exactly over its key
       const grades = liveGradesRef.current;
       for (const note of chart.notes) {
         const y = hitLineY - (note.startBeat - playheadBeat) * pxPerBeat;
@@ -100,49 +113,52 @@ export function FallingNotes({
         let color: string;
         if (grade) color = GRADE_COLORS[grade];
         else if (passed) color = 'rgba(229,100,107,0.30)'; // un-hit & passed → faint miss
-        else color = note.hand === 'left' ? '#7681CE' : '#CDBBB0';
+        else color = note.hand === 'left' ? '#7681CE' : '#E0A9B8';
 
         for (const pitch of note.pitches) {
-          const lane = pitch - minPitch;
-          const x = lane * laneW + 2;
+          const r = rects.get(pitch);
+          if (!r) continue;
           ctx.fillStyle = color;
-          roundRect(ctx, x, y - noteH, laneW - 4, noteH, 3);
+          roundRect(ctx, r.x + 1.5, y - noteH, Math.max(2, r.width - 3), noteH, 4);
           ctx.fill();
         }
       }
 
       // hit line (rose)
-      ctx.strokeStyle = 'rgba(199,116,137,0.9)';
+      ctx.strokeStyle = 'rgba(199,116,137,0.95)';
       ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.moveTo(0, hitLineY);
       ctx.lineTo(width, hitLineY);
       ctx.stroke();
 
-      // pitch labels (C notes only, to avoid clutter)
+      // C-note labels for orientation
       ctx.fillStyle = 'rgba(43,38,32,0.4)';
-      ctx.font = '600 11px Nunito, system-ui';
-      for (let i = 0; i < lanes; i++) {
-        const pitch = minPitch + i;
-        if (pitch % 12 === 0) {
-          ctx.fillText(midiToName(pitch), i * laneW + 3, height - 4);
-        }
+      ctx.font = '600 10px Nunito, system-ui';
+      for (const r of rects.values()) {
+        if (r.pitch % 12 === 0) ctx.fillText(midiToName(r.pitch), r.x + 3, height - 4);
       }
 
       raf = requestAnimationFrame(render);
     };
     raf = requestAnimationFrame(render);
     return () => cancelAnimationFrame(raf);
-  }, [chart, tempoBPM, countInBeats, liveGradesRef, active, height]);
+  }, [chart, tempoBPM, countInBeats, lowPitch, highPitch, liveGradesRef, active, height]);
 
   return (
     <canvas
       ref={canvasRef}
       style={{ width: '100%', height }}
-      className="rounded-3xl border border-line shadow-soft"
+      className="block w-full"
       data-testid="falling-notes"
     />
   );
+}
+
+/** Convenience for callers that only have a chart: the octave span covering it. */
+export function chartRange(chart: Chart): { low: number; high: number } {
+  const pitches = chart.notes.flatMap((n) => n.pitches);
+  return octaveRange(Math.min(...pitches), Math.max(...pitches));
 }
 
 function roundRect(

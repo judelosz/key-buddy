@@ -6,12 +6,13 @@ import { useGameStore } from '@/ui/store/gameStore';
 import type { AttemptReward } from '@/core/session/recordAttempt';
 import { PlaySession, type PlayPhase } from '@/ui/session/playSession';
 import { audioService } from '@/audio/audioService';
-import { FallingNotes } from '@/ui/components/FallingNotes';
+import { FallingNotes, chartRange } from '@/ui/components/FallingNotes';
 import { ChordSymbols } from '@/ui/components/ChordSymbols';
 import { StaffNotation } from '@/ui/components/StaffNotation';
 import { SessionReport } from '@/ui/components/SessionReport';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
+import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
 
 const COUNT_IN_BEATS = 4;
 const TEMPO_OPTIONS = [
@@ -50,6 +51,7 @@ export function SessionPlayer() {
   }
 
   const beatsPerBar = chart?.timeSignature.beatsPerBar ?? 4;
+  const range = useMemo(() => (chart ? chartRange(chart) : { low: 60, high: 84 }), [chart]);
 
   // Track the current bar for the chord strip while playing.
   useEffect(() => {
@@ -212,33 +214,22 @@ export function SessionPlayer() {
           <FileMusic size={15} /> Staff
         </button>
 
-        <button
-          type="button"
-          disabled={playing}
-          onClick={() => void start()}
-          className="ml-auto inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
-        >
-          <Play size={16} className="fill-ink" /> {phase === 'count-in' ? 'Get ready…' : 'Play'}
-        </button>
+        <div className="ml-auto flex items-center gap-2">
+          <MidiConnectButton compact />
+          <button
+            type="button"
+            disabled={playing}
+            onClick={() => void start()}
+            className="inline-flex items-center gap-2 rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
+          >
+            <Play size={16} className="fill-ink" /> {phase === 'count-in' ? 'Get ready…' : 'Play'}
+          </button>
+        </div>
       </div>
 
       <ChordSymbols chart={chart} currentBar={currentBar} />
 
       {showStaff && <StaffNotation chart={chart} />}
-
-      {showFalling ? (
-        <FallingNotes
-          chart={chart}
-          tempoBPM={song.tempoTargetBPM * tempoPct}
-          countInBeats={COUNT_IN_BEATS}
-          liveGradesRef={liveGradesRef}
-          active={playing}
-        />
-      ) : (
-        <div className="flex h-40 items-center justify-center rounded-3xl border border-dashed border-line text-sm text-ink-soft">
-          <Music size={16} className="mr-2" /> Falling notes hidden — play by ear and chord symbols.
-        </div>
-      )}
 
       {phase === 'count-in' && (
         <p className="text-center font-display text-sm font-medium text-amber-deep">
@@ -248,8 +239,27 @@ export function SessionPlayer() {
 
       {!playing && <KeyboardHint />}
 
-      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
-        <PianoKeyboard />
+      {/* Falling notes and the keyboard share one full-width container and the
+          same pitch range, so each note drops straight onto its key. */}
+      <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-soft">
+        {showFalling ? (
+          <FallingNotes
+            chart={chart}
+            tempoBPM={song.tempoTargetBPM * tempoPct}
+            countInBeats={COUNT_IN_BEATS}
+            lowPitch={range.low}
+            highPitch={range.high}
+            liveGradesRef={liveGradesRef}
+            active={playing}
+          />
+        ) : (
+          <div className="flex h-32 items-center justify-center text-sm text-ink-soft">
+            <Music size={16} className="mr-2" /> Falling notes hidden — play by ear and chord symbols.
+          </div>
+        )}
+        <div className="border-t border-line pb-2 pt-1">
+          <PianoKeyboard lowPitch={range.low} highPitch={range.high} />
+        </div>
       </div>
     </div>
   );

@@ -2,13 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { COMPUTER_KEY_MAP } from '@/input/providers/virtualProvider';
 import { virtualProvider } from '@/input';
 import { audioService } from '@/audio/audioService';
-import { isBlackKey, midiToName } from '@/core/music';
+import { midiToName } from '@/core/music';
+import { keyRects } from '@/core/pianoLayout';
 
 interface PianoKeyboardProps {
   lowPitch?: number;
   highPitch?: number;
   /** Show the computer-key hint on each key. */
   showKeyHints?: boolean;
+  height?: number;
 }
 
 const REVERSE_KEY_MAP: Record<number, string> = Object.fromEntries(
@@ -23,14 +25,15 @@ export function PianoKeyboard({
   lowPitch = 60,
   highPitch = 84,
   showKeyHints = true,
+  height = 150,
 }: PianoKeyboardProps) {
   const [active, setActive] = useState<Set<number>>(new Set());
 
-  const pitches = useMemo(
-    () => Array.from({ length: highPitch - lowPitch + 1 }, (_, i) => lowPitch + i),
-    [lowPitch, highPitch],
-  );
-  const whites = pitches.filter((p) => !isBlackKey(p));
+  // Rects as percentages (totalWidth = 100) so the layout is resolution-free
+  // and matches the falling-notes canvas exactly.
+  const rects = useMemo(() => keyRects(lowPitch, highPitch, 100), [lowPitch, highPitch]);
+  const whites = rects.filter((r) => !r.black);
+  const blacks = rects.filter((r) => r.black);
 
   const flash = useCallback((pitch: number) => {
     setActive((prev) => new Set(prev).add(pitch));
@@ -72,53 +75,45 @@ export function PianoKeyboard({
   }, [trigger]);
 
   return (
-    <div className="relative select-none" data-testid="piano-keyboard">
-      <div className="flex h-40 gap-[3px]">
-        {whites.map((pitch) => (
-          <button
-            key={pitch}
-            type="button"
-            aria-label={midiToName(pitch)}
-            data-pitch={pitch}
-            onPointerDown={() => void trigger(pitch)}
-            className={`relative flex-1 rounded-b-xl border border-line transition-colors ${
-              active.has(pitch) ? 'bg-rose text-ink' : 'bg-white text-ink-soft'
-            }`}
-          >
+    <div className="relative w-full select-none" style={{ height }} data-testid="piano-keyboard">
+      {whites.map((r) => (
+        <button
+          key={r.pitch}
+          type="button"
+          aria-label={midiToName(r.pitch)}
+          data-pitch={r.pitch}
+          onPointerDown={() => void trigger(r.pitch)}
+          className={`absolute bottom-0 top-0 rounded-b-lg border border-line transition-colors ${
+            active.has(r.pitch) ? 'bg-rose text-ink' : 'bg-white text-ink-soft'
+          }`}
+          style={{ left: `calc(${r.x}% + 1px)`, width: `calc(${r.width}% - 2px)` }}
+        >
+          {showKeyHints && REVERSE_KEY_MAP[r.pitch] && (
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center text-[10px] font-medium">
-              {showKeyHints && REVERSE_KEY_MAP[pitch] ? REVERSE_KEY_MAP[pitch].toUpperCase() : ''}
+              {REVERSE_KEY_MAP[r.pitch].toUpperCase()}
             </span>
-          </button>
-        ))}
-      </div>
-
-      <div className="pointer-events-none absolute inset-0 flex h-24 gap-[3px]">
-        {whites.map((pitch) => {
-          const sharp = pitch + 1;
-          const hasSharp = isBlackKey(sharp) && sharp <= highPitch;
-          return (
-            <div key={pitch} className="relative flex-1">
-              {hasSharp && (
-                <button
-                  type="button"
-                  aria-label={midiToName(sharp)}
-                  data-pitch={sharp}
-                  onPointerDown={() => void trigger(sharp)}
-                  className={`pointer-events-auto absolute right-0 top-0 z-10 h-full w-[62%] translate-x-1/2 rounded-b-lg text-[9px] transition-colors ${
-                    active.has(sharp) ? 'bg-rose-deep text-white' : 'bg-ink text-white/70'
-                  }`}
-                >
-                  <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center">
-                    {showKeyHints && REVERSE_KEY_MAP[sharp]
-                      ? REVERSE_KEY_MAP[sharp].toUpperCase()
-                      : ''}
-                  </span>
-                </button>
-              )}
-            </div>
-          );
-        })}
-      </div>
+          )}
+        </button>
+      ))}
+      {blacks.map((r) => (
+        <button
+          key={r.pitch}
+          type="button"
+          aria-label={midiToName(r.pitch)}
+          data-pitch={r.pitch}
+          onPointerDown={() => void trigger(r.pitch)}
+          className={`absolute top-0 z-10 rounded-b-lg text-[9px] transition-colors ${
+            active.has(r.pitch) ? 'bg-rose-deep text-white' : 'bg-ink text-white/70'
+          }`}
+          style={{ left: `${r.x}%`, width: `${r.width}%`, height: '62%' }}
+        >
+          {showKeyHints && REVERSE_KEY_MAP[r.pitch] && (
+            <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center">
+              {REVERSE_KEY_MAP[r.pitch].toUpperCase()}
+            </span>
+          )}
+        </button>
+      ))}
     </div>
   );
 }
