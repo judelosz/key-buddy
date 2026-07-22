@@ -1,1 +1,59 @@
-[]
+[
+  {
+    "id": "m1-meet-keyboard",
+    "arc": "foundation",
+    "tier": 1,
+    "title": "Meet the Keyboard",
+    "promise": "Find your way around the keys — and trust your ears",
+    "prerequisiteModuleIds": [],
+    "lessonIds": [
+      "l-mk-listen",
+      "l-mk-find-c",
+      "l-mk-theory-map",
+      "l-mk-cde",
+      "l-mk-whites",
+      "l-mk-ear-direction",
+      "l-mk-checkpoint"
+    ],
+    "coreSkillIds": ["geo-note-names", "ear-pitch-direction"],
+    "bossLessonId": "l-mk-checkpoint"
+  },
+  {
+    "id": "m1-steady-beat",
+    "arc": "foundation",
+    "tier": 1,
+    "title": "Find the Beat",
+    "promise": "Lock into a steady pulse and count the bar",
+    "prerequisiteModuleIds": ["m1-meet-keyboard"],
+    "lessonIds": [
+      "l-sb-listen",
+      "l-sb-tap-quarters",
+      "l-sb-theory-beat",
+      "l-sb-tap-bars",
+      "l-sb-theory-44",
+      "l-sb-checkpoint"
+    ],
+    "coreSkillIds": ["rhythm-steady-pulse", "rhythm-time-sig-44"],
+    "bossLessonId": "l-sb-checkpoint"
+  },
+  {
+    "id": "m1-first-melody",
+    "arc": "foundation",
+    "tier": 1,
+    "title": "Your First Melody",
+    "promise": "Play Ode to Joy — really play it, in time",
+    "prerequisiteModuleIds": ["m1-meet-keyboard", "m1-steady-beat"],
+    "lessonIds": [
+      "l-fm-watch",
+      "l-fm-frag1",
+      "l-fm-names",
+      "l-fm-frag2",
+      "l-fm-full",
+      "l-fm-vary",
+      "l-fm-gate-quiz",
+      "l-fm-boss"
+    ],
+    "coreSkillIds": ["mech-five-finger-c"],
+    "bossLessonId": "l-fm-boss"
+  }
+]

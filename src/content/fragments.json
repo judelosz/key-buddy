@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "id": "frag-quarter-pulse",
+    "sourceSongId": "ode-to-joy",
+    "label": "Steady quarter-note pulse",
+    "skillTags": ["rhythm-steady-pulse"],
+    "chart": {
+      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+      "chordSymbols": [{ "bar": 0, "beat": 0, "symbol": "C" }],
+      "notes": [
+        { "id": "p0", "pitches": [60], "startBeat": 0, "durationBeats": 1, "hand": "right" },
+        { "id": "p1", "pitches": [60], "startBeat": 1, "durationBeats": 1, "hand": "right" },
+        { "id": "p2", "pitches": [60], "startBeat": 2, "durationBeats": 1, "hand": "right" },
+        { "id": "p3", "pitches": [60], "startBeat": 3, "durationBeats": 1, "hand": "right" },
+        { "id": "p4", "pitches": [60], "startBeat": 4, "durationBeats": 1, "hand": "right" },
+        { "id": "p5", "pitches": [60], "startBeat": 5, "durationBeats": 1, "hand": "right" },
+        { "id": "p6", "pitches": [60], "startBeat": 6, "durationBeats": 1, "hand": "right" },
+        { "id": "p7", "pitches": [60], "startBeat": 7, "durationBeats": 1, "hand": "right" }
+      ]
+    }
+  },
+  {
+    "id": "frag-ode-bars-1-4",
+    "sourceSongId": "ode-to-joy",
+    "label": "Ode to Joy — first phrase (bars 1–4)",
+    "skillTags": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "chart": {
+      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+      "chordSymbols": [
+        { "bar": 0, "beat": 0, "symbol": "C" },
+        { "bar": 1, "beat": 0, "symbol": "G" },
+        { "bar": 2, "beat": 0, "symbol": "C" },
+        { "bar": 3, "beat": 0, "symbol": "G7" }
+      ],
+      "notes": [
+        { "id": "f1e0", "pitches": [64], "startBeat": 0, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e1", "pitches": [64], "startBeat": 1, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e2", "pitches": [65], "startBeat": 2, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e3", "pitches": [67], "startBeat": 3, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e4", "pitches": [67], "startBeat": 4, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e5", "pitches": [65], "startBeat": 5, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e6", "pitches": [64], "startBeat": 6, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e7", "pitches": [62], "startBeat": 7, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e8", "pitches": [60], "startBeat": 8, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e9", "pitches": [60], "startBeat": 9, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e10", "pitches": [62], "startBeat": 10, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e11", "pitches": [64], "startBeat": 11, "durationBeats": 1, "hand": "right" },
+        { "id": "f1e12", "pitches": [64], "startBeat": 12, "durationBeats": 1.5, "hand": "right" },
+        { "id": "f1e13", "pitches": [62], "startBeat": 13.5, "durationBeats": 0.5, "hand": "right" },
+        { "id": "f1e14", "pitches": [62], "startBeat": 14, "durationBeats": 2, "hand": "right" }
+      ]
+    }
+  },
+  {
+    "id": "frag-ode-bars-5-8",
+    "sourceSongId": "ode-to-joy",
+    "label": "Ode to Joy — second phrase (bars 5–8)",
+    "skillTags": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "chart": {
+      "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
+      "chordSymbols": [
+        { "bar": 0, "beat": 0, "symbol": "C" },
+        { "bar": 1, "beat": 0, "symbol": "G" },
+        { "bar": 2, "beat": 0, "symbol": "C" },
+        { "bar": 3, "beat": 0, "symbol": "G7" }
+      ],
+      "notes": [
+        { "id": "f2e0", "pitches": [64], "startBeat": 0, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e1", "pitches": [64], "startBeat": 1, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e2", "pitches": [65], "startBeat": 2, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e3", "pitches": [67], "startBeat": 3, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e4", "pitches": [67], "startBeat": 4, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e5", "pitches": [65], "startBeat": 5, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e6", "pitches": [64], "startBeat": 6, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e7", "pitches": [62], "startBeat": 7, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e8", "pitches": [60], "startBeat": 8, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e9", "pitches": [60], "startBeat": 9, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e10", "pitches": [62], "startBeat": 10, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e11", "pitches": [64], "startBeat": 11, "durationBeats": 1, "hand": "right" },
+        { "id": "f2e12", "pitches": [62], "startBeat": 12, "durationBeats": 1.5, "hand": "right" },
+        { "id": "f2e13", "pitches": [60], "startBeat": 13.5, "durationBeats": 0.5, "hand": "right" },
+        { "id": "f2e14", "pitches": [60], "startBeat": 14, "durationBeats": 2, "hand": "right" }
+      ]
+    }
+  }
+]

@@ -11,9 +11,11 @@ import { levelForXpBounds } from '@/core/rewards/rewardService';
 import { useAppStore, type Screen } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
+import { getContent } from '@/core/content/bundled';
 import { LevelMeter } from '@/ui/components/LevelMeter';
 import { Onboarding } from '@/ui/onboarding/Onboarding';
 import { Missions } from '@/ui/missions/Missions';
+import { LessonRunner } from '@/ui/missions/LessonRunner';
 import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
 import { Settings } from '@/ui/screens/Settings';
@@ -35,6 +37,7 @@ export default function App() {
   }, [initGame]);
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
+  const activeLessonView = useActiveLessonView();
   const showOnboarding = useAppStore((s) => s.showOnboarding);
   const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
   const loaded = useGameStore((s) => s.loaded);
@@ -90,7 +93,7 @@ export default function App() {
       </header>
 
       <main>
-        {screen === 'missions' && <Missions />}
+        {screen === 'missions' && (activeLessonView ?? <Missions />)}
         {screen === 'free-play' && <FreePlay />}
         {screen === 'afk' && <AfkComingSoon />}
         {screen === 'progress' && <Progress />}
@@ -98,4 +101,15 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+/** Resolve the open lesson (if any) into its full-screen runner. */
+function useActiveLessonView() {
+  const activeLesson = useAppStore((s) => s.activeLesson);
+  if (!activeLesson) return null;
+  const content = getContent();
+  const lesson = content.getLesson(activeLesson.lessonId);
+  const module = content.getModule(activeLesson.moduleId);
+  if (!lesson || !module) return null;
+  return <LessonRunner key={lesson.id} lesson={lesson} module={module} />;
 }

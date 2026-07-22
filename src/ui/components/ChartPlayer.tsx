@@ -65,6 +65,12 @@ export interface ChartPlayerProps {
   onExit: () => void;
   /** Fires once per completed, recorded take (after rewards resolve). */
   onRecorded?: (attempt: Attempt, reward: AttemptReward) => void;
+  /**
+   * Lesson mode: the host records the attempt (via recordLesson) and shows its
+   * own result screen. When set, ChartPlayer neither records nor renders the
+   * SessionReport — it hands the raw Attempt over exactly once.
+   */
+  onAttemptCaptured?: (attempt: Attempt) => void;
   /** Optional context banner rendered above the controls (lesson prompts). */
   banner?: ReactNode;
   /** Label for the exit button (defaults to "Songs"). */
@@ -82,6 +88,7 @@ export function ChartPlayer({
   policy = FREE_PLAY_POLICY,
   onExit,
   onRecorded,
+  onAttemptCaptured,
   banner,
   exitLabel = 'Songs',
 }: ChartPlayerProps) {
@@ -168,20 +175,25 @@ export function ChartPlayer({
     [song, chart, tempoPct, showFalling, policy.tempo],
   );
 
-  // Record the completed take into progression/rewards/persistence exactly once.
+  // Record the completed take into progression/rewards/persistence exactly
+  // once — unless a lesson host captures the attempt and records it itself.
   useEffect(() => {
     if (phase === 'done' && attempt && recordedIdRef.current !== attempt.id) {
       recordedIdRef.current = attempt.id;
+      if (onAttemptCaptured) {
+        onAttemptCaptured(attempt);
+        return;
+      }
       void recordAttempt(song, chart, attempt).then((r) => {
         setReward(r);
         onRecorded?.(attempt, r);
       });
     }
-  }, [phase, attempt, song, chart, recordAttempt, onRecorded]);
+  }, [phase, attempt, song, chart, recordAttempt, onRecorded, onAttemptCaptured]);
 
   useEffect(() => () => sessionRef.current?.cancel(), []);
 
-  if (phase === 'done' && attempt) {
+  if (phase === 'done' && attempt && !onAttemptCaptured) {
     return (
       <SessionReport
         attempt={attempt}

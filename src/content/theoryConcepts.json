@@ -1,1 +1,216 @@
-[]
+[
+  {
+    "id": "theory-note-names",
+    "name": "The keyboard map",
+    "explanation": "The keyboard repeats the same seven white-key names, C through B. The black keys come in groups of two and three — C always sits just left of a group of two.",
+    "examples": ["C is left of the two black keys", "F is left of the three black keys"],
+    "linkedSkillIds": ["geo-note-names"],
+    "linkedSongIds": ["ode-to-joy"],
+    "questions": [
+      {
+        "id": "tnn-q1",
+        "promptText": "Which key sits just LEFT of every group of TWO black keys?",
+        "choices": ["C", "E", "F", "B"],
+        "answerIndex": 0,
+        "explanation": "C always sits just left of the two black keys — that's the fastest way to find it anywhere.",
+        "illustratePitches": [60]
+      },
+      {
+        "id": "tnn-q2",
+        "promptText": "Which key sits just LEFT of every group of THREE black keys?",
+        "choices": ["C", "F", "G", "A"],
+        "answerIndex": 1,
+        "explanation": "F sits just left of the three black keys.",
+        "illustratePitches": [65]
+      },
+      {
+        "id": "tnn-q3",
+        "promptText": "How many different white-key NAMES are there before the pattern repeats?",
+        "choices": ["Five", "Seven", "Ten", "Twelve"],
+        "answerIndex": 1,
+        "explanation": "Seven names — C D E F G A B — then the pattern starts over an octave higher."
+      },
+      {
+        "id": "tnn-q4",
+        "promptText": "You're on C and step UP one white key. Where are you?",
+        "choices": ["B", "D", "E", "G"],
+        "answerIndex": 1,
+        "explanation": "Stepping up from C lands on D — names go up the alphabet as you go right.",
+        "illustratePitches": [60, 62]
+      },
+      {
+        "id": "tnn-q5",
+        "promptText": "Two keys with the same name, eight steps apart, are called…",
+        "choices": ["A chord", "An octave", "A scale", "A bar"],
+        "answerIndex": 1,
+        "explanation": "Same name, higher or lower — that distance is an octave.",
+        "illustratePitches": [60, 72]
+      },
+      {
+        "id": "tnn-q6",
+        "promptText": "Higher-sounding notes live in which direction on the keyboard?",
+        "choices": ["To the left", "To the right", "In the middle", "It varies"],
+        "answerIndex": 1,
+        "explanation": "Right = higher, left = lower. Your ear and the map agree."
+      }
+    ]
+  },
+  {
+    "id": "theory-beat-subdivision",
+    "name": "Beat, bar, and downbeat",
+    "explanation": "The beat is the steady pulse you'd tap your foot to. Beats group into bars, and the first beat of each bar — the downbeat — carries a little extra weight.",
+    "examples": ["Count 1-2-3-4 with the click", "The metronome accents beat 1"],
+    "linkedSkillIds": ["rhythm-steady-pulse"],
+    "linkedSongIds": ["ode-to-joy"],
+    "questions": [
+      {
+        "id": "tbs-q1",
+        "promptText": "The steady pulse you tap your foot to is called the…",
+        "choices": ["Melody", "Beat", "Chord", "Phrase"],
+        "answerIndex": 1,
+        "explanation": "That's the beat — everything else in the music lines up against it."
+      },
+      {
+        "id": "tbs-q2",
+        "promptText": "The FIRST beat of every bar is called the…",
+        "choices": ["Upbeat", "Backbeat", "Downbeat", "Offbeat"],
+        "answerIndex": 2,
+        "explanation": "Beat 1 is the downbeat — it's where the bar 'lands'."
+      },
+      {
+        "id": "tbs-q3",
+        "promptText": "You count '1, 2, 3, 4, 1, 2, 3, 4…'. What happens at every '1'?",
+        "choices": ["The music stops", "A new bar starts", "The tempo changes", "Nothing special"],
+        "answerIndex": 1,
+        "explanation": "Each count of 1 is the start of a new bar — the downbeat."
+      },
+      {
+        "id": "tbs-q4",
+        "promptText": "If you play a wrong note, the best move for the groove is to…",
+        "choices": ["Stop and restart", "Play the missed note late", "Keep going and land the next beat", "Slow down"],
+        "answerIndex": 2,
+        "explanation": "Musicians keep the pulse. Recover on the next beat — nobody hears the note you didn't replay."
+      },
+      {
+        "id": "tbs-q5",
+        "promptText": "A metronome is for practicing your…",
+        "choices": ["Note names", "Timing", "Chord spelling", "Volume"],
+        "answerIndex": 1,
+        "explanation": "The click is an honest timing mirror — that's why the app scores timing, not just notes."
+      }
+    ]
+  },
+  {
+    "id": "theory-time-sig-44",
+    "name": "Common time — 4/4",
+    "explanation": "A time signature describes the bar: the TOP number says how many beats each bar has; the BOTTOM number says which note value counts as one beat. 4/4 — 'common time' — means four quarter-note beats per bar.",
+    "examples": ["4/4 = four quarter-note beats per bar", "Ode to Joy is in 4/4"],
+    "linkedSkillIds": ["rhythm-time-sig-44"],
+    "linkedSongIds": ["ode-to-joy"],
+    "questions": [
+      {
+        "id": "t44-q1",
+        "promptText": "In a time signature, the TOP number tells you…",
+        "choices": ["How fast to play", "How many beats per bar", "Which key you're in", "How loud to play"],
+        "answerIndex": 1,
+        "explanation": "Top number = beats per bar. In 4/4 you count to four, then a new bar starts."
+      },
+      {
+        "id": "t44-q2",
+        "promptText": "In 4/4, the BOTTOM 4 means one beat lasts a…",
+        "choices": ["Whole note", "Half note", "Quarter note", "Eighth note"],
+        "answerIndex": 2,
+        "explanation": "The bottom number names the note value of the beat — 4 means quarter note."
+      },
+      {
+        "id": "t44-q3",
+        "promptText": "A 4/4 bar so far holds three quarter notes. What single note completes it?",
+        "choices": ["A quarter note", "A half note", "A whole note", "Nothing — it's full"],
+        "answerIndex": 0,
+        "explanation": "Three beats are used, one is left — one more quarter note fills the bar."
+      },
+      {
+        "id": "t44-q4",
+        "promptText": "You hear: ONE-two-three-four, ONE-two-three-four. The meter is…",
+        "choices": ["2/4", "3/4", "4/4", "6/8"],
+        "answerIndex": 2,
+        "explanation": "An accent every four beats is the sound of 4/4 — common time."
+      },
+      {
+        "id": "t44-q5",
+        "promptText": "How many quarter notes fit in TWO bars of 4/4?",
+        "choices": ["Four", "Six", "Eight", "Sixteen"],
+        "answerIndex": 2,
+        "explanation": "Four per bar × two bars = eight."
+      }
+    ]
+  },
+  {
+    "id": "theory-tier1-checkpoint",
+    "name": "Tier 1 check: keys, beats, and bars",
+    "explanation": "Everything Tier 1 taught, in one short check: the keyboard map, the beat, and 4/4 time.",
+    "examples": [],
+    "linkedSkillIds": ["geo-note-names", "rhythm-steady-pulse", "rhythm-time-sig-44", "ear-pitch-direction"],
+    "linkedSongIds": ["ode-to-joy"],
+    "questions": [
+      {
+        "id": "t1c-q1",
+        "promptText": "Which key sits just left of the two black keys?",
+        "choices": ["C", "D", "F", "G"],
+        "answerIndex": 0,
+        "explanation": "C — left of every pair of black keys.",
+        "illustratePitches": [60]
+      },
+      {
+        "id": "t1c-q2",
+        "promptText": "In 4/4 time, how many beats are in each bar?",
+        "choices": ["Two", "Three", "Four", "Eight"],
+        "answerIndex": 2,
+        "explanation": "Four quarter-note beats per bar."
+      },
+      {
+        "id": "t1c-q3",
+        "promptText": "The first beat of a bar is the…",
+        "choices": ["Offbeat", "Downbeat", "Backbeat", "Pickup"],
+        "answerIndex": 1,
+        "explanation": "The downbeat — count '1'."
+      },
+      {
+        "id": "t1c-q4",
+        "promptText": "Notes get HIGHER as you move which way?",
+        "choices": ["Left", "Right", "Toward the middle", "It depends on the song"],
+        "answerIndex": 1,
+        "explanation": "Rightward = higher pitch, always."
+      },
+      {
+        "id": "t1c-q5",
+        "promptText": "Stepping up one white key from E lands on…",
+        "choices": ["D", "F", "G", "E again"],
+        "answerIndex": 1,
+        "explanation": "E steps up to F — they're direct neighbors with no black key between.",
+        "illustratePitches": [64, 65]
+      },
+      {
+        "id": "t1c-q6",
+        "promptText": "A 4/4 bar already has two quarter notes and one half note. It is…",
+        "choices": ["Missing one beat", "Missing two beats", "Exactly full", "Overfull"],
+        "answerIndex": 2,
+        "explanation": "2 + 2 = 4 beats — the bar is complete."
+      },
+      {
+        "id": "t1c-q7",
+        "promptText": "If you miss a note mid-song, you should…",
+        "choices": ["Restart the song", "Pause and find it", "Keep the pulse and catch the next beat", "Play it twice to make up"],
+        "answerIndex": 2,
+        "explanation": "Keeping the pulse is the skill. Recovery beats perfection."
+      },
+      {
+        "id": "t1c-q8",
+        "promptText": "Two notes sound in a row and the second is lower. It moved…",
+        "choices": ["Up", "Down", "Nowhere", "Louder"],
+        "answerIndex": 1,
+        "explanation": "Lower sound = downward movement = leftward on the keys."
+      }
+    ]
+  }
+]

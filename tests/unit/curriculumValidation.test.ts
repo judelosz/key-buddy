@@ -139,7 +139,7 @@ const concept = (id: string, over: Partial<TheoryConcept> = {}): TheoryConcept =
 function validBundle(): RawContent {
   return {
     skills: [skill('skill-a')],
-    songs: [song('boss-song')],
+    songs: [song('boss-song', { taughtSkills: ['skill-a'] })],
     charts: [chart('boss-song--simplified', 'boss-song')],
     fragments: [],
     minigames: [],

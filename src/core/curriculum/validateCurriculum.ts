@@ -286,6 +286,19 @@ export function validateCurriculum(raw: RawContent): string[] {
         problems.push(`Tier gate ${gate.tier} core skill ${sid} sits at higher tier ${skill.tier}`);
       }
     }
+    // Every gate core skill must be Hands-masterable: exercises cap below the
+    // mastery threshold, so a reachable song must teach (taughtSkills) it.
+    for (const sid of gate.coreSkillIds) {
+      const teachable = raw.songs.some(
+        (s) => s.tier <= gate.tier && s.taughtSkills.includes(sid),
+      );
+      if (!teachable) {
+        problems.push(
+          `Tier gate ${gate.tier} core skill ${sid} is not taught by any song at tier ≤ ${gate.tier} — Hands mastery is unreachable (exercises cap at 0.8)`,
+        );
+      }
+    }
+
     const bossSong = songById.get(gate.bossSongId);
     if (!bossSong) {
       problems.push(`Tier gate ${gate.tier} references missing boss song ${gate.bossSongId}`);

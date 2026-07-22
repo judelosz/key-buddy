@@ -13,10 +13,10 @@
     "timeSignature": { "beatsPerBar": 4, "beatUnit": 4 },
     "feel": "straight",
     "requiredSkills": [],
-    "taughtSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse"],
+    "taughtSkills": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse", "rhythm-time-sig-44"],
     "arrangementLevels": ["simplified"],
     "chartIds": ["ode-to-joy--simplified"],
-    "fragmentIds": []
+    "fragmentIds": ["frag-quarter-pulse", "frag-ode-bars-1-4", "frag-ode-bars-5-8"]
   },
   {
     "id": "12-bar-blues-c",

@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "tier": 1,
+    "coreSkillIds": ["geo-note-names", "mech-five-finger-c", "rhythm-steady-pulse", "rhythm-time-sig-44"],
+    "bossSongId": "ode-to-joy",
+    "bossChartId": "ode-to-joy--simplified",
+    "checkpointAssessmentIds": ["assess-t1-checkpoint"],
+    "requiresDelayedReview": true,
+    "handsXpBand": 120
+  }
+]

@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { skipOnboarding } from './helpers';
 
-test('loads and shows the Missions hub', async ({ page }) => {
+test('loads and shows the Missions hub with a recommended next lesson', async ({ page }) => {
   await page.goto('/');
   await skipOnboarding(page);
   await expect(page.getByRole('heading', { name: 'Piano Pro' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Ready to play?' })).toBeVisible();
+  // Fresh player → the first lesson of Module 1 is the dominant action.
+  await expect(page.getByRole('heading', { name: "Hear where you're going" })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continue' })).toBeVisible();
 });
 
 test('navigates to Free Play and loads a song', async ({ page }) => {

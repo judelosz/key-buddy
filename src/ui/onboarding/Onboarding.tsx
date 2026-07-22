@@ -33,9 +33,16 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
   ];
   const last = step === steps.length - 1;
 
+  const setActiveLesson = useAppStore((s) => s.setActiveLesson);
+
   const finish = () => {
     void completeOnboarding();
     setScreen('missions');
+    // First run ends inside the first lesson — never on a blank dashboard.
+    if (!replay) {
+      const next = useGameStore.getState().nextLesson();
+      if (next) setActiveLesson({ moduleId: next.module.id, lessonId: next.lesson.id });
+    }
     setShowOnboarding(false);
   };
 

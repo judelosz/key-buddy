@@ -160,6 +160,53 @@ function theoryQuiz(
   }));
 }
 
+/**
+ * Beginner pitch-direction / same-different ear training.
+ * params: { variant: 'direction' | 'same-different', count?: number }
+ */
+function intervalEar(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
+  const p = lesson.generatorParams ?? {};
+  const variant = str(p.variant, 'direction');
+  const count = num(p.count, 6);
+  const base = 60; // around middle C
+  return Array.from({ length: count }, (_, i) => {
+    const first = base + Math.floor(rand() * 5);
+    if (variant === 'same-different') {
+      const same = rand() < 0.5;
+      const second = same ? first : first + (rand() < 0.5 ? -1 : 1) * (2 + Math.floor(rand() * 4));
+      return {
+        id: `${lesson.id}-p${i}`,
+        displayText: 'Two notes — are they the same or different?',
+        audio: [
+          { pitches: [first], durationSec: 0.7 },
+          { pitches: [second], durationSec: 0.7 },
+        ],
+        choices: ['Same', 'Different'],
+        expected: { kind: 'choice' as const, answerIndex: same ? 0 : 1 },
+        explanation: same
+          ? 'They matched exactly — same key, same sound.'
+          : 'The second note moved — listen for the change in height.',
+      };
+    }
+    const up = rand() < 0.5;
+    const interval = 2 + Math.floor(rand() * 6); // 2–7 semitones, clearly audible
+    const second = up ? first + interval : first - interval;
+    return {
+      id: `${lesson.id}-p${i}`,
+      displayText: 'Two notes — did the second one go up or down?',
+      audio: [
+        { pitches: [first], durationSec: 0.7 },
+        { pitches: [second], durationSec: 0.7 },
+      ],
+      choices: ['Up', 'Down'],
+      expected: { kind: 'choice' as const, answerIndex: up ? 0 : 1 },
+      explanation: up
+        ? 'It climbed — higher sounds sit to the right of the keyboard.'
+        : 'It fell — lower sounds sit to the left of the keyboard.',
+    };
+  });
+}
+
 function listen(lesson: CurriculumLesson): ExercisePrompt[] {
   return [
     {
@@ -194,6 +241,9 @@ export function generateExercise(
       break;
     case 'rhythm-tap':
       prompts = rhythmTap(lesson);
+      break;
+    case 'interval-ear':
+      prompts = intervalEar(lesson, rand);
       break;
     case 'theory-quiz':
       prompts = theoryQuiz(lesson, ctx.concept, rand);

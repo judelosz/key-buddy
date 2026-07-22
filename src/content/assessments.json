@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "assess-t1-checkpoint",
+    "scope": "tier",
+    "tier": 1,
+    "lessonId": "l-fm-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": ["l-mk-theory-map", "l-sb-theory-44"]
+  }
+]

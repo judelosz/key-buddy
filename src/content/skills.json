@@ -7,7 +7,42 @@
     "genre": "foundation",
     "prerequisites": [],
     "theoryConceptId": "theory-note-names",
-    "description": "Locate and name white/black keys; find C4 and orient across octaves."
+    "description": "Locate and name white/black keys; find C4 and orient across octaves.",
+    "arc": "foundation",
+    "strand": "technique",
+    "outcome": "Find and play any white key from C to G, in any octave, without hunting.",
+    "moduleId": "m1-meet-keyboard",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0.9,
+      "minGoodOrBetterPct": 0,
+      "requiresAtTempo": false,
+      "requiresNoAssists": true
+    },
+    "transferTargets": ["mech-five-finger-c", "lh-root-notes"],
+    "commonErrors": ["Confusing the two- and three-black-key groups", "Finding C only in one octave"]
+  },
+  {
+    "id": "ear-pitch-direction",
+    "name": "Pitch direction & same/different",
+    "family": "harmony-progressions",
+    "tier": 1,
+    "genre": "foundation",
+    "prerequisites": [],
+    "description": "Hear whether a sound moves up or down, and whether two notes match.",
+    "arc": "foundation",
+    "strand": "ear",
+    "outcome": "Identify up/down movement and same/different notes 8 times out of 10.",
+    "moduleId": "m1-meet-keyboard",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0.8,
+      "minGoodOrBetterPct": 0,
+      "requiresAtTempo": false,
+      "requiresNoAssists": true
+    },
+    "transferTargets": ["ear-tonic-away"],
+    "commonErrors": ["Confusing louder with higher"]
   },
   {
     "id": "mech-five-finger-c",
@@ -16,7 +51,20 @@
     "tier": 1,
     "genre": "foundation",
     "prerequisites": ["geo-note-names"],
-    "description": "Right-hand C-D-E-F-G under fingers 1–5, even tone, no reaching."
+    "description": "Right-hand C-D-E-F-G under fingers 1–5, even tone, no reaching.",
+    "arc": "foundation",
+    "strand": "technique",
+    "outcome": "Play a five-finger melody in C with steady, even notes at 96 BPM.",
+    "moduleId": "m1-first-melody",
+    "assessment": {
+      "minStars": 3,
+      "minNotesCorrectPct": 0.95,
+      "minGoodOrBetterPct": 0.85,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true
+    },
+    "transferTargets": ["mech-pentascale-cfg"],
+    "commonErrors": ["Reaching with one finger instead of using all five", "Tension in the wrist on repeated notes"]
   },
   {
     "id": "rhythm-steady-pulse",
@@ -26,13 +74,49 @@
     "genre": "foundation",
     "prerequisites": [],
     "theoryConceptId": "theory-beat-subdivision",
-    "description": "Play quarter notes locked to the click; feel the downbeat."
+    "description": "Play quarter notes locked to the click; feel the downbeat.",
+    "arc": "foundation",
+    "strand": "rhythm",
+    "outcome": "Tap or play eight quarter notes in a row locked to the click.",
+    "moduleId": "m1-steady-beat",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0,
+      "minGoodOrBetterPct": 0.7,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true
+    },
+    "transferTargets": ["rhythm-time-sig-44", "rhythm-eighth-notes"],
+    "commonErrors": ["Rushing after a correct note", "Stopping to restart after a miss"]
+  },
+  {
+    "id": "rhythm-time-sig-44",
+    "name": "Common time (4/4)",
+    "family": "rhythm-groove",
+    "tier": 1,
+    "genre": "foundation",
+    "prerequisites": ["rhythm-steady-pulse"],
+    "theoryConceptId": "theory-time-sig-44",
+    "description": "Count four beats to the bar, find the downbeat, and keep the bar shape.",
+    "arc": "foundation",
+    "strand": "rhythm",
+    "outcome": "Count 1-2-3-4 aloud with the click and land the downbeat every bar.",
+    "moduleId": "m1-steady-beat",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0,
+      "minGoodOrBetterPct": 0.7,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true
+    },
+    "transferTargets": ["rhythm-time-sig-24", "rhythm-time-sig-34"],
+    "commonErrors": ["Losing count mid-bar", "Accenting every beat equally"]
   },
   {
     "id": "rhythm-swing-feel",
     "name": "Swing / shuffle feel",
     "family": "rhythm-groove",
-    "tier": 3,
+    "tier": 8,
     "genre": "foundation",
     "prerequisites": ["rhythm-steady-pulse"],
     "description": "Long-short eighth-note subdivision underpinning blues, gospel, country."
@@ -41,7 +125,7 @@
     "id": "chord-major-triad",
     "name": "Major triads & inversions",
     "family": "chords-voicings",
-    "tier": 2,
+    "tier": 4,
     "genre": "foundation",
     "prerequisites": ["geo-note-names"],
     "theoryConceptId": "theory-chord-construction",
@@ -51,7 +135,7 @@
     "id": "chord-minor-triad",
     "name": "Minor triads",
     "family": "chords-voicings",
-    "tier": 2,
+    "tier": 11,
     "genre": "foundation",
     "prerequisites": ["chord-major-triad"],
     "description": "Build 1-♭3-5 minor triads."
@@ -60,7 +144,7 @@
     "id": "chord-dom7",
     "name": "Dominant 7th chords",
     "family": "chords-voicings",
-    "tier": 5,
+    "tier": 7,
     "genre": "foundation",
     "prerequisites": ["chord-major-triad"],
     "description": "The single most important blues color: 1-3-5-♭7."
@@ -69,7 +153,7 @@
     "id": "harmony-i-iv-v",
     "name": "The I–IV–V relationship",
     "family": "harmony-progressions",
-    "tier": 3,
+    "tier": 4,
     "genre": "foundation",
     "prerequisites": ["chord-major-triad"],
     "theoryConceptId": "theory-primary-chords",
@@ -79,7 +163,7 @@
     "id": "harmony-nashville-numbers",
     "name": "Nashville number system",
     "family": "harmony-progressions",
-    "tier": 4,
+    "tier": 10,
     "genre": "foundation",
     "prerequisites": ["harmony-i-iv-v"],
     "description": "Think in scale degrees 1–7 to transpose instantly."

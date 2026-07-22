@@ -34,12 +34,13 @@ test('first run lands on onboarding and Get Started walks into the shell', async
   await page.getByRole('button', { name: 'Continue', exact: false }).click();
   await page.getByRole('button', { name: /Start your first mission/ }).click();
 
-  // Lands in the shell on Missions.
-  await expect(page.getByRole('heading', { name: 'Ready to play?' })).toBeVisible();
+  // Lands directly inside the first lesson — never a blank dashboard.
+  await expect(page.getByRole('heading', { name: "Hear where you're going" })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Missions' }).first()).toBeVisible();
 
   // Reload → straight to the shell; onboarding is done and persisted.
   await page.reload();
-  await expect(page.getByRole('heading', { name: 'Ready to play?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Piano Pro' })).toBeVisible();
   await expect(
     page.getByRole('heading', { name: /Learn blues, gospel & country piano/ }),
   ).not.toBeVisible();
@@ -59,5 +60,5 @@ test('onboarding can be replayed from Settings', async ({ page }) => {
   ).toBeVisible();
   // Replay offers a Close escape hatch that returns to the shell.
   await page.getByRole('button', { name: 'Close', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Ready to play?' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Free Play' })).toBeVisible();
 });
