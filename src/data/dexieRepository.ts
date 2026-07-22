@@ -2,10 +2,15 @@
  * Dexie/IndexedDB implementation of the Repository (build-spec §6 data layer).
  * Local-first, no backend for v1. The DB is opened lazily so importing this
  * module never touches IndexedDB until first use.
+ *
+ * Schema v2 (Phase 4): lessonResults, lessonProgress, songMastery, and
+ * chartMastery tables; playerState gains the learning-tier fields (upgraded
+ * in-place, and re-normalized on every load via normalizePlayerState).
  */
 import Dexie, { type EntityTable } from 'dexie';
 import type { Attempt, PlayerState, SkillProgress } from '@/core/types';
-import type { Repository } from './repository';
+import type { LessonProgress, LessonResult, SongMastery } from '@/core/curriculum/types';
+import { normalizePlayerState, type Repository } from './repository';
 
 const PLAYER_ID = 'singleton';
 
@@ -16,12 +21,20 @@ interface ChartBestRow {
   chartId: string;
   stars: number;
 }
+interface ChartMasteryRow {
+  chartId: string;
+  masteryStar: boolean;
+}
 
 class PianoDB extends Dexie {
   playerState!: EntityTable<PlayerRow, 'id'>;
   skillProgress!: EntityTable<SkillProgress, 'skillId'>;
   chartBest!: EntityTable<ChartBestRow, 'chartId'>;
   attempts!: EntityTable<Attempt, 'id'>;
+  lessonResults!: EntityTable<LessonResult, 'id'>;
+  lessonProgress!: EntityTable<LessonProgress, 'lessonId'>;
+  songMastery!: EntityTable<SongMastery, 'songId'>;
+  chartMastery!: EntityTable<ChartMasteryRow, 'chartId'>;
 
   constructor() {
     super('piano-pro');
@@ -31,6 +44,26 @@ class PianoDB extends Dexie {
       chartBest: 'chartId',
       attempts: 'id, timestamp, refId',
     });
+    this.version(2)
+      .stores({
+        playerState: 'id',
+        skillProgress: 'skillId',
+        chartBest: 'chartId',
+        attempts: 'id, timestamp, refId',
+        lessonResults: 'id, lessonId, timestamp',
+        lessonProgress: 'lessonId',
+        songMastery: 'songId',
+        chartMastery: 'chartId',
+      })
+      .upgrade((tx) =>
+        tx
+          .table<PlayerRow, string>('playerState')
+          .toCollection()
+          .modify((row) => {
+            const normalized = normalizePlayerState(row);
+            Object.assign(row, normalized);
+          }),
+      );
   }
 }
 
@@ -47,7 +80,7 @@ export class DexieRepository implements Repository {
     if (!row) return null;
     const { id: _id, ...state } = row;
     void _id;
-    return state;
+    return normalizePlayerState(state);
   }
 
   async savePlayerState(state: PlayerState): Promise<void> {
@@ -77,12 +110,51 @@ export class DexieRepository implements Repository {
     return Object.fromEntries(rows.map((r) => [r.chartId, r.stars]));
   }
 
+  async getChartMastery(chartId: string): Promise<boolean> {
+    const row = await this.get().chartMastery.get(chartId);
+    return row?.masteryStar ?? false;
+  }
+
+  async setChartMastery(chartId: string, masteryStar: boolean): Promise<void> {
+    await this.get().chartMastery.put({ chartId, masteryStar });
+  }
+
+  async loadAllChartMastery(): Promise<Record<string, boolean>> {
+    const rows = await this.get().chartMastery.toArray();
+    return Object.fromEntries(rows.map((r) => [r.chartId, r.masteryStar]));
+  }
+
   async saveAttempt(attempt: Attempt): Promise<void> {
     await this.get().attempts.put(attempt);
   }
 
   async loadRecentAttempts(limit = 50): Promise<Attempt[]> {
     return this.get().attempts.orderBy('timestamp').reverse().limit(limit).toArray();
+  }
+
+  async saveLessonResult(result: LessonResult): Promise<void> {
+    await this.get().lessonResults.put(result);
+  }
+
+  async loadRecentLessonResults(limit = 100): Promise<LessonResult[]> {
+    return this.get().lessonResults.orderBy('timestamp').reverse().limit(limit).toArray();
+  }
+
+  async loadAllLessonProgress(): Promise<LessonProgress[]> {
+    return this.get().lessonProgress.toArray();
+  }
+
+  async saveLessonProgress(progress: LessonProgress[]): Promise<void> {
+    if (progress.length === 0) return;
+    await this.get().lessonProgress.bulkPut(progress);
+  }
+
+  async loadAllSongMastery(): Promise<SongMastery[]> {
+    return this.get().songMastery.toArray();
+  }
+
+  async saveSongMastery(mastery: SongMastery): Promise<void> {
+    await this.get().songMastery.put(mastery);
   }
 
   async clearAll(): Promise<void> {
@@ -92,6 +164,10 @@ export class DexieRepository implements Repository {
       db.skillProgress.clear(),
       db.chartBest.clear(),
       db.attempts.clear(),
+      db.lessonResults.clear(),
+      db.lessonProgress.clear(),
+      db.songMastery.clear(),
+      db.chartMastery.clear(),
     ]);
   }
 }

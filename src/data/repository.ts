@@ -4,6 +4,7 @@
  * replace IndexedDB later without touching anything upstream.
  */
 import type { Attempt, PlayerState, SkillProgress } from '@/core/types';
+import type { LessonProgress, LessonResult, SongMastery } from '@/core/curriculum/types';
 
 export interface Repository {
   loadPlayerState(): Promise<PlayerState | null>;
@@ -16,8 +17,22 @@ export interface Repository {
   setChartBestStars(chartId: string, stars: number): Promise<void>;
   loadAllChartBest(): Promise<Record<string, number>>;
 
+  /** Honest boss evidence: whether a chart has ever earned the mastery star
+   * (chartBest stars alone can be earned assisted). */
+  getChartMastery(chartId: string): Promise<boolean>;
+  setChartMastery(chartId: string, masteryStar: boolean): Promise<void>;
+  loadAllChartMastery(): Promise<Record<string, boolean>>;
+
   saveAttempt(attempt: Attempt): Promise<void>;
   loadRecentAttempts(limit?: number): Promise<Attempt[]>;
+
+  saveLessonResult(result: LessonResult): Promise<void>;
+  loadRecentLessonResults(limit?: number): Promise<LessonResult[]>;
+  loadAllLessonProgress(): Promise<LessonProgress[]>;
+  saveLessonProgress(progress: LessonProgress[]): Promise<void>;
+
+  loadAllSongMastery(): Promise<SongMastery[]>;
+  saveSongMastery(mastery: SongMastery): Promise<void>;
 
   clearAll(): Promise<void>;
 }
@@ -37,5 +52,24 @@ export function initialPlayerState(): PlayerState {
     cosmeticsOwned: [],
     equippedCosmetics: {},
     calibrationOffsetMs: 0,
+  };
+}
+
+/**
+ * Fill Phase-4 fields on a player state persisted by an older schema. Applied
+ * on every load (belt-and-braces alongside the Dexie upgrade, and unit-testable
+ * without IndexedDB). Level semantics changed in Phase 4 — playerLevel now
+ * equals learningTier — so pre-migration users resume at learning tier 1 with
+ * all XP/skills/unlocks intact.
+ */
+export function normalizePlayerState(raw: Partial<PlayerState>): PlayerState {
+  const learningTier = raw.learningTier ?? 1;
+  return {
+    ...initialPlayerState(),
+    ...raw,
+    learningTier,
+    tierHandsXP: raw.tierHandsXP ?? 0,
+    tierGatePassedAt: raw.tierGatePassedAt ?? {},
+    playerLevel: learningTier,
   };
 }
