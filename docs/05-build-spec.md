@@ -123,6 +123,7 @@ Model these as typed entities; persist user-state entities, ship content entitie
 - **Fragment** — extractable riff/voicing/groove from a stretch song; a mini-Chart plus `sourceSongId, skillTags[]`.
 - **MiniGame** — `id, type (chord-ear, interval, note-id, build-chord, rhythm-tap, progression-ear, feel-id, name-that-lick, …), skillFamily, generatorParams`. Difficulty is derived at runtime from playing tier (design doc 04 §3), not stored per item.
 - **Attempt** — result of a take (song or mini-game): `refId, timestamp, perNoteGrades[], timingHistogram, stars, tempo, assistsUsed[], xpAwarded, riffsAwarded`.
+- **SongMastery** — durable multi-session song progress separate from one Attempt: section/transition evidence, qualifying session IDs, delayed review, transfer evidence, weak sections, and mastery level.
 - **ReviewItem** — FSRS card wrapping a skill or theory/ear concept.
 - **Goal** — `id, horizon (session|weekly|long), type (learning|performance), text (SMART), target, progress, accepted (bool), deadline?`.
 - **Wallet / PlayerState** — `playerLevel, totalXP, headTrackXP, riffs, streak, streakFreezes, currentPlayingTier, cosmeticsOwned[], equippedCosmetics`.
@@ -144,12 +145,12 @@ Pure function: `(Chart, NotePlayed[], tempo, tier) → Attempt`. Judges **pitch*
 *Done when:* deterministic unit tests cover exact-hit, early, late, wrong-note, missing chord-tone, and at-tempo-vs-slowed cases; scoring never blocks the music on a miss.
 
 ### 6.3 SpacedRepetition (FSRS)
-Wrap an FSRS JS implementation. Every skill/theory item is a card with difficulty/stability/retrievability; grading comes from Attempt results, not self-report where possible (map star/accuracy → FSRS grade). Expose "what's due" for the SessionBuilder.
-*Done when:* due-queue is correct across simulated multi-day histories; freshness values are readable by RewardService.
+Wrap an FSRS JS implementation. Every skill, theory item, scale, groove, song section, and reusable fragment is a reviewable card with difficulty/stability/retrievability. Grading comes from Attempt results, not self-report where possible (map star/accuracy, timing, assists, and mode → FSRS grade). Store section-level error evidence and expose due, struggling, prerequisite-refresh, and transfer-review queues to the SessionBuilder.
+*Done when:* due-queue is correct across simulated multi-day histories; freshness values are readable by RewardService; a failed song section can generate a smaller remediation item; a previously mastered skill can return in a changed key, feel, or retrieval mode; review selection does not repeatedly serve the same failing attempt unchanged.
 
 ### 6.4 SessionBuilder
-Assemble an interleaved session (design doc 01 §9): warm-up → new micro-skill → 1–3 due reviews → stretch-song fragment → theory quiz → song time → wrap. Enforce interleaving (no two consecutive segments on the same skill). Produce an equivalent **AFK session** when no input device / user chooses Woodshed.
-*Done when:* generated sessions respect interleaving, pull correct due items, include exactly one stretch fragment, and fit the target minutes.
+Assemble an interleaved, spiral session (design doc 01 §9 and doc 06 §3.5): warm-up → new micro-skill → immediate remediation or prerequisite refresh → 1–3 due reviews → changed-context maintenance item → stretch-song Boss Challenge → theory/ear quiz → song time → wrap. Enforce interleaving (no two consecutive segments on the same skill), bounded retries, tier re-entry, and song-section resurfacing. Produce an equivalent **AFK session** when no input device / user chooses Woodshed.
+*Done when:* generated sessions respect interleaving, pull correct due and struggling items, include at least one previous-tier retrieval when suitable, include exactly one stretch Boss Challenge, update SongMastery from qualifying Path or Free Play attempts, avoid identical retry loops, and fit the target minutes.
 
 ### 6.5 AdaptiveDifficulty (flow engine)
 Adjust tempo (start ~50%, auto-nudge on success), timing-window strictness, arrangement level, and assists to keep success rate in ~70–85% (design doc 02 §6). The stretch song is exempt (sits above the channel by design).
@@ -176,7 +177,7 @@ Load and validate skills/songs/charts/fragments/minigames JSON; expose queries t
 
 ## 7. Screen inventory (UI)
 
-**Path / Journey Map** (default guided next-step route; one dominant recommended action) · **Onboarding** (input setup, what the app teaches, Path vs Free Play, Riffs, unlocks, mastery, then launch Module 1) · **Free Play** (open practice of unlocked songs/arrangements using the same player and scoring) · Session Player (falling-notes + notation + live grade colors + metronome) · Woodshed/AFK (mini-games) · Roadmap & Skill Tree (two-lock nodes, goal-gradient progress bars) · Goals · Stats (timing-improvement graph, streak, mastery) · Shop/Cosmetics · Calibration · Session Report (histogram, weak-bar heatmap, one tip).
+**Landing onboarding** (input setup, what the app teaches, Missions/Free Play/AFK/Progress/Settings, XP/levels, unlocks, mastery, then launch the first Mission) · **Missions** (guided modules, current lesson, future unlocks, available songs, Boss Challenges, next action) · **Free Play** (open practice of unlocked songs/arrangements using the same player, SongMastery, and scoring) · **AFK Mode** (tier-constrained theory, ear, rhythm, and memory challenges) · **Progress** (level/tier meter, Hands/Head skills, SongMastery, attempt history, session reports, timing trends) · **Settings** (Tune-up, input, calibration, audio, accessibility) · Session Player (falling-notes + notation + live grade colors + metronome) · Roadmap & Skill Tree (two-lock nodes, mastery and prerequisite progress) · Session Report (histogram, weak-bar heatmap, one tip).
 
 Design-system note: a `symbolic-frontend` skill/brand may be applied for styling; keep visuals light, clean, satisfying hover/feedback, minimal emoji.
 
@@ -194,7 +195,7 @@ Build in vertical slices so there's a runnable loop early. Update `CLAUDE.md` at
 
 **Phase 3 — Progression + rewards + persistence.** Skill tree data, ProgressionService (two-lock), RewardService (XP/Riffs/streak + guardrails), FSRS review queue, IndexedDB persistence. Skill-gated unlocks working.
 
-**Phase 4 — Curriculum/content vertical slice.** Implement the funneled Path experience, lightweight onboarding, Path vs Free Play separation, and a real Tier 1–5 module/song/exercise loop. Establish the content schemas and first curriculum assessments.
+**Phase 4 — Curriculum/content vertical slice and post-MVP shell.** Replace the MVP shell with landing onboarding and Missions, Free Play, AFK Mode, Progress, and Settings tabs. Implement the funneled Tier 1–5 module/song/exercise loop, XP-to-level meter, SongMastery foundation, and first stretch Boss Challenges. Defer Streaks and Riffs from the new UI.
 
 **Phase 5 — SessionBuilder + AdaptiveDifficulty.** Interleaved daily sessions, spaced review woven in, stretch-song fragments, flow-based tempo/assist adaptation, and session lengths.
 

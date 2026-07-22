@@ -48,9 +48,25 @@ The content layer currently contains:
 
 This is enough to prove the MVP loop, but not enough to validate the intended curriculum. The next meaningful product risk is no longer “can a chart play?” It is “does a beginner have a coherent next thing to learn, and does the app teach it in enough different ways?”
 
-### Product navigation decision: Path and Free Play are separate modes
+### Product navigation decision: Landing onboarding, Missions, and supporting tabs
 
-The post-MVP experience should have two clearly labeled ways to play:
+The post-MVP experience should begin with a landing-page onboarding experience, then move into a small set of clearly named tabs. Onboarding is not a normal destination inside the authenticated/app shell. It is the first-run entry point.
+
+The first screen should explain the promise of the app, the input options, the learning loop, progression, mastery, and the meaning of the major destinations. One primary **Get Started** button should begin setup and then launch the first Mission.
+
+After onboarding, the primary information architecture is:
+
+| Tab | Purpose | Default question answered |
+|---|---|---|
+| **Missions** | Guided curriculum modules, current lesson, future unlocks, available songs, boss challenges, and next actions | “What should I do next?” |
+| **Free Play** | Open practice of unlocked songs and arrangements | “What do I want to play?” |
+| **AFK Mode** | Keyboard-free theory, ear, rhythm, and memory challenges tied to current Mission tier | “How can I keep learning away from the keyboard?” |
+| **Progress** | Learning-tier meter, skill locks, Song Mastery, session history, attempt trends, and insights | “Am I getting better?” |
+| **Settings** | Tune-up, input, calibration, audio, accessibility, and other preferences | “How do I configure the app?” |
+
+The tabs should not all have equal visual weight. Missions is the default post-onboarding home and should carry the strongest “continue” action.
+
+Within this structure, two clearly labeled ways to play remain:
 
 - **Path** — the guided curriculum roadmap. This is the default home experience and answers “what should I do next?” It funnels the user through onboarding, modules, reviews, assessments, and song unlocks.
 - **Free Play** — the open practice area. This is the current song-playing experience made explicit: the user can choose any unlocked song or arrangement and practice it outside the prescribed module sequence.
@@ -63,6 +79,105 @@ Free Play should not disappear behind the curriculum, and the curriculum should 
 | Free Play | “What do I want to play right now?” | Records attempts and rewards, but does not bypass skill gates | Explicit secondary route |
 
 This separation preserves autonomy without returning the beginner to a screen full of unexplained choices.
+
+### Post-MVP scope adjustment: defer Streaks and Riffs
+
+The MVP code and earlier design documents contain streaks and the Riffs currency, but they should not be central to the next UI redesign. Treat both as deferred feature areas:
+
+- Do not make a streak the primary reason to return.
+- Do not make Riffs a required part of onboarding, Missions, or progression.
+- Keep any existing data model behind a feature flag or dormant UI rather than deleting persisted data casually.
+- Revisit streaks only after the core learning loop and Progress insights are trustworthy.
+- Revisit Riffs only when there are meaningful cosmetic or convenience sinks that do not distract from mastery.
+
+The next release should reward visible competence through XP, skill progress, Song Mastery, and useful feedback. Currency and habit mechanics can return later.
+
+## 2.1 Learning tier, level, and XP model
+
+The user-facing **Level** should correspond to the player’s current learning tier. A circular meter in the upper-right corner can show progress toward the next Level, while the Progress tab provides the detailed explanation.
+
+XP should answer “how much validated learning progress has accumulated toward this tier?” It must not answer merely “how much did the user click or play?”
+
+### XP sources
+
+Actions may award XP, but XP should be split into tracks:
+
+- **Hands XP** — validated keyboard performance. This is the only XP that fills the Level/tier meter.
+- **Head XP** — AFK knowledge, ear, theory, and rhythm work. It fills knowledge progress and can contribute to Head locks and Song Mastery evidence, but cannot raise the learning Level by itself.
+- **Transfer evidence** — successful use of a skill in a new song, key, feel, section, or retrieval mode. This is tracked internally and contributes to the relevant Hands or Head evidence, but it is not a third XP track shown to the user.
+
+Do not expose raw XP as if all XP is interchangeable. The user should see a simple Level meter, with an expandable explanation showing Hands progress, Head progress, and Song Mastery contributions.
+
+### Recommended XP weights
+
+These are starting values for playtesting, not permanent balance constants:
+
+| Action | Base XP | Track | Conditions |
+|---|---:|---|---|
+| Complete a new guided exercise | 5 | Hands or Head | First completion only; meaningful success required |
+| Functional supported skill attempt | 10 | Hands | ≥85% pitch correctness and ≥70% Good-or-better timing |
+| Independent skill checkpoint | 20 | Hands | No falling notes/note-name assist; target mode required |
+| At-tempo mastery-star attempt | 30 | Hands | Three stars, target tempo, no assists; still only one attempt signal |
+| Due review passed | 12 | Hands or Head | Freshness and difficulty multiplier applies |
+| Struggling-item remediation passed | 15 | Relevant track | Must address a recorded weakness; no identical retry farming |
+| New-key or changed-context transfer | 20 | Hands or Head | Requires a valid variation, not a duplicate chart; tagged internally as transfer evidence |
+| Full-song qualifying performance | 25 | Hands | Counts toward Song Mastery only if session/day evidence rules are met |
+| Delayed Song Mastery review | 30 | Hands | Song was absent from immediate queue and remains stable; may also satisfy transfer evidence |
+| Stretch Boss Challenge | 5–15 | Head or Hands | Exploration/transfer evidence only; never advances Song Mastery directly |
+| AFK challenge | 5–15 | Head | Current-tier or +1 Scouting pool; cannot raise Level alone |
+
+Apply multipliers for difficulty, freshness, performance quality, and transfer value. Do not award substantial XP for app-open, navigation, repeated trivial attempts, or merely finishing a lesson without meaningful evidence.
+
+To keep progression deliberately slow, apply diminishing returns and evidence caps:
+
+- repeated attempts on the same item in one session award little or no additional Hands XP after the first meaningful result;
+- a single song cannot supply most of a tier’s XP by itself;
+- easy or already-mastered content rapidly loses freshness value;
+- a mastery-star attempt is valuable evidence, but does not instantly complete a skill, song, or tier;
+- new XP is strongest when it closes a missing checklist item, addresses a weakness, or demonstrates delayed/contextual transfer.
+
+### Tier meter and mastery gates
+
+XP should fill the meter within a tier, but Level advancement requires both accumulated evidence and a gate:
+
+1. The user reaches the recommended Hands XP band for the current tier.
+2. Current-tier core skills are Hands-mastered.
+3. The tier boss song or capstone task meets its required performance checkpoint.
+4. The theory/ear checkpoint reaches its threshold.
+5. At least one older skill passes delayed review.
+
+XP is therefore a progress signal and pacing mechanism, not a currency that can purchase advancement. If a user farms easy content, XP should flatten through freshness and difficulty weighting while the mastery gates remain closed.
+
+### Level/tier display
+
+The upper-right circular meter should show:
+
+- current Level/tier;
+- progress toward the next tier band;
+- a subtle distinction between “XP accumulated” and “requirements remaining.”
+
+The Progress tab should show the full truth:
+
+- Hands XP toward Level;
+- Head knowledge progress;
+- core skills mastered / remaining;
+- boss checkpoint status;
+- delayed-review status;
+- Song Mastery progress;
+- the next action that would move the user forward.
+
+The Progress tab should include a visible **advancement checklist** for the current tier:
+
+- Hands XP threshold reached;
+- core skills Hands-mastered;
+- boss song or capstone passed;
+- theory/ear checkpoint passed;
+- delayed review completed;
+- any required transfer evidence completed.
+
+The checklist is more important than the XP number because it tells the user why they have or have not advanced. Completed items should remain visible as evidence of capability, not disappear when the level changes.
+
+Never display a nearly full XP circle as an implied promise that the user will level up if they simply grind more. If a mastery gate is missing, say which one and why.
 
 ### Current roadmap state
 
@@ -238,10 +353,8 @@ This phase is deliberately not a feature sprint. It is the “make the MVP hones
 
 ### Product navigation work
 
-- Add a default **Path** home state with one primary next action.
-- Add a separate **Free Play** entry point for unlocked songs.
-- Add lightweight first-run onboarding that explains the two modes, modules, skills, Riffs, song unlocking, and the role of MIDI/virtual input.
-- End onboarding by launching the first Path module rather than returning the user to a dashboard.
+- Keep Phase 3.5 focused on MVP reliability; do not attempt the full post-MVP shell redesign here.
+- Capture a baseline of current navigation, scoring, and Progress behavior before replacing the shell.
 
 ### Suggested hardening checklist
 
@@ -263,11 +376,7 @@ This phase is deliberately not a feature sprint. It is the “make the MVP hones
 
 - No known data-loss, stuck-session, duplicate-reward, or impossible-navigation bugs.
 - All automated checks pass: `npm run typecheck`, `npm test`, `npm run build`, and `npm run e2e`.
-- A user can explain what to do next without reading the design docs.
-- A first-time user is funneled directly from onboarding into the first module.
-- A returning user sees one recommended Path action and can intentionally choose Free Play.
-- The difference between Path progress and Free Play practice is clear before the first song attempt.
-- The user can explain that Riffs are a cosmetic/convenience currency, not a way to buy stars, XP, skills, or song unlocks.
+- The current MVP navigation is stable enough to serve as a comparison point for the post-MVP redesign.
 - Scoring feedback is actionable enough to choose the next practice action.
 - A short manual regression checklist is stored in the repository and can be rerun after future changes.
 
@@ -287,11 +396,14 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 
 - Add `Module`, `CurriculumLesson`, `Assessment`, `TheoryConcept`, and `TierGate` content types, or equivalent validated JSON shapes.
 - Implement the module anatomy: `discover → copy → recognize → vary → combine → apply → checkpoint`.
-- Add a **Path** route as the default curriculum home. It should show one recommended next module/lesson, the current module’s progress, due review, and the next song unlock.
-- Add a lightweight onboarding flow that ends at Module 1 rather than at a general-purpose dashboard.
-- Explain the product vocabulary during onboarding and at first use: skills, modules, Path, Free Play, Riffs, song unlocks, Hands/Head locks, and mastery.
-- Keep onboarding short enough to skip or replay later; it should orient rather than become a mandatory tutorial course.
-- Add a separate **Free Play** route containing the current song player and unlocked songs/arrangements. Free Play may be entered from onboarding, Path, or the main navigation, but it must not be the default first destination.
+- Add a **Missions** route as the default curriculum home. It should show the guided Path, one recommended next module/lesson, current module progress, due review, and the next song unlock.
+- Replace the app’s first-run entry with a landing-page onboarding experience containing one primary **Get Started** button.
+- Explain the product vocabulary during onboarding and at first use: Missions, Free Play, AFK Mode, Progress, Settings, skills, modules, XP, levels, song unlocks, Hands/Head locks, and mastery.
+- Run input setup/calibration as part of the Get Started flow, then launch Module 1 in Missions.
+- Keep onboarding short enough to replay later; it should orient rather than become a mandatory tutorial course.
+- Build the post-onboarding shell with Missions, Free Play, AFK Mode, Progress, and Settings tabs.
+- Make Missions the default tab and give it one dominant recommended action.
+- Add a separate **Free Play** route containing the current song player and unlocked songs/arrangements. Free Play may be entered from onboarding, Missions, or the main navigation, but it must not be the default first destination.
 - Make Free Play visibly distinct from a curriculum lesson: label it as practice, show whether a song is unlocked, and explain that attempts still count toward legitimate skill progress.
 - Add exercises for note ID, rhythm/pulse, chord building, chord ear ID, and simple theory retrieval.
 - Add scale exercises beginning with five-finger patterns, C/F/G pentascales, and the C major scale; every scale exercise must have a song, riff, fill, or ear-training application.
@@ -309,8 +421,11 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 - Every Tier 1–5 core skill has a guided exercise, a variation, a song application, and an assessment.
 - The app explains why an exercise exists and which song it supports.
 - A checkpoint can distinguish supported practice from independent performance.
-- On a clean install, onboarding funnels directly into the first module and the first module has a clear next action after every lesson.
-- The user can intentionally leave Path for Free Play and return to the same Path position without losing context.
+- On a clean install, onboarding funnels directly into the first Mission and the first Mission has a clear next action after every lesson.
+- The user can intentionally leave Missions for Free Play and return to the same Mission position without losing context.
+- On a clean install, onboarding is the landing page and Get Started launches the first Mission after setup.
+- The post-onboarding shell contains Missions, Free Play, AFK Mode, Progress, and Settings with clear responsibilities.
+- Level and XP are visible without implying that raw XP alone guarantees advancement.
 - Content validation catches missing prerequisites, broken references, and impossible tier gates.
 
 ### Test window
@@ -319,7 +434,7 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 - Repeat the same module on a second day and verify review feels useful rather than repetitive.
 - Ask whether the user knows what to practice when they miss.
 - Start from a clean install and record every moment where the user wonders what to click.
-- Verify that the first onboarding explanation of Riffs is accurate and not mistaken for a progression currency.
+- Verify that the first onboarding explanation of XP and Levels does not imply that raw activity alone guarantees advancement.
 - Verify that Free Play feels available and satisfying without pulling the user away from the guided path by accident.
 - Try to game progression by replaying the easiest chart or doing only theory exercises.
 - Check whether the curriculum teaches the user to listen, count, and move—not only follow falling notes.
@@ -338,6 +453,12 @@ Make the daily practice loop automatic, varied, and appropriately difficult.
 - Implement session composition: warm-up, new card, due review, movement lab, theory/ear, song application, independent check, and wrap.
 - Enforce interleaving across skill families.
 - Integrate FSRS due items and freshness into session selection.
+- Add section-level error history, remediation links, prerequisite refresh, transfer review, and previous-tier re-entry to session selection.
+- Ensure every new module declares which earlier skills it revisits and which future skills it prepares.
+- Add the SongMastery reducer and persistence model separately from Attempt-level stars.
+- Use only Hands XP and Head XP in the user-facing progression model; retain transfer as internal evidence tags and gate criteria, not a third XP currency.
+- Add section/transition tracking, multi-session qualifying performances, delayed retrieval, and changed-context transfer evidence.
+- Add recurring stretch-song Boss Challenges that extract current-skill-sized fragments from the +10-tier song without unlocking or grading the full song.
 - Add the stretch-song fragment selector with the +10-tier exploration intent and no mastery pressure.
 - Implement adaptive tempo, arrangement, assist removal, and remediation.
 - Add session-length options around 5, 10, 20, and 30 minutes.
@@ -348,6 +469,12 @@ Make the daily practice loop automatic, varied, and appropriately difficult.
 - Generated sessions fit the requested duration within a small tolerance.
 - No two consecutive segments unnecessarily repeat the same skill family.
 - Due review appears reliably and does not crowd out new learning.
+- Struggling items return in smaller or varied forms rather than as identical failed repetitions.
+- Previously mastered material returns in changed keys, tempos, feels, sections, or retrieval modes.
+- Each completed tier includes at least one deliberate retrieval of an earlier-tier skill.
+- A song cannot reach durable mastery from one, two, or three-star attempts in a single session.
+- Free Play attempts can advance SongMastery only when they satisfy the same evidence rules as Path attempts.
+- Stretch Boss Challenges measure fragment exploration and skill transfer, never full-song completion or SongMastery.
 - Adaptive difficulty responds to repeated success and failure without changing the user’s target invisibly.
 - Stretch fragments are exploratory and cannot advance tier or award mastery.
 
@@ -367,6 +494,8 @@ Make the daily practice loop automatic, varied, and appropriately difficult.
 
 Let the user make useful progress away from the keyboard without letting knowledge outrun demonstrated playing ability.
 
+AFK Mode is separate from Missions in navigation, but not disconnected from progression. Its challenge pool is generated from the user’s current Missions tier, with a clearly labeled +1 Scouting window. AFK can award Head XP, open Head locks, strengthen SongMastery’s ear/knowledge evidence, and prepare remediation or transfer work. It cannot raise the Missions Level/tier, unlock a song by itself, or replace a Missions checkpoint.
+
 ### Build
 
 - Implement the mini-game engine and generator contract.
@@ -377,6 +506,7 @@ Let the user make useful progress away from the keyboard without letting knowled
 - Add AFK session composition and 60–90 second micro-sessions.
 - Make the “ready to play” queue visible when Head progress is waiting for Hands progress.
 - Keep AFK rewards separate from Player Level and playing tier.
+- Show AFK contributions in Progress as Head XP, Head-lock progress, SongMastery evidence, and “ready to play” items—not as direct Missions Level advancement.
 
 ### Exit criteria
 

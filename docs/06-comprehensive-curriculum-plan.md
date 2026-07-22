@@ -38,6 +38,8 @@ Two refinements are required for implementation:
 - The current 30 tiers are a difficulty scale, not yet a lesson syllabus. This document defines the lesson/module structure inside each tier.
 - `theoryConceptId` alone is too small to express the curriculum. Future content should also attach exercise templates, assessment criteria, technique cues, ear targets, and song-fragment IDs to each skill.
 
+The curriculum must also be **spiral rather than disposable**. Completing a module means the learner is ready to meet harder applications of its skills, not that the skills can be removed from practice. Every important item should have a future review path, and every failure should create useful resurfacing evidence.
+
 ## 3. Learning design rules
 
 ### 3.1 The unit of learning: a skill card
@@ -107,6 +109,97 @@ New material begins around 50–65% of target tempo and with a reduced arrangeme
 
 This makes failure informative rather than punitive. A miss should produce one next action (“left hand is late on beat 3”) instead of a pile of generic advice.
 
+### 3.5 Spiral curriculum and durable retrieval
+
+Piano Pro should use a **spiral curriculum**: old material returns at increasing levels of variation and independence as new skills are introduced.
+
+The app should resurface:
+
+- a skill the user missed or only passed with assistance;
+- a song section with repeated weak bars or timing drift;
+- a scale, chord, interval, groove, or time signature that has become due for review;
+- a prerequisite that a new skill depends on;
+- a previously mastered item in a new key, register, tempo, feel, or musical context;
+- an item whose Head knowledge is strong but whose Hands evidence is weak, and vice versa.
+
+The user should experience resurfacing as meaningful musical reuse rather than punishment. For example:
+
+- Tier 2 C–F–G roots return in Tier 6 as I–IV–V blues form;
+- Tier 5 C major scale degrees return in Tier 13 as Nashville-number transposition;
+- Tier 8 shuffle returns in Tier 18 as walking-bass and gospel groove work;
+- a weak bar from a song returns as a two-bar fragment before the whole song is requested again;
+- a missed dom7 chord returns first as chord construction, then ear identification, then a fresh chord change.
+
+#### Review states
+
+Every reviewable item should be in one of these states:
+
+| State | Meaning | Next action |
+|---|---|---|
+| New | Not yet introduced | Teach in the recommended Path module |
+| Introduced | Seen or heard, not yet reliable | Short guided retrieval |
+| Practicing | Improving with support | Repeat a focused variation |
+| Functional | Usable with help | Interleave into a song or related skill |
+| Mastered | Passed an unassisted checkpoint | Schedule delayed retrieval and transfer |
+| Due | FSRS predicts declining recall or performance | Resurface in the next suitable session |
+| Struggling | Repeated misses, weak timing, or high assistance | Remediate with a smaller prerequisite |
+| Retired temporarily | Stable across several contexts | Keep a low-frequency maintenance review |
+
+“Mastered” never means “never show again.” It means “eligible for less frequent, more varied review.”
+
+#### Review evidence
+
+The review scheduler should use more than the final star count. Store evidence at the smallest useful level:
+
+- skill/card ID;
+- source module, song, chart, fragment, or mini-game;
+- section/bar range when applicable;
+- attempt result and mode;
+- pitch correctness;
+- timing quality and rush/drag direction;
+- tempo and arrangement level;
+- assists used;
+- Head versus Hands contribution;
+- error category;
+- timestamp and session ID;
+- next due date and review history.
+
+The same concept can therefore be reviewed through different retrieval modes. A user who missed a C7 change in a song should not only replay the same C7 chart forever; the system can ask them to build C7, hear C7, identify it in a progression, play it in an inversion, and then return to the song.
+
+#### Resurfacing rules
+
+The future SessionBuilder should reserve part of every session for durable retrieval:
+
+- 20–35% due review in ordinary sessions;
+- one immediate remediation item after a meaningful failure;
+- one older mastered item in a changed context when available;
+- prerequisite review before introducing a dependent new skill;
+- a short song-section review before a full-song checkpoint if the weakness is localized;
+- no more than one or two consecutive attempts on the same failing item;
+- a failed review should shorten or simplify the item, not merely schedule an identical retry.
+
+Review selection should balance four signals:
+
+`due-ness + error severity + prerequisite relevance + transfer opportunity`
+
+Freshness-based rewards may use this queue, but rewards must not encourage farming the easiest review. A due item is valuable because it is appropriately challenging and useful, not because it can be repeated indefinitely.
+
+#### Tier re-entry
+
+Each later tier should deliberately re-enter prior material. Content authors should mark these relationships with `revisits`, `prerequisiteRefreshes`, and `transferTargets`.
+
+At minimum:
+
+| New tier band | Required return to earlier material |
+|---|---|
+| Tiers 3–5 | Revisit note geography, pulse, five-finger patterns, and simple songs with new positions or meters |
+| Tiers 6–10 | Revisit I–IV–V, triads, roots, and time signatures inside 12-bar and shuffle contexts |
+| Tiers 11–15 | Revisit scales, inversions, chord changes, and earlier songs through fills, transposition, and call-and-response |
+| Tiers 16–22 | Revisit groove, form, dom7s, and pentatonic vocabulary inside walking bass, ii–V–I, and gospel applications |
+| Tiers 23–30 | Revisit the full foundation through unfamiliar fragments, arrangement, improvisation, and performance conditions |
+
+The Path should occasionally label this positively: “Bring back a foundation skill,” “Use an old chord in a new groove,” or “Your earlier shuffle is becoming walking bass.”
+
 ## 4. The five curriculum strands
 
 The existing six skill families remain the content taxonomy. For instructional scheduling, they are grouped into five strands that appear in every tier:
@@ -119,7 +212,7 @@ The existing six skill families remain the content taxonomy. For instructional s
 
 The app should not present these as five school subjects. The user should experience a module as “learn a shuffle groove,” with the theory, ear, movement, and song application woven through it.
 
-### 5.1 Scales are a recurring musical tool, not a detached exercise track
+### 4.1 Scales are a recurring musical tool, not a detached exercise track
 
 Scales should be part of the curriculum from the beginning, but they should be taught for a musical reason rather than as pages of abstract finger drills. Every scale lesson should connect four representations: shape, sound, theory, and use in a riff, fill, bass line, melody, or improvisation.
 
@@ -138,11 +231,11 @@ Scales should be part of the curriculum from the beginning, but they should be t
 
 The app should not require all twelve major scales before the user can make meaningful music. It should require the next scale when it unlocks a real musical capability, then revisit the scale through spaced practice and varied applications.
 
-### 5.2 Scale lesson anatomy
+### 4.2 Scale lesson anatomy
 
 A scale module should use this sequence: locate the tonic; play the pattern slowly hands separately; hear its direction and color; say scale degrees or finger numbers; coordinate hands; vary rhythm, direction, register, or key; apply the scale to a riff or fill; then perform it evenly at target tempo without assists and use it in a fresh fragment.
 
-### 5.3 Genre-specific scale applications
+### 4.3 Genre-specific scale applications
 
 - **Blues:** minor pentatonic and blues scale for two-bar call-and-response, turnarounds, and phrase endings. Emphasize resolving blue-note tension toward stable chord tones.
 - **Country:** major pentatonic for melody, fills, and “money licks,” connected to scale degrees 1, 3, 5, and 6 and Nashville numbers. Later combine major pentatonic with blues vocabulary.
@@ -150,7 +243,7 @@ A scale module should use this sequence: locate the tonic; play the pattern slow
 
 This keeps scales tightly connected to the app’s preferred genres instead of imitating a purely classical technical syllabus.
 
-### 5.4 Strand ladders across the 30 tiers
+### 4.4 Strand ladders across the 30 tiers
 
 The tier table gives each tier a headline outcome. These ladders define what must be happening underneath that headline so a strand does not disappear for several tiers and then reappear at an unrealistic difficulty.
 
@@ -234,7 +327,7 @@ The Head lock should move from recognition to prediction and production. At late
 
 Repertoire should maintain three simultaneous roles: **current song** for achievable mastery, **review songs** for durable retention, and **stretch fragments** for aspiration. Free Play can draw from current and review songs but must not be confused with a curriculum checkpoint.
 
-### 5.5 Cross-strand gates
+### 4.5 Cross-strand gates
 
 Each major tier checkpoint should require the strands to meet in one task. The gate is not complete if the user can pass only one component:
 
@@ -265,7 +358,104 @@ Each skill card has a measurable rubric. Defaults below are authoring defaults, 
 
 The current `HANDS_THRESHOLD = 0.85`, `HEAD_THRESHOLD = 0.85`, and at-tempo/unassisted mastery rule remain the authoritative implementation guardrails. The repeated-attempt rubric is curriculum guidance for how to fill the lock; it should be encoded only when the progression service is extended to support evidence history.
 
-### 5.2 Tier advancement
+### 5.2 Song mastery is separate from attempt stars
+
+An attempt-level **mastery star** means “this take met the current performance threshold.” It must not mean “the user is fluent in this song.” A song is a larger, durable object with multiple sections, transitions, tempos, arrangements, and retrieval contexts. A user can earn a mastery star on a song and still have weak bars, unreliable transitions, or no evidence that they can reproduce it later.
+
+Every unlocked song should therefore have its own **Song Mastery** track. Song Mastery can be advanced from both Path and Free Play, but it should require evidence across time and contexts.
+
+#### Song Mastery levels
+
+| Level | Name | Evidence |
+|---:|---|---|
+| 0 | Discovered | Song is visible and the user has heard or previewed it |
+| 1 | Started | At least one section completed with support; weak sections identified |
+| 2 | Sections learned | Every required section has a successful section attempt; no section remains unplayed |
+| 3 | Connected | Transitions between sections work in sequence at a reduced or adaptive tempo |
+| 4 | Performance-ready | Full arrangement completed at target tempo, unassisted, on two separate sessions |
+| 5 | Durable mastery | Performance-ready evidence plus delayed retrieval, changed-context transfer, and sustained quality across a longer practice history |
+
+Full Song Mastery should be difficult by design. It should normally require several sessions over multiple days, not one excellent take. The user should see progress toward mastery without being told they are “fluent” prematurely.
+
+#### Durable mastery requirements
+
+The exact thresholds can be tuned after playtesting, but the default Song Mastery gate should require:
+
+- every required section passed at least once;
+- all critical transitions passed in sequence;
+- at least five qualifying full-song performances across at least five separate sessions/days;
+- at least three of those performances at target tempo;
+- no assists on the qualifying performances;
+- no section below the minimum quality threshold on the latest performance;
+- one delayed retrieval after the song has left the immediate practice queue;
+- one transfer performance, such as a new key, alternate arrangement, backing track, reduced visual guidance, or memory/lead-sheet mode, when the song supports it;
+- evidence that quality remains stable after at least one intervening session focused on other material.
+
+Free Play attempts contribute normally to this track when they meet the evidence requirements. Free Play is not a shortcut; it is one of the legitimate places where durable song evidence can accumulate.
+
+#### Song Mastery evidence model
+
+Persist Song Mastery separately from `Attempt`:
+
+```ts
+interface SongMastery {
+  songId: string;
+  level: 0 | 1 | 2 | 3 | 4 | 5;
+  sectionProgress: Record<string, SectionMastery>;
+  transitionProgress: Record<string, TransitionMastery>;
+  qualifyingSessionIds: string[];
+  bestAttemptId?: string;
+  lastAttemptId?: string;
+  delayedReviewDue?: number;
+  transferEvidence: TransferEvidence[];
+  weakSectionIds: string[];
+  lastAdvancedAt?: number;
+}
+```
+
+The existing Attempt remains the detailed result of one take. SongMastery is a reducer over many Attempts and should never be inferred from the best score alone.
+
+#### Song Mastery and progression
+
+- Song unlocks remain skill-gated by demonstrated Hands progress.
+- A song may be unlocked and playable without being Song-Mastered.
+- Song Mastery should contribute to repertoire goals, badges, confidence, and Free Play recommendations.
+- Song Mastery should not replace skill mastery or allow currency to bypass skill gates.
+- A tier boss song can be required for tier advancement at **Performance-ready** or an equivalent durable checkpoint, but the full Song Mastery level 5 should not block the learner from continuing. This prevents the curriculum from becoming an unnecessarily rigid song-completion wall.
+- Mastered songs should remain in low-frequency maintenance review and can return as changed-context review.
+
+### 5.3 Stretch-song boss challenges
+
+The stretch song remains roughly ten tiers above the user’s current playing tier. It is not unlocked, it is not a normal Free Play song, and the user is not expected to complete it. It is a source of curiosity and carefully bounded desirable difficulty.
+
+The stretch song should appear as a recurring **Boss Challenge** inside relevant modules. Each Boss Challenge extracts one small challenge from the stretch song that mirrors the current curriculum target:
+
+| Current lesson target | Stretch Boss Challenge |
+|---|---|
+| Keep a steady pulse | Tap or play one repeated note in the stretch song’s groove for two bars |
+| Learn a scale shape | Identify or play the scale fragment used in one stretch riff |
+| Change I–IV–V chords | Recognize, build, or play one stretch-song chord transition |
+| Practice shuffle | Perform the stretch song’s two-beat shuffle cell at a safe tempo |
+| Learn a turnaround | Play or identify the final measure only |
+| Hear a pitch/interval | Identify the interval or chord tone in a short isolated excerpt |
+| Practice a passing chord | Resolve one extracted passing movement, without the surrounding arrangement |
+| Improvise call-and-response | Answer a two-bar stretch phrase using the currently learned scale |
+
+Boss Challenges should:
+
+- use only a measure, phrase, chord, voicing, rhythm cell, or ear prompt;
+- connect explicitly to the current module’s skill;
+- be playable with a safe, adaptive tempo;
+- provide curiosity-oriented feedback rather than a normal fail state;
+- award exploration progress or a small skill-transfer signal, never Song Mastery;
+- never unlock the full stretch song;
+- be revisited later so the user can notice that a once-impossible fragment has become familiar.
+
+The user-facing framing should be: “Here is where today’s skill appears in a much bigger piece.” It should not be: “You failed the advanced song.”
+
+Stretch Boss progress should track **fragments explored**, **skills previewed**, and **successful transfer into current-tier material**, not percentage of the full song completed.
+
+### 5.4 Tier advancement
 
 A player advances to the next tier when:
 
@@ -276,11 +466,11 @@ A player advances to the next tier when:
 
 The gold requirement is not needed to advance the playing tier. Gold is a durable musicianship badge and improves review rewards, but it must not make a user wait for AFK access before continuing to play.
 
-### 5.3 No single metric can pass a tier
+### 5.5 No single metric can pass a tier
 
 The gate deliberately combines performance, knowledge, retention, and transfer. A user cannot advance by grinding one easy chart, memorizing one screen, or answering theory questions without playing.
 
-### 5.4 Adaptive difficulty
+### 5.6 Adaptive difficulty
 
 The current flow target of roughly 70–85% success is appropriate. Adapt one variable at a time and never silently change the assessment target:
 
@@ -357,9 +547,9 @@ Tiers 23–30 should not be interpreted as “advanced classical piano.” They 
 
 ### 7.0 The learner-facing funnel
 
-The curriculum should be presented as a guided **Path**, not as a collection of equally weighted destinations. The first-run flow is:
+The curriculum should be presented as a guided **Path** inside the **Missions** tab, not as a collection of equally weighted destinations. The first-run flow is:
 
-`welcome → input choice/calibration → what this app teaches → how Path works → what Riffs are → first module`
+`landing page → Get Started → input choice/calibration → what this app teaches → how Missions/Path works → XP and mastery → first Mission`
 
 After onboarding, the default home view should have one dominant action such as **Continue Module 1** or **Start today’s practice**. Secondary actions can include Review, Progress, and Free Play, but they should not visually compete with the recommended next step.
 
@@ -367,12 +557,13 @@ The onboarding explanation should be brief and concrete:
 
 - **Modules** teach one small musical outcome through several exercise types.
 - **Songs** provide the musical application and reward for the skills being learned.
-- **Path** decides the recommended next lesson and gradually unlocks new material through demonstrated playing.
+- **Missions / Path** decides the recommended next lesson and gradually unlocks new material through demonstrated playing.
 - **Free Play** lets the user practice any already-unlocked song whenever they want.
-- **Riffs** are the app’s soft currency for cosmetics and convenience; they cannot buy stars, XP, skills, or song unlocks.
+- **XP** reflects validated learning progress. Hands XP can fill the Level meter; Head/AFK progress cannot raise the playing tier by itself.
+- **Riffs** are deferred from the next UI pass and should not be required to understand or progress through the curriculum.
 - **Mastery** means playing accurately, in time, at the target tempo, without assists. Knowledge/ear progress and playing progress are tracked separately.
 
-Onboarding should end by launching the first module directly. It should not end on a blank dashboard or ask the user to choose among the entire skill tree. The user can replay onboarding later from Settings or Help.
+Onboarding should end by launching the first Mission directly. It should not end on a blank dashboard or ask the user to choose among the entire skill tree. The user can replay onboarding later from Settings or Help.
 
 ### 7.0.1 Path versus Free Play
 

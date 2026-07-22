@@ -251,6 +251,18 @@ Tying it to the curriculum's interleaved session (20–30 min):
 4. **Latency calibration UX** — needs a clean onboarding flow; flag as a first-run requirement for MIDI.
 5. **Cosmetic art scope** — cosmetics need art assets; decide how much to invest for a prototype (themes/sound packs are cheap and high-value; avatars cost more).
 
+## 12. Post-MVP scope adjustment: XP and learning levels first
+
+For the next product pass, Streaks and Riffs are deferred. They remain historical design concepts and may remain in persisted MVP data, but they should not be required by the new onboarding or Missions UI.
+
+The primary visible reward loop should be:
+
+`validated practice → Hands/Head evidence → XP → Level/tier meter → mastery gates → new curriculum access`
+
+XP is a competence/progress signal, not a currency. The user-facing system has only two XP tracks: Hands XP and Head XP. Context transfer is recorded as evidence attached to the relevant track rather than exposed as a third XP type. Hands XP may fill the user-facing learning-level meter; Head XP can strengthen knowledge locks and SongMastery evidence but cannot raise the playing tier alone. Level advancement still requires mastery gates, delayed review, and a tier checkpoint.
+
+The detailed XP table, SongMastery model, and stretch-song Boss Challenge rules live in `docs/06-comprehensive-curriculum-plan.md` and `docs/07-development-roadmap.md`.
+
 ---
 
 ## Sources
