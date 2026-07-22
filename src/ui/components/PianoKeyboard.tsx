@@ -8,14 +8,21 @@ import { keyRects } from '@/core/pianoLayout';
 interface PianoKeyboardProps {
   lowPitch?: number;
   highPitch?: number;
-  /** Show the computer-key hint on each key. */
-  showKeyHints?: boolean;
+  /**
+   * Key labels: real note names (default), or none — note-hunt lessons hide
+   * them unless the lesson grants the 'note-names' assist. The computer-key
+   * mapping lives in the KeyboardHint disclosure, not on the keys.
+   */
+  labels?: 'notes' | 'none';
   height?: number;
 }
 
-const REVERSE_KEY_MAP: Record<number, string> = Object.fromEntries(
-  Object.entries(COMPUTER_KEY_MAP).map(([k, v]) => [v, k]),
-);
+/** "C4" → "C4" (octave kept on C as a landmark), "D4" → "D", "C#4" → "C♯". */
+function keyLabel(pitch: number): string {
+  const name = midiToName(pitch).replace('#', '♯');
+  const letter = name.replace(/-?\d+$/, '');
+  return letter === 'C' ? name : letter;
+}
 
 async function ensureAudio(): Promise<void> {
   if (!audioService.isInitialized) await audioService.init();
@@ -24,7 +31,7 @@ async function ensureAudio(): Promise<void> {
 export function PianoKeyboard({
   lowPitch = 60,
   highPitch = 84,
-  showKeyHints = true,
+  labels = 'notes',
   height = 150,
 }: PianoKeyboardProps) {
   const [active, setActive] = useState<Set<number>>(new Set());
@@ -88,9 +95,9 @@ export function PianoKeyboard({
           }`}
           style={{ left: `calc(${r.x}% + 1px)`, width: `calc(${r.width}% - 2px)` }}
         >
-          {showKeyHints && REVERSE_KEY_MAP[r.pitch] && (
+          {labels === 'notes' && (
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center text-[10px] font-medium">
-              {REVERSE_KEY_MAP[r.pitch].toUpperCase()}
+              {keyLabel(r.pitch)}
             </span>
           )}
         </button>
@@ -107,9 +114,9 @@ export function PianoKeyboard({
           }`}
           style={{ left: `${r.x}%`, width: `${r.width}%`, height: '62%' }}
         >
-          {showKeyHints && REVERSE_KEY_MAP[r.pitch] && (
+          {labels === 'notes' && (
             <span className="pointer-events-none absolute inset-x-0 bottom-1 text-center">
-              {REVERSE_KEY_MAP[r.pitch].toUpperCase()}
+              {keyLabel(r.pitch)}
             </span>
           )}
         </button>

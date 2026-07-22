@@ -243,7 +243,18 @@ function ExerciseLesson({
           />
         )}
         {prompt && (lesson.exerciseType === 'note-id' || lesson.exerciseType === 'build-chord') && (
-          <KeyboardExerciseView runner={runner} showCheck={lesson.exerciseType === 'build-chord'} />
+          <KeyboardExerciseView
+            runner={runner}
+            showCheck={lesson.exerciseType === 'build-chord'}
+            // Doc 06 §3.3: guided/supported keep note names; independent and
+            // performance checkpoints test the keyboard map itself.
+            noteLabels={
+              lesson.mode === 'guided' ||
+              lesson.mode === 'supported' ||
+              lesson.mode === 'scouting' ||
+              lesson.assistOptions.includes('note-names')
+            }
+          />
         )}
         {prompt && lesson.exerciseType === 'rhythm-tap' && <RhythmTapExerciseView runner={runner} />}
         {prompt &&

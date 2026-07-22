@@ -76,7 +76,7 @@ export function InputSetupStep() {
           </span>
         )}
       </div>
-      <KeyboardHint />
+      <KeyboardHint defaultOpen />
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <PianoKeyboard />
       </div>

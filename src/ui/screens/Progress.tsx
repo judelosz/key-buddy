@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
-import { Brain, Check, Circle, Flag, Hand, Music, RefreshCcw, Star, TrendingUp, Zap } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
+import { Brain, Check, ChevronDown, ChevronRight, Circle, Flag, Hand, Music, RefreshCcw, Star, Zap } from 'lucide-react';
+import type { Skill } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
@@ -10,7 +11,6 @@ const MASTERY_LEVELS = ['Discovered', 'Started', 'Sections learned', 'Connected'
 export function Progress() {
   const content = getContent();
   const player = useGameStore((s) => s.player);
-  const skillProgressById = useGameStore((s) => s.skillProgressById);
   const unlockProgress = useGameStore((s) => s.unlockProgress);
   const isUnlocked = useGameStore((s) => s.isUnlocked);
   const bestStars = useGameStore((s) => s.bestStars);
@@ -93,9 +93,8 @@ export function Progress() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat icon={<Zap size={16} />} label="Level (learning tier)" value={player.learningTier} />
-        <Stat icon={<TrendingUp size={16} />} label="Playing tier" value={player.currentPlayingTier} />
+      <div className="grid grid-cols-3 gap-3">
+        <Stat icon={<Zap size={16} />} label="Level" value={player.learningTier} />
         <Stat icon={<Hand size={16} />} label="Hands XP (lifetime)" value={player.totalXP} />
         <Stat icon={<Brain size={16} />} label="Head XP" value={player.headTrackXP} />
       </div>
@@ -112,29 +111,17 @@ export function Progress() {
 
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <h3 className="mb-3 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {content.skills.map((skill) => {
-            const p = skillProgressById.get(skill.id);
-            const hands = p ? isHandsMastered(p) : false;
-            const head = p ? isHeadMastered(p) : false;
-            return (
-              <div
-                key={skill.id}
-                className="flex items-center justify-between rounded-2xl bg-sand px-3 py-2"
-              >
-                <div>
-                  <div className="text-sm text-ink">{skill.name}</div>
-                  <div className="text-xs text-ink-soft">
-                    {skill.genre} · tier {skill.tier}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <LockPip on={hands} icon={<Hand size={13} />} title="Hands (play it)" />
-                  <LockPip on={head} icon={<Brain size={13} />} title="Head (know it)" />
-                </div>
-              </div>
-            );
-          })}
+        <div className="flex flex-col gap-2">
+          {[...new Set(content.skills.map((s) => s.tier))]
+            .sort((a, b) => a - b)
+            .map((tier) => (
+              <TierSkillGroup
+                key={tier}
+                tier={tier}
+                skills={content.skills.filter((s) => s.tier === tier)}
+                defaultOpen={tier === player.learningTier}
+              />
+            ))}
         </div>
         <p className="mt-3 text-xs text-ink-soft">
           A skill goes gold only when both locks open. Ear &amp; theory lessons open the Head lock;
@@ -211,6 +198,63 @@ export function Progress() {
               );
             })}
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TierSkillGroup({
+  tier,
+  skills,
+  defaultOpen,
+}: {
+  tier: number;
+  skills: readonly Skill[];
+  defaultOpen: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const skillProgressById = useGameStore((s) => s.skillProgressById);
+  const masteredCount = skills.filter((s) => {
+    const p = skillProgressById.get(s.id);
+    return p !== undefined && isHandsMastered(p);
+  }).length;
+
+  return (
+    <div className="overflow-hidden rounded-2xl border border-line">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between bg-sand px-4 py-2.5 text-left"
+      >
+        <span className="font-display text-sm font-semibold text-ink">Tier {tier}</span>
+        <span className="flex items-center gap-2 text-xs text-ink-soft">
+          {masteredCount}/{skills.length} mastered
+          {open ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
+        </span>
+      </button>
+      {open && (
+        <div className="grid gap-2 p-3 sm:grid-cols-2">
+          {skills.map((skill) => {
+            const p = skillProgressById.get(skill.id);
+            const hands = p ? isHandsMastered(p) : false;
+            const head = p ? isHeadMastered(p) : false;
+            return (
+              <div
+                key={skill.id}
+                className="flex items-center justify-between rounded-2xl bg-sand px-3 py-2"
+              >
+                <div>
+                  <div className="text-sm text-ink">{skill.name}</div>
+                  <div className="text-xs capitalize text-ink-soft">{skill.genre}</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <LockPip on={hands} icon={<Hand size={13} />} title="Hands (play it)" />
+                  <LockPip on={head} icon={<Brain size={13} />} title="Head (know it)" />
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

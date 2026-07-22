@@ -37,5 +37,6 @@ test('settings input monitor logs a virtual key press', async ({ page }) => {
   await page.getByRole('button', { name: /Input monitor/ }).click();
   // Click the first white key (C4) inside the expanded monitor.
   await page.locator('[data-pitch="60"]').first().click();
-  await expect(page.getByText('C4', { exact: true })).toBeVisible();
+  // The logged event appears in the incoming-notes table.
+  await expect(page.getByRole('cell', { name: 'C4', exact: true })).toBeVisible();
 });
