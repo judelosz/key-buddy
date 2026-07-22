@@ -7,7 +7,6 @@ import {
   TrendingUp,
   SlidersHorizontal,
 } from 'lucide-react';
-import { levelForXpBounds } from '@/core/rewards/rewardService';
 import { useAppStore, type Screen } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
@@ -42,7 +41,7 @@ export default function App() {
   const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
   const loaded = useGameStore((s) => s.loaded);
   const player = useGameStore((s) => s.player);
-  const levelBounds = levelForXpBounds(player.totalXP, player.playerLevel);
+  const meter = useGameStore((s) => s.levelMeter)();
 
   // First-run: no persisted onboardedAt → land on onboarding, not the shell.
   const firstRun = loaded && player.onboardedAt === undefined;
@@ -85,9 +84,9 @@ export default function App() {
             ))}
           </nav>
           <LevelMeter
-            level={player.playerLevel}
-            fraction={levelBounds.span > 0 ? levelBounds.intoLevel / levelBounds.span : 0}
-            gatesRemaining
+            level={meter.level}
+            fraction={Math.min(1, meter.tierHandsXP / Math.max(1, meter.band))}
+            gatesRemaining={meter.requirementsRemaining.length > 0}
           />
         </div>
       </header>

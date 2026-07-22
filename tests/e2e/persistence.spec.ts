@@ -25,7 +25,7 @@ test('progress and unlocks persist across reload', async ({ page }) => {
 
   // Progress screen reflects the earned state.
   await page.getByRole('button', { name: 'Progress' }).click();
-  await expect(page.getByText('1d', { exact: true })).toBeVisible(); // 1-day streak
+  await expect(page.getByText('Advancing to Level 2')).toBeVisible();
   await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
 
   // Reload — state is loaded from IndexedDB, not reset (incl. onboardedAt).

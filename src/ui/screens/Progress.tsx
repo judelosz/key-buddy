@@ -1,50 +1,116 @@
 import type { ReactNode } from 'react';
-import { Zap, Coins, Flame, TrendingUp, Brain, Hand } from 'lucide-react';
+import { Brain, Check, Circle, Flag, Hand, Music, RefreshCcw, Star, TrendingUp, Zap } from 'lucide-react';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
-import { levelForXpBounds } from '@/core/rewards/rewardService';
+import { LevelMeter } from '@/ui/components/LevelMeter';
+
+const MASTERY_LEVELS = ['Discovered', 'Started', 'Sections learned', 'Connected', 'Performance-ready', 'Durable mastery'];
 
 export function Progress() {
   const content = getContent();
   const player = useGameStore((s) => s.player);
   const skillProgressById = useGameStore((s) => s.skillProgressById);
   const unlockProgress = useGameStore((s) => s.unlockProgress);
+  const isUnlocked = useGameStore((s) => s.isUnlocked);
+  const bestStars = useGameStore((s) => s.bestStars);
+  const songMasteryFor = useGameStore((s) => s.songMasteryFor);
+  const gateStatus = useGameStore((s) => s.tierGateStatus)();
 
-  const { intoLevel, span } = levelForXpBounds(player.totalXP, player.playerLevel);
   const lockedSongs = content.songs.filter((s) => s.requiredSkills.length > 0);
+  const band = gateStatus?.handsXp.band ?? 100;
+  const gatesRemaining = gateStatus !== null && !gateStatus.passed;
 
   return (
     <div className="flex flex-col gap-6">
       <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Your progress</h2>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat icon={<TrendingUp size={16} />} label="Playing tier" value={player.currentPlayingTier} />
-        <Stat icon={<Zap size={16} />} label="Player level" value={player.playerLevel} />
-        <Stat icon={<Coins size={16} />} label="Riffs" value={player.riffs} />
-        <Stat icon={<Flame size={16} />} label="Streak" value={`${player.streak}d`} />
+      {/* Level meter + the advancement checklist — the honest centerpiece. */}
+      <div className="rounded-3xl border border-line bg-surface p-5 shadow-soft">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <div className="flex shrink-0 flex-col items-center gap-2">
+            <LevelMeter
+              level={player.learningTier}
+              fraction={Math.min(1, player.tierHandsXP / band)}
+              size={104}
+              gatesRemaining={gatesRemaining}
+            />
+            <div className="text-center text-xs text-ink-soft">
+              <div className="font-medium tabular-nums text-ink">
+                {player.tierHandsXP} / {band} tier XP
+              </div>
+              Hands XP fills the ring
+            </div>
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <h3 className="font-display text-sm font-semibold text-ink">
+              Advancing to Level {player.learningTier + 1}
+            </h3>
+            <p className="mb-3 mt-0.5 text-xs text-ink-soft">
+              XP alone never levels you up — every item below must be earned. Done items stay as
+              evidence of what you can play.
+            </p>
+            {gateStatus ? (
+              <ul className="flex flex-col gap-1.5">
+                <ChecklistItem
+                  done={gateStatus.handsXp.reached}
+                  label={`Practice XP band (${gateStatus.handsXp.current}/${gateStatus.handsXp.band} Hands XP this tier)`}
+                  todo="Keep completing and reviewing lessons"
+                />
+                <ChecklistItem
+                  done={gateStatus.coreSkills.every((s) => s.mastered)}
+                  label={`Core skills Hands-mastered (${gateStatus.coreSkills.filter((s) => s.mastered).length}/${gateStatus.coreSkills.length})`}
+                  todo={gateStatus.coreSkills
+                    .filter((s) => !s.mastered)
+                    .map((s) => content.getSkill(s.skillId)?.name ?? s.skillId)
+                    .join(', ')}
+                />
+                <ChecklistItem
+                  done={gateStatus.bossPassed}
+                  label="Boss song mastery star"
+                  todo="Three stars, at tempo, no assists on the tier boss"
+                  icon={<Flag size={13} />}
+                />
+                <ChecklistItem
+                  done={gateStatus.checkpoints.every((c) => c.passed)}
+                  label="Theory & ear checkpoint (80%+)"
+                  todo="Pass the tier check quiz in Missions"
+                />
+                <ChecklistItem
+                  done={gateStatus.delayedReviewPassed}
+                  label="One older skill reviewed after a delay"
+                  todo="Come back another day and pass a review"
+                  icon={<RefreshCcw size={13} />}
+                />
+              </ul>
+            ) : (
+              <p className="text-sm text-ink-soft">
+                You&rsquo;ve passed every authored tier gate — more tiers are on the way.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
-        <div className="mb-1 flex items-center justify-between text-sm">
-          <span className="text-ink">Level {player.playerLevel}</span>
-          <span className="text-ink-soft">
-            {player.totalXP} XP total · {span - intoLevel} to level {player.playerLevel + 1}
-          </span>
-        </div>
-        <div className="h-2 overflow-hidden rounded-full bg-sand">
-          <div
-            className="h-full rounded-full bg-peri-deep transition-[width] duration-700"
-            style={{ width: `${Math.round((intoLevel / span) * 100)}%` }}
-          />
-        </div>
-        <p className="mt-2 text-xs text-ink-soft">
-          Level &amp; tier come from your playing (Hands) only — AFK/theory fills the Head track
-          separately.
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Stat icon={<Zap size={16} />} label="Level (learning tier)" value={player.learningTier} />
+        <Stat icon={<TrendingUp size={16} />} label="Playing tier" value={player.currentPlayingTier} />
+        <Stat icon={<Hand size={16} />} label="Hands XP (lifetime)" value={player.totalXP} />
+        <Stat icon={<Brain size={16} />} label="Head XP" value={player.headTrackXP} />
+      </div>
+
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
+        <h3 className="mb-1 font-display text-sm font-semibold text-ink">Hands and Head</h3>
+        <p className="text-xs text-ink-soft">
+          <span className="font-medium text-ink">Hands XP</span> comes from playing and fills the
+          Level meter. <span className="font-medium text-ink">Head XP</span> comes from ear &amp;
+          theory work — it opens Head locks and deepens knowledge, but only your hands can raise
+          your level or unlock songs.
         </p>
       </div>
 
-      <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <h3 className="mb-3 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
         <div className="grid gap-2 sm:grid-cols-2">
           {content.skills.map((skill) => {
@@ -71,13 +137,56 @@ export function Progress() {
           })}
         </div>
         <p className="mt-3 text-xs text-ink-soft">
-          A skill goes gold only when both locks open. The Head lock opens in Woodshed/AFK mode
-          (coming soon).
+          A skill goes gold only when both locks open. Ear &amp; theory lessons open the Head lock;
+          playing at tempo, unassisted, opens the Hands lock.
+        </p>
+      </div>
+
+      {/* Song Mastery foundation — levels 0–1 live; the full evidence engine
+          (sections, transitions, durable mastery) arrives with the practice builder. */}
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
+        <h3 className="mb-3 font-display text-sm font-semibold text-ink">Song Mastery</h3>
+        <div className="flex flex-col gap-2">
+          {content.songs
+            .filter((s) => isUnlocked(s.id) && s.chartIds.length > 0)
+            .map((song) => {
+              const mastery = songMasteryFor(song.id);
+              const stars = bestStars(song.chartIds[0]);
+              return (
+                <div
+                  key={song.id}
+                  className="flex items-center justify-between rounded-2xl bg-sand px-3 py-2"
+                >
+                  <div className="flex min-w-0 items-center gap-2">
+                    <Music size={14} className="shrink-0 text-ink-soft" />
+                    <span className="truncate text-sm text-ink">{song.title}</span>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="flex items-center gap-0.5">
+                      {[1, 2, 3].map((n) => (
+                        <Star
+                          key={n}
+                          size={13}
+                          className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
+                        />
+                      ))}
+                    </span>
+                    <span className="rounded-full bg-surface px-2.5 py-0.5 text-xs text-ink-soft">
+                      {MASTERY_LEVELS[mastery.level]}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+        <p className="mt-3 text-xs text-ink-soft">
+          Durable song mastery takes evidence across days — sections, transitions, and delayed
+          retrieval arrive with the practice builder.
         </p>
       </div>
 
       {lockedSongs.length > 0 && (
-        <div className="rounded-3xl border border-line bg-surface shadow-soft p-4">
+        <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
           <h3 className="mb-3 font-display text-sm font-semibold text-ink">Next unlocks</h3>
           <div className="flex flex-col gap-3">
             {lockedSongs.map((song) => {
@@ -105,6 +214,34 @@ export function Progress() {
         </div>
       )}
     </div>
+  );
+}
+
+function ChecklistItem({
+  done,
+  label,
+  todo,
+  icon,
+}: {
+  done: boolean;
+  label: string;
+  todo: string;
+  icon?: ReactNode;
+}) {
+  return (
+    <li className="flex items-start gap-2.5 rounded-2xl bg-sand px-3 py-2">
+      <span
+        className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+          done ? 'bg-mint-soft text-mint-deep' : 'bg-surface text-ink-soft'
+        }`}
+      >
+        {done ? <Check size={12} /> : (icon ?? <Circle size={10} />)}
+      </span>
+      <span className="min-w-0">
+        <span className={`block text-sm ${done ? 'text-ink' : 'text-ink'}`}>{label}</span>
+        {!done && todo && <span className="block text-xs text-ink-soft">{todo}</span>}
+      </span>
+    </li>
   );
 }
 
