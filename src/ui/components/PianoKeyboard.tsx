@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { COMPUTER_KEY_MAP } from '@/input/providers/virtualProvider';
-import { virtualProvider } from '@/input';
+import { virtualProvider, inputService } from '@/input';
 import { audioService } from '@/audio/audioService';
 import { midiToName } from '@/core/music';
 import { keyRects } from '@/core/pianoLayout';
@@ -43,17 +43,17 @@ export function PianoKeyboard({
         next.delete(pitch);
         return next;
       });
-    }, 140);
+    }, 180);
   }, []);
 
-  const trigger = useCallback(
-    async (pitch: number) => {
-      await ensureAudio();
-      virtualProvider.press(pitch, 96);
-      flash(pitch);
-    },
-    [flash],
-  );
+  // Highlight keys from the unified input stream, so MIDI, computer keys, AND
+  // on-screen taps all light up the key that was played.
+  useEffect(() => inputService.onNote((n) => flash(n.pitch)), [flash]);
+
+  const trigger = useCallback(async (pitch: number) => {
+    await ensureAudio();
+    virtualProvider.press(pitch, 96); // flash comes back via inputService.onNote
+  }, []);
 
   useEffect(() => {
     const held = new Set<string>();

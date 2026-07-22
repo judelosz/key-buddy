@@ -6,7 +6,8 @@ import { useGameStore } from '@/ui/store/gameStore';
 import type { AttemptReward } from '@/core/session/recordAttempt';
 import { PlaySession, type PlayPhase } from '@/ui/session/playSession';
 import { audioService } from '@/audio/audioService';
-import { FallingNotes, chartRange } from '@/ui/components/FallingNotes';
+import { FallingNotes } from '@/ui/components/FallingNotes';
+import { displayRange } from '@/core/pianoLayout';
 import { ChordSymbols } from '@/ui/components/ChordSymbols';
 import { StaffNotation } from '@/ui/components/StaffNotation';
 import { SessionReport } from '@/ui/components/SessionReport';
@@ -51,7 +52,11 @@ export function SessionPlayer() {
   }
 
   const beatsPerBar = chart?.timeSignature.beatsPerBar ?? 4;
-  const range = useMemo(() => (chart ? chartRange(chart) : { low: 60, high: 84 }), [chart]);
+  const range = useMemo(() => {
+    if (!chart) return { low: 48, high: 83 };
+    const pitches = chart.notes.flatMap((n) => n.pitches);
+    return displayRange(Math.min(...pitches), Math.max(...pitches));
+  }, [chart]);
 
   // Track the current bar for the chord strip while playing.
   useEffect(() => {

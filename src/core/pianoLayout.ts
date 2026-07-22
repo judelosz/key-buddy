@@ -56,3 +56,14 @@ export function octaveRange(minPitch: number, maxPitch: number): { low: number; 
   const high = Math.floor(maxPitch / 12) * 12 + 11; // B at or above
   return { low, high };
 }
+
+// A comfortable default window so short songs still show several octaves of
+// context; widened to include anything a song reaches beyond it.
+export const MIN_DISPLAY_LOW = 48; // C3
+export const MIN_DISPLAY_HIGH = 83; // B5
+
+/** Octave range covering the song, but never narrower than the default window. */
+export function displayRange(minPitch: number, maxPitch: number): { low: number; high: number } {
+  const { low, high } = octaveRange(minPitch, maxPitch);
+  return { low: Math.min(low, MIN_DISPLAY_LOW), high: Math.max(high, MIN_DISPLAY_HIGH) };
+}

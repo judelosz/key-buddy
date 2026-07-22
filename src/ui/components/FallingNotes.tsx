@@ -1,7 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import type { Chart, NoteGrade } from '@/core/types';
 import { midiToName } from '@/core/music';
-import { keyRectMap, octaveRange } from '@/core/pianoLayout';
+import { keyRectMap } from '@/core/pianoLayout';
 import { audioService } from '@/audio/audioService';
 
 const GRADE_COLORS: Record<NoteGrade, string> = {
@@ -153,12 +153,6 @@ export function FallingNotes({
       data-testid="falling-notes"
     />
   );
-}
-
-/** Convenience for callers that only have a chart: the octave span covering it. */
-export function chartRange(chart: Chart): { low: number; high: number } {
-  const pitches = chart.notes.flatMap((n) => n.pitches);
-  return octaveRange(Math.min(...pitches), Math.max(...pitches));
 }
 
 function roundRect(
