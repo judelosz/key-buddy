@@ -76,7 +76,7 @@ Each song/exercise attempt earns **1–3 stars**, the familiar model from Yousic
 
 - **1 star** — completed, ≥60% notes correct (participation; you finished).
 - **2 stars** — ≥85% correct notes AND ≥70% of hits at Good or better timing.
-- **3 stars** — ≥95% correct AND ≥85% at Great or better.
+- **3 stars** — ≥95% correct AND ≥85% at Good or better AND ≥50% at Great or better. *(Amended 2026-07-23 — originally "≥85% at Great or better", which demanded near-advanced steadiness (±110 ms at tier 1) at the very first checkpoint and made honest beginner mastery takes fail; see the ADR log.)*
 - **Gold/"mastery" star** — 3 stars at the *target tempo* (not slowed down). This separates "I can play it slowly" from "I've mastered it."
 
 ### 3.5 Input methods (MIDI vs. microphone)

@@ -68,6 +68,11 @@ export function generateTip(attempt: Attempt, chart: Chart): string {
     return 'Focus on the right notes first — slow the tempo and aim for accuracy before timing.';
   }
 
+  // A LARGE but CONSISTENT lag is usually input/audio latency, not hands —
+  // the honest fix is calibration, and the player deserves to be told so.
+  if (mean >= 60 && attempt.timingHistogram.stdDevMs <= 60) {
+    return `Every note lands about ${mean} ms late — that consistent, that's usually your device's latency, not your hands. Re-run calibration in Settings.`;
+  }
   if (mean <= -25) {
     return `You're rushing (about ${Math.abs(mean)} ms early on average). Breathe and lay back into the click.`;
   }

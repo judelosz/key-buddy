@@ -24,6 +24,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 - [ ] ⏳ Chord-build (Tier 4): any inversion accepted; wrong tone named; "Check my chord" evaluates a partial answer.
 - [ ] ⏳ Fragment/chart lessons: guided mode forces falling notes + slow tempo; independent hides the falling-notes toggle; performance pins 100% and shows the Checkpoint banner.
 - [ ] ⏳ Checkpoint honesty: 3★ WITH falling notes on a performance lesson must FAIL the lesson (attempt still recorded).
+- [ ] ⏳ Tier-1 boss passability (re-test after 2026-07-23 fixes): a clean, steady Ode take at 96 BPM earns the mastery star; an anticipated first note is graded Early, not missed; a consistently-late report tip points at calibration.
 - [ ] ⏳ Failed lesson: result offers "Try again" and a calm next step; retry generates fresh prompts.
 - [x] Closing a lesson returns to the Missions path position; reload preserves it.
 - [ ] ⏳ Stretch Boss Challenge (end of Tier 5): scouting framing, no fail state, no mastery/lock movement.

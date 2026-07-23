@@ -247,12 +247,33 @@ describe('star rating thresholds (doc 03 §3.4)', () => {
     expect(a.stars).toBe(2);
   });
 
-  it('3 stars: ≥95% correct and ≥85% Great-or-better timing', () => {
+  it('3 stars: ≥95% correct, ≥85% Good-or-better, ≥50% Great-or-better', () => {
     const played = playAll(() => 20); // all perfect, all present
     const a = scoreAttempt(base({ chart: tenNotes, played }));
     expect(a.notesCorrectPct).toBe(1);
     expect(a.greatOrBetterPct).toBe(1);
     expect(a.stars).toBe(3);
+  });
+
+  it('3 stars is reachable by a correct, steady beginner (mixed Good/Great timing)', () => {
+    // All notes present; deviations alternate ±40 (great) and ±140 (good but
+    // not great) — the "played it correctly" profile the old 85%-Great bar
+    // failed. good-or-better = 100%, great-or-better = 50% → 3★.
+    const played = playAll((i) => (i % 2 === 0 ? 40 : 140));
+    const a = scoreAttempt(base({ chart: tenNotes, played }));
+    expect(a.notesCorrectPct).toBe(1);
+    expect(a.goodOrBetterPct).toBe(1);
+    expect(a.greatOrBetterPct).toBeCloseTo(0.5, 5);
+    expect(a.stars).toBe(3);
+  });
+
+  it('3 stars still cannot be earned sloppily: all-Good-no-Great timing caps at 2★', () => {
+    // Right notes, but every onset ~140 ms off — steady hands would do better.
+    const played = playAll(() => 140);
+    const a = scoreAttempt(base({ chart: tenNotes, played }));
+    expect(a.notesCorrectPct).toBe(1);
+    expect(a.greatOrBetterPct).toBe(0);
+    expect(a.stars).toBe(2);
   });
 });
 

@@ -141,8 +141,12 @@ function ratePerformance(
   goodOrBetterPct: number,
   greatOrBetterPct: number,
 ): 0 | 1 | 2 | 3 {
-  // doc 03 §3.4
-  if (notesCorrectPct >= 0.95 && greatOrBetterPct >= 0.85) return 3;
+  // doc 03 §3.4, amended 2026-07-23 (see ADR): 3★ originally demanded 85%
+  // GREAT-or-better (±110 ms at tier 1) — near-advanced steadiness at the very
+  // first checkpoint, and unreachable for a correct, steady beginner. Now 3★ =
+  // near-perfect notes, strong Good-window timing, and half the notes Great —
+  // still impossible to earn sloppily (guardrail #8), reachable when earned.
+  if (notesCorrectPct >= 0.95 && goodOrBetterPct >= 0.85 && greatOrBetterPct >= 0.5) return 3;
   if (notesCorrectPct >= 0.85 && goodOrBetterPct >= 0.7) return 2;
   if (notesCorrectPct >= 0.6) return 1;
   return 0;

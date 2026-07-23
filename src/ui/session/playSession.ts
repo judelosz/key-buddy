@@ -44,6 +44,9 @@ export class PlaySession {
   private opts: PlaySessionOptions | null = null;
   private grader: LiveGrader | null = null;
   private played: NotePlayed[] = [];
+  /** Notes played during the count-in — a slightly EARLY first note must be
+   * graded (early), not silently dropped as if it was never played. */
+  private countInBuffer: NotePlayed[] = [];
   private offTick: (() => void) | null = null;
   private offNote: (() => void) | null = null;
   private prePausePhase: PlayPhase = 'playing';
@@ -56,6 +59,7 @@ export class PlaySession {
     this.opts = opts;
     this.mode = opts.mode ?? 'play';
     this.played = [];
+    this.countInBuffer = [];
     this.grader = null;
     this.setPhase('count-in');
 
@@ -71,6 +75,17 @@ export class PlaySession {
         this.chartStartPerfMs = tick.perfMs;
         this.grader = new LiveGrader(opts.chart, opts.tempoBPM, opts.tier, tick.perfMs);
         this.setPhase('playing');
+        // Admit late-count-in notes (an anticipated first note) into the take
+        // so scoring grades them as Early instead of erasing them. Anything
+        // earlier than half a beat before beat 0 stays free (hand placement).
+        const beatMs = 60_000 / opts.tempoBPM;
+        for (const n of this.countInBuffer) {
+          if (n.timestampMs < tick.perfMs - beatMs / 2) continue;
+          this.played.push(n);
+          const g = this.grader.feed(n);
+          if (g) this.cb.onLiveGrade?.(g);
+        }
+        this.countInBuffer = [];
       }
       if (tick.beat >= endBeat) this.finish();
     });
@@ -109,7 +124,12 @@ export class PlaySession {
   }
 
   private handleNote(n: NotePlayed): void {
-    if (this.mode !== 'play' || this.phase !== 'playing' || !this.grader) return;
+    if (this.mode !== 'play') return;
+    if (this.phase === 'count-in') {
+      this.countInBuffer.push(n);
+      return;
+    }
+    if (this.phase !== 'playing' || !this.grader) return;
     this.played.push(n);
     const g = this.grader.feed(n);
     if (g) this.cb.onLiveGrade?.(g);
