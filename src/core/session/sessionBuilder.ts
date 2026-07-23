@@ -493,8 +493,6 @@ function lowestPriorityReviewIndex(queue: readonly Candidate[]): number {
   return idx;
 }
 
-const primaryFamily = (c: Candidate): SkillFamily | undefined => c.families[0];
-
 /**
  * Greedy interleaving repair: no two adjacent segments share a primary skill
  * family when a swap with a later segment can fix it (doc 06 §3.5

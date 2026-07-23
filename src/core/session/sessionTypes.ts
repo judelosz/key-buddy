@@ -104,6 +104,13 @@ export interface SessionInputs {
   rand: () => number;
 }
 
+/** The XP row a segment's purpose earns, when it has one (doc 07 §2.1). */
+export function xpPurposeFor(purpose: SegmentPurpose): 'remediation' | 'transfer-reentry' | undefined {
+  if (purpose === 'remediation') return 'remediation';
+  if (purpose === 'transfer-reentry') return 'transfer-reentry';
+  return undefined;
+}
+
 /** Stable key for "the same activity" across segments (fail-run tracking). */
 export function activityRef(a: SegmentActivity): string {
   switch (a.kind) {

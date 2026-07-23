@@ -246,6 +246,63 @@ export function songMasteryDelta(
   };
 }
 
+export const SONG_MASTERY_LABELS: readonly string[] = [
+  'Discovered',
+  'Started',
+  'Sections learned',
+  'Connected',
+  'Performance-ready',
+  'Durable mastery',
+];
+
+/**
+ * Learner-facing "what earns the next level" lines — computed strictly from
+ * the same evidence `computeLevel` reads, so the UI can never promise progress
+ * the reducer won't grant.
+ */
+export function nextEvidenceFor(m: SongMastery, chart: Chart | undefined): string[] {
+  if (m.level >= 5) return ['Mastered — keep it warm with an occasional run'];
+  if (m.level === 0) return ['Play it once to start the journey'];
+  if (!chart?.sections || chart.sections.length === 0) return [];
+
+  if (m.level === 1) {
+    const missing = chart.sections
+      .filter((s) => s.required !== false && (m.sectionProgress[s.id]?.passes ?? 0) < 1)
+      .map((s) => s.label);
+    return missing.length > 0
+      ? [`Play these sections cleanly: ${missing.join(', ')}`]
+      : ['Pass every section once'];
+  }
+  if (m.level === 2) {
+    return ['Connect every section in one full take — slower is fine'];
+  }
+  if (m.level === 3) {
+    const atTempoDays = new Set(
+      m.qualifyingPerformances.filter((q) => q.atTempo).map((q) => q.date),
+    ).size;
+    const need = Math.max(0, 2 - atTempoDays);
+    return [`${need} more clean, at-tempo full run${need === 1 ? '' : 's'} on separate days`];
+  }
+
+  // Level 4 → 5: enumerate exactly what durable mastery still needs.
+  const lines: string[] = [];
+  const perfs = m.qualifyingPerformances.length;
+  const days = uniqueDates(m).size;
+  const atTempo = m.qualifyingPerformances.filter((q) => q.atTempo).length;
+  if (perfs < 5) lines.push(`${5 - perfs} more qualifying performance${5 - perfs === 1 ? '' : 's'}`);
+  if (days < 5) lines.push(`spread across ${5 - days} more day${5 - days === 1 ? '' : 's'}`);
+  if (atTempo < 3) lines.push(`${3 - atTempo} more at tempo`);
+  if (m.weakSectionIds.length > 0) {
+    const labels = m.weakSectionIds
+      .map((id) => chart.sections?.find((s) => s.id === id)?.label ?? id)
+      .join(', ');
+    lines.push(`shore up: ${labels}`);
+  }
+  if (m.delayedRetrievalAt === undefined) lines.push('come back to it after a few days away');
+  if (m.transferEvidence.length === 0) lines.push('show it transfers (new arrangement or fewer guides)');
+  return lines;
+}
+
 /**
  * Honest changed-context transfer detection from data we actually have
  * (doc 06 §5.2; new-key/backing-track/memory arrive with later phases):

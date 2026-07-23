@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { SkillProgress } from '@/core/types';
-import type { LessonProgress, SongMastery } from '@/core/curriculum/types';
+import type { LessonProgress } from '@/core/curriculum/types';
 import { ContentService } from '@/core/content/contentService';
 import { rawContent } from '@/core/content/bundled';
 import { newCard, reviewCard, starsToRating } from '@/core/srs/fsrs';

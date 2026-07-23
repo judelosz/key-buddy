@@ -3,6 +3,7 @@ import type { Attempt, Chart, PlayerState, SkillProgress, Song } from '@/core/ty
 import type {
   CurriculumLesson,
   LessonProgress,
+  LessonResult,
   Module,
   SongMastery,
 } from '@/core/curriculum/types';
@@ -13,7 +14,11 @@ import {
   type AttemptReward,
   type GateContext,
 } from '@/core/session/recordAttempt';
-import { recordLessonAttempt, type LessonReward } from '@/core/session/recordLesson';
+import {
+  recordLessonAttempt,
+  type LessonReward,
+  type SessionRunContext,
+} from '@/core/session/recordLesson';
 import {
   unlockedSongIds,
   songUnlockProgress,
@@ -31,7 +36,26 @@ import {
   type RecommendedLesson,
 } from '@/core/curriculum/selectors';
 import { dueItems } from '@/core/srs/fsrs';
-import { initialSongMastery } from '@/core/songMastery/songMastery';
+import {
+  initialSongMastery,
+  nextEvidenceFor,
+  SONG_MASTERY_LABELS,
+} from '@/core/songMastery/songMastery';
+import { buildSession, advanceSession, extendSession } from '@/core/session/sessionBuilder';
+import {
+  initialRunState,
+  type SegmentOutcome,
+  type SessionInputs,
+  type SessionPlan,
+  type SessionRunState,
+  type SessionSegment,
+} from '@/core/session/sessionTypes';
+import {
+  adaptAfterResult,
+  initialAdaptation,
+  type AdaptationOutcome,
+  type AdaptationState,
+} from '@/core/adaptive/adaptive';
 import { initialPlayerState } from '@/data/repository';
 import { repository } from '@/data/dexieRepository';
 
@@ -39,12 +63,44 @@ function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+const DAY_MS = 86_400_000;
+const RECENT_CAP = 100;
+
 export interface LevelMeterModel {
   level: number;
   tierHandsXP: number;
   band: number;
   /** What still blocks advancement — the meter must never imply XP suffices. */
   requirementsRemaining: string[];
+}
+
+/** What the finished (or abandoned) session shows on the wrap screen. */
+export interface SessionSummary {
+  sessionId: string;
+  segmentsCompleted: number;
+  xpHands: number;
+  xpHead: number;
+  songLevelUps: { songId: string; level: SongMastery['level'] }[];
+  tierAdvanced: boolean;
+  /** Skills due within the next 24 h — the honest "due tomorrow" line. */
+  dueTomorrowCount: number;
+}
+
+export interface SessionPreview {
+  total: number;
+  reviews: number;
+  hasNewMaterial: boolean;
+}
+
+export interface SongMasteryDetail {
+  mastery: SongMastery;
+  levelLabel: string;
+  nextEvidence: string[];
+}
+
+interface SessionEvents {
+  songLevelUps: { songId: string; level: SongMastery['level'] }[];
+  tierAdvanced: boolean;
 }
 
 interface GameState {
@@ -58,19 +114,38 @@ interface GameState {
   unlockedIds: Set<string>;
   lastReward: AttemptReward | null;
   lastLessonReward: LessonReward | null;
+  recentResults: LessonResult[];
+  recentAttempts: Attempt[];
+  adaptationByRef: Map<string, AdaptationState>;
+  lastAdaptation: AdaptationOutcome | null;
+  activeSession: { plan: SessionPlan; runState: SessionRunState } | null;
+  sessionEvents: SessionEvents;
 
   init: () => Promise<void>;
-  recordAttempt: (song: Song, chart: Chart, attempt: Attempt) => Promise<AttemptReward>;
+  recordAttempt: (
+    song: Song,
+    chart: Chart,
+    attempt: Attempt,
+    opts?: { sessionId?: string; skipSongMastery?: boolean },
+  ) => Promise<AttemptReward>;
   recordLesson: (
     lesson: CurriculumLesson,
     module: Module,
     payload:
       | { result: ExerciseResult }
       | { song: Song; chart: Chart; attempt: Attempt },
+    sessionCtx?: SessionRunContext,
   ) => Promise<LessonReward>;
   markSongPreviewed: (songId: string) => Promise<void>;
   /** Marks first-run onboarding done (persists onboardedAt; no-op on replay). */
   completeOnboarding: () => Promise<void>;
+
+  startSession: () => Promise<SessionPlan>;
+  completeSegment: (
+    outcome: SegmentOutcome,
+  ) => Promise<{ next: SessionSegment | null; injected?: SessionSegment }>;
+  skipSegment: (segmentId: string) => Promise<{ next: SessionSegment | null }>;
+  endSession: () => Promise<SessionSummary | null>;
 
   isUnlocked: (songId: string) => boolean;
   unlockProgress: (song: Song) => UnlockProgress;
@@ -81,6 +156,12 @@ interface GameState {
   levelMeter: () => LevelMeterModel;
   songMasteryFor: (songId: string) => SongMastery;
   dueReviewSkillIds: () => string[];
+  /** Current (or mode-default) adaptive settings for a lesson's next run. */
+  adaptationFor: (lesson: CurriculumLesson) => AdaptationState;
+  /** Which CTA leads the Missions hero (user decision: context-dependent). */
+  missionsHero: () => 'new-material' | 'practice-session';
+  sessionPreview: () => SessionPreview;
+  songMasteryDetail: (songId: string) => SongMasteryDetail;
 }
 
 /** Single-flight init: concurrent callers (app mount, dev seam) share one load
@@ -98,6 +179,74 @@ export const useGameStore = create<GameState>((set, get) => {
     };
   };
 
+  const sessionInputs = (): SessionInputs => {
+    const s = get();
+    return {
+      content: getContent(),
+      player: s.player,
+      skillProgressById: s.skillProgressById,
+      lessonProgressById: s.lessonProgressById,
+      songMasteryById: s.songMasteryById,
+      recentResults: s.recentResults,
+      recentAttempts: s.recentAttempts,
+      adaptationByRef: s.adaptationByRef,
+      nowMs: Date.now(),
+      rand: Math.random,
+    };
+  };
+
+  /** Fold a result into the per-item adaptive state (persisted per refId). */
+  const updateAdaptation = (
+    refId: string,
+    lesson: CurriculumLesson | null,
+    outcome: { scorePct: number; passed: boolean; stars?: number; atTempo?: boolean },
+  ): Promise<void> => {
+    const now = Date.now();
+    const prev = get().adaptationByRef.get(refId) ?? initialAdaptation(refId, lesson, now);
+    const out = adaptAfterResult(prev, outcome, now);
+    set({
+      adaptationByRef: new Map(get().adaptationByRef).set(refId, out.next),
+      lastAdaptation: out,
+    });
+    return repository.saveAdaptation(out.next);
+  };
+
+  /** Accumulate wrap-screen events while a session is running. */
+  const trackSessionEvents = (
+    sessionId: string | undefined,
+    songId: string | undefined,
+    leveledTo: SongMastery['level'] | undefined,
+    tierAdvanced: boolean,
+  ): void => {
+    const s = get();
+    if (!sessionId || s.activeSession?.plan.sessionId !== sessionId) return;
+    if (leveledTo === undefined && !tierAdvanced) return;
+    set({
+      sessionEvents: {
+        songLevelUps:
+          leveledTo !== undefined && songId !== undefined
+            ? [...s.sessionEvents.songLevelUps, { songId, level: leveledTo }]
+            : s.sessionEvents.songLevelUps,
+        tierAdvanced: s.sessionEvents.tierAdvanced || tierAdvanced,
+      },
+    });
+  };
+
+  /** XP this session earned so far, split by track (attempts linked to a
+   * lesson result are counted once, through the result). */
+  const xpForSession = (sessionId: string): { xpHands: number; xpHead: number } => {
+    const s = get();
+    const results = s.recentResults.filter((r) => r.sessionId === sessionId);
+    const linked = new Set(results.map((r) => r.attemptId).filter(Boolean));
+    const sum = (rows: { xpAwarded: number }[]) => rows.reduce((a, r) => a + r.xpAwarded, 0);
+    return {
+      xpHands:
+        sum(results.filter((r) => r.track === 'hands')) +
+        sum(s.recentAttempts.filter((a) => a.sessionId === sessionId && !linked.has(a.id))),
+      xpHead: sum(results.filter((r) => r.track === 'head')),
+    };
+  };
+
   return {
     loaded: false,
     player: initialPlayerState(),
@@ -109,6 +258,12 @@ export const useGameStore = create<GameState>((set, get) => {
     unlockedIds: new Set(),
     lastReward: null,
     lastLessonReward: null,
+    recentResults: [],
+    recentAttempts: [],
+    adaptationByRef: new Map(),
+    lastAdaptation: null,
+    activeSession: null,
+    sessionEvents: { songLevelUps: [], tierAdvanced: false },
 
     init: () => {
       initPromise ??= (async () => {
@@ -118,14 +273,25 @@ export const useGameStore = create<GameState>((set, get) => {
           player = initialPlayerState();
           await repository.savePlayerState(player);
         }
-        const [progressList, chartBest, chartMastery, lessonProgress, songMastery] =
-          await Promise.all([
-            repository.loadAllSkillProgress(),
-            repository.loadAllChartBest(),
-            repository.loadAllChartMastery(),
-            repository.loadAllLessonProgress(),
-            repository.loadAllSongMastery(),
-          ]);
+        const [
+          progressList,
+          chartBest,
+          chartMastery,
+          lessonProgress,
+          songMastery,
+          recentResults,
+          recentAttempts,
+          adaptation,
+        ] = await Promise.all([
+          repository.loadAllSkillProgress(),
+          repository.loadAllChartBest(),
+          repository.loadAllChartMastery(),
+          repository.loadAllLessonProgress(),
+          repository.loadAllSongMastery(),
+          repository.loadRecentLessonResults(RECENT_CAP),
+          repository.loadRecentAttempts(RECENT_CAP),
+          repository.loadAllAdaptation(),
+        ]);
         const skillProgressById = new Map(progressList.map((p) => [p.skillId, p]));
         set({
           loaded: true,
@@ -136,12 +302,15 @@ export const useGameStore = create<GameState>((set, get) => {
           lessonProgressById: new Map(lessonProgress.map((p) => [p.lessonId, p])),
           songMasteryById: new Map(songMastery.map((m) => [m.songId, m])),
           unlockedIds: unlockedSongIds(content.songs, skillProgressById),
+          recentResults,
+          recentAttempts,
+          adaptationByRef: new Map(adaptation.map((a) => [a.refId, a])),
         });
       })();
       return initPromise;
     },
 
-    recordAttempt: async (song, chart, attempt) => {
+    recordAttempt: async (song, chart, attempt, opts) => {
       const content = getContent();
       const { player, skillProgressById, chartBestById, chartMasteryById, songMasteryById } =
         get();
@@ -161,6 +330,8 @@ export const useGameStore = create<GameState>((set, get) => {
         rand: Math.random(),
         gate: gateContext(),
         songMastery: songMasteryById.get(song.id),
+        skipSongMastery: opts?.skipSongMastery,
+        sessionId: opts?.sessionId,
       });
 
       const nextSkills = new Map(skillProgressById);
@@ -177,8 +348,17 @@ export const useGameStore = create<GameState>((set, get) => {
         songMasteryById: nextSongMastery,
         unlockedIds: unlockedSongIds(content.songs, nextSkills),
         lastReward: res.reward,
+        recentAttempts: [res.attempt, ...get().recentAttempts].slice(0, RECENT_CAP),
       });
+      trackSessionEvents(
+        opts?.sessionId,
+        song.id,
+        res.reward.songMasteryLeveledTo,
+        res.reward.tierAdvanced,
+      );
 
+      const adaptRef =
+        res.attempt.sectionId !== undefined ? `${chart.id}#${res.attempt.sectionId}` : chart.id;
       await Promise.all([
         repository.savePlayerState(res.playerState),
         repository.saveSkillProgress(res.changedSkills),
@@ -186,12 +366,18 @@ export const useGameStore = create<GameState>((set, get) => {
         repository.setChartMastery(chart.id, res.chartMasteryStar),
         repository.saveSongMastery(res.songMastery),
         repository.saveAttempt(res.attempt),
+        updateAdaptation(adaptRef, null, {
+          scorePct: res.attempt.notesCorrectPct,
+          passed: res.attempt.stars >= 2,
+          stars: res.attempt.stars,
+          atTempo: res.attempt.atTempo,
+        }),
       ]);
 
       return res.reward;
     },
 
-    recordLesson: async (lesson, module, payload) => {
+    recordLesson: async (lesson, module, payload, sessionCtx) => {
       const content = getContent();
       const state = get();
       const outcome = recordLessonAttempt({
@@ -217,6 +403,7 @@ export const useGameStore = create<GameState>((set, get) => {
         nowMs: Date.now(),
         todayISO: todayISO(),
         rand: Math.random(),
+        sessionCtx,
       });
 
       const nextSkills = new Map(state.skillProgressById);
@@ -265,8 +452,26 @@ export const useGameStore = create<GameState>((set, get) => {
         songMasteryById: nextSongMastery,
         unlockedIds: unlockedSongIds(content.songs, nextSkills),
         lastLessonReward: outcome.reward,
+        recentResults: [outcome.lessonResult, ...get().recentResults].slice(0, RECENT_CAP),
+        recentAttempts: outcome.chart
+          ? [outcome.chart.attempt, ...get().recentAttempts].slice(0, RECENT_CAP)
+          : get().recentAttempts,
       });
+      trackSessionEvents(
+        sessionCtx?.sessionId,
+        'song' in payload ? payload.song.id : undefined,
+        outcome.reward.chartReward?.songMasteryLeveledTo,
+        outcome.reward.tierAdvanced,
+      );
 
+      writes.push(
+        updateAdaptation(lesson.id, lesson, {
+          scorePct: outcome.reward.scorePct,
+          passed: outcome.reward.passed,
+          stars: outcome.chart?.attempt.stars,
+          atTempo: outcome.chart?.attempt.atTempo,
+        }),
+      );
       await Promise.all(writes);
       return outcome.reward;
     },
@@ -285,6 +490,76 @@ export const useGameStore = create<GameState>((set, get) => {
       const next = { ...player, onboardedAt: Date.now() };
       set({ player: next });
       await repository.savePlayerState(next);
+    },
+
+    startSession: async () => {
+      const plan = buildSession(sessionInputs());
+      set({
+        activeSession: { plan, runState: initialRunState() },
+        sessionEvents: { songLevelUps: [], tierAdvanced: false },
+      });
+      await repository.saveSession({
+        id: plan.sessionId,
+        startedAt: plan.startedAt,
+        segmentsCompleted: 0,
+        xpHands: 0,
+        xpHead: 0,
+      });
+      return plan;
+    },
+
+    completeSegment: async (outcome) => {
+      const active = get().activeSession;
+      if (!active) return { next: null };
+      const inputs = sessionInputs();
+      const advanced = advanceSession(active.plan, active.runState, outcome, inputs);
+      const plan = extendSession(advanced.plan, advanced.state, inputs);
+      set({ activeSession: { plan, runState: advanced.state } });
+      await repository.saveSession({
+        id: plan.sessionId,
+        startedAt: plan.startedAt,
+        segmentsCompleted: advanced.state.completed.length,
+        ...xpForSession(plan.sessionId),
+      });
+      return { next: plan.queue[0] ?? null, injected: advanced.injected };
+    },
+
+    skipSegment: async (segmentId) => {
+      const res = await get().completeSegment({
+        segmentId,
+        passed: false,
+        scorePct: 0,
+        skippedByUser: true,
+      });
+      return { next: res.next };
+    },
+
+    endSession: async () => {
+      const s = get();
+      const active = s.activeSession;
+      if (!active) return null;
+      const xp = xpForSession(active.plan.sessionId);
+      const now = Date.now();
+      const summary: SessionSummary = {
+        sessionId: active.plan.sessionId,
+        segmentsCompleted: active.runState.completed.length,
+        ...xp,
+        songLevelUps: s.sessionEvents.songLevelUps,
+        tierAdvanced: s.sessionEvents.tierAdvanced,
+        dueTomorrowCount: [...s.skillProgressById.values()].filter(
+          (p) => p.freshness.due <= now + DAY_MS,
+        ).length,
+      };
+      set({ activeSession: null, sessionEvents: { songLevelUps: [], tierAdvanced: false } });
+      await repository.saveSession({
+        id: active.plan.sessionId,
+        startedAt: active.plan.startedAt,
+        endedAt: now,
+        segmentsCompleted: summary.segmentsCompleted,
+        xpHands: summary.xpHands,
+        xpHead: summary.xpHead,
+      });
+      return summary;
     },
 
     isUnlocked: (songId) => get().unlockedIds.has(songId),
@@ -336,5 +611,37 @@ export const useGameStore = create<GameState>((set, get) => {
 
     dueReviewSkillIds: () =>
       dueItems([...get().skillProgressById.values()], Date.now()).map((p) => p.skillId),
+
+    adaptationFor: (lesson) =>
+      get().adaptationByRef.get(lesson.id) ?? initialAdaptation(lesson.id, lesson, Date.now()),
+
+    missionsHero: () => {
+      const rec = get().nextLesson();
+      return rec && rec.review !== true ? 'new-material' : 'practice-session';
+    },
+
+    sessionPreview: () => {
+      const queue = buildSession(sessionInputs()).queue;
+      return {
+        total: queue.length,
+        reviews: queue.filter((s) => s.purpose === 'due-review' || s.purpose === 'theory-ear')
+          .length,
+        hasNewMaterial: queue.some(
+          (s) => s.purpose === 'new-material' || s.purpose === 'independent-check',
+        ),
+      };
+    },
+
+    songMasteryDetail: (songId) => {
+      const content = getContent();
+      const mastery = get().songMasteryFor(songId);
+      const song = content.getSong(songId);
+      const chart = song?.chartIds[0] ? content.getChart(song.chartIds[0]) : undefined;
+      return {
+        mastery,
+        levelLabel: SONG_MASTERY_LABELS[mastery.level],
+        nextEvidence: nextEvidenceFor(mastery, chart),
+      };
+    },
   };
 });

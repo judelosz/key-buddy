@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
-import type { Attempt, Chart, Song } from '@/core/types';
+import type { Attempt } from '@/core/types';
 import type { CurriculumLesson, LessonMode, Module } from '@/core/curriculum/types';
 import type { ExerciseResult, ExerciseSpec, PromptResult } from '@/core/exercise/types';
 import { generateExercise } from '@/core/exercise/generators';
 import { getContent } from '@/core/content/bundled';
+import { chartForLesson } from '@/core/content/resolveChart';
 import type { LessonReward } from '@/core/session/recordLesson';
 import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
@@ -37,30 +38,7 @@ function policyForMode(mode: LessonMode): ChartPlayerPolicy {
   }
 }
 
-/** Resolve the song + (possibly synthetic, fragment-backed) chart of a lesson. */
-function chartFor(lesson: CurriculumLesson): { song: Song; chart: Chart } | null {
-  const content = getContent();
-  if (lesson.chartId) {
-    const chart = content.getChart(lesson.chartId);
-    const song = chart ? content.getSong(chart.songId) : undefined;
-    return chart && song ? { song, chart } : null;
-  }
-  if (lesson.fragmentId) {
-    const fragment = content.getFragment(lesson.fragmentId);
-    const song = fragment ? content.getSong(fragment.sourceSongId) : undefined;
-    if (!fragment || !song) return null;
-    return {
-      song,
-      chart: {
-        id: fragment.id,
-        songId: fragment.sourceSongId,
-        arrangementLevel: 'simplified',
-        ...fragment.chart,
-      },
-    };
-  }
-  return null;
-}
+const chartFor = (lesson: CurriculumLesson) => chartForLesson(getContent(), lesson);
 
 /**
  * Full-screen lesson takeover (rendered over the Missions tab). Dispatches by
