@@ -211,8 +211,30 @@ describe('ExerciseEngine', () => {
     expect(done.done).toBeDefined();
   });
 
+  it('taps grade against WIDENED windows: a near-miss for chart play is still good here', () => {
+    // Tier-1 chart Good is ±180 ms; taps scale by TAP_WINDOW_SCALE (1.75) →
+    // ±315 ms. A tap 250 ms off must count as in time (audio-anchored gross
+    // motor deserves more room than pitched chart play).
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1],
+        bpm: 60,
+        countInBeats: 0,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    engine.feed({ kind: 'note', note: note(60, 250) }); // +250 ms → good (scaled)
+    engine.feed({ kind: 'note', note: note(60, 1_340) }); // +340 ms → beyond even scaled good
+    const done = engine.feed({ kind: 'commit', atMs: 3000 });
+    expect(done.promptResult?.scorePct).toBeCloseTo(1 / 2);
+  });
+
   it('grades taps against tier windows with an anchored beat grid', () => {
-    // Tier 1: perfect ±60, great ±110, good ±180. 60 BPM → beat = 1000 ms.
+    // Tier 1 (tap-scaled): perfect ±105, great ±192.5, good ±315. 60 BPM → beat = 1000 ms.
     const tapsPrompt = {
       id: 'p0',
       expected: {

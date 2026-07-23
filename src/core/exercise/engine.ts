@@ -7,7 +7,11 @@
 import { midiToName } from '@/core/music';
 import { buildHistogram } from '@/core/scoring/scoringEngine';
 import { gradeTiming } from '@/core/scoring/grade';
-import { matchWindowMs, windowsForTier } from '@/core/scoring/timingWindows';
+import {
+  matchWindowMs,
+  windowsForTier,
+  type TimingWindows,
+} from '@/core/scoring/timingWindows';
 import type {
   ExercisePrompt,
   ExerciseResult,
@@ -18,6 +22,24 @@ import type {
 
 /** Taps need this share of Good-or-better timing to pass (doc 06 §5.1). */
 const TAPS_PASS_PCT = 0.7;
+
+/**
+ * Rhythm taps grade against WIDENED timing windows. The doc-03 §3.2 windows
+ * are tuned for pitched chart play, where the player has visual anchors
+ * (falling notes, keys) on top of the click; a tap prompt is audio-anchored
+ * gross motor through the full input-latency stack, and the same windows feel
+ * brutal there (Phase-5 test-window feedback). Tier 1 Good: ±180 → ±315 ms.
+ */
+export const TAP_WINDOW_SCALE = 1.75;
+
+function tapWindowsForTier(tier: number): TimingWindows {
+  const w = windowsForTier(tier);
+  return {
+    perfect: w.perfect * TAP_WINDOW_SCALE,
+    great: w.great * TAP_WINDOW_SCALE,
+    good: w.good * TAP_WINDOW_SCALE,
+  };
+}
 
 const pc = (pitch: number) => ((pitch % 12) + 12) % 12;
 
@@ -143,7 +165,7 @@ export class ExerciseEngine {
   ): void {
     const targets = this.tapTargets(expected);
     const beatMs = 60_000 / expected.bpm;
-    const windows = windowsForTier(this.spec.tier);
+    const windows = tapWindowsForTier(this.spec.tier);
     const matchMs = matchWindowMs(windows, beatMs);
 
     let best = -1;
@@ -168,7 +190,7 @@ export class ExerciseEngine {
     expected: Extract<ExercisePrompt['expected'], { kind: 'taps' }>,
   ): ReturnType<ExerciseEngine['feed']> {
     const beatMs = 60_000 / expected.bpm;
-    const windows = windowsForTier(this.spec.tier);
+    const windows = tapWindowsForTier(this.spec.tier);
     const matchMs = matchWindowMs(windows, beatMs);
 
     const matched = expected.beats

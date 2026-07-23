@@ -19,7 +19,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 - [x] Fresh player: hero recommends Module 1 Lesson 1; the path shows done/current/locked nodes with mode chips.
 - [x] Listen lesson: playback sounds, "Got it — continue" appears after it ends, result screen awards Head XP.
 - [x] Note-id lesson: on-screen keys answer prompts; wrong key shows the calm "You played X" line; result awards Hands XP.
-- [ ] ⏳ Rhythm-tap lesson: count-in clicks, taps graded against the click (test with computer keys AND MIDI; watch for latency skew if uncalibrated).
+- [ ] ⏳ Rhythm-tap lesson: count-in clicks, taps graded against the click (test with computer keys AND MIDI; watch for latency skew if uncalibrated). Margins widened ×1.75 (2026-07-23) and a visual pulse added — confirm the missions now feel passable and re-tune `TAP_WINDOW_SCALE` if still tight.
 - [ ] ⏳ Theory quiz + interval-ear: audio prompts audible, explanations shown on a miss.
 - [ ] ⏳ Chord-build (Tier 4): any inversion accepted; wrong tone named; "Check my chord" evaluates a partial answer.
 - [ ] ⏳ Fragment/chart lessons: guided mode forces falling notes + slow tempo; independent hides the falling-notes toggle; performance pins 100% and shows the Checkpoint banner.

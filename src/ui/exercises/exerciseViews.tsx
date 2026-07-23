@@ -8,6 +8,7 @@ import type { Chart } from '@/core/types';
 import type { ExercisePrompt } from '@/core/exercise/types';
 import type { ExerciseRunner } from '@/ui/session/exerciseRunner';
 import { playNotesOnce } from '@/ui/session/exerciseRunner';
+import { audioService } from '@/audio/audioService';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
 
@@ -76,6 +77,28 @@ export function ChoiceExerciseView({
 /** rhythm-tap: the player's own first tap launches the count-in. */
 export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
   const range = runner.spec.keyboardRange;
+  const prompt = runner.currentPrompt;
+  const expected = prompt?.expected.kind === 'taps' ? prompt.expected : null;
+  // Absolute beat index from the shared metronome clock (null until the first
+  // tick lands) — drives the follow-along pulse.
+  const [beat, setBeat] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!runner.tapsRunning) {
+      setBeat(null);
+      return;
+    }
+    const off = audioService.onTick((t) => setBeat(t.beat));
+    return () => {
+      off();
+    };
+  }, [runner, runner.tapsRunning]);
+
+  const beatsPerBar = expected?.beatsPerBar ?? 4;
+  const countIn = expected?.countInBeats ?? 4;
+  const inCountIn = beat !== null && beat < countIn;
+  const barBeat = beat === null ? 0 : ((beat % beatsPerBar) + beatsPerBar) % beatsPerBar;
+
   return (
     <div className="flex flex-col gap-4">
       {!runner.tapsRunning ? (
@@ -84,9 +107,39 @@ export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
           Tap any key when you&rsquo;re ready — your first tap starts the count-in.
         </p>
       ) : (
-        <p className="font-display text-sm font-medium text-amber-deep">
-          Count-in… then tap any key right on each click.
-        </p>
+        /* Follow-along pulse: pops on every click of the shared metronome
+           clock — amber during the count-in, rose once taps count. */
+        <div className="flex flex-col items-center gap-2.5 rounded-3xl border border-line bg-surface px-6 py-5 shadow-soft">
+          <span
+            key={beat ?? -1}
+            className={`flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-semibold shadow-soft animate-pop ${
+              beat === null || inCountIn
+                ? 'bg-amber-soft text-amber-deep'
+                : 'bg-rose-soft text-rose-deep'
+            }`}
+          >
+            {beat === null ? '…' : barBeat + 1}
+          </span>
+          <div className="flex items-center gap-2" aria-hidden="true">
+            {Array.from({ length: beatsPerBar }, (_, i) => (
+              <span
+                key={i}
+                className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                  beat !== null && i === barBeat
+                    ? inCountIn
+                      ? 'bg-amber-deep'
+                      : 'bg-rose-deep'
+                    : 'bg-sand'
+                }`}
+              />
+            ))}
+          </div>
+          <p className="font-display text-sm font-medium text-ink-soft">
+            {beat === null || inCountIn
+              ? 'Count-in — feel the pulse…'
+              : 'Now tap with each pulse'}
+          </p>
+        </div>
       )}
       <KeyboardHint />
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
