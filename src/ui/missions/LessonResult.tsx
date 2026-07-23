@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { LessonReward } from '@/core/session/recordLesson';
 import type { CurriculumLesson } from '@/core/curriculum/types';
+import { SONG_MASTERY_LABELS } from '@/core/songMastery/songMastery';
 import { useCountUp } from '@/ui/hooks/useCountUp';
 import { headline, nextStep } from './resultCopy';
 
@@ -81,6 +82,12 @@ export function LessonResult({
       {reward.newlyUnlockedSongIds.length > 0 && (
         <div className="rounded-2xl bg-peri-soft px-4 py-2.5 text-sm font-medium text-peri-deep">
           New song unlocked — find it in Free Play.
+        </div>
+      )}
+      {reward.chartReward?.songMasteryLeveledTo !== undefined && (
+        <div className="rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep">
+          Song mastery leveled up →{' '}
+          {SONG_MASTERY_LABELS[reward.chartReward.songMasteryLeveledTo]}
         </div>
       )}
 

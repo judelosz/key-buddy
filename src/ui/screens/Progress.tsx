@@ -1,20 +1,16 @@
 import { useState, type ReactNode } from 'react';
-import { Brain, Check, ChevronDown, ChevronRight, Circle, Flag, Hand, Music, RefreshCcw, Star, Zap } from 'lucide-react';
+import { Brain, Check, ChevronDown, ChevronRight, Circle, Flag, Hand, RefreshCcw, Zap } from 'lucide-react';
 import type { Skill } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
 import { LevelMeter } from '@/ui/components/LevelMeter';
-
-const MASTERY_LEVELS = ['Discovered', 'Started', 'Sections learned', 'Connected', 'Performance-ready', 'Durable mastery'];
+import { SongMasteryCard } from './SongMasteryCard';
 
 export function Progress() {
   const content = getContent();
   const player = useGameStore((s) => s.player);
   const unlockProgress = useGameStore((s) => s.unlockProgress);
-  const isUnlocked = useGameStore((s) => s.isUnlocked);
-  const bestStars = useGameStore((s) => s.bestStars);
-  const songMasteryFor = useGameStore((s) => s.songMasteryFor);
   const gateStatus = useGameStore((s) => s.tierGateStatus)();
 
   const lockedSongs = content.songs.filter((s) => s.requiredSkills.length > 0);
@@ -129,48 +125,7 @@ export function Progress() {
         </p>
       </div>
 
-      {/* Song Mastery foundation — levels 0–1 live; the full evidence engine
-          (sections, transitions, durable mastery) arrives with the practice builder. */}
-      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
-        <h3 className="mb-3 font-display text-sm font-semibold text-ink">Song Mastery</h3>
-        <div className="flex flex-col gap-2">
-          {content.songs
-            .filter((s) => isUnlocked(s.id) && s.chartIds.length > 0)
-            .map((song) => {
-              const mastery = songMasteryFor(song.id);
-              const stars = bestStars(song.chartIds[0]);
-              return (
-                <div
-                  key={song.id}
-                  className="flex items-center justify-between rounded-2xl bg-sand px-3 py-2"
-                >
-                  <div className="flex min-w-0 items-center gap-2">
-                    <Music size={14} className="shrink-0 text-ink-soft" />
-                    <span className="truncate text-sm text-ink">{song.title}</span>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-3">
-                    <span className="flex items-center gap-0.5">
-                      {[1, 2, 3].map((n) => (
-                        <Star
-                          key={n}
-                          size={13}
-                          className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
-                        />
-                      ))}
-                    </span>
-                    <span className="rounded-full bg-surface px-2.5 py-0.5 text-xs text-ink-soft">
-                      {MASTERY_LEVELS[mastery.level]}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-        <p className="mt-3 text-xs text-ink-soft">
-          Durable song mastery takes evidence across days — sections, transitions, and delayed
-          retrieval arrive with the practice builder.
-        </p>
-      </div>
+      <SongMasteryCard />
 
       {lockedSongs.length > 0 && (
         <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
