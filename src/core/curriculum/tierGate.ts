@@ -4,7 +4,7 @@
  * and the theory/ear checkpoint is a necessary condition that can gate but
  * never substitute for Hands evidence (guardrail #1 refinement).
  */
-import type { PlayerState, SkillProgress, Tier } from '@/core/types';
+import type { PlayerState, Skill, SkillProgress, Tier } from '@/core/types';
 import { isHandsMastered } from '@/core/progression/progressionService';
 import type { Assessment, LessonProgress, TierGate } from './types';
 
@@ -26,10 +26,16 @@ export function evaluateTierGate(
   lessonProgressById: ReadonlyMap<string, LessonProgress>,
   bossMasteryStar: boolean,
   tierHandsXP: number,
+  skillById?: ReadonlyMap<string, Skill>,
 ): TierGateStatus {
   const coreSkills = gate.coreSkillIds.map((skillId) => {
     const p = skillProgressById.get(skillId);
-    return { skillId, mastered: p !== undefined && isHandsMastered(p) };
+    // A skill whose assessment demands N separate sessions needs N distinct
+    // evidence dates on top of the lock threshold (doc 06 §5.1).
+    const needsSessions = skillById?.get(skillId)?.assessment?.repeatedSessions;
+    const sessionsOk =
+      needsSessions === undefined || (p?.handsEvidenceDates?.length ?? 0) >= needsSessions;
+    return { skillId, mastered: p !== undefined && isHandsMastered(p) && sessionsOk };
   });
 
   const assessmentById = new Map(assessments.map((a) => [a.id, a]));
@@ -81,6 +87,8 @@ export interface GateEvaluationInputs {
   lessonProgressById: ReadonlyMap<string, LessonProgress>;
   /** Honest boss evidence: chartId → has a mastery star ever been earned. */
   chartMasteryById: ReadonlyMap<string, boolean>;
+  /** Enables assessment.repeatedSessions enforcement on core skills. */
+  skillById?: ReadonlyMap<string, Skill>;
 }
 
 export interface GateAdvanceResult {
@@ -110,6 +118,7 @@ export function applyGateAdvance(
       inputs.lessonProgressById,
       inputs.chartMasteryById.get(gate.bossChartId) ?? false,
       tierHandsXP,
+      inputs.skillById,
     );
   };
 
@@ -123,6 +132,7 @@ export function applyGateAdvance(
     learningTier: newTier,
     playerLevel: newTier,
     tierHandsXP: 0,
+    tierXpBySong: {}, // per-song cap ledger starts fresh with the new band
     tierGatePassedAt: { ...base.tierGatePassedAt, [status.tier]: nowMs },
   };
   return {

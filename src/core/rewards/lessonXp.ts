@@ -1,13 +1,11 @@
 /**
- * Lesson XP (doc 07 §2.1). Implements the Phase-4 subset of the XP table:
- * guided first-completion 5 · supported pass 10 · independent checkpoint 20 ·
- * performance 30 · due-review 12 · stretch-boss/scouting exploration 8 —
- * scaled by difficulty × freshness × performance quality with hard same-day
- * diminishing returns. Failing pays nothing; repeating pays almost nothing.
- *
- * Deliberately stubbed for Phase 5 (see CLAUDE.md TODOs): remediation (15),
- * transfer (20), song-qualifying (25), delayed-song-review (30) rows, and the
- * per-song tier-XP cap.
+ * Lesson XP (doc 07 §2.1): guided first-completion 5 · supported pass 10 ·
+ * independent checkpoint 20 · performance 30 · due-review 12 · remediation 15
+ * (only when it addresses a RECORDED weakness) · changed-context transfer 20 ·
+ * stretch-boss/scouting exploration 8 — scaled by difficulty × freshness ×
+ * performance quality with hard same-day diminishing returns. Failing pays
+ * nothing; repeating pays almost nothing. Song-qualifying (25) and delayed
+ * song review (30) live in the chart reducer via songMasteryDelta.
  */
 import type { FsrsState, PlayerState, Tier } from '@/core/types';
 import type { CurriculumLesson, LessonMode, XpTrack } from '@/core/curriculum/types';
@@ -24,6 +22,15 @@ export const LESSON_BASE_XP: Record<LessonMode, number> = {
 };
 
 export const DUE_REVIEW_XP = 12;
+export const REMEDIATION_XP = 15;
+export const TRANSFER_XP = 20;
+export const SONG_QUALIFYING_XP = 25;
+export const DELAYED_SONG_REVIEW_XP = 30;
+/** One song's Hands XP may fill at most this share of a tier's band. */
+export const SONG_TIER_XP_CAP_PCT = 0.5;
+
+/** Session purposes that carry their own XP row (see SessionSegment.purpose). */
+export type XpPurpose = 'remediation' | 'transfer-reentry';
 
 /**
  * Same-day repetition decay: first meaningful result pays fully, the second
@@ -46,6 +53,11 @@ export interface LessonXpContext {
   freshness: FsrsState[];
   tier: Tier;
   nowMs: number;
+  /** Why the session queued this run (session segments only). */
+  purpose?: XpPurpose;
+  /** Remediation pays only when the caller PROVES a recorded weakness
+   * (recent failure / weak section) — no farming by relabeling. */
+  addressedRecordedWeakness?: boolean;
 }
 
 export function xpForLessonResult(
@@ -59,6 +71,10 @@ export function xpForLessonResult(
 
   let base = LESSON_BASE_XP[lesson.mode];
   if (ctx.wasDue) base = Math.max(base, DUE_REVIEW_XP);
+  if (ctx.purpose === 'remediation' && ctx.addressedRecordedWeakness) {
+    base = Math.max(base, REMEDIATION_XP);
+  }
+  if (ctx.purpose === 'transfer-reentry') base = Math.max(base, TRANSFER_XP);
 
   const fresh =
     ctx.freshness.length === 0

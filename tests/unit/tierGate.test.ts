@@ -126,6 +126,39 @@ describe('evaluateTierGate — anti-grind matrix', () => {
     expect(status.handsXp.reached).toBe(false);
   });
 
+  it('a skill demanding repeatedSessions needs distinct evidence dates, not just the lock', () => {
+    const s = allMet();
+    const skillById = new Map([
+      [
+        'skill-a',
+        {
+          id: 'skill-a', name: '', family: 'geography-mechanics' as const, tier: 1,
+          genre: 'foundation' as const, prerequisites: [], description: '',
+          assessment: {
+            minStars: 3 as const, minNotesCorrectPct: 0.9, minGoodOrBetterPct: 0.75,
+            requiresAtTempo: true, requiresNoAssists: true, repeatedSessions: 2,
+          },
+        },
+      ],
+    ]);
+    // Lock is maxed but only one evidence date exists → not mastered for the gate.
+    const oneDay = new Map(s.skills);
+    oneDay.set('skill-a', {
+      ...mastered('skill-a', { delayedReviewPassedAt: NOW }),
+      handsEvidenceDates: ['2026-07-22'],
+    });
+    const blocked = evaluateTierGate(gate, assessments, oneDay, s.lessons, true, s.tierXp, skillById);
+    expect(blocked.coreSkills.find((c) => c.skillId === 'skill-a')?.mastered).toBe(false);
+
+    const twoDays = new Map(oneDay);
+    twoDays.set('skill-a', {
+      ...mastered('skill-a', { delayedReviewPassedAt: NOW }),
+      handsEvidenceDates: ['2026-07-21', '2026-07-22'],
+    });
+    const open = evaluateTierGate(gate, assessments, twoDays, s.lessons, true, s.tierXp, skillById);
+    expect(open.coreSkills.find((c) => c.skillId === 'skill-a')?.mastered).toBe(true);
+  });
+
   it('HEAD-ONLY evidence can never open a gate (guardrail #1 refinement)', () => {
     // Perfect theory/ear evidence everywhere, zero Hands mastery, no boss.
     const headOnly = new Map([

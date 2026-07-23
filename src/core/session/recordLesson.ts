@@ -10,7 +10,7 @@
  * false` regardless of stars. The attempt still records normally; the lesson
  * just doesn't count as its checkpoint.
  */
-import type { Attempt, PlayerState, Skill, SkillProgress, Song, Tier } from '@/core/types';
+import type { Attempt, Chart, PlayerState, Skill, SkillProgress, Song, Tier } from '@/core/types';
 import type {
   CurriculumLesson,
   LessonProgress,
@@ -26,12 +26,13 @@ import {
   applyHeadAttempt,
   trackForExerciseType,
 } from '@/core/progression/progressionService';
-import { awardHeadXp, xpForLessonResult } from '@/core/rewards/lessonXp';
+import { awardHeadXp, xpForLessonResult, type XpPurpose } from '@/core/rewards/lessonXp';
 import { updateStreak } from '@/core/rewards/rewardService';
 import { isDue, newCard, reviewCard, scoreToRating } from '@/core/srs/fsrs';
 import { applyGateAdvance, type TierGateStatus } from '@/core/curriculum/tierGate';
 import {
   recordChartAttempt,
+  withEvidenceDate,
   type AttemptReward,
   type GateContext,
   type RecordAttemptResult,
@@ -40,13 +41,22 @@ import {
 const VISUAL_ASSISTS = ['falling-notes', 'note-names'] as const;
 const FUNCTIONAL_LOCK = 0.6;
 
+/** Why (and inside which session) a lesson run happened. */
+export interface SessionRunContext {
+  sessionId: string;
+  /** XP-bearing purpose; other purposes carry no special row. */
+  purpose?: XpPurpose;
+  /** Required for the remediation row — proves a recorded weakness. */
+  addressedRecordedWeakness?: boolean;
+}
+
 export interface RecordLessonInput {
   lesson: CurriculumLesson;
   module: Module;
   /** Exercise lessons: the ExerciseEngine's result. */
   result?: ExerciseResult;
-  /** Chart/fragment lessons: the scored take. */
-  chartOutcome?: { song: Song; attempt: Attempt; prevBestStars: number };
+  /** Chart/fragment lessons: the scored take + the chart it was scored on. */
+  chartOutcome?: { song: Song; chart: Chart; attempt: Attempt; prevBestStars: number };
   playerState: PlayerState;
   skillProgressById: ReadonlyMap<string, SkillProgress>;
   lessonProgressById: ReadonlyMap<string, LessonProgress>;
@@ -57,6 +67,7 @@ export interface RecordLessonInput {
   nowMs: number;
   todayISO: string;
   rand: number;
+  sessionCtx?: SessionRunContext;
 }
 
 export interface LessonReward {
@@ -145,12 +156,13 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
 
   // ── Chart/fragment lessons: delegate to the chart reducer ────────────────
   if (input.chartOutcome) {
-    const { song, attempt, prevBestStars } = input.chartOutcome;
+    const { song, chart, attempt, prevBestStars } = input.chartOutcome;
     const passed = chartLessonPassed(lesson, attempt);
     const scorePct = attempt.notesCorrectPct;
 
     const chartResult: RecordAttemptResult = recordChartAttempt({
       song,
+      chart,
       attempt,
       playerState: input.playerState,
       skillProgressById: input.skillProgressById,
@@ -162,6 +174,9 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
       rand: input.rand,
       gate: input.gate,
       songMastery: input.songMastery,
+      // Scouting/stretch exploration must never advance SongMastery (§5.3).
+      skipSongMastery: lesson.mode === 'scouting' || lesson.stretchBoss === true,
+      sessionId: input.sessionCtx?.sessionId,
     });
 
     const lessonProgress = updatedLessonProgress(
@@ -182,6 +197,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
         lessonProgressById,
         chartMasteryById,
         skillProgressById: nextSkills,
+        skillById: new Map(input.allSkills.map((s) => [s.id, s])),
       },
       nowMs,
     );
@@ -198,6 +214,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
       passed,
       xpAwarded: chartResult.reward.xp,
       attemptId: attempt.id,
+      sessionId: input.sessionCtx?.sessionId,
     };
 
     const tierAdvanced = chartResult.reward.tierAdvanced || advance.tierAdvanced;
@@ -252,6 +269,8 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
     freshness: prevSkills.map((p) => p.freshness),
     tier: module.tier,
     nowMs,
+    purpose: input.sessionCtx?.purpose,
+    addressedRecordedWeakness: input.sessionCtx?.addressedRecordedWeakness,
   });
 
   // Scouting (incl. stretch bosses) is exploration: no locks, no review cards.
@@ -274,6 +293,10 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
           freshness: reviewCard(prev.freshness, rating, nowMs),
           lastReviewed: nowMs,
           delayedReviewPassedAt: passedDelayedReview ? nowMs : prev.delayedReviewPassedAt,
+          handsEvidenceDates:
+            passed && track === 'hands'
+              ? withEvidenceDate(prev.handsEvidenceDates, todayISO)
+              : prev.handsEvidenceDates,
         };
       });
 
@@ -310,6 +333,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
       lessonProgressById,
       chartMasteryById: input.gate.chartMasteryById,
       skillProgressById: nextSkills,
+      skillById: new Map(input.allSkills.map((s) => [s.id, s])),
     },
     nowMs,
   );
@@ -325,6 +349,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
     scorePct,
     passed,
     xpAwarded: xp,
+    sessionId: input.sessionCtx?.sessionId,
   };
 
   return {

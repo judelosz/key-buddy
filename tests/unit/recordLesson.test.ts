@@ -37,6 +37,12 @@ const moduleFx = (over: Partial<Module> = {}): Module => ({
   revisits: [], prepares: [], ...over,
 });
 
+const chartFx = {
+  id: 'boss--simplified', songId: 'boss', arrangementLevel: 'simplified' as const,
+  timeSignature: { beatsPerBar: 4, beatUnit: 4 }, chordSymbols: [],
+  notes: [{ id: 'n1', pitches: [60], startBeat: 0, durationBeats: 1, hand: 'right' as const }],
+};
+
 const attempt = (over: Partial<Attempt> = {}): Attempt => ({
   id: 'a1', refId: 'boss--simplified', refKind: 'chart', timestamp: NOW,
   perNoteGrades: [], timingHistogram: { buckets: [], meanMs: 0, medianMs: 0, stdDevMs: 0 },
@@ -147,7 +153,7 @@ describe('recordLessonAttempt — chart lessons & checkpoint honesty', () => {
         lesson: chartLesson,
         module: chartModule,
         result: undefined,
-        chartOutcome: { song: song('boss'), attempt: attempt(), prevBestStars: 0 },
+        chartOutcome: { song: song('boss'), chart: chartFx, attempt: attempt(), prevBestStars: 0 },
       }),
     );
     expect(out.reward.passed).toBe(true);
@@ -165,6 +171,7 @@ describe('recordLessonAttempt — chart lessons & checkpoint honesty', () => {
         result: undefined,
         chartOutcome: {
           song: song('boss'),
+          chart: chartFx,
           attempt: attempt({ masteryStar: false, assistsUsed: ['falling-notes'] }),
           prevBestStars: 0,
         },
@@ -185,6 +192,7 @@ describe('recordLessonAttempt — chart lessons & checkpoint honesty', () => {
         result: undefined,
         chartOutcome: {
           song: song('boss'),
+          chart: chartFx,
           attempt: attempt({ masteryStar: false, atTempo: false, tempoBPM: 72 }),
           prevBestStars: 0,
         },
@@ -203,10 +211,10 @@ describe('recordLessonAttempt — tier gate advancement', () => {
       bossChartId: 'boss--simplified',
       checkpointAssessmentIds: ['assess-1'],
       requiresDelayedReview: false,
-      // Small band: the quiz already advanced skill-a's review card, so the
-      // boss take's freshness multiplier (and thus its XP) is deliberately
-      // tiny — which is itself the anti-grind economy working.
-      handsXpBand: 3,
+      // Tiny band: the quiz already collapsed the boss take's freshness
+      // multiplier, AND full-chart XP toward the band is capped at 50% of it
+      // (per-song anti-grind) — both economies working as designed.
+      handsXpBand: 1,
     };
     const assessments: Assessment[] = [
       { id: 'assess-1', scope: 'tier', tier: 1, lessonId: 'l-quiz', passScorePct: 0.8, remediationLessonIds: [] },
@@ -239,7 +247,7 @@ describe('recordLessonAttempt — tier gate advancement', () => {
         lesson: perfLesson,
         module: bothModule,
         result: undefined,
-        chartOutcome: { song: song('boss'), attempt: attempt(), prevBestStars: 0 },
+        chartOutcome: { song: song('boss'), chart: chartFx, attempt: attempt(), prevBestStars: 0 },
         playerState: afterQuiz.playerState,
         skillProgressById: new Map(afterQuiz.changedSkills.map((s) => [s.skillId, s])),
         lessonProgressById: new Map([[quizLesson.id, afterQuiz.lessonProgress]]),

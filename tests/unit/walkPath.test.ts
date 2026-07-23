@@ -65,6 +65,16 @@ describe('the authored Tier 1–5 path is completable end to end', () => {
 
       const isChart = lesson.exerciseType === 'play-chart' || lesson.exerciseType === 'fragment';
       const chartId = lesson.chartId ?? lesson.fragmentId ?? '';
+      const chartObj = lesson.chartId
+        ? content.getChart(lesson.chartId)!
+        : lesson.fragmentId
+          ? {
+              id: lesson.fragmentId,
+              songId: content.getFragment(lesson.fragmentId)!.sourceSongId,
+              arrangementLevel: 'simplified' as const,
+              ...content.getFragment(lesson.fragmentId)!.chart,
+            }
+          : undefined;
       const song = lesson.chartId
         ? content.getSong(content.getChart(lesson.chartId)!.songId)!
         : lesson.fragmentId
@@ -87,6 +97,7 @@ describe('the authored Tier 1–5 path is completable end to end', () => {
         chartOutcome: isChart
           ? {
               song: song!,
+              chart: chartObj!,
               attempt: cannedAttempt(
                 chartId,
                 lesson.exerciseType === 'fragment' ? 'fragment' : 'chart',

@@ -66,7 +66,7 @@ interface GameState {
     module: Module,
     payload:
       | { result: ExerciseResult }
-      | { song: Song; attempt: Attempt },
+      | { song: Song; chart: Chart; attempt: Attempt },
   ) => Promise<LessonReward>;
   markSongPreviewed: (songId: string) => Promise<void>;
   /** Marks first-run onboarding done (persists onboardedAt; no-op on replay). */
@@ -149,6 +149,7 @@ export const useGameStore = create<GameState>((set, get) => {
 
       const res = recordChartAttempt({
         song,
+        chart,
         attempt,
         playerState: player,
         skillProgressById,
@@ -201,6 +202,7 @@ export const useGameStore = create<GameState>((set, get) => {
           'song' in payload
             ? {
                 song: payload.song,
+                chart: payload.chart,
                 attempt: payload.attempt,
                 prevBestStars: state.chartBestById.get(payload.attempt.refId) ?? 0,
               }

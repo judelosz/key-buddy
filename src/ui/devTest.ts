@@ -50,12 +50,24 @@ export function installDevTest(): void {
         if (!lesson || !module) throw new Error(`unknown lesson ${lessonId}`);
         await useGameStore.getState().init();
         if (lesson.exerciseType === 'play-chart' || lesson.exerciseType === 'fragment') {
-          const song = lesson.chartId ? content.getSong(content.getChart(lesson.chartId)?.songId ?? '') : undefined;
-          const chartId = lesson.chartId ?? lesson.fragmentId ?? '';
-          if (!song) throw new Error(`lesson ${lessonId} has no resolvable song`);
+          const chart = lesson.chartId
+            ? content.getChart(lesson.chartId)
+            : (() => {
+                const fragment = content.getFragment(lesson.fragmentId ?? '');
+                return fragment
+                  ? {
+                      id: fragment.id,
+                      songId: fragment.sourceSongId,
+                      arrangementLevel: 'simplified' as const,
+                      ...fragment.chart,
+                    }
+                  : undefined;
+              })();
+          const song = chart ? content.getSong(chart.songId) : undefined;
+          if (!song || !chart) throw new Error(`lesson ${lessonId} has no resolvable chart/song`);
           return useGameStore
             .getState()
-            .recordLesson(lesson, module, { song, attempt: cannedMasteryAttempt(chartId) });
+            .recordLesson(lesson, module, { song, chart, attempt: cannedMasteryAttempt(chart.id) });
         }
         return useGameStore.getState().recordLesson(lesson, module, {
           result: {

@@ -164,6 +164,8 @@ export interface LessonResult {
   xpAwarded: number;
   /** Links to the Attempt when the lesson produced one (chart/fragment). */
   attemptId?: string;
+  /** Set when the lesson ran inside a practice session. */
+  sessionId?: string;
 }
 
 /** Compact per-lesson summary, keyed by lessonId. */

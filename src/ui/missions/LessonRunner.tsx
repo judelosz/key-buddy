@@ -135,7 +135,7 @@ function ChartLesson({
   if (!resolved) return <p className="text-sm text-ink-soft">This lesson's music is missing.</p>;
 
   const onAttemptCaptured = (attempt: Attempt) => {
-    void recordLesson(lesson, module, { song: resolved.song, attempt }).then(onReward);
+    void recordLesson(lesson, module, { song: resolved.song, chart: resolved.chart, attempt }).then(onReward);
   };
 
   return (
