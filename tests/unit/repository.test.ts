@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import type { PlayerState } from '@/core/types';
-import { initialPlayerState, normalizePlayerState } from '@/data/repository';
+import type { PlayerState, SkillProgress } from '@/core/types';
+import { newCard } from '@/core/srs/fsrs';
+import {
+  initialPlayerState,
+  normalizePlayerState,
+  normalizeSkillProgress,
+} from '@/data/repository';
 
 describe('normalizePlayerState', () => {
   it('fills Phase-4 fields on a v1 state and keeps earned progress', () => {
@@ -54,5 +59,32 @@ describe('normalizePlayerState', () => {
       totalXP: 500,
     };
     expect(normalizePlayerState(state)).toEqual(state);
+  });
+});
+
+describe('normalizeSkillProgress', () => {
+  const MASTERED_AT = Date.parse('2026-07-10T12:00:00Z');
+  const base: SkillProgress = {
+    skillId: 's',
+    handsLock: 0.9,
+    headLock: 0.9,
+    masteredAt: MASTERED_AT,
+    freshness: newCard(MASTERED_AT),
+    lastReviewed: MASTERED_AT,
+  };
+
+  it('seeds one evidence date for an already-Hands-mastered pre-v3 skill', () => {
+    const norm = normalizeSkillProgress(base);
+    expect(norm.handsEvidenceDates).toEqual(['2026-07-10']);
+  });
+
+  it('gives unmastered skills an empty evidence list', () => {
+    const norm = normalizeSkillProgress({ ...base, handsLock: 0.5, masteredAt: undefined });
+    expect(norm.handsEvidenceDates).toEqual([]);
+  });
+
+  it('never touches rows that already carry evidence', () => {
+    const current = { ...base, handsEvidenceDates: ['2026-07-01', '2026-07-05'] };
+    expect(normalizeSkillProgress(current)).toBe(current);
   });
 });

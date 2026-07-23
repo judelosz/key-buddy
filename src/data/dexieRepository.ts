@@ -6,11 +6,23 @@
  * Schema v2 (Phase 4): lessonResults, lessonProgress, songMastery, and
  * chartMastery tables; playerState gains the learning-tier fields (upgraded
  * in-place, and re-normalized on every load via normalizePlayerState).
+ *
+ * Schema v3 (Phase 5): sessions + adaptation tables, sessionId indexes on
+ * attempts/lessonResults; upgrade normalizes playerState (tierXpBySong),
+ * skillProgress (handsEvidenceDates seeding), songMastery (evidence-engine
+ * shape) and deletes stretch-song mastery rows created by the Phase-4 bug
+ * (a stretch fragment wrongly marked pinetops-boogie "Started").
  */
 import Dexie, { type EntityTable } from 'dexie';
 import type { Attempt, PlayerState, SkillProgress } from '@/core/types';
 import type { LessonProgress, LessonResult, SongMastery } from '@/core/curriculum/types';
-import { normalizePlayerState, type Repository } from './repository';
+import type { PracticeSession } from '@/core/session/sessionTypes';
+import type { AdaptationState } from '@/core/adaptive/adaptive';
+import { normalizeSongMastery } from '@/core/songMastery/songMastery';
+import { normalizePlayerState, normalizeSkillProgress, type Repository } from './repository';
+
+/** Stretch songs whose Phase-4 SongMastery rows were bogus (fragment-driven). */
+const STRETCH_RESET_SONG_IDS = ['pinetops-boogie'];
 
 const PLAYER_ID = 'singleton';
 
@@ -35,6 +47,8 @@ class PianoDB extends Dexie {
   lessonProgress!: EntityTable<LessonProgress, 'lessonId'>;
   songMastery!: EntityTable<SongMastery, 'songId'>;
   chartMastery!: EntityTable<ChartMasteryRow, 'chartId'>;
+  sessions!: EntityTable<PracticeSession, 'id'>;
+  adaptation!: EntityTable<AdaptationState, 'refId'>;
 
   constructor() {
     super('piano-pro');
@@ -64,6 +78,40 @@ class PianoDB extends Dexie {
             Object.assign(row, normalized);
           }),
       );
+    this.version(3)
+      .stores({
+        playerState: 'id',
+        skillProgress: 'skillId',
+        chartBest: 'chartId',
+        attempts: 'id, timestamp, refId, sessionId',
+        lessonResults: 'id, lessonId, timestamp, sessionId',
+        lessonProgress: 'lessonId',
+        songMastery: 'songId',
+        chartMastery: 'chartId',
+        sessions: 'id, startedAt',
+        adaptation: 'refId',
+      })
+      .upgrade(async (tx) => {
+        await tx
+          .table<PlayerRow, string>('playerState')
+          .toCollection()
+          .modify((row) => {
+            Object.assign(row, normalizePlayerState(row));
+          });
+        await tx
+          .table<SkillProgress, string>('skillProgress')
+          .toCollection()
+          .modify((row) => {
+            Object.assign(row, normalizeSkillProgress(row));
+          });
+        await tx.table<SongMastery, string>('songMastery').where('songId').anyOf(STRETCH_RESET_SONG_IDS).delete();
+        await tx
+          .table<SongMastery, string>('songMastery')
+          .toCollection()
+          .modify((row) => {
+            Object.assign(row, normalizeSongMastery(row));
+          });
+      });
   }
 }
 
@@ -88,7 +136,8 @@ export class DexieRepository implements Repository {
   }
 
   async loadAllSkillProgress(): Promise<SkillProgress[]> {
-    return this.get().skillProgress.toArray();
+    const rows = await this.get().skillProgress.toArray();
+    return rows.map(normalizeSkillProgress);
   }
 
   async saveSkillProgress(progress: SkillProgress[]): Promise<void> {
@@ -150,11 +199,28 @@ export class DexieRepository implements Repository {
   }
 
   async loadAllSongMastery(): Promise<SongMastery[]> {
-    return this.get().songMastery.toArray();
+    const rows = await this.get().songMastery.toArray();
+    return rows.map(normalizeSongMastery);
   }
 
   async saveSongMastery(mastery: SongMastery): Promise<void> {
     await this.get().songMastery.put(mastery);
+  }
+
+  async saveSession(session: PracticeSession): Promise<void> {
+    await this.get().sessions.put(session);
+  }
+
+  async loadRecentSessions(limit = 30): Promise<PracticeSession[]> {
+    return this.get().sessions.orderBy('startedAt').reverse().limit(limit).toArray();
+  }
+
+  async loadAllAdaptation(): Promise<AdaptationState[]> {
+    return this.get().adaptation.toArray();
+  }
+
+  async saveAdaptation(state: AdaptationState): Promise<void> {
+    await this.get().adaptation.put(state);
   }
 
   async clearAll(): Promise<void> {
@@ -168,6 +234,8 @@ export class DexieRepository implements Repository {
       db.lessonProgress.clear(),
       db.songMastery.clear(),
       db.chartMastery.clear(),
+      db.sessions.clear(),
+      db.adaptation.clear(),
     ]);
   }
 }

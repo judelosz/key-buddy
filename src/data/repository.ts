@@ -5,6 +5,9 @@
  */
 import type { Attempt, PlayerState, SkillProgress } from '@/core/types';
 import type { LessonProgress, LessonResult, SongMastery } from '@/core/curriculum/types';
+import type { PracticeSession } from '@/core/session/sessionTypes';
+import type { AdaptationState } from '@/core/adaptive/adaptive';
+import { isHandsMastered } from '@/core/progression/progressionService';
 
 export interface Repository {
   loadPlayerState(): Promise<PlayerState | null>;
@@ -33,6 +36,14 @@ export interface Repository {
 
   loadAllSongMastery(): Promise<SongMastery[]>;
   saveSongMastery(mastery: SongMastery): Promise<void>;
+
+  /** Practice sessions — reporting/wrap bookkeeping only, never progression. */
+  saveSession(session: PracticeSession): Promise<void>;
+  loadRecentSessions(limit?: number): Promise<PracticeSession[]>;
+
+  /** Per-item adaptive difficulty state, keyed by refId. */
+  loadAllAdaptation(): Promise<AdaptationState[]>;
+  saveAdaptation(state: AdaptationState): Promise<void>;
 
   clearAll(): Promise<void>;
 }
@@ -74,4 +85,20 @@ export function normalizePlayerState(raw: Partial<PlayerState>): PlayerState {
     tierGatePassedAt: raw.tierGatePassedAt ?? {},
     playerLevel: learningTier,
   };
+}
+
+/**
+ * Fill Phase-5 fields on a skill-progress row persisted by an older schema:
+ * already-Hands-mastered skills get ONE seeded evidence date (from when they
+ * mastered), so `assessment.repeatedSessions` can never retro-lock a skill the
+ * player already earned. Applied on every load alongside the Dexie upgrade.
+ */
+export function normalizeSkillProgress(raw: SkillProgress): SkillProgress {
+  if (raw.handsEvidenceDates !== undefined) return raw;
+  const seedMs = raw.masteredAt ?? raw.lastReviewed;
+  const seed =
+    isHandsMastered(raw) && seedMs !== undefined
+      ? [new Date(seedMs).toISOString().slice(0, 10)]
+      : [];
+  return { ...raw, handsEvidenceDates: seed };
 }
