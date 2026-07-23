@@ -16,15 +16,13 @@ test('first run lands on onboarding and Get Started walks into the shell', async
   ).toBeVisible();
   await expect(page.getByRole('button', { name: 'Missions' })).not.toBeVisible();
 
-  // Walk the six steps.
+  // Walk the five steps (calibration lives in Settings, not onboarding).
   await page.getByRole('button', { name: /Get Started/ }).click();
   await expect(page.getByRole('heading', { name: 'How will you play?' })).toBeVisible();
   // The input check responds to a key press.
   await page.locator('[data-pitch="60"]').first().click();
   await expect(page.getByText(/We heard you/)).toBeVisible();
 
-  await page.getByRole('button', { name: 'Continue', exact: false }).click();
-  await expect(page.getByRole('heading', { name: 'Tune out the lag.' })).toBeVisible();
   await page.getByRole('button', { name: 'Continue', exact: false }).click();
   await expect(page.getByRole('heading', { name: "What you'll learn" })).toBeVisible();
   await page.getByRole('button', { name: 'Continue', exact: false }).click();

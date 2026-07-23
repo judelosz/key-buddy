@@ -7,7 +7,6 @@ import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
 import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
 import { InputStatusBanner } from '@/ui/components/InputMonitorPanel';
-import { CalibrationPanel } from '@/ui/components/CalibrationPanel';
 
 function StepFrame({ kicker, title, children }: { kicker: string; title: string; children: ReactNode }) {
   return (
@@ -80,19 +79,10 @@ export function InputSetupStep() {
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <PianoKeyboard />
       </div>
-    </StepFrame>
-  );
-}
-
-export function CalibrationStep() {
-  return (
-    <StepFrame kicker="Step 2 · Timing" title="Tune out the lag.">
-      <p className="max-w-prose text-sm text-ink-soft">
-        Audio adds a few milliseconds of delay, which can make honest playing read as
-        &ldquo;late.&rdquo; A ten-second tap-along fixes that. You can skip this and tune up later in
-        Settings.
+      <p className="text-xs text-ink-soft">
+        Tip: if your notes ever feel like they score &ldquo;late,&rdquo; a ten-second tap-along in
+        Settings → Calibration tunes out your device&rsquo;s audio lag.
       </p>
-      <CalibrationPanel showIntro={false} />
     </StepFrame>
   );
 }
@@ -107,7 +97,7 @@ const STRANDS = [
 
 export function StrandsStep() {
   return (
-    <StepFrame kicker="Step 3 · The plan" title="What you'll learn">
+    <StepFrame kicker="Step 2 · The plan" title="What you'll learn">
       <p className="max-w-prose text-sm text-ink-soft">
         Every mission mixes five threads — you won&rsquo;t study them as separate subjects, they&rsquo;re
         woven into learning each groove and song:
@@ -129,7 +119,7 @@ export function StrandsStep() {
 
 export function HowItWorksStep() {
   return (
-    <StepFrame kicker="Step 4 · Progress" title="How Missions, XP, and mastery work">
+    <StepFrame kicker="Step 3 · Progress" title="How Missions, XP, and mastery work">
       <div className="flex flex-col gap-3 text-sm">
         <div className="rounded-2xl bg-surface p-4 shadow-soft">
           <span className="font-medium text-ink">Missions</span>

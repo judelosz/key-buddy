@@ -5,17 +5,17 @@ import { useGameStore } from '@/ui/store/gameStore';
 import {
   PromiseStep,
   InputSetupStep,
-  CalibrationStep,
   StrandsStep,
   HowItWorksStep,
   LaunchStep,
 } from './OnboardingSteps';
 
 /**
- * Landing onboarding (doc 06 §7.0): promise → input setup → calibration →
- * strands → how progress works → launch. First-run entry point (not a tab);
- * replayable from Settings. Short, skippable-forward, and it never ends on a
- * blank dashboard — the final CTA lands in Missions.
+ * Landing onboarding (doc 06 §7.0, calibration removed 2026-07-23 — it lives
+ * in Settings for self-serve tuning): promise → input setup → strands → how
+ * progress works → launch. First-run entry point (not a tab); replayable from
+ * Settings. Short, skippable-forward, and it never ends on a blank dashboard —
+ * the final CTA lands in Missions.
  */
 export function Onboarding({ replay = false }: { replay?: boolean }) {
   const [step, setStep] = useState(0);
@@ -26,7 +26,6 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
   const steps = [
     { body: <PromiseStep />, cta: 'Get Started' },
     { body: <InputSetupStep />, cta: 'Continue' },
-    { body: <CalibrationStep />, cta: 'Continue' },
     { body: <StrandsStep />, cta: 'Continue' },
     { body: <HowItWorksStep />, cta: 'Continue' },
     { body: <LaunchStep replay={replay} />, cta: replay ? 'Back to Missions' : 'Start your first mission' },
