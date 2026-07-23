@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Attempt, Chart, PlayerState, SkillProgress, Song } from '@/core/types';
+import type { Attempt, Chart, PlayerState, SkillProgress } from '@/core/types';
 import type {
   CurriculumLesson,
   LessonProgress,

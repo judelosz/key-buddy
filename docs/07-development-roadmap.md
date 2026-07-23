@@ -441,7 +441,9 @@ Turn the written curriculum into a real beginner journey for Tiers 1–5. This i
 
 ## 10. Phase 5 — SessionBuilder and adaptive practice
 
-**Status: planned.**
+**Status: implemented (2026-07-23) — in its test window.**
+
+> **Amendment (2026-07-23):** sessions shipped **open-ended** instead of with 5/10/20/30-minute options (user decision). The builder emits a prioritized, interleaved queue that refills as it drains; the player wraps whenever they like with a zero-guilt summary. Doc 06 §7.1's time budgets became an ordering template and its review slot a 20–35% queue-composition ratio. The duration-related build item and exit criterion below are superseded accordingly.
 
 ### Goal
 
@@ -461,12 +463,12 @@ Make the daily practice loop automatic, varied, and appropriately difficult.
 - Add recurring stretch-song Boss Challenges that extract current-skill-sized fragments from the +10-tier song without unlocking or grading the full song.
 - Add the stretch-song fragment selector with the +10-tier exploration intent and no mastery pressure.
 - Implement adaptive tempo, arrangement, assist removal, and remediation.
-- Add session-length options around 5, 10, 20, and 30 minutes.
+- ~~Add session-length options around 5, 10, 20, and 30 minutes.~~ *(Superseded — open-ended sessions; see the amendment above.)*
 - Preserve a clear recommended “next” action even when optional choices exist.
 
 ### Exit criteria
 
-- Generated sessions fit the requested duration within a small tolerance.
+- ~~Generated sessions fit the requested duration within a small tolerance.~~ *(Superseded)* Sessions stay bounded (~8-segment horizon that refills) and wrapping at any point produces an honest summary with no guilt copy.
 - No two consecutive segments unnecessarily repeat the same skill family.
 - Due review appears reliably and does not crowd out new learning.
 - Struggling items return in smaller or varied forms rather than as identical failed repetitions.

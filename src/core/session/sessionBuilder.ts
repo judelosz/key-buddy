@@ -273,7 +273,7 @@ function collectCandidates(
           activity,
           skillIds: lesson.skillIds,
           families: familiesFor(inputs, lesson.skillIds),
-          reason: 'A familiar win to warm up',
+          reason: 'You already own this one — enjoy the rep',
           priority: progress.bestScorePct,
         };
       }

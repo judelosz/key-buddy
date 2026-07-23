@@ -592,6 +592,8 @@ Free Play must not expose locked songs as if they are purchasable. A locked song
 
 For a 30-minute session, add a 5-minute stretch fragment and a second song application. For a 5-minute session, use one familiar win, one due review, and one musical application; never show a guilt message for a short session.
 
+> **Implementation decision (Phase 5, 2026-07-23).** v1 sessions are **open-ended**: the time budgets above are implemented as an *ordering* template over a prioritized, interleaved queue that refills as it drains, and the spaced-review slot generalizes to a **20–35% due-review share** of the queue composition. There is no session-length picker — the player stops whenever they like, and the wrap screen celebrates any length (the no-guilt rule above is load-bearing). See doc 07 §10 and the ADR log in AGENTS.md.
+
 ### 7.2 A module lesson as a Duolingo-style path
 
 The UI should expose one recommended next lesson but allow optional review and branch choice. A typical path is:

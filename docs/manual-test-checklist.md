@@ -2,7 +2,7 @@
 
 *A living checklist (roadmap §8/§9): rerun the relevant sections after any change to input, scoring, progression, the curriculum engine, or the shell. Automated coverage (`npm run typecheck | test | e2e`) must be green before starting a manual pass.*
 
-Last full pass: 2026-07-22 (Phase 4 — partial: first-run funnel, listen + note-id lessons, Missions path, Progress checklist verified in-browser; items marked ⏳ still need a human pass, ideally with a MIDI keyboard).
+Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → real lesson → compact result → wrap verified in-browser and by `session.spec.ts`; items marked ⏳ still need a human pass, ideally with a MIDI keyboard).
 
 ## First run & onboarding
 
@@ -44,6 +44,22 @@ Last full pass: 2026-07-22 (Phase 4 — partial: first-run funnel, listen + note
 - [x] Head pip lights from ear/theory lessons; Hands pips only from playing.
 - [ ] ⏳ Tier gate opens only when all five items pass; level-up banner fires once; meter resets for the new tier.
 - [ ] ⏳ Duplicate-reward check: record a take, reload mid-write, confirm no double XP.
+
+## Practice sessions (Phase 5)
+
+- [x] Missions hero with new material: Continue is primary, "Today's practice" is the secondary pill.
+- [x] Session intro card: purpose framing chip, reason line, "Let's go" / "Skip this one" / "Wrap up for today".
+- [x] A real lesson runs inside the session and its result shows the compact card (+XP, "Keep going" / "Wrap up").
+- [x] Wrap screen: "Nice session." with XP by track; skipping everything still wraps without guilt copy.
+- [ ] ⏳ Review-day hero: once every Tier-1 skill is due (next-day play), "Start today's practice" becomes primary.
+- [ ] ⏳ Session ordering feel: familiar win first, then new material; no two adjacent segments of the same skill family.
+- [ ] ⏳ Fail a session lesson: step-down offer appears ("Try at N% tempo" / "Try with guides on"), the retry visibly changes (banner + slower/guided run), and after a second fail a remediation segment is injected next.
+- [ ] ⏳ Song-time segment: full take records; a weak section later produces a "Zoom in" section-drill segment playing only those bars.
+- [ ] ⏳ Stretch Boss Challenge in a session: curiosity framing, no fail state, no mastery movement (Progress unchanged for the stretch song).
+- [ ] ⏳ Module-path failed lesson (outside sessions): "Go Back" + "Try Again" + amber step-down; checkpoint step-down is labeled "(practice run)" and can't pass the checkpoint.
+- [ ] ⏳ SongMasteryCard: ladder fills as evidence accrues; weak-section chips appear after a rough take; "Next:" line matches what the reducer actually needs.
+- [ ] ⏳ Wrap "Due tomorrow" count sanity-check against Progress the next day.
+- [ ] ⏳ Adaptive pacing feel (MIDI): repeated ≥85% runs step tempo up ~5% with the message shown; repeated failure eases tempo before adding guides — never silently.
 
 ## Resilience
 
