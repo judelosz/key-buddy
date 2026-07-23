@@ -170,6 +170,20 @@ export function adaptAfterResult(
 const CHECKPOINT_MODES: readonly LessonMode[] = ['independent', 'performance'];
 
 /**
+ * Map adaptation onto the chart-player knobs regardless of mode — the
+ * PRACTICE-RUN variant, for an explicitly labeled stepped-down rep on a
+ * checkpoint (checkpoint honesty in recordLesson fails assisted/slowed
+ * checkpoint takes anyway, so this can never fake a pass).
+ */
+export function practicePolicyOverrideFor(
+  lesson: CurriculumLesson,
+  adapt: AdaptationState,
+): { tempoPct: number; fallingNotes: 'on' | 'off' } | undefined {
+  if (lesson.exerciseType !== 'play-chart' && lesson.exerciseType !== 'fragment') return undefined;
+  return { tempoPct: adapt.tempoPct, fallingNotes: adapt.assistLevel >= 1 ? 'on' : 'off' };
+}
+
+/**
  * Map adaptation onto the chart-player knobs — undefined for checkpoint modes
  * (their policy is sacrosanct) and for non-chart exercises.
  */
@@ -178,16 +192,15 @@ export function policyOverrideFor(
   adapt: AdaptationState,
 ): { tempoPct: number; fallingNotes: 'on' | 'off' } | undefined {
   if (CHECKPOINT_MODES.includes(lesson.mode)) return undefined;
-  if (lesson.exerciseType !== 'play-chart' && lesson.exerciseType !== 'fragment') return undefined;
-  return { tempoPct: adapt.tempoPct, fallingNotes: adapt.assistLevel >= 1 ? 'on' : 'off' };
+  return practicePolicyOverrideFor(lesson, adapt);
 }
 
-/** Generator overrides for adaptable exercises (rhythm-tap tempo, for now). */
-export function generatorOverridesFor(
+/** Practice-run generator overrides (rhythm-tap tempo, for now) — see
+ * practicePolicyOverrideFor for why mode is ignored here. */
+export function practiceGeneratorOverridesFor(
   lesson: CurriculumLesson,
   adapt: AdaptationState,
 ): Record<string, unknown> | undefined {
-  if (CHECKPOINT_MODES.includes(lesson.mode)) return undefined;
   if (lesson.exerciseType === 'rhythm-tap') {
     const bpm = lesson.generatorParams?.bpm;
     if (typeof bpm === 'number' && adapt.tempoPct < 1) {
@@ -197,12 +210,32 @@ export function generatorOverridesFor(
   return undefined;
 }
 
+/** Generator overrides for adaptable exercises — checkpoint modes untouched. */
+export function generatorOverridesFor(
+  lesson: CurriculumLesson,
+  adapt: AdaptationState,
+): Record<string, unknown> | undefined {
+  if (CHECKPOINT_MODES.includes(lesson.mode)) return undefined;
+  return practiceGeneratorOverridesFor(lesson, adapt);
+}
+
 export interface StepDownOffer {
   label: string;
   directive: AdaptationDirective;
   /** True when the target lesson is a checkpoint — the offer is a practice
    * rep, not the checkpoint itself (copy must say so). */
   practiceOnly: boolean;
+}
+
+/** Button label for a directive ("Try at 65% tempo (practice run)"). */
+export function directiveLabel(directive: AdaptationDirective, practiceOnly: boolean): string {
+  const what =
+    directive.tempoPct !== undefined
+      ? `Try at ${pct(directive.tempoPct)} tempo`
+      : directive.assists === 'on'
+        ? 'Try with guides on'
+        : 'Try a small variation';
+  return practiceOnly ? `${what} (practice run)` : what;
 }
 
 /** The post-fail step-down offer for a lesson's "Try Again" flow. */
@@ -216,14 +249,8 @@ export function stepDownFor(
   const { directive } = adaptAfterResult(adapt, outcome, nowMs);
   if (!directive) return null;
   const practiceOnly = CHECKPOINT_MODES.includes(lesson.mode);
-  const what =
-    directive.tempoPct !== undefined
-      ? `Try at ${pct(directive.tempoPct)} tempo`
-      : directive.assists === 'on'
-        ? 'Try with guides on'
-        : 'Try a small variation';
   return {
-    label: practiceOnly ? `${what} (practice run)` : what,
+    label: directiveLabel(directive, practiceOnly),
     directive,
     practiceOnly,
   };

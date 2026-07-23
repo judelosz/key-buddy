@@ -22,6 +22,7 @@ import {
   nextRecommendedLesson,
   overdueCompletedLessons,
 } from '@/core/curriculum/selectors';
+import { remediationCandidates } from '@/core/curriculum/remediation';
 import { selectStretchFragment, stretchSongFor } from '@/core/curriculum/stretch';
 import { initialAdaptation, policyOverrideFor } from '@/core/adaptive/adaptive';
 import {
@@ -660,41 +661,15 @@ function remediationFor(
   };
 
   if (failed.activity.kind === 'lesson') {
-    const lessonId = failed.activity.lessonId;
-    // Authored remediation first (the assessment's own prescription)…
-    for (const a of content.assessments) {
-      if (a.lessonId !== lessonId) continue;
-      for (const rid of a.remediationLessonIds) {
-        const lesson = content.getLesson(rid);
-        if (!lesson) continue;
-        const c = asCandidate(
-          { kind: 'lesson', lessonId: rid, moduleId: lesson.moduleId },
-          lesson.skillIds,
-          'A smaller step first — this one feeds what just fell apart',
-        );
-        if (c) return c;
-      }
-    }
-    // …else the nearest earlier lesson in the module that shares a skill.
-    const failedLesson = content.getLesson(lessonId);
-    if (failedLesson) {
-      const earlier = content
-        .lessonsForModule(failedLesson.moduleId)
-        .filter(
-          (l) =>
-            l.order < failedLesson.order &&
-            l.exerciseType !== 'listen' &&
-            l.skillIds.some((s) => failedLesson.skillIds.includes(s)),
-        )
-        .sort((a, b) => b.order - a.order);
-      for (const l of earlier) {
-        const c = asCandidate(
-          { kind: 'lesson', lessonId: l.id, moduleId: l.moduleId },
-          l.skillIds,
-          'A smaller step first — rebuild the piece this leans on',
-        );
-        if (c) return c;
-      }
+    const failedLesson = content.getLesson(failed.activity.lessonId);
+    if (!failedLesson) return null;
+    for (const l of remediationCandidates(content, failedLesson)) {
+      const c = asCandidate(
+        { kind: 'lesson', lessonId: l.id, moduleId: l.moduleId },
+        l.skillIds,
+        'A smaller step first — rebuild the piece this leans on',
+      );
+      if (c) return c;
     }
     return null;
   }
