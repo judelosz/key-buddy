@@ -200,6 +200,9 @@ function ExerciseLesson({
   const runner = runnerRef.current;
   if (!spec || !runner) return null;
   const prompt = runner.currentPrompt;
+  const answeredPrompt = lastResult
+    ? (spec.prompts.find((p) => p.id === lastResult.promptId) ?? null)
+    : null;
 
   const listenChart =
     lesson.exerciseType === 'listen' ? chartForLesson(getContent(), lesson) : null;
@@ -211,6 +214,7 @@ function ExerciseLesson({
         prompt={prompt}
         progress={runner.engine.progress}
         lastResult={lastResult}
+        answeredPrompt={answeredPrompt}
         onReplayAudio={() => void runner.playPromptAudio()}
       >
         {prompt && lesson.exerciseType === 'listen' && listenChart && (

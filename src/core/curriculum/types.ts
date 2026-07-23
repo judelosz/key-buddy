@@ -113,6 +113,11 @@ export interface TheoryQuestion {
   answerIndex: number;
   /** Shown after a miss — one calm, specific line. */
   explanation: string;
+  /** One line per choice (aligned with `choices`): why the right answer is
+   * right and why each wrong one is wrong — powers "Explain my answer".
+   * RULE (2026-07-23): required on every question, present and future;
+   * enforced by validateCurriculum. */
+  choiceExplanations: string[];
   /** Optional visual: render a keyboard/staff snippet for these pitches. */
   illustratePitches?: number[];
 }

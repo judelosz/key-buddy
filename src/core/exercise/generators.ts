@@ -112,11 +112,20 @@ function chordEar(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
     );
     const pitches = parsed ? voiceChord(parsed, 60) : [60, 64, 67];
     const audio: AudioChord[] = [{ pitches, durationSec: 1.6 }];
+    // Per-choice: what the heard chord was vs. what each other quality WOULD
+    // have sounded like — ear discrimination is the lesson.
+    const heard = QUALITY_SIGNATURES[quality];
+    const choiceExplanations = qualities.map((q) =>
+      q === quality
+        ? `Yes — ${heard} That's the ${QUALITY_LABELS[q].toLowerCase()} signature.`
+        : `Not ${QUALITY_LABELS[q].toLowerCase()} — that would sound ${QUALITY_CONTRAST[q]}, and ${heard.toLowerCase()}`,
+    );
     return {
       id: `${lesson.id}-p${i}`,
       displayText: 'Listen — what kind of chord is that?',
       audio,
       choices,
+      choiceExplanations,
       expected: { kind: 'choice' as const, answerIndex: qualities.indexOf(quality) },
       explanation:
         quality === 'dom7'
@@ -127,6 +136,22 @@ function chordEar(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
     };
   });
 }
+
+/** What each quality sounds like (correct-answer framing). */
+const QUALITY_SIGNATURES: Record<string, string> = {
+  major: 'This one rang bright and settled.',
+  minor: 'This one sat darker — the middle note a half-step low.',
+  dom7: 'This one had an extra, buzzier note leaning on top.',
+  dim: 'This one sounded tense and unstable, like it needs to move.',
+};
+
+/** What each quality WOULD sound like (wrong-answer contrast framing). */
+const QUALITY_CONTRAST: Record<string, string> = {
+  major: 'bright and settled',
+  minor: 'darker in the middle',
+  dom7: 'buzzier, with a leaning extra note',
+  dim: 'tense and unstable',
+};
 
 /** params: { beats: number[], bpm: number, countInBeats?, beatsPerBar?, reps? } */
 function rhythmTap(lesson: CurriculumLesson): ExercisePrompt[] {
@@ -156,6 +181,7 @@ function theoryQuiz(
     id: `${lesson.id}-p${i}-${q.id}`,
     displayText: q.promptText,
     choices: q.choices,
+    choiceExplanations: q.choiceExplanations,
     expected: { kind: 'choice' as const, answerIndex: q.answerIndex },
     explanation: q.explanation,
   }));
@@ -183,6 +209,15 @@ function intervalEar(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
           { pitches: [second], durationSec: 0.7 },
         ],
         choices: ['Same', 'Different'],
+        choiceExplanations: same
+          ? [
+              'They matched exactly — same key, same sound.',
+              'Nothing moved — a "different" pair would change in height between the two notes.',
+            ]
+          : [
+              'They didn\'t match — the second note changed height; "same" would sound like one note twice.',
+              'The second note moved — that change in height is what "different" means.',
+            ],
         expected: { kind: 'choice' as const, answerIndex: same ? 0 : 1 },
         explanation: same
           ? 'They matched exactly — same key, same sound.'
@@ -200,6 +235,15 @@ function intervalEar(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
         { pitches: [second], durationSec: 0.7 },
       ],
       choices: ['Up', 'Down'],
+      choiceExplanations: up
+        ? [
+            'It climbed — the second note sounded higher, which lives to the right on the keyboard.',
+            'Not down — a falling pair would sound like the second note sinking lower, and this one rose.',
+          ]
+        : [
+            'Not up — a rising pair would sound like the second note lifting higher, and this one sank.',
+            'It fell — the second note sounded lower, which lives to the left on the keyboard.',
+          ],
       expected: { kind: 'choice' as const, answerIndex: up ? 0 : 1 },
       explanation: up
         ? 'It climbed — higher sounds sit to the right of the keyboard.'

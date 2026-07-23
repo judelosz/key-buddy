@@ -401,6 +401,15 @@ export function validateCurriculum(raw: RawContent): string[] {
       if (q.answerIndex < 0 || q.answerIndex >= q.choices.length) {
         problems.push(`Theory question ${q.id} (${t.id}) has out-of-range answerIndex`);
       }
+      // RULE (2026-07-23): every multiple-choice question ships per-choice
+      // explanations so "Explain my answer" can cover every option.
+      if (!Array.isArray(q.choiceExplanations) || q.choiceExplanations.length !== q.choices.length) {
+        problems.push(
+          `Theory question ${q.id} (${t.id}) needs choiceExplanations aligned with its ${q.choices.length} choices`,
+        );
+      } else if (q.choiceExplanations.some((e) => e.trim().length === 0)) {
+        problems.push(`Theory question ${q.id} (${t.id}) has an empty choice explanation`);
+      }
     });
   }
 

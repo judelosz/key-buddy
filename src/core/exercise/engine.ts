@@ -112,6 +112,7 @@ export class ExerciseEngine {
           correct,
           scorePct: correct ? 1 : 0,
           detail: prompt.choices?.[e.index],
+          chosenIndex: e.index,
         });
       }
 

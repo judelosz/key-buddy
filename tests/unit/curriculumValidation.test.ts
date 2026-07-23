@@ -141,7 +141,7 @@ const concept = (id: string, over: Partial<TheoryConcept> = {}): TheoryConcept =
   linkedSkillIds: [],
   linkedSongIds: [],
   questions: [
-    { id: `${id}-q1`, promptText: '2 + 2?', choices: ['3', '4'], answerIndex: 1, explanation: 'it is 4' },
+    { id: `${id}-q1`, promptText: '2 + 2?', choices: ['3', '4'], answerIndex: 1, explanation: 'it is 4', choiceExplanations: ['3 is one short', 'it is 4'] },
   ],
   ...over,
 });
@@ -386,7 +386,7 @@ describe('validateCurriculum', () => {
     raw.theoryConcepts = [
       concept('concept-1', {
         questions: [
-          { id: 'q1', promptText: '?', choices: ['a'], answerIndex: 3, explanation: '' },
+          { id: 'q1', promptText: '?', choices: ['a'], answerIndex: 3, explanation: '', choiceExplanations: ['x'] },
         ],
       }),
     ];

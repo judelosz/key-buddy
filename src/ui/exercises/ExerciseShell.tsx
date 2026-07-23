@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { Check, Volume2, X } from 'lucide-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Check, ChevronDown, ChevronRight, HelpCircle, Volume2, X } from 'lucide-react';
 import type { ExercisePrompt, PromptResult } from '@/core/exercise/types';
 
 interface ExerciseShellProps {
@@ -7,6 +7,8 @@ interface ExerciseShellProps {
   progress: { index: number; total: number };
   /** Result of the just-finished prompt (transient feedback). */
   lastResult: PromptResult | null;
+  /** The prompt `lastResult` belongs to — powers "Explain my answer". */
+  answeredPrompt?: ExercisePrompt | null;
   onReplayAudio?: () => void;
   children?: ReactNode;
 }
@@ -19,9 +21,27 @@ export function ExerciseShell({
   prompt,
   progress,
   lastResult,
+  answeredPrompt,
   onReplayAudio,
   children,
 }: ExerciseShellProps) {
+  const [explainOpen, setExplainOpen] = useState(false);
+  // A new answer collapses the previous explanation.
+  useEffect(() => setExplainOpen(false), [lastResult?.promptId]);
+
+  const explainable =
+    lastResult !== null &&
+    answeredPrompt !== null &&
+    answeredPrompt !== undefined &&
+    answeredPrompt.id === lastResult.promptId &&
+    answeredPrompt.expected.kind === 'choice' &&
+    (answeredPrompt.choices?.length ?? 0) > 0 &&
+    answeredPrompt.choiceExplanations?.length === answeredPrompt.choices?.length;
+  const answerIndex =
+    explainable && answeredPrompt.expected.kind === 'choice'
+      ? answeredPrompt.expected.answerIndex
+      : -1;
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
@@ -63,19 +83,63 @@ export function ExerciseShell({
 
       {lastResult && (
         <div
-          className={`flex items-start gap-2 rounded-2xl px-4 py-3 text-sm animate-fade-up ${
+          className={`flex flex-col gap-2 rounded-2xl px-4 py-3 text-sm animate-fade-up ${
             lastResult.correct ? 'bg-mint-soft text-mint-deep' : 'bg-amber-soft text-amber-deep'
           }`}
         >
-          {lastResult.correct ? (
-            <Check size={16} className="mt-0.5 shrink-0" />
-          ) : (
-            <X size={16} className="mt-0.5 shrink-0" />
+          <div className="flex items-start gap-2">
+            {lastResult.correct ? (
+              <Check size={16} className="mt-0.5 shrink-0" />
+            ) : (
+              <X size={16} className="mt-0.5 shrink-0" />
+            )}
+            <span className="min-w-0 flex-1">
+              {lastResult.correct ? 'Nice.' : 'Not quite.'}{' '}
+              {lastResult.detail && <span>{lastResult.detail}. </span>}
+            </span>
+            {explainable && (
+              <button
+                type="button"
+                onClick={() => setExplainOpen((v) => !v)}
+                className="inline-flex shrink-0 items-center gap-1 font-medium underline-offset-2 hover:underline"
+              >
+                <HelpCircle size={13} /> Explain my answer
+                {explainOpen ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
+              </button>
+            )}
+          </div>
+
+          {/* Why the right choice is right AND why each other one is wrong. */}
+          {explainable && explainOpen && (
+            <ul className="flex flex-col gap-1.5 rounded-xl bg-surface/70 p-3 text-ink animate-fade-up">
+              {answeredPrompt.choices!.map((choice, i) => {
+                const isAnswer = i === answerIndex;
+                const isPick = i === lastResult.chosenIndex;
+                return (
+                  <li key={i} className="flex items-start gap-2">
+                    {isAnswer ? (
+                      <Check size={14} className="mt-0.5 shrink-0 text-mint-deep" />
+                    ) : (
+                      <X size={14} className="mt-0.5 shrink-0 text-rose-deep/60" />
+                    )}
+                    <span className="min-w-0">
+                      <span className={`font-medium ${isAnswer ? 'text-mint-deep' : 'text-ink'}`}>
+                        {choice}
+                      </span>
+                      {isPick && (
+                        <span className="ml-1.5 rounded-full bg-sand px-1.5 py-0.5 text-[10px] font-medium text-ink-soft">
+                          your pick
+                        </span>
+                      )}
+                      <span className="block text-xs text-ink-soft">
+                        {answeredPrompt.choiceExplanations![i]}
+                      </span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           )}
-          <span>
-            {lastResult.correct ? 'Nice.' : 'Not quite.'}{' '}
-            {lastResult.detail && <span>{lastResult.detail}. </span>}
-          </span>
         </div>
       )}
 

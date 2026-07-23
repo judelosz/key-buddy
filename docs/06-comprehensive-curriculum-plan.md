@@ -716,7 +716,7 @@ Recommended additional content entities:
 
 - `Module`: arc, title, promise, prerequisite modules, lesson IDs, core skill IDs, boss lesson ID;
 - `Assessment`: skill/tier, evidence requirements, attempts allowed, pass feedback, remediation lesson IDs;
-- `TheoryConcept`: explanation, examples, linked skills, linked songs, AFK exercise IDs;
+- `TheoryConcept`: explanation, examples, linked skills, linked songs, AFK exercise IDs. **Rule (2026-07-23): every multiple-choice question — authored or generated — ships `choiceExplanations`, one line per choice explaining why the right answer is right and why each wrong one is wrong (powers the learner's "Explain my answer" panel; enforced by content validation);**
 - `TechniqueCue`: plain-language cue, observable proxy, contraindicated claim, related exercise;
 - `TierGate`: core skills, boss song/chart, theory/ear checkpoint, retention requirement;
 - `SongVariant`: arrangement level, taught skills, required Hands skills, assist policy, target tempo;

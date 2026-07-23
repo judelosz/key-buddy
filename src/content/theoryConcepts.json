@@ -1,1458 +1,2028 @@
 [
-  {
-    "id": "theory-note-names",
-    "name": "The keyboard map",
-    "explanation": "The keyboard repeats the same seven white-key names, C through B. The black keys come in groups of two and three — C always sits just left of a group of two.",
-    "examples": [
-      "C is left of the two black keys",
-      "F is left of the three black keys"
+ {
+  "id": "theory-note-names",
+  "name": "The keyboard map",
+  "explanation": "The keyboard repeats the same seven white-key names, C through B. The black keys come in groups of two and three — C always sits just left of a group of two.",
+  "examples": [
+   "C is left of the two black keys",
+   "F is left of the three black keys"
+  ],
+  "linkedSkillIds": [
+   "geo-note-names"
+  ],
+  "linkedSongIds": [
+   "ode-to-joy"
+  ],
+  "questions": [
+   {
+    "id": "tnn-q1",
+    "promptText": "Which key sits just LEFT of every group of TWO black keys?",
+    "choices": [
+     "C",
+     "E",
+     "F",
+     "B"
     ],
-    "linkedSkillIds": [
-      "geo-note-names"
+    "answerIndex": 0,
+    "explanation": "C always sits just left of the two black keys — that's the fastest way to find it anywhere.",
+    "illustratePitches": [
+     60
     ],
-    "linkedSongIds": [
-      "ode-to-joy"
-    ],
-    "questions": [
-      {
-        "id": "tnn-q1",
-        "promptText": "Which key sits just LEFT of every group of TWO black keys?",
-        "choices": [
-          "C",
-          "E",
-          "F",
-          "B"
-        ],
-        "answerIndex": 0,
-        "explanation": "C always sits just left of the two black keys — that's the fastest way to find it anywhere.",
-        "illustratePitches": [
-          60
-        ]
-      },
-      {
-        "id": "tnn-q2",
-        "promptText": "Which key sits just LEFT of every group of THREE black keys?",
-        "choices": [
-          "C",
-          "F",
-          "G",
-          "A"
-        ],
-        "answerIndex": 1,
-        "explanation": "F sits just left of the three black keys.",
-        "illustratePitches": [
-          65
-        ]
-      },
-      {
-        "id": "tnn-q3",
-        "promptText": "How many different white-key NAMES are there before the pattern repeats?",
-        "choices": [
-          "Five",
-          "Seven",
-          "Ten",
-          "Twelve"
-        ],
-        "answerIndex": 1,
-        "explanation": "Seven names — C D E F G A B — then the pattern starts over an octave higher."
-      },
-      {
-        "id": "tnn-q4",
-        "promptText": "You're on C and step UP one white key. Where are you?",
-        "choices": [
-          "B",
-          "D",
-          "E",
-          "G"
-        ],
-        "answerIndex": 1,
-        "explanation": "Stepping up from C lands on D — names go up the alphabet as you go right.",
-        "illustratePitches": [
-          60,
-          62
-        ]
-      },
-      {
-        "id": "tnn-q5",
-        "promptText": "Two keys with the same name, eight steps apart, are called…",
-        "choices": [
-          "A chord",
-          "An octave",
-          "A scale",
-          "A bar"
-        ],
-        "answerIndex": 1,
-        "explanation": "Same name, higher or lower — that distance is an octave.",
-        "illustratePitches": [
-          60,
-          72
-        ]
-      },
-      {
-        "id": "tnn-q6",
-        "promptText": "Higher-sounding notes live in which direction on the keyboard?",
-        "choices": [
-          "To the left",
-          "To the right",
-          "In the middle",
-          "It varies"
-        ],
-        "answerIndex": 1,
-        "explanation": "Right = higher, left = lower. Your ear and the map agree."
-      }
+    "choiceExplanations": [
+     "Right — C always sits just left of every pair of black keys. It's the fastest landmark on the whole keyboard.",
+     "E sits on the other side — just RIGHT of the two black keys, not left of them.",
+     "F belongs to the other group: it sits just left of the THREE black keys.",
+     "B sits just right of the three black keys — wrong group, wrong side."
     ]
-  },
-  {
-    "id": "theory-beat-subdivision",
-    "name": "Beat, bar, and downbeat",
-    "explanation": "The beat is the steady pulse you'd tap your foot to. Beats group into bars, and the first beat of each bar — the downbeat — carries a little extra weight.",
-    "examples": [
-      "Count 1-2-3-4 with the click",
-      "The metronome accents beat 1"
+   },
+   {
+    "id": "tnn-q2",
+    "promptText": "Which key sits just LEFT of every group of THREE black keys?",
+    "choices": [
+     "C",
+     "F",
+     "G",
+     "A"
     ],
-    "linkedSkillIds": [
-      "rhythm-steady-pulse"
+    "answerIndex": 1,
+    "explanation": "F sits just left of the three black keys.",
+    "illustratePitches": [
+     65
     ],
-    "linkedSongIds": [
-      "ode-to-joy"
-    ],
-    "questions": [
-      {
-        "id": "tbs-q1",
-        "promptText": "The steady pulse you tap your foot to is called the…",
-        "choices": [
-          "Melody",
-          "Beat",
-          "Chord",
-          "Phrase"
-        ],
-        "answerIndex": 1,
-        "explanation": "That's the beat — everything else in the music lines up against it."
-      },
-      {
-        "id": "tbs-q2",
-        "promptText": "The FIRST beat of every bar is called the…",
-        "choices": [
-          "Upbeat",
-          "Backbeat",
-          "Downbeat",
-          "Offbeat"
-        ],
-        "answerIndex": 2,
-        "explanation": "Beat 1 is the downbeat — it's where the bar 'lands'."
-      },
-      {
-        "id": "tbs-q3",
-        "promptText": "You count '1, 2, 3, 4, 1, 2, 3, 4…'. What happens at every '1'?",
-        "choices": [
-          "The music stops",
-          "A new bar starts",
-          "The tempo changes",
-          "Nothing special"
-        ],
-        "answerIndex": 1,
-        "explanation": "Each count of 1 is the start of a new bar — the downbeat."
-      },
-      {
-        "id": "tbs-q4",
-        "promptText": "If you play a wrong note, the best move for the groove is to…",
-        "choices": [
-          "Stop and restart",
-          "Play the missed note late",
-          "Keep going and land the next beat",
-          "Slow down"
-        ],
-        "answerIndex": 2,
-        "explanation": "Musicians keep the pulse. Recover on the next beat — nobody hears the note you didn't replay."
-      },
-      {
-        "id": "tbs-q5",
-        "promptText": "A metronome is for practicing your…",
-        "choices": [
-          "Note names",
-          "Timing",
-          "Chord spelling",
-          "Volume"
-        ],
-        "answerIndex": 1,
-        "explanation": "The click is an honest timing mirror — that's why the app scores timing, not just notes."
-      }
+    "choiceExplanations": [
+     "C is the landmark for the TWO black keys — this question is about the group of three.",
+     "Right — F sits just left of every group of three black keys, exactly like C does for the pair.",
+     "G is inside the three-black-key group's white keys, not at its left edge.",
+     "A also sits within that stretch — two white keys right of F, not at the edge."
     ]
-  },
-  {
-    "id": "theory-time-sig-44",
-    "name": "Common time — 4/4",
-    "explanation": "A time signature describes the bar: the TOP number says how many beats each bar has; the BOTTOM number says which note value counts as one beat. 4/4 — 'common time' — means four quarter-note beats per bar.",
-    "examples": [
-      "4/4 = four quarter-note beats per bar",
-      "Ode to Joy is in 4/4"
+   },
+   {
+    "id": "tnn-q3",
+    "promptText": "How many different white-key NAMES are there before the pattern repeats?",
+    "choices": [
+     "Five",
+     "Seven",
+     "Ten",
+     "Twelve"
     ],
-    "linkedSkillIds": [
-      "rhythm-time-sig-44"
-    ],
-    "linkedSongIds": [
-      "ode-to-joy"
-    ],
-    "questions": [
-      {
-        "id": "t44-q1",
-        "promptText": "In a time signature, the TOP number tells you…",
-        "choices": [
-          "How fast to play",
-          "How many beats per bar",
-          "Which key you're in",
-          "How loud to play"
-        ],
-        "answerIndex": 1,
-        "explanation": "Top number = beats per bar. In 4/4 you count to four, then a new bar starts."
-      },
-      {
-        "id": "t44-q2",
-        "promptText": "In 4/4, the BOTTOM 4 means one beat lasts a…",
-        "choices": [
-          "Whole note",
-          "Half note",
-          "Quarter note",
-          "Eighth note"
-        ],
-        "answerIndex": 2,
-        "explanation": "The bottom number names the note value of the beat — 4 means quarter note."
-      },
-      {
-        "id": "t44-q3",
-        "promptText": "A 4/4 bar so far holds three quarter notes. What single note completes it?",
-        "choices": [
-          "A quarter note",
-          "A half note",
-          "A whole note",
-          "Nothing — it's full"
-        ],
-        "answerIndex": 0,
-        "explanation": "Three beats are used, one is left — one more quarter note fills the bar."
-      },
-      {
-        "id": "t44-q4",
-        "promptText": "You hear: ONE-two-three-four, ONE-two-three-four. The meter is…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "6/8"
-        ],
-        "answerIndex": 2,
-        "explanation": "An accent every four beats is the sound of 4/4 — common time."
-      },
-      {
-        "id": "t44-q5",
-        "promptText": "How many quarter notes fit in TWO bars of 4/4?",
-        "choices": [
-          "Four",
-          "Six",
-          "Eight",
-          "Sixteen"
-        ],
-        "answerIndex": 2,
-        "explanation": "Four per bar × two bars = eight."
-      }
+    "answerIndex": 1,
+    "explanation": "Seven names — C D E F G A B — then the pattern starts over an octave higher.",
+    "choiceExplanations": [
+     "Five is the finger count in one hand position — the musical alphabet is longer.",
+     "Right — seven names, C D E F G A B, then the pattern repeats an octave higher.",
+     "Ten would overshoot: after G the names loop back to A, so only seven exist.",
+     "Twelve counts every key including the black ones — the white-key NAMES are just seven."
     ]
-  },
-  {
-    "id": "theory-tier1-checkpoint",
-    "name": "Tier 1 check: keys, beats, and bars",
-    "explanation": "Everything Tier 1 taught, in one short check: the keyboard map, the beat, and 4/4 time.",
-    "examples": [],
-    "linkedSkillIds": [
-      "geo-note-names",
-      "rhythm-steady-pulse",
-      "rhythm-time-sig-44",
-      "ear-pitch-direction"
+   },
+   {
+    "id": "tnn-q4",
+    "promptText": "You're on C and step UP one white key. Where are you?",
+    "choices": [
+     "B",
+     "D",
+     "E",
+     "G"
     ],
-    "linkedSongIds": [
-      "ode-to-joy"
+    "answerIndex": 1,
+    "explanation": "Stepping up from C lands on D — names go up the alphabet as you go right.",
+    "illustratePitches": [
+     60,
+     62
     ],
-    "questions": [
-      {
-        "id": "t1c-q1",
-        "promptText": "Which key sits just left of the two black keys?",
-        "choices": [
-          "C",
-          "D",
-          "F",
-          "G"
-        ],
-        "answerIndex": 0,
-        "explanation": "C — left of every pair of black keys.",
-        "illustratePitches": [
-          60
-        ]
-      },
-      {
-        "id": "t1c-q2",
-        "promptText": "In 4/4 time, how many beats are in each bar?",
-        "choices": [
-          "Two",
-          "Three",
-          "Four",
-          "Eight"
-        ],
-        "answerIndex": 2,
-        "explanation": "Four quarter-note beats per bar."
-      },
-      {
-        "id": "t1c-q3",
-        "promptText": "The first beat of a bar is the…",
-        "choices": [
-          "Offbeat",
-          "Downbeat",
-          "Backbeat",
-          "Pickup"
-        ],
-        "answerIndex": 1,
-        "explanation": "The downbeat — count '1'."
-      },
-      {
-        "id": "t1c-q4",
-        "promptText": "Notes get HIGHER as you move which way?",
-        "choices": [
-          "Left",
-          "Right",
-          "Toward the middle",
-          "It depends on the song"
-        ],
-        "answerIndex": 1,
-        "explanation": "Rightward = higher pitch, always."
-      },
-      {
-        "id": "t1c-q5",
-        "promptText": "Stepping up one white key from E lands on…",
-        "choices": [
-          "D",
-          "F",
-          "G",
-          "E again"
-        ],
-        "answerIndex": 1,
-        "explanation": "E steps up to F — they're direct neighbors with no black key between.",
-        "illustratePitches": [
-          64,
-          65
-        ]
-      },
-      {
-        "id": "t1c-q6",
-        "promptText": "A 4/4 bar already has two quarter notes and one half note. It is…",
-        "choices": [
-          "Missing one beat",
-          "Missing two beats",
-          "Exactly full",
-          "Overfull"
-        ],
-        "answerIndex": 2,
-        "explanation": "2 + 2 = 4 beats — the bar is complete."
-      },
-      {
-        "id": "t1c-q7",
-        "promptText": "If you miss a note mid-song, you should…",
-        "choices": [
-          "Restart the song",
-          "Pause and find it",
-          "Keep the pulse and catch the next beat",
-          "Play it twice to make up"
-        ],
-        "answerIndex": 2,
-        "explanation": "Keeping the pulse is the skill. Recovery beats perfection."
-      },
-      {
-        "id": "t1c-q8",
-        "promptText": "Two notes sound in a row and the second is lower. It moved…",
-        "choices": [
-          "Up",
-          "Down",
-          "Nowhere",
-          "Louder"
-        ],
-        "answerIndex": 1,
-        "explanation": "Lower sound = downward movement = leftward on the keys."
-      }
+    "choiceExplanations": [
+     "B is one step DOWN from C — the alphabet runs backward when you move left.",
+     "Right — one white key up from C is D. Names climb the alphabet as you move right.",
+     "E is two white keys up from C — that's a skip, not a step.",
+     "G is four white keys away — several steps, not one."
     ]
-  },
-  {
-    "id": "theory-staff-direction",
-    "name": "The staff points the way",
-    "explanation": "Notes sit on five lines and four spaces. Higher on the staff = higher on the keyboard; bar lines slice the music into bars.",
-    "examples": [],
-    "linkedSkillIds": [
-      "notation-staff-direction"
+   },
+   {
+    "id": "tnn-q5",
+    "promptText": "Two keys with the same name, eight steps apart, are called…",
+    "choices": [
+     "A chord",
+     "An octave",
+     "A scale",
+     "A bar"
     ],
-    "linkedSongIds": [
-      "when-the-saints"
+    "answerIndex": 1,
+    "explanation": "Same name, higher or lower — that distance is an octave.",
+    "illustratePitches": [
+     60,
+     72
     ],
-    "questions": [
-      {
-        "id": "tsd-q1",
-        "promptText": "A melody whose notes climb UP the staff moves which way on the keyboard?",
-        "choices": [
-          "Left (lower)",
-          "Right (higher)",
-          "It depends on the clef",
-          "Nowhere"
-        ],
-        "answerIndex": 1,
-        "explanation": "Up the staff is up in pitch — rightward on the keys."
-      },
-      {
-        "id": "tsd-q2",
-        "promptText": "The vertical lines drawn through the staff are…",
-        "choices": [
-          "Beats",
-          "Bar lines",
-          "Note stems",
-          "Rests"
-        ],
-        "answerIndex": 1,
-        "explanation": "Bar lines mark where one bar ends and the next begins."
-      },
-      {
-        "id": "tsd-q3",
-        "promptText": "Two notes on the SAME line or space of the staff are…",
-        "choices": [
-          "A step apart",
-          "The same pitch",
-          "An octave apart",
-          "Always chords"
-        ],
-        "answerIndex": 1,
-        "explanation": "Same position, same pitch — repeated notes sit in one spot."
-      },
-      {
-        "id": "tsd-q4",
-        "promptText": "From a line to the very next space is a…",
-        "choices": [
-          "Step",
-          "Skip",
-          "Leap",
-          "Rest"
-        ],
-        "answerIndex": 0,
-        "explanation": "Line to neighboring space = one step (like E to F on the keys)."
-      },
-      {
-        "id": "tsd-q5",
-        "promptText": "A melody that looks like a descending staircase on the staff will SOUND…",
-        "choices": [
-          "Higher and higher",
-          "Lower and lower",
-          "The same",
-          "Louder"
-        ],
-        "answerIndex": 1,
-        "explanation": "The staff is a picture of pitch: falling shapes fall in sound."
-      }
+    "choiceExplanations": [
+     "A chord is several DIFFERENT notes sounding together — these two share one name.",
+     "Right — same name, eight steps apart: that distance is an octave.",
+     "A scale is the whole ladder of notes in between, not the distance itself.",
+     "A bar is a slice of TIME (beats), nothing to do with pitch distance."
     ]
-  },
-  {
-    "id": "theory-time-sig-24",
-    "name": "March time — 2/4",
-    "explanation": "2/4 has two quarter-note beats per bar: ONE-two, ONE-two. Same beat as 4/4, half the bar.",
-    "examples": [],
-    "linkedSkillIds": [
-      "rhythm-time-sig-24"
+   },
+   {
+    "id": "tnn-q6",
+    "promptText": "Higher-sounding notes live in which direction on the keyboard?",
+    "choices": [
+     "To the left",
+     "To the right",
+     "In the middle",
+     "It varies"
     ],
-    "linkedSongIds": [
-      "when-the-saints"
-    ],
-    "questions": [
-      {
-        "id": "t24-q1",
-        "promptText": "How many beats fit in one bar of 2/4?",
-        "choices": [
-          "Two",
-          "Three",
-          "Four",
-          "Eight"
-        ],
-        "answerIndex": 0,
-        "explanation": "The top number says two beats per bar."
-      },
-      {
-        "id": "t24-q2",
-        "promptText": "You hear: ONE-two, ONE-two, ONE-two. The meter is…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "6/8"
-        ],
-        "answerIndex": 0,
-        "explanation": "An accent every two beats is the sound of 2/4 — a march."
-      },
-      {
-        "id": "t24-q3",
-        "promptText": "A 2/4 bar already holds one quarter note. What completes it?",
-        "choices": [
-          "One more quarter note",
-          "A half note",
-          "A whole note",
-          "Nothing"
-        ],
-        "answerIndex": 0,
-        "explanation": "One beat used, one left — a single quarter note fills it."
-      },
-      {
-        "id": "t24-q4",
-        "promptText": "Compared with 4/4, a bar of 2/4 is…",
-        "choices": [
-          "Twice as long",
-          "Half as long",
-          "The same length",
-          "Faster"
-        ],
-        "answerIndex": 1,
-        "explanation": "Half the beats per bar — the downbeat comes around twice as often."
-      },
-      {
-        "id": "t24-q5",
-        "promptText": "In 2/4, the downbeat arrives every…",
-        "choices": [
-          "Beat",
-          "Two beats",
-          "Four beats",
-          "Bar line is not a downbeat"
-        ],
-        "answerIndex": 1,
-        "explanation": "Count 1-2, 1-2 — every second beat starts a new bar."
-      }
+    "answerIndex": 1,
+    "explanation": "Right = higher, left = lower. Your ear and the map agree.",
+    "choiceExplanations": [
+     "Leftward is the low, rumbling end — the opposite direction.",
+     "Right — pitch rises to the right, always. Your ear and the keyboard map agree.",
+     "The middle is just where C4 happens to live — height keeps changing across it.",
+     "It never varies: right = higher on every piano, every time."
     ]
-  },
-  {
-    "id": "theory-tier2-checkpoint",
-    "name": "Tier 2 check: reading and meter",
-    "explanation": "The staff map, bar lines, and telling 2/4 from 4/4.",
-    "examples": [],
-    "linkedSkillIds": [
-      "notation-staff-direction",
-      "rhythm-time-sig-24"
+   }
+  ]
+ },
+ {
+  "id": "theory-beat-subdivision",
+  "name": "Beat, bar, and downbeat",
+  "explanation": "The beat is the steady pulse you'd tap your foot to. Beats group into bars, and the first beat of each bar — the downbeat — carries a little extra weight.",
+  "examples": [
+   "Count 1-2-3-4 with the click",
+   "The metronome accents beat 1"
+  ],
+  "linkedSkillIds": [
+   "rhythm-steady-pulse"
+  ],
+  "linkedSongIds": [
+   "ode-to-joy"
+  ],
+  "questions": [
+   {
+    "id": "tbs-q1",
+    "promptText": "The steady pulse you tap your foot to is called the…",
+    "choices": [
+     "Melody",
+     "Beat",
+     "Chord",
+     "Phrase"
     ],
-    "linkedSongIds": [
-      "when-the-saints"
-    ],
-    "questions": [
-      {
-        "id": "t2c-q1",
-        "promptText": "Up the staff means which way on the keyboard?",
-        "choices": [
-          "Right (higher)",
-          "Left (lower)",
-          "Depends on the song",
-          "Neither"
-        ],
-        "answerIndex": 0,
-        "explanation": "The staff is a pitch map: up is up."
-      },
-      {
-        "id": "t2c-q2",
-        "promptText": "ONE-two, ONE-two is the feel of…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "No meter"
-        ],
-        "answerIndex": 0,
-        "explanation": "Accents every two beats — march time."
-      },
-      {
-        "id": "t2c-q3",
-        "promptText": "ONE-two-three-four, ONE-two-three-four is the feel of…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "6/8"
-        ],
-        "answerIndex": 2,
-        "explanation": "Accents every four beats — common time."
-      },
-      {
-        "id": "t2c-q4",
-        "promptText": "Bar lines divide music into…",
-        "choices": [
-          "Phrases",
-          "Bars of equal beats",
-          "Chords",
-          "Pages"
-        ],
-        "answerIndex": 1,
-        "explanation": "Each bar holds the number of beats the top number promises."
-      },
-      {
-        "id": "t2c-q5",
-        "promptText": "A song starts on beat 2 with the first bar incomplete. That opening is a…",
-        "choices": [
-          "Pickup",
-          "Downbeat",
-          "Rest",
-          "Coda"
-        ],
-        "answerIndex": 0,
-        "explanation": "A pickup (anacrusis) — the Saints starts exactly this way."
-      },
-      {
-        "id": "t2c-q6",
-        "promptText": "Notes stepping line-space-line-space on the staff are moving by…",
-        "choices": [
-          "Steps",
-          "Skips",
-          "Octaves",
-          "Chords"
-        ],
-        "answerIndex": 0,
-        "explanation": "Adjacent staff positions are neighboring keys — steps."
-      }
+    "answerIndex": 1,
+    "explanation": "That's the beat — everything else in the music lines up against it.",
+    "choiceExplanations": [
+     "The melody is the tune you hum — it rides ON TOP of the pulse.",
+     "Right — the steady pulse is the beat; everything else lines up against it.",
+     "A chord is notes sounding together — harmony, not time.",
+     "A phrase is a musical 'sentence' spanning many beats."
     ]
-  },
-  {
-    "id": "theory-steps-skips",
-    "name": "Steps and skips",
-    "explanation": "A step moves to the very next note name (C→D). A skip jumps over one (C→E). Melodies mostly step; chords are built from skips.",
-    "examples": [],
-    "linkedSkillIds": [
-      "theory-steps-skips"
+   },
+   {
+    "id": "tbs-q2",
+    "promptText": "The FIRST beat of every bar is called the…",
+    "choices": [
+     "Upbeat",
+     "Backbeat",
+     "Downbeat",
+     "Offbeat"
     ],
-    "linkedSongIds": [
-      "oh-susanna"
-    ],
-    "questions": [
-      {
-        "id": "tss-q1",
-        "promptText": "C up to D is a…",
-        "choices": [
-          "Step",
-          "Skip",
-          "Leap",
-          "Repeat"
-        ],
-        "answerIndex": 0,
-        "explanation": "Next-door note names are steps.",
-        "illustratePitches": [
-          60,
-          62
-        ]
-      },
-      {
-        "id": "tss-q2",
-        "promptText": "C up to E (jumping over D) is a…",
-        "choices": [
-          "Step",
-          "Skip",
-          "Octave",
-          "Repeat"
-        ],
-        "answerIndex": 1,
-        "explanation": "Skipping one letter name = a skip.",
-        "illustratePitches": [
-          60,
-          64
-        ]
-      },
-      {
-        "id": "tss-q3",
-        "promptText": "Chords like C-E-G are stacks of…",
-        "choices": [
-          "Steps",
-          "Skips",
-          "Octaves",
-          "Bar lines"
-        ],
-        "answerIndex": 1,
-        "explanation": "Triads skip every other note — that is why they look like snowmen on the staff."
-      },
-      {
-        "id": "tss-q4",
-        "promptText": "E down to D is a…",
-        "choices": [
-          "Step down",
-          "Skip down",
-          "Step up",
-          "Repeat"
-        ],
-        "answerIndex": 0,
-        "explanation": "One letter down, next-door key — a downward step.",
-        "illustratePitches": [
-          64,
-          62
-        ]
-      },
-      {
-        "id": "tss-q5",
-        "promptText": "Most of the Ode to Joy melody moves by…",
-        "choices": [
-          "Skips",
-          "Steps",
-          "Octaves",
-          "Silence"
-        ],
-        "answerIndex": 1,
-        "explanation": "It walks to its neighbors — that is what made it your perfect first song."
-      }
+    "answerIndex": 2,
+    "explanation": "Beat 1 is the downbeat — it's where the bar 'lands'.",
+    "choiceExplanations": [
+     "An upbeat is the beat BEFORE the bar starts — the 'and-a' that leads in.",
+     "The backbeat is beats 2 and 4 — the clap in pop and blues, not beat 1.",
+     "Right — beat 1 is the downbeat, where the bar lands.",
+     "Offbeats are the in-between moments, the opposite of a strong beat 1."
     ]
-  },
-  {
-    "id": "theory-tier3-checkpoint",
-    "name": "Tier 3 check: moves, positions, subdivisions",
-    "explanation": "Steps vs skips, the three home positions, and splitting the beat.",
-    "examples": [],
-    "linkedSkillIds": [
-      "theory-steps-skips",
-      "mech-pentascale-cfg",
-      "rhythm-eighth-notes"
+   },
+   {
+    "id": "tbs-q3",
+    "promptText": "You count '1, 2, 3, 4, 1, 2, 3, 4…'. What happens at every '1'?",
+    "choices": [
+     "The music stops",
+     "A new bar starts",
+     "The tempo changes",
+     "Nothing special"
     ],
-    "linkedSongIds": [
-      "oh-susanna"
-    ],
-    "questions": [
-      {
-        "id": "t3c-q1",
-        "promptText": "F up to A (jumping G) is a…",
-        "choices": [
-          "Step",
-          "Skip",
-          "Repeat",
-          "Octave"
-        ],
-        "answerIndex": 1,
-        "explanation": "One letter skipped = a skip.",
-        "illustratePitches": [
-          65,
-          69
-        ]
-      },
-      {
-        "id": "t3c-q2",
-        "promptText": "Two even notes per beat are called…",
-        "choices": [
-          "Quarter notes",
-          "Eighth notes",
-          "Half notes",
-          "Whole notes"
-        ],
-        "answerIndex": 1,
-        "explanation": "Eighths split the beat: count \"1-and\"."
-      },
-      {
-        "id": "t3c-q3",
-        "promptText": "How do you count four beats filled with eighth notes?",
-        "choices": [
-          "1 2 3 4",
-          "1-and 2-and 3-and 4-and",
-          "ONE two three",
-          "1 and a 2 and a"
-        ],
-        "answerIndex": 1,
-        "explanation": "Each beat gets an \"and\" for its second half."
-      },
-      {
-        "id": "t3c-q4",
-        "promptText": "The five-finger position starting on F uses which black key?",
-        "choices": [
-          "F#",
-          "B♭",
-          "E♭",
-          "None"
-        ],
-        "answerIndex": 1,
-        "explanation": "F-G-A-B♭-C — finger 4 rides the black key."
-      },
-      {
-        "id": "t3c-q5",
-        "promptText": "Moving the same five-finger shape from C to G is called a…",
-        "choices": [
-          "Transposition of position",
-          "Chord change",
-          "Cadence",
-          "Turnaround"
-        ],
-        "answerIndex": 0,
-        "explanation": "Same shape, new home — that is the pentascale shift."
-      },
-      {
-        "id": "t3c-q6",
-        "promptText": "A quick two-note lead-in before a downbeat (like Susanna) is a…",
-        "choices": [
-          "Pickup",
-          "Fill",
-          "Turnaround",
-          "Rest"
-        ],
-        "answerIndex": 0,
-        "explanation": "Pickup notes launch the phrase into beat one."
-      }
+    "answerIndex": 1,
+    "explanation": "Each count of 1 is the start of a new bar — the downbeat.",
+    "choiceExplanations": [
+     "The music keeps going — '1' is a beginning, not a stop.",
+     "Right — every count of '1' is a new bar starting: the downbeat.",
+     "Tempo stays steady; only your count resets, not the speed.",
+     "It IS special — the downbeat is the strongest landing point in the bar."
     ]
-  },
-  {
-    "id": "theory-chord-construction",
-    "name": "The 1-3-5 recipe",
-    "explanation": "A major triad stacks the 1st, 3rd, and 5th notes of its scale: C-E-G, F-A-C, G-B-D. Same recipe, any root.",
-    "examples": [],
-    "linkedSkillIds": [
-      "chord-major-triad"
+   },
+   {
+    "id": "tbs-q4",
+    "promptText": "If you play a wrong note, the best move for the groove is to…",
+    "choices": [
+     "Stop and restart",
+     "Play the missed note late",
+     "Keep going and land the next beat",
+     "Slow down"
     ],
-    "linkedSongIds": [
-      "shell-be-comin"
-    ],
-    "questions": [
-      {
-        "id": "tcc-q1",
-        "promptText": "A major triad is built from scale degrees…",
-        "choices": [
-          "1-2-3",
-          "1-3-5",
-          "1-4-5",
-          "1-5-8"
-        ],
-        "answerIndex": 1,
-        "explanation": "Root, third, fifth — the triad recipe."
-      },
-      {
-        "id": "tcc-q2",
-        "promptText": "The notes of C major are…",
-        "choices": [
-          "C-D-E",
-          "C-E-G",
-          "C-F-G",
-          "C-E-A"
-        ],
-        "answerIndex": 1,
-        "explanation": "C (1), E (3), G (5).",
-        "illustratePitches": [
-          60,
-          64,
-          67
-        ]
-      },
-      {
-        "id": "tcc-q3",
-        "promptText": "The notes of G major are…",
-        "choices": [
-          "G-A-B",
-          "G-B-D",
-          "G-C-E",
-          "G-B-E"
-        ],
-        "answerIndex": 1,
-        "explanation": "G (1), B (3), D (5).",
-        "illustratePitches": [
-          67,
-          71,
-          74
-        ]
-      },
-      {
-        "id": "tcc-q4",
-        "promptText": "The notes of F major are…",
-        "choices": [
-          "F-A-C",
-          "F-G-A",
-          "F-B♭-C",
-          "F-A-D"
-        ],
-        "answerIndex": 0,
-        "explanation": "F (1), A (3), C (5).",
-        "illustratePitches": [
-          65,
-          69,
-          72
-        ]
-      },
-      {
-        "id": "tcc-q5",
-        "promptText": "Playing E-G-C (the same three notes, re-ordered) gives you…",
-        "choices": [
-          "A different chord",
-          "C major in inversion",
-          "A scale",
-          "A mistake"
-        ],
-        "answerIndex": 1,
-        "explanation": "Same pitch family = same chord, just re-stacked — an inversion."
-      }
+    "answerIndex": 2,
+    "explanation": "Musicians keep the pulse. Recover on the next beat — nobody hears the note you didn't replay.",
+    "choiceExplanations": [
+     "Stopping breaks the one thing listeners actually track — the pulse.",
+     "Playing it late doubles the damage: now the wrong note AND the timing suffer.",
+     "Right — keep the pulse and land the next beat. Nobody hears the note you didn't replay.",
+     "Slowing down bends the groove for everyone; the beat shouldn't apologize for one note."
     ]
-  },
-  {
-    "id": "theory-primary-chords",
-    "name": "I, IV, and V — the primary chords",
-    "explanation": "In any key, the chords built on degrees 1, 4, and 5 are the primary chords. In C: C (I), F (IV), G or G7 (V). V7 pulls home to I.",
-    "examples": [],
-    "linkedSkillIds": [
-      "harmony-i-iv-v"
+   },
+   {
+    "id": "tbs-q5",
+    "promptText": "A metronome is for practicing your…",
+    "choices": [
+     "Note names",
+     "Timing",
+     "Chord spelling",
+     "Volume"
     ],
-    "linkedSongIds": [
-      "shell-be-comin"
-    ],
-    "questions": [
-      {
-        "id": "tpc-q1",
-        "promptText": "In the key of C, chord I is…",
-        "choices": [
-          "C",
-          "F",
-          "G",
-          "Am"
-        ],
-        "answerIndex": 0,
-        "explanation": "The chord built on the key note is I — home."
-      },
-      {
-        "id": "tpc-q2",
-        "promptText": "In the key of C, chord IV is…",
-        "choices": [
-          "D",
-          "E",
-          "F",
-          "G"
-        ],
-        "answerIndex": 2,
-        "explanation": "Count up four: C-D-E-F. IV is F."
-      },
-      {
-        "id": "tpc-q3",
-        "promptText": "In the key of C, chord V is…",
-        "choices": [
-          "F",
-          "G",
-          "A",
-          "B"
-        ],
-        "answerIndex": 1,
-        "explanation": "Count up five: C-D-E-F-G. V is G."
-      },
-      {
-        "id": "tpc-q4",
-        "promptText": "Which chord most strongly pulls BACK to home?",
-        "choices": [
-          "I",
-          "IV",
-          "V7",
-          "They all rest"
-        ],
-        "answerIndex": 2,
-        "explanation": "The dominant seventh leans hard toward I — that pull ends most phrases."
-      },
-      {
-        "id": "tpc-q5",
-        "promptText": "Why do musicians name chords by NUMBER instead of letter?",
-        "choices": [
-          "Numbers are shorter",
-          "Numbers work in every key",
-          "Letters are old-fashioned",
-          "They don't"
-        ],
-        "answerIndex": 1,
-        "explanation": "I-IV-V describes the same relationships in any key — the Nashville idea you'll meet later."
-      }
+    "answerIndex": 1,
+    "explanation": "The click is an honest timing mirror — that's why the app scores timing, not just notes.",
+    "choiceExplanations": [
+     "Note names live on the keyboard map — the click can't teach you those.",
+     "Right — the metronome is an honest timing mirror. That's why the app scores timing, not just notes.",
+     "Chord spelling is theory work — no click required.",
+     "Volume is touch and dynamics; the metronome only speaks in time."
     ]
-  },
-  {
-    "id": "theory-time-sig-34",
-    "name": "Waltz time — 3/4",
-    "explanation": "3/4 has three quarter-note beats per bar: ONE-two-three. Amazing Grace, Home on the Range, and every waltz live here.",
-    "examples": [],
-    "linkedSkillIds": [
-      "rhythm-time-sig-34"
+   }
+  ]
+ },
+ {
+  "id": "theory-time-sig-44",
+  "name": "Common time — 4/4",
+  "explanation": "A time signature describes the bar: the TOP number says how many beats each bar has; the BOTTOM number says which note value counts as one beat. 4/4 — 'common time' — means four quarter-note beats per bar.",
+  "examples": [
+   "4/4 = four quarter-note beats per bar",
+   "Ode to Joy is in 4/4"
+  ],
+  "linkedSkillIds": [
+   "rhythm-time-sig-44"
+  ],
+  "linkedSongIds": [
+   "ode-to-joy"
+  ],
+  "questions": [
+   {
+    "id": "t44-q1",
+    "promptText": "In a time signature, the TOP number tells you…",
+    "choices": [
+     "How fast to play",
+     "How many beats per bar",
+     "Which key you're in",
+     "How loud to play"
     ],
-    "linkedSongIds": [
-      "amazing-grace"
-    ],
-    "questions": [
-      {
-        "id": "t34-q1",
-        "promptText": "How many beats fit in one bar of 3/4?",
-        "choices": [
-          "Two",
-          "Three",
-          "Four",
-          "Six"
-        ],
-        "answerIndex": 1,
-        "explanation": "Three quarter-note beats per bar."
-      },
-      {
-        "id": "t34-q2",
-        "promptText": "You hear: ONE-two-three, ONE-two-three. The meter is…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "12/8"
-        ],
-        "answerIndex": 1,
-        "explanation": "An accent every three beats — the waltz."
-      },
-      {
-        "id": "t34-q3",
-        "promptText": "Which note value fills an ENTIRE bar of 3/4?",
-        "choices": [
-          "Half note",
-          "Dotted half note",
-          "Whole note",
-          "Quarter note"
-        ],
-        "answerIndex": 1,
-        "explanation": "A dotted half lasts three beats — one full waltz bar."
-      },
-      {
-        "id": "t34-q4",
-        "promptText": "A 3/4 bar holds a half note so far. What completes it?",
-        "choices": [
-          "A quarter note",
-          "A half note",
-          "A whole note",
-          "It is already full"
-        ],
-        "answerIndex": 0,
-        "explanation": "Two beats used, one left."
-      },
-      {
-        "id": "t34-q5",
-        "promptText": "The strongest beat in a 3/4 bar is…",
-        "choices": [
-          "Beat 1",
-          "Beat 2",
-          "Beat 3",
-          "They are equal"
-        ],
-        "answerIndex": 0,
-        "explanation": "ONE-two-three: the downbeat carries the sway."
-      }
+    "answerIndex": 1,
+    "explanation": "Top number = beats per bar. In 4/4 you count to four, then a new bar starts.",
+    "choiceExplanations": [
+     "Speed is tempo (BPM) — a separate dial entirely; time signatures don't set it.",
+     "Right — the top number is beats per bar. In 4/4 you count to four, then a new bar starts.",
+     "The key comes from the key signature (sharps and flats), not the meter.",
+     "Loudness is dynamics — written with letters like p and f, not numbers."
     ]
-  },
-  {
-    "id": "theory-tier4-checkpoint",
-    "name": "Tier 4 check: chords and meters",
-    "explanation": "Triad recipes, the primary-chord family, hearing the dominant lean, and 3/4 vs 4/4.",
-    "examples": [],
-    "linkedSkillIds": [
-      "chord-major-triad",
-      "harmony-i-iv-v",
-      "rhythm-time-sig-34",
-      "ear-tonic-away"
+   },
+   {
+    "id": "t44-q2",
+    "promptText": "In 4/4, the BOTTOM 4 means one beat lasts a…",
+    "choices": [
+     "Whole note",
+     "Half note",
+     "Quarter note",
+     "Eighth note"
     ],
-    "linkedSongIds": [
-      "shell-be-comin"
-    ],
-    "questions": [
-      {
-        "id": "t4c-q1",
-        "promptText": "The 1-3-5 of F major is…",
-        "choices": [
-          "F-A-C",
-          "F-G-C",
-          "F-B-D",
-          "F-A-D"
-        ],
-        "answerIndex": 0,
-        "explanation": "F, A, C.",
-        "illustratePitches": [
-          65,
-          69,
-          72
-        ]
-      },
-      {
-        "id": "t4c-q2",
-        "promptText": "In C, the three primary chords are…",
-        "choices": [
-          "C, Dm, Em",
-          "C, F, G",
-          "C, E, G",
-          "F, G, Am"
-        ],
-        "answerIndex": 1,
-        "explanation": "I, IV, V = C, F, G."
-      },
-      {
-        "id": "t4c-q3",
-        "promptText": "The chord that sounds like it is LEANING toward home is…",
-        "choices": [
-          "I",
-          "IV",
-          "V7",
-          "vi"
-        ],
-        "answerIndex": 2,
-        "explanation": "The dominant seventh asks; I answers."
-      },
-      {
-        "id": "t4c-q4",
-        "promptText": "ONE-two-three, ONE-two-three is…",
-        "choices": [
-          "2/4",
-          "3/4",
-          "4/4",
-          "Free time"
-        ],
-        "answerIndex": 1,
-        "explanation": "Waltz time."
-      },
-      {
-        "id": "t4c-q5",
-        "promptText": "G7 adds which note to the G triad?",
-        "choices": [
-          "E",
-          "F",
-          "A",
-          "C"
-        ],
-        "answerIndex": 1,
-        "explanation": "G-B-D plus F — the seventh gives it the pull."
-      },
-      {
-        "id": "t4c-q6",
-        "promptText": "Changing chords WITHOUT breaking the pulse matters because…",
-        "choices": [
-          "It looks better",
-          "The groove is the song",
-          "Chords are optional",
-          "It is faster"
-        ],
-        "answerIndex": 1,
-        "explanation": "Listeners forgive a wrong note; they feel a broken pulse."
-      }
+    "answerIndex": 2,
+    "explanation": "The bottom number names the note value of the beat — 4 means quarter note.",
+    "choiceExplanations": [
+     "A whole note would be a bottom '1' — it fills a whole 4/4 bar by itself.",
+     "A half note would be a bottom '2' — two of those per 4/4 bar.",
+     "Right — the bottom 4 means the quarter note owns the beat.",
+     "An eighth note would be a bottom '8', like the 8 in 6/8."
     ]
-  },
-  {
-    "id": "theory-scale-degrees",
-    "name": "Scale degrees: the number map",
-    "explanation": "The C major scale is C-D-E-F-G-A-B, numbered 1-7. Degrees, not letters, are how musicians think — numbers transpose.",
-    "examples": [],
-    "linkedSkillIds": [
-      "scale-c-major"
+   },
+   {
+    "id": "t44-q3",
+    "promptText": "A 4/4 bar so far holds three quarter notes. What single note completes it?",
+    "choices": [
+     "A quarter note",
+     "A half note",
+     "A whole note",
+     "Nothing — it's full"
     ],
-    "linkedSongIds": [
-      "amazing-grace"
-    ],
-    "questions": [
-      {
-        "id": "tsg-q1",
-        "promptText": "In C major, degree 5 is…",
-        "choices": [
-          "E",
-          "F",
-          "G",
-          "A"
-        ],
-        "answerIndex": 2,
-        "explanation": "C(1) D(2) E(3) F(4) G(5)."
-      },
-      {
-        "id": "tsg-q2",
-        "promptText": "In C major, degree 3 is…",
-        "choices": [
-          "D",
-          "E",
-          "F",
-          "G"
-        ],
-        "answerIndex": 1,
-        "explanation": "C-D-E: E is 3."
-      },
-      {
-        "id": "tsg-q3",
-        "promptText": "The C major scale uses…",
-        "choices": [
-          "Only white keys",
-          "One black key",
-          "Two black keys",
-          "All black keys"
-        ],
-        "answerIndex": 0,
-        "explanation": "C major is the all-white-key scale — that is why we start here."
-      },
-      {
-        "id": "tsg-q4",
-        "promptText": "Where does the right-hand thumb tuck happen in a one-octave C scale?",
-        "choices": [
-          "After finger 2",
-          "After finger 3",
-          "After finger 4",
-          "Never"
-        ],
-        "answerIndex": 1,
-        "explanation": "Fingers 1-2-3, thumb slips under, then 1-2-3-4-5 to the top."
-      },
-      {
-        "id": "tsg-q5",
-        "promptText": "The major triad on C uses degrees…",
-        "choices": [
-          "1-2-3",
-          "1-3-5",
-          "2-4-6",
-          "5-6-7"
-        ],
-        "answerIndex": 1,
-        "explanation": "Chords and scales are the same map — the triad picks 1, 3, and 5."
-      }
+    "answerIndex": 0,
+    "explanation": "Three beats are used, one is left — one more quarter note fills the bar.",
+    "choiceExplanations": [
+     "Right — three beats used, one left: one more quarter note completes the four.",
+     "A half note is TWO beats — that would overflow the bar to five.",
+     "A whole note is four beats on its own — way too much for the one slot left.",
+     "Not yet — three quarters only cover three of the four beats."
     ]
-  },
-  {
-    "id": "theory-chord-symbols",
-    "name": "Reading chord symbols",
-    "explanation": "A letter above the music names a major chord: C means C-E-G. A \"7\" adds the seventh (G7), \"m\" makes it minor.",
-    "examples": [],
-    "linkedSkillIds": [
-      "theory-chord-symbols"
+   },
+   {
+    "id": "t44-q4",
+    "promptText": "You hear: ONE-two-three-four, ONE-two-three-four. The meter is…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "6/8"
     ],
-    "linkedSongIds": [
-      "amazing-grace"
-    ],
-    "questions": [
-      {
-        "id": "tcs-q1",
-        "promptText": "The symbol \"C\" above the staff means play…",
-        "choices": [
-          "The single note C",
-          "A C major chord",
-          "A C minor chord",
-          "A scale"
-        ],
-        "answerIndex": 1,
-        "explanation": "A bare letter = that major triad."
-      },
-      {
-        "id": "tcs-q2",
-        "promptText": "The symbol \"G7\" means…",
-        "choices": [
-          "G major",
-          "G minor",
-          "G dominant seventh",
-          "Seven G notes"
-        ],
-        "answerIndex": 2,
-        "explanation": "The 7 adds F on top of G-B-D — the leaning chord."
-      },
-      {
-        "id": "tcs-q3",
-        "promptText": "The symbol \"Dm\" means…",
-        "choices": [
-          "D major",
-          "D minor",
-          "D dominant",
-          "D diminished"
-        ],
-        "answerIndex": 1,
-        "explanation": "A small m = minor."
-      },
-      {
-        "id": "tcs-q4",
-        "promptText": "Chord symbols mainly help you…",
-        "choices": [
-          "Read every note",
-          "Grasp the harmony at a glance",
-          "Skip practicing",
-          "Count bars"
-        ],
-        "answerIndex": 1,
-        "explanation": "Symbols are the fastest map of a song — the notation these genres run on."
-      },
-      {
-        "id": "tcs-q5",
-        "promptText": "A bar shows the symbol F. Your left hand's most useful single note is…",
-        "choices": [
-          "F",
-          "A",
-          "C",
-          "Any"
-        ],
-        "answerIndex": 0,
-        "explanation": "The root anchors the chord — bass players live on roots."
-      }
+    "answerIndex": 2,
+    "explanation": "An accent every four beats is the sound of 4/4 — common time.",
+    "choiceExplanations": [
+     "2/4 would accent every TWO counts: ONE-two, ONE-two.",
+     "3/4 would accent every THREE counts — the waltz sway.",
+     "Right — an accent every four beats is 4/4, common time.",
+     "6/8 rolls in two big lilting groups of three — a different feel altogether."
     ]
-  },
-  {
-    "id": "theory-cadence",
-    "name": "Finished or asking?",
-    "explanation": "Phrases end with punctuation: landing on I sounds finished (a period); pausing on V sounds like a question waiting for an answer.",
-    "examples": [],
-    "linkedSkillIds": [
-      "ear-phrase-ending"
+   },
+   {
+    "id": "t44-q5",
+    "promptText": "How many quarter notes fit in TWO bars of 4/4?",
+    "choices": [
+     "Four",
+     "Six",
+     "Eight",
+     "Sixteen"
     ],
-    "linkedSongIds": [
-      "amazing-grace"
-    ],
-    "questions": [
-      {
-        "id": "tca-q1",
-        "promptText": "A phrase that ends on chord I sounds…",
-        "choices": [
-          "Unfinished",
-          "Finished, at rest",
-          "Wrong",
-          "Louder"
-        ],
-        "answerIndex": 1,
-        "explanation": "Home is where phrases rest — a full stop."
-      },
-      {
-        "id": "tca-q2",
-        "promptText": "A phrase that pauses on V or V7 sounds…",
-        "choices": [
-          "Finished",
-          "Like a question",
-          "Like an ending",
-          "Silent"
-        ],
-        "answerIndex": 1,
-        "explanation": "The dominant leaves the sentence hanging — the next phrase answers."
-      },
-      {
-        "id": "tca-q3",
-        "promptText": "Amazing Grace's halfway point parks on G7. That phrase is…",
-        "choices": [
-          "Complete",
-          "Asking a question",
-          "In a new key",
-          "A mistake"
-        ],
-        "answerIndex": 1,
-        "explanation": "The hymn breathes at the dominant, then the second half brings it home."
-      },
-      {
-        "id": "tca-q4",
-        "promptText": "The very last chord of most songs in C is…",
-        "choices": [
-          "F",
-          "G7",
-          "C",
-          "Am"
-        ],
-        "answerIndex": 2,
-        "explanation": "Endings land at home."
-      },
-      {
-        "id": "tca-q5",
-        "promptText": "Hearing where a phrase is heading helps you…",
-        "choices": [
-          "Play louder",
-          "Breathe and shape the music",
-          "Skip the ending",
-          "Read faster"
-        ],
-        "answerIndex": 1,
-        "explanation": "Phrasing is the difference between typing notes and telling a story."
-      }
+    "answerIndex": 2,
+    "explanation": "Four per bar × two bars = eight.",
+    "choiceExplanations": [
+     "Four is just ONE bar's worth.",
+     "Six would be two bars of 3/4 — wrong meter.",
+     "Right — four per bar × two bars = eight.",
+     "Sixteen would be FOUR bars of 4/4, or eighth notes — twice too many."
     ]
-  },
-  {
-    "id": "theory-tier5-checkpoint",
-    "name": "Tier 5 check: degrees, symbols, cadences, waltz",
-    "explanation": "Everything Arc I taught, meeting in one place.",
-    "examples": [],
-    "linkedSkillIds": [
-      "scale-c-major",
-      "theory-chord-symbols",
-      "ear-phrase-ending",
-      "rhythm-time-sig-34"
+   }
+  ]
+ },
+ {
+  "id": "theory-tier1-checkpoint",
+  "name": "Tier 1 check: keys, beats, and bars",
+  "explanation": "Everything Tier 1 taught, in one short check: the keyboard map, the beat, and 4/4 time.",
+  "examples": [],
+  "linkedSkillIds": [
+   "geo-note-names",
+   "rhythm-steady-pulse",
+   "rhythm-time-sig-44",
+   "ear-pitch-direction"
+  ],
+  "linkedSongIds": [
+   "ode-to-joy"
+  ],
+  "questions": [
+   {
+    "id": "t1c-q1",
+    "promptText": "Which key sits just left of the two black keys?",
+    "choices": [
+     "C",
+     "D",
+     "F",
+     "G"
     ],
-    "linkedSongIds": [
-      "amazing-grace"
+    "answerIndex": 0,
+    "explanation": "C — left of every pair of black keys.",
+    "illustratePitches": [
+     60
     ],
-    "questions": [
-      {
-        "id": "t5c-q1",
-        "promptText": "In C major, degree 4 is…",
-        "choices": [
-          "E",
-          "F",
-          "G",
-          "B"
-        ],
-        "answerIndex": 1,
-        "explanation": "C-D-E-F: F is 4."
-      },
-      {
-        "id": "t5c-q2",
-        "promptText": "\"G7\" tells you to play…",
-        "choices": [
-          "G-B-D",
-          "G-B-D-F",
-          "G-C-E",
-          "G alone"
-        ],
-        "answerIndex": 1,
-        "explanation": "Triad plus the seventh."
-      },
-      {
-        "id": "t5c-q3",
-        "promptText": "A dotted half note in 3/4 lasts…",
-        "choices": [
-          "One beat",
-          "Two beats",
-          "A full bar",
-          "Two bars"
-        ],
-        "answerIndex": 2,
-        "explanation": "Three beats = one waltz bar."
-      },
-      {
-        "id": "t5c-q4",
-        "promptText": "A phrase pausing on the dominant sounds…",
-        "choices": [
-          "Finished",
-          "Like a question",
-          "Minor",
-          "Out of time"
-        ],
-        "answerIndex": 1,
-        "explanation": "V asks; I answers."
-      },
-      {
-        "id": "t5c-q5",
-        "promptText": "The primary chords of C major are…",
-        "choices": [
-          "C, F, G",
-          "C, Dm, G",
-          "C, E, Am",
-          "F, G, B"
-        ],
-        "answerIndex": 0,
-        "explanation": "I, IV, and V."
-      },
-      {
-        "id": "t5c-q6",
-        "promptText": "The C major scale's thumb tuck comes after finger…",
-        "choices": [
-          "2",
-          "3",
-          "4",
-          "5"
-        ],
-        "answerIndex": 1,
-        "explanation": "1-2-3, tuck, 1-2-3-4-5."
-      },
-      {
-        "id": "t5c-q7",
-        "promptText": "Why did every scale lesson end in a riff or fill?",
-        "choices": [
-          "Tradition",
-          "Scales exist to make music, not laps",
-          "To use time",
-          "It didn't"
-        ],
-        "answerIndex": 1,
-        "explanation": "A scale is a toolbox, not a lap around the track."
-      },
-      {
-        "id": "t5c-q8",
-        "promptText": "Melody in the right hand, roots in the left, at tempo, no help — that is the definition of…",
-        "choices": [
-          "Practice",
-          "Performance mastery",
-          "Sight-reading",
-          "Improvisation"
-        ],
-        "answerIndex": 1,
-        "explanation": "Accurate, in time, unassisted: the standard every tier boss asks for."
-      }
+    "choiceExplanations": [
+     "Right — C sits just left of every pair of black keys.",
+     "D sits BETWEEN the two black keys, not beside them.",
+     "F is the landmark for the THREE black keys.",
+     "G lives inside the three-black-key group — nowhere near the pair's left edge."
     ]
-  }
+   },
+   {
+    "id": "t1c-q2",
+    "promptText": "In 4/4 time, how many beats are in each bar?",
+    "choices": [
+     "Two",
+     "Three",
+     "Four",
+     "Eight"
+    ],
+    "answerIndex": 2,
+    "explanation": "Four quarter-note beats per bar.",
+    "choiceExplanations": [
+     "Two beats per bar is 2/4 — march time.",
+     "Three beats per bar is 3/4 — waltz time.",
+     "Right — 4/4 means four quarter-note beats every bar.",
+     "Eight would be a very different signature (like 8/8) — the top 4 says four."
+    ]
+   },
+   {
+    "id": "t1c-q3",
+    "promptText": "The first beat of a bar is the…",
+    "choices": [
+     "Offbeat",
+     "Downbeat",
+     "Backbeat",
+     "Pickup"
+    ],
+    "answerIndex": 1,
+    "explanation": "The downbeat — count '1'.",
+    "choiceExplanations": [
+     "Offbeats are the weak in-between moments — the opposite of beat 1.",
+     "Right — beat 1 is the downbeat, counted '1'.",
+     "The backbeat is beats 2 and 4 — the clap, not the landing.",
+     "A pickup comes BEFORE the first full bar — it leads INTO the downbeat."
+    ]
+   },
+   {
+    "id": "t1c-q4",
+    "promptText": "Notes get HIGHER as you move which way?",
+    "choices": [
+     "Left",
+     "Right",
+     "Toward the middle",
+     "It depends on the song"
+    ],
+    "answerIndex": 1,
+    "explanation": "Rightward = higher pitch, always.",
+    "choiceExplanations": [
+     "Left is the low end — bass territory.",
+     "Right — pitch always rises as you move right.",
+     "The middle is just middle C's neighborhood, not a direction of change.",
+     "It never depends — the keyboard's pitch map is fixed."
+    ]
+   },
+   {
+    "id": "t1c-q5",
+    "promptText": "Stepping up one white key from E lands on…",
+    "choices": [
+     "D",
+     "F",
+     "G",
+     "E again"
+    ],
+    "answerIndex": 1,
+    "explanation": "E steps up to F — they're direct neighbors with no black key between.",
+    "illustratePitches": [
+     64,
+     65
+    ],
+    "choiceExplanations": [
+     "D is a step DOWN from E.",
+     "Right — E's upstairs neighbor is F; there's no black key between them.",
+     "G is two steps up from E — a skip past F.",
+     "Stepping means moving — you can't step up and stay on E."
+    ]
+   },
+   {
+    "id": "t1c-q6",
+    "promptText": "A 4/4 bar already has two quarter notes and one half note. It is…",
+    "choices": [
+     "Missing one beat",
+     "Missing two beats",
+     "Exactly full",
+     "Overfull"
+    ],
+    "answerIndex": 2,
+    "explanation": "2 + 2 = 4 beats — the bar is complete.",
+    "choiceExplanations": [
+     "Count again: 1 + 1 + 2 = 4 — nothing is missing.",
+     "The bar needs four total and has four.",
+     "Right — two quarters (2) plus a half (2) is exactly four beats: full.",
+     "It fits perfectly — four beats in a four-beat bar isn't overfull."
+    ]
+   },
+   {
+    "id": "t1c-q7",
+    "promptText": "If you miss a note mid-song, you should…",
+    "choices": [
+     "Restart the song",
+     "Pause and find it",
+     "Keep the pulse and catch the next beat",
+     "Play it twice to make up"
+    ],
+    "answerIndex": 2,
+    "explanation": "Keeping the pulse is the skill. Recovery beats perfection.",
+    "choiceExplanations": [
+     "Restarting punishes the 99% you played fine — and breaks the pulse.",
+     "Pausing to hunt for it breaks time worse than the missed note did.",
+     "Right — keep the pulse, catch the next beat. Recovery beats perfection.",
+     "Playing it twice puts TWO notes in the wrong place instead of none."
+    ]
+   },
+   {
+    "id": "t1c-q8",
+    "promptText": "Two notes sound in a row and the second is lower. It moved…",
+    "choices": [
+     "Up",
+     "Down",
+     "Nowhere",
+     "Louder"
+    ],
+    "answerIndex": 1,
+    "explanation": "Lower sound = downward movement = leftward on the keys.",
+    "choiceExplanations": [
+     "Up would mean the second note sounded HIGHER — it didn't.",
+     "Right — a lower sound is downward movement: leftward on the keys.",
+     "It clearly changed — 'nowhere' would mean the same pitch twice.",
+     "Louder is volume, not direction — a different dimension of sound."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-staff-direction",
+  "name": "The staff points the way",
+  "explanation": "Notes sit on five lines and four spaces. Higher on the staff = higher on the keyboard; bar lines slice the music into bars.",
+  "examples": [],
+  "linkedSkillIds": [
+   "notation-staff-direction"
+  ],
+  "linkedSongIds": [
+   "when-the-saints"
+  ],
+  "questions": [
+   {
+    "id": "tsd-q1",
+    "promptText": "A melody whose notes climb UP the staff moves which way on the keyboard?",
+    "choices": [
+     "Left (lower)",
+     "Right (higher)",
+     "It depends on the clef",
+     "Nowhere"
+    ],
+    "answerIndex": 1,
+    "explanation": "Up the staff is up in pitch — rightward on the keys.",
+    "choiceExplanations": [
+     "Left is LOWER — the opposite of climbing.",
+     "Right — up the staff is up in pitch, which is rightward on the keys.",
+     "The clef changes WHERE the map starts, never which way is up.",
+     "The melody moves — a climbing shape can't stand still."
+    ]
+   },
+   {
+    "id": "tsd-q2",
+    "promptText": "The vertical lines drawn through the staff are…",
+    "choices": [
+     "Beats",
+     "Bar lines",
+     "Note stems",
+     "Rests"
+    ],
+    "answerIndex": 1,
+    "explanation": "Bar lines mark where one bar ends and the next begins.",
+    "choiceExplanations": [
+     "Beats are what you count — they're felt, not drawn as lines.",
+     "Right — bar lines fence off one bar from the next.",
+     "Stems are the thin strokes attached to individual note heads.",
+     "Rests mark silence and have their own symbols — not vertical lines."
+    ]
+   },
+   {
+    "id": "tsd-q3",
+    "promptText": "Two notes on the SAME line or space of the staff are…",
+    "choices": [
+     "A step apart",
+     "The same pitch",
+     "An octave apart",
+     "Always chords"
+    ],
+    "answerIndex": 1,
+    "explanation": "Same position, same pitch — repeated notes sit in one spot.",
+    "choiceExplanations": [
+     "A step apart would put them on NEIGHBORING positions — line to space.",
+     "Right — same line or space means the very same pitch, repeated.",
+     "An octave apart would separate them by four lines of the staff.",
+     "Two notes IN A ROW are a melody; chords stack notes at the same moment."
+    ]
+   },
+   {
+    "id": "tsd-q4",
+    "promptText": "From a line to the very next space is a…",
+    "choices": [
+     "Step",
+     "Skip",
+     "Leap",
+     "Rest"
+    ],
+    "answerIndex": 0,
+    "explanation": "Line to neighboring space = one step (like E to F on the keys).",
+    "choiceExplanations": [
+     "Right — line to its neighboring space is one step, like E to F on the keys.",
+     "A skip would jump PAST the neighboring space to the next line.",
+     "A leap is bigger still — several positions at once.",
+     "A rest is silence — no movement at all."
+    ]
+   },
+   {
+    "id": "tsd-q5",
+    "promptText": "A melody that looks like a descending staircase on the staff will SOUND…",
+    "choices": [
+     "Higher and higher",
+     "Lower and lower",
+     "The same",
+     "Louder"
+    ],
+    "answerIndex": 1,
+    "explanation": "The staff is a picture of pitch: falling shapes fall in sound.",
+    "choiceExplanations": [
+     "Higher and higher would LOOK like a rising staircase.",
+     "Right — the staff is a picture of pitch: falling shapes fall in sound.",
+     "Staying the same would draw a flat, level line of notes.",
+     "Louder is dynamics — the staircase shape is about pitch, not volume."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-time-sig-24",
+  "name": "March time — 2/4",
+  "explanation": "2/4 has two quarter-note beats per bar: ONE-two, ONE-two. Same beat as 4/4, half the bar.",
+  "examples": [],
+  "linkedSkillIds": [
+   "rhythm-time-sig-24"
+  ],
+  "linkedSongIds": [
+   "when-the-saints"
+  ],
+  "questions": [
+   {
+    "id": "t24-q1",
+    "promptText": "How many beats fit in one bar of 2/4?",
+    "choices": [
+     "Two",
+     "Three",
+     "Four",
+     "Eight"
+    ],
+    "answerIndex": 0,
+    "explanation": "The top number says two beats per bar.",
+    "choiceExplanations": [
+     "Right — the top 2 promises two beats per bar.",
+     "Three per bar is 3/4 — the waltz.",
+     "Four per bar is 4/4 — common time.",
+     "Eight would need a top 8 — much longer bars than this."
+    ]
+   },
+   {
+    "id": "t24-q2",
+    "promptText": "You hear: ONE-two, ONE-two, ONE-two. The meter is…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "6/8"
+    ],
+    "answerIndex": 0,
+    "explanation": "An accent every two beats is the sound of 2/4 — a march.",
+    "choiceExplanations": [
+     "Right — an accent every two beats is 2/4: march time.",
+     "3/4 would go ONE-two-three — a three-count sway.",
+     "4/4 would stretch to ONE-two-three-four.",
+     "6/8 lilts in two groups of three — a rolling compound feel."
+    ]
+   },
+   {
+    "id": "t24-q3",
+    "promptText": "A 2/4 bar already holds one quarter note. What completes it?",
+    "choices": [
+     "One more quarter note",
+     "A half note",
+     "A whole note",
+     "Nothing"
+    ],
+    "answerIndex": 0,
+    "explanation": "One beat used, one left — a single quarter note fills it.",
+    "choiceExplanations": [
+     "Right — one beat used, one left: a single quarter note fills it.",
+     "A half note is two beats — the bar only has room for one more.",
+     "A whole note is four beats — twice the entire bar.",
+     "It isn't full yet — one of the two beats is still empty."
+    ]
+   },
+   {
+    "id": "t24-q4",
+    "promptText": "Compared with 4/4, a bar of 2/4 is…",
+    "choices": [
+     "Twice as long",
+     "Half as long",
+     "The same length",
+     "Faster"
+    ],
+    "answerIndex": 1,
+    "explanation": "Half the beats per bar — the downbeat comes around twice as often.",
+    "choiceExplanations": [
+     "Twice as long would be a top number of 8 against 4 — backwards.",
+     "Right — half the beats per bar, so the downbeat comes around twice as often.",
+     "Same length would need the same beat count — 2 ≠ 4.",
+     "Speed is tempo, not meter — 2/4 says nothing about fast or slow."
+    ]
+   },
+   {
+    "id": "t24-q5",
+    "promptText": "In 2/4, the downbeat arrives every…",
+    "choices": [
+     "Beat",
+     "Two beats",
+     "Four beats",
+     "Bar line is not a downbeat"
+    ],
+    "answerIndex": 1,
+    "explanation": "Count 1-2, 1-2 — every second beat starts a new bar.",
+    "choiceExplanations": [
+     "Every beat can't be a downbeat — only bar starts are.",
+     "Right — count 1-2, 1-2: every second beat begins a new bar.",
+     "Every four beats is 4/4's spacing, not 2/4's.",
+     "Bar lines mark exactly where downbeats land — they're tightly linked."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-tier2-checkpoint",
+  "name": "Tier 2 check: reading and meter",
+  "explanation": "The staff map, bar lines, and telling 2/4 from 4/4.",
+  "examples": [],
+  "linkedSkillIds": [
+   "notation-staff-direction",
+   "rhythm-time-sig-24"
+  ],
+  "linkedSongIds": [
+   "when-the-saints"
+  ],
+  "questions": [
+   {
+    "id": "t2c-q1",
+    "promptText": "Up the staff means which way on the keyboard?",
+    "choices": [
+     "Right (higher)",
+     "Left (lower)",
+     "Depends on the song",
+     "Neither"
+    ],
+    "answerIndex": 0,
+    "explanation": "The staff is a pitch map: up is up.",
+    "choiceExplanations": [
+     "Right — the staff is a pitch map: up the staff, up the keyboard, rightward.",
+     "Left is lower — descending, not ascending.",
+     "The map never changes song to song.",
+     "It has to be one of them — pitch always moves somewhere on the keys."
+    ]
+   },
+   {
+    "id": "t2c-q2",
+    "promptText": "ONE-two, ONE-two is the feel of…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "No meter"
+    ],
+    "answerIndex": 0,
+    "explanation": "Accents every two beats — march time.",
+    "choiceExplanations": [
+     "Right — accents every two beats: march time, 2/4.",
+     "3/4 counts in threes — ONE-two-three.",
+     "4/4 counts in fours — twice this length.",
+     "There's clearly a repeating accent — that IS meter."
+    ]
+   },
+   {
+    "id": "t2c-q3",
+    "promptText": "ONE-two-three-four, ONE-two-three-four is the feel of…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "6/8"
+    ],
+    "answerIndex": 2,
+    "explanation": "Accents every four beats — common time.",
+    "choiceExplanations": [
+     "2/4 would land its accent twice as often.",
+     "3/4 would count ONE-two-three.",
+     "Right — accents every four beats: 4/4, common time.",
+     "6/8 rolls in two big groups of three — a lilt, not a square four."
+    ]
+   },
+   {
+    "id": "t2c-q4",
+    "promptText": "Bar lines divide music into…",
+    "choices": [
+     "Phrases",
+     "Bars of equal beats",
+     "Chords",
+     "Pages"
+    ],
+    "answerIndex": 1,
+    "explanation": "Each bar holds the number of beats the top number promises.",
+    "choiceExplanations": [
+     "Phrases are musical sentences — they can span several bars.",
+     "Right — bar lines carve the music into bars of equal beats, as the top number promises.",
+     "Chords are stacked notes — harmony, not time-slicing.",
+     "Pages are just where the paper runs out."
+    ]
+   },
+   {
+    "id": "t2c-q5",
+    "promptText": "A song starts on beat 2 with the first bar incomplete. That opening is a…",
+    "choices": [
+     "Pickup",
+     "Downbeat",
+     "Rest",
+     "Coda"
+    ],
+    "answerIndex": 0,
+    "explanation": "A pickup (anacrusis) — the Saints starts exactly this way.",
+    "choiceExplanations": [
+     "Right — an incomplete opening bar is a pickup (anacrusis). The Saints starts exactly this way.",
+     "The downbeat is beat 1 itself — this song starts BEFORE its first full one.",
+     "A rest is written silence, not a late entrance.",
+     "A coda is an ENDING section — the wrong end of the song."
+    ]
+   },
+   {
+    "id": "t2c-q6",
+    "promptText": "Notes stepping line-space-line-space on the staff are moving by…",
+    "choices": [
+     "Steps",
+     "Skips",
+     "Octaves",
+     "Chords"
+    ],
+    "answerIndex": 0,
+    "explanation": "Adjacent staff positions are neighboring keys — steps.",
+    "choiceExplanations": [
+     "Right — adjacent staff positions are neighboring keys: steps.",
+     "Skips would jump line-to-line or space-to-space, passing one position.",
+     "Octaves leap four lines at once — much bigger jumps.",
+     "Chords stack notes vertically — this is a melody moving in time."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-steps-skips",
+  "name": "Steps and skips",
+  "explanation": "A step moves to the very next note name (C→D). A skip jumps over one (C→E). Melodies mostly step; chords are built from skips.",
+  "examples": [],
+  "linkedSkillIds": [
+   "theory-steps-skips"
+  ],
+  "linkedSongIds": [
+   "oh-susanna"
+  ],
+  "questions": [
+   {
+    "id": "tss-q1",
+    "promptText": "C up to D is a…",
+    "choices": [
+     "Step",
+     "Skip",
+     "Leap",
+     "Repeat"
+    ],
+    "answerIndex": 0,
+    "explanation": "Next-door note names are steps.",
+    "illustratePitches": [
+     60,
+     62
+    ],
+    "choiceExplanations": [
+     "Right — C and D are next-door names: a step.",
+     "A skip would pass over D and land on E.",
+     "A leap is even bigger — a fourth or more.",
+     "A repeat would stay on C."
+    ]
+   },
+   {
+    "id": "tss-q2",
+    "promptText": "C up to E (jumping over D) is a…",
+    "choices": [
+     "Step",
+     "Skip",
+     "Octave",
+     "Repeat"
+    ],
+    "answerIndex": 1,
+    "explanation": "Skipping one letter name = a skip.",
+    "illustratePitches": [
+     60,
+     64
+    ],
+    "choiceExplanations": [
+     "A step would land on the very next name, D.",
+     "Right — jumping over one letter (D) makes C-to-E a skip.",
+     "An octave is C to the NEXT C — eight names away.",
+     "A repeat stays put — this clearly moved."
+    ]
+   },
+   {
+    "id": "tss-q3",
+    "promptText": "Chords like C-E-G are stacks of…",
+    "choices": [
+     "Steps",
+     "Skips",
+     "Octaves",
+     "Bar lines"
+    ],
+    "answerIndex": 1,
+    "explanation": "Triads skip every other note — that is why they look like snowmen on the staff.",
+    "choiceExplanations": [
+     "Stacked steps (C-D-E) would clash — that's a tone cluster, not a chord.",
+     "Right — triads stack skips: C skips to E skips to G. That's the snowman shape.",
+     "Stacked octaves would all share one name — no harmony in it.",
+     "Bar lines are time markers — they can't be stacked into sound."
+    ]
+   },
+   {
+    "id": "tss-q4",
+    "promptText": "E down to D is a…",
+    "choices": [
+     "Step down",
+     "Skip down",
+     "Step up",
+     "Repeat"
+    ],
+    "answerIndex": 0,
+    "explanation": "One letter down, next-door key — a downward step.",
+    "illustratePitches": [
+     64,
+     62
+    ],
+    "choiceExplanations": [
+     "Right — one letter down to the next-door key: a downward step.",
+     "A skip down from E would pass D and land on C.",
+     "Up is the wrong direction — E to D falls.",
+     "A repeat would stay on E."
+    ]
+   },
+   {
+    "id": "tss-q5",
+    "promptText": "Most of the Ode to Joy melody moves by…",
+    "choices": [
+     "Skips",
+     "Steps",
+     "Octaves",
+     "Silence"
+    ],
+    "answerIndex": 1,
+    "explanation": "It walks to its neighbors — that is what made it your perfect first song.",
+    "choiceExplanations": [
+     "Skips appear only a few times — listen to how it strolls, not jumps.",
+     "Right — Ode to Joy walks to neighboring notes almost the whole way. That's why it was your perfect first song.",
+     "Octave jumps would sound like huge leaps — there are none.",
+     "There's barely a rest in it — the melody keeps walking."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-tier3-checkpoint",
+  "name": "Tier 3 check: moves, positions, subdivisions",
+  "explanation": "Steps vs skips, the three home positions, and splitting the beat.",
+  "examples": [],
+  "linkedSkillIds": [
+   "theory-steps-skips",
+   "mech-pentascale-cfg",
+   "rhythm-eighth-notes"
+  ],
+  "linkedSongIds": [
+   "oh-susanna"
+  ],
+  "questions": [
+   {
+    "id": "t3c-q1",
+    "promptText": "F up to A (jumping G) is a…",
+    "choices": [
+     "Step",
+     "Skip",
+     "Repeat",
+     "Octave"
+    ],
+    "answerIndex": 1,
+    "explanation": "One letter skipped = a skip.",
+    "illustratePitches": [
+     65,
+     69
+    ],
+    "choiceExplanations": [
+     "A step would land on G, the very next letter.",
+     "Right — F to A jumps over G: a skip.",
+     "A repeat stays on F.",
+     "An octave would be F to the next F — eight names up."
+    ]
+   },
+   {
+    "id": "t3c-q2",
+    "promptText": "Two even notes per beat are called…",
+    "choices": [
+     "Quarter notes",
+     "Eighth notes",
+     "Half notes",
+     "Whole notes"
+    ],
+    "answerIndex": 1,
+    "explanation": "Eighths split the beat: count \"1-and\".",
+    "choiceExplanations": [
+     "Quarter notes ARE the beat here — one per beat, not two.",
+     "Right — eighth notes split each beat in two: count '1-and'.",
+     "Half notes stretch across TWO beats — the opposite direction.",
+     "Whole notes fill four beats — far too long."
+    ]
+   },
+   {
+    "id": "t3c-q3",
+    "promptText": "How do you count four beats filled with eighth notes?",
+    "choices": [
+     "1 2 3 4",
+     "1-and 2-and 3-and 4-and",
+     "ONE two three",
+     "1 and a 2 and a"
+    ],
+    "answerIndex": 1,
+    "explanation": "Each beat gets an \"and\" for its second half.",
+    "choiceExplanations": [
+     "'1 2 3 4' only counts the beats themselves — the halves go missing.",
+     "Right — each beat gets its 'and': eight even eighth notes.",
+     "'ONE two three' is 3/4 counting — wrong meter entirely.",
+     "'1 and a 2 and a' counts triplets — three per beat, not two."
+    ]
+   },
+   {
+    "id": "t3c-q4",
+    "promptText": "The five-finger position starting on F uses which black key?",
+    "choices": [
+     "F#",
+     "B♭",
+     "E♭",
+     "None"
+    ],
+    "answerIndex": 1,
+    "explanation": "F-G-A-B♭-C — finger 4 rides the black key.",
+    "choiceExplanations": [
+     "F# belongs to the G-side world — not in the F five-finger shape.",
+     "Right — F-G-A-B♭-C: finger 4 rides the black key B♭.",
+     "E♭ lives in flat keys further afield — not needed here.",
+     "There IS one — B♭ is what makes the F position feel different from C's."
+    ]
+   },
+   {
+    "id": "t3c-q5",
+    "promptText": "Moving the same five-finger shape from C to G is called a…",
+    "choices": [
+     "Transposition of position",
+     "Chord change",
+     "Cadence",
+     "Turnaround"
+    ],
+    "answerIndex": 0,
+    "explanation": "Same shape, new home — that is the pentascale shift.",
+    "choiceExplanations": [
+     "Right — same shape, new home key. That's the pentascale shift (a transposition of position).",
+     "A chord change swaps harmonies INSIDE one position — this moves the whole hand.",
+     "A cadence is how a phrase ENDS — nothing to do with hand position.",
+     "A turnaround is the little progression that loops a song back to the top."
+    ]
+   },
+   {
+    "id": "t3c-q6",
+    "promptText": "A quick two-note lead-in before a downbeat (like Susanna) is a…",
+    "choices": [
+     "Pickup",
+     "Fill",
+     "Turnaround",
+     "Rest"
+    ],
+    "answerIndex": 0,
+    "explanation": "Pickup notes launch the phrase into beat one.",
+    "choiceExplanations": [
+     "Right — quick lead-in notes before the downbeat are a pickup. Susanna opens with one.",
+     "A fill decorates a GAP between phrases — usually at the end, not the start.",
+     "A turnaround steers the harmony back to the top of the form.",
+     "A rest is silence — a pickup is the opposite: notes arriving early."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-chord-construction",
+  "name": "The 1-3-5 recipe",
+  "explanation": "A major triad stacks the 1st, 3rd, and 5th notes of its scale: C-E-G, F-A-C, G-B-D. Same recipe, any root.",
+  "examples": [],
+  "linkedSkillIds": [
+   "chord-major-triad"
+  ],
+  "linkedSongIds": [
+   "shell-be-comin"
+  ],
+  "questions": [
+   {
+    "id": "tcc-q1",
+    "promptText": "A major triad is built from scale degrees…",
+    "choices": [
+     "1-2-3",
+     "1-3-5",
+     "1-4-5",
+     "1-5-8"
+    ],
+    "answerIndex": 1,
+    "explanation": "Root, third, fifth — the triad recipe.",
+    "choiceExplanations": [
+     "1-2-3 are neighbors — played together they clash instead of ringing.",
+     "Right — root, third, fifth: 1-3-5 is the triad recipe.",
+     "1-4-5 skips the third — that's a sus4 sound, hollow and unresolved.",
+     "1-5-8 is a bare octave-and-fifth power chord — no third, no major/minor color."
+    ]
+   },
+   {
+    "id": "tcc-q2",
+    "promptText": "The notes of C major are…",
+    "choices": [
+     "C-D-E",
+     "C-E-G",
+     "C-F-G",
+     "C-E-A"
+    ],
+    "answerIndex": 1,
+    "explanation": "C (1), E (3), G (5).",
+    "illustratePitches": [
+     60,
+     64,
+     67
+    ],
+    "choiceExplanations": [
+     "C-D-E is three steps in a row — a scale fragment, not a chord.",
+     "Right — C(1), E(3), G(5): the C major triad.",
+     "C-F-G stacks the wrong intervals — F isn't C's third.",
+     "C-E-A re-roots the sound on A — that's an A minor shape, not C major."
+    ]
+   },
+   {
+    "id": "tcc-q3",
+    "promptText": "The notes of G major are…",
+    "choices": [
+     "G-A-B",
+     "G-B-D",
+     "G-C-E",
+     "G-B-E"
+    ],
+    "answerIndex": 1,
+    "explanation": "G (1), B (3), D (5).",
+    "illustratePitches": [
+     67,
+     71,
+     74
+    ],
+    "choiceExplanations": [
+     "G-A-B is a scale walk — steps, not stacked skips.",
+     "Right — G(1), B(3), D(5): the G major triad.",
+     "G-C-E is actually C major flipped over — C's family, not G's.",
+     "G-B-E re-roots on E — an E minor shape in disguise."
+    ]
+   },
+   {
+    "id": "tcc-q4",
+    "promptText": "The notes of F major are…",
+    "choices": [
+     "F-A-C",
+     "F-G-A",
+     "F-B♭-C",
+     "F-A-D"
+    ],
+    "answerIndex": 0,
+    "explanation": "F (1), A (3), C (5).",
+    "illustratePitches": [
+     65,
+     69,
+     72
+    ],
+    "choiceExplanations": [
+     "Right — F(1), A(3), C(5): the F major triad.",
+     "F-G-A is three neighbors — a cluster of steps, not a triad.",
+     "F-B♭-C skips the third — a sus4 color, not major.",
+     "F-A-D re-roots on D — that's a D minor shape."
+    ]
+   },
+   {
+    "id": "tcc-q5",
+    "promptText": "Playing E-G-C (the same three notes, re-ordered) gives you…",
+    "choices": [
+     "A different chord",
+     "C major in inversion",
+     "A scale",
+     "A mistake"
+    ],
+    "answerIndex": 1,
+    "explanation": "Same pitch family = same chord, just re-stacked — an inversion.",
+    "choiceExplanations": [
+     "Same three pitch names can only be the same chord family.",
+     "Right — same pitch family, re-stacked: C major in inversion.",
+     "A scale is notes in a row — this is still a stack of three.",
+     "Nothing's wrong — inversions are how real accompaniments move smoothly."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-primary-chords",
+  "name": "I, IV, and V — the primary chords",
+  "explanation": "In any key, the chords built on degrees 1, 4, and 5 are the primary chords. In C: C (I), F (IV), G or G7 (V). V7 pulls home to I.",
+  "examples": [],
+  "linkedSkillIds": [
+   "harmony-i-iv-v"
+  ],
+  "linkedSongIds": [
+   "shell-be-comin"
+  ],
+  "questions": [
+   {
+    "id": "tpc-q1",
+    "promptText": "In the key of C, chord I is…",
+    "choices": [
+     "C",
+     "F",
+     "G",
+     "Am"
+    ],
+    "answerIndex": 0,
+    "explanation": "The chord built on the key note is I — home.",
+    "choiceExplanations": [
+     "Right — the chord built on the key note is I: home.",
+     "F is IV in this key — the 'away' chord.",
+     "G is V — the tension chord that leans home.",
+     "Am is vi — a relative, but not home base."
+    ]
+   },
+   {
+    "id": "tpc-q2",
+    "promptText": "In the key of C, chord IV is…",
+    "choices": [
+     "D",
+     "E",
+     "F",
+     "G"
+    ],
+    "answerIndex": 2,
+    "explanation": "Count up four: C-D-E-F. IV is F.",
+    "choiceExplanations": [
+     "D is degree 2 — that chord would be ii.",
+     "E is degree 3 — iii territory.",
+     "Right — count up four (C-D-E-F): IV is F.",
+     "G is degree five — that's V, one further along."
+    ]
+   },
+   {
+    "id": "tpc-q3",
+    "promptText": "In the key of C, chord V is…",
+    "choices": [
+     "F",
+     "G",
+     "A",
+     "B"
+    ],
+    "answerIndex": 1,
+    "explanation": "Count up five: C-D-E-F-G. V is G.",
+    "choiceExplanations": [
+     "F is degree four — IV, not V.",
+     "Right — count up five (C-D-E-F-G): V is G.",
+     "A is degree six — the vi chord.",
+     "B is degree seven — the rare, unstable vii°."
+    ]
+   },
+   {
+    "id": "tpc-q4",
+    "promptText": "Which chord most strongly pulls BACK to home?",
+    "choices": [
+     "I",
+     "IV",
+     "V7",
+     "They all rest"
+    ],
+    "answerIndex": 2,
+    "explanation": "The dominant seventh leans hard toward I — that pull ends most phrases.",
+    "choiceExplanations": [
+     "I IS home — there's nothing to pull back to.",
+     "IV drifts away gently but doesn't demand a return.",
+     "Right — V7 leans hardest toward I; that pull closes most phrases.",
+     "They don't all rest — V7 in particular practically points at the exit."
+    ]
+   },
+   {
+    "id": "tpc-q5",
+    "promptText": "Why do musicians name chords by NUMBER instead of letter?",
+    "choices": [
+     "Numbers are shorter",
+     "Numbers work in every key",
+     "Letters are old-fashioned",
+     "They don't"
+    ],
+    "answerIndex": 1,
+    "explanation": "I-IV-V describes the same relationships in any key — the Nashville idea you'll meet later.",
+    "choiceExplanations": [
+     "Length isn't the point — 'IV' and 'F' are both short.",
+     "Right — I-IV-V names the same relationships in ANY key. That's the Nashville idea you'll meet later.",
+     "Letters aren't old-fashioned — they're just tied to one key at a time.",
+     "They do — number-talk is how working musicians move songs between keys on the spot."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-time-sig-34",
+  "name": "Waltz time — 3/4",
+  "explanation": "3/4 has three quarter-note beats per bar: ONE-two-three. Amazing Grace, Home on the Range, and every waltz live here.",
+  "examples": [],
+  "linkedSkillIds": [
+   "rhythm-time-sig-34"
+  ],
+  "linkedSongIds": [
+   "amazing-grace"
+  ],
+  "questions": [
+   {
+    "id": "t34-q1",
+    "promptText": "How many beats fit in one bar of 3/4?",
+    "choices": [
+     "Two",
+     "Three",
+     "Four",
+     "Six"
+    ],
+    "answerIndex": 1,
+    "explanation": "Three quarter-note beats per bar.",
+    "choiceExplanations": [
+     "Two per bar is 2/4 — the march.",
+     "Right — the top 3 means three quarter-note beats per bar.",
+     "Four per bar is 4/4 — common time.",
+     "Six per bar would be 6/8's count — a compound lilt."
+    ]
+   },
+   {
+    "id": "t34-q2",
+    "promptText": "You hear: ONE-two-three, ONE-two-three. The meter is…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "12/8"
+    ],
+    "answerIndex": 1,
+    "explanation": "An accent every three beats — the waltz.",
+    "choiceExplanations": [
+     "2/4 accents every TWO beats — too square for this sway.",
+     "Right — an accent every three beats is 3/4: the waltz.",
+     "4/4 would add a fourth count before the accent returns.",
+     "12/8 is a long rolling shuffle bar — four groups of three."
+    ]
+   },
+   {
+    "id": "t34-q3",
+    "promptText": "Which note value fills an ENTIRE bar of 3/4?",
+    "choices": [
+     "Half note",
+     "Dotted half note",
+     "Whole note",
+     "Quarter note"
+    ],
+    "answerIndex": 1,
+    "explanation": "A dotted half lasts three beats — one full waltz bar.",
+    "choiceExplanations": [
+     "A half note is two beats — one beat short of the bar.",
+     "Right — a dotted half lasts three beats: one full waltz bar.",
+     "A whole note is four beats — it overflows 3/4 by one.",
+     "A quarter note fills just one beat of the three."
+    ]
+   },
+   {
+    "id": "t34-q4",
+    "promptText": "A 3/4 bar holds a half note so far. What completes it?",
+    "choices": [
+     "A quarter note",
+     "A half note",
+     "A whole note",
+     "It is already full"
+    ],
+    "answerIndex": 0,
+    "explanation": "Two beats used, one left.",
+    "choiceExplanations": [
+     "Right — the half note used two beats; one quarter note completes the three.",
+     "Another half note would push the bar to four beats — overfull.",
+     "A whole note alone outlasts the entire bar.",
+     "Not full yet — beat three is still waiting."
+    ]
+   },
+   {
+    "id": "t34-q5",
+    "promptText": "The strongest beat in a 3/4 bar is…",
+    "choices": [
+     "Beat 1",
+     "Beat 2",
+     "Beat 3",
+     "They are equal"
+    ],
+    "answerIndex": 0,
+    "explanation": "ONE-two-three: the downbeat carries the sway.",
+    "choiceExplanations": [
+     "Right — ONE-two-three: the downbeat carries the waltz's sway.",
+     "Beat 2 is a light middle beat.",
+     "Beat 3 lifts you INTO the next downbeat — it's the springboard, not the landing.",
+     "They aren't equal — without a strong ONE there'd be no sway at all."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-tier4-checkpoint",
+  "name": "Tier 4 check: chords and meters",
+  "explanation": "Triad recipes, the primary-chord family, hearing the dominant lean, and 3/4 vs 4/4.",
+  "examples": [],
+  "linkedSkillIds": [
+   "chord-major-triad",
+   "harmony-i-iv-v",
+   "rhythm-time-sig-34",
+   "ear-tonic-away"
+  ],
+  "linkedSongIds": [
+   "shell-be-comin"
+  ],
+  "questions": [
+   {
+    "id": "t4c-q1",
+    "promptText": "The 1-3-5 of F major is…",
+    "choices": [
+     "F-A-C",
+     "F-G-C",
+     "F-B-D",
+     "F-A-D"
+    ],
+    "answerIndex": 0,
+    "explanation": "F, A, C.",
+    "illustratePitches": [
+     65,
+     69,
+     72
+    ],
+    "choiceExplanations": [
+     "Right — F, A, C: root, third, fifth of F major.",
+     "F-G-C has a second (G) where the third should be — a sus2 color.",
+     "F-B-D drifts into B-diminished territory — not F's notes.",
+     "F-A-D re-roots on D — a D minor shape."
+    ]
+   },
+   {
+    "id": "t4c-q2",
+    "promptText": "In C, the three primary chords are…",
+    "choices": [
+     "C, Dm, Em",
+     "C, F, G",
+     "C, E, G",
+     "F, G, Am"
+    ],
+    "answerIndex": 1,
+    "explanation": "I, IV, V = C, F, G.",
+    "choiceExplanations": [
+     "Dm and Em are the ii and iii chords — cousins, not the primaries.",
+     "Right — I, IV, V in C is C, F, G.",
+     "C-E-G are the notes of ONE chord, not three different chords.",
+     "F, G, Am leaves out home itself — I must be in the set."
+    ]
+   },
+   {
+    "id": "t4c-q3",
+    "promptText": "The chord that sounds like it is LEANING toward home is…",
+    "choices": [
+     "I",
+     "IV",
+     "V7",
+     "vi"
+    ],
+    "answerIndex": 2,
+    "explanation": "The dominant seventh asks; I answers.",
+    "choiceExplanations": [
+     "I IS home — it answers, it doesn't lean.",
+     "IV wanders away but sits comfortably where it lands.",
+     "Right — V7 leans toward home; the dominant seventh asks and I answers.",
+     "vi is a soft substitute for home — no pull in it."
+    ]
+   },
+   {
+    "id": "t4c-q4",
+    "promptText": "ONE-two-three, ONE-two-three is…",
+    "choices": [
+     "2/4",
+     "3/4",
+     "4/4",
+     "Free time"
+    ],
+    "answerIndex": 1,
+    "explanation": "Waltz time.",
+    "choiceExplanations": [
+     "2/4 counts in twos — ONE-two.",
+     "Right — ONE-two-three is 3/4: waltz time.",
+     "4/4 counts in fours.",
+     "There's a clear repeating count of three — that's very much a meter."
+    ]
+   },
+   {
+    "id": "t4c-q5",
+    "promptText": "G7 adds which note to the G triad?",
+    "choices": [
+     "E",
+     "F",
+     "A",
+     "C"
+    ],
+    "answerIndex": 1,
+    "explanation": "G-B-D plus F — the seventh gives it the pull.",
+    "choiceExplanations": [
+     "E isn't in the G7 stack — that would suggest an Em color.",
+     "Right — G-B-D plus F: the added seventh gives G7 its pull.",
+     "A would make it a G6 flavor — sweet, but no tension.",
+     "C is where G7 WANTS to go, not a note inside it."
+    ]
+   },
+   {
+    "id": "t4c-q6",
+    "promptText": "Changing chords WITHOUT breaking the pulse matters because…",
+    "choices": [
+     "It looks better",
+     "The groove is the song",
+     "Chords are optional",
+     "It is faster"
+    ],
+    "answerIndex": 1,
+    "explanation": "Listeners forgive a wrong note; they feel a broken pulse.",
+    "choiceExplanations": [
+     "Looks have nothing to do with it — grooves are heard and felt.",
+     "Right — the groove IS the song. Listeners forgive a wrong note; they feel a broken pulse.",
+     "Chords are the harmony — hardly optional, but the POINT is keeping time through them.",
+     "Speed isn't the goal — steadiness through the change is."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-scale-degrees",
+  "name": "Scale degrees: the number map",
+  "explanation": "The C major scale is C-D-E-F-G-A-B, numbered 1-7. Degrees, not letters, are how musicians think — numbers transpose.",
+  "examples": [],
+  "linkedSkillIds": [
+   "scale-c-major"
+  ],
+  "linkedSongIds": [
+   "amazing-grace"
+  ],
+  "questions": [
+   {
+    "id": "tsg-q1",
+    "promptText": "In C major, degree 5 is…",
+    "choices": [
+     "E",
+     "F",
+     "G",
+     "A"
+    ],
+    "answerIndex": 2,
+    "explanation": "C(1) D(2) E(3) F(4) G(5).",
+    "choiceExplanations": [
+     "E is degree 3.",
+     "F is degree 4.",
+     "Right — count C(1) D(2) E(3) F(4) G(5): G is degree 5.",
+     "A is degree 6."
+    ]
+   },
+   {
+    "id": "tsg-q2",
+    "promptText": "In C major, degree 3 is…",
+    "choices": [
+     "D",
+     "E",
+     "F",
+     "G"
+    ],
+    "answerIndex": 1,
+    "explanation": "C-D-E: E is 3.",
+    "choiceExplanations": [
+     "D is degree 2 — one short.",
+     "Right — C-D-E: E is degree 3.",
+     "F is degree 4 — one past it.",
+     "G is degree 5."
+    ]
+   },
+   {
+    "id": "tsg-q3",
+    "promptText": "The C major scale uses…",
+    "choices": [
+     "Only white keys",
+     "One black key",
+     "Two black keys",
+     "All black keys"
+    ],
+    "answerIndex": 0,
+    "explanation": "C major is the all-white-key scale — that is why we start here.",
+    "choiceExplanations": [
+     "Right — C major is the all-white-key scale. That's exactly why we start here.",
+     "One black key describes F major (B♭) or G major (F#) — not C.",
+     "Two black keys arrives with keys like D major — later tiers.",
+     "All black keys isn't any major scale — though it IS a pentatonic party trick."
+    ]
+   },
+   {
+    "id": "tsg-q4",
+    "promptText": "Where does the right-hand thumb tuck happen in a one-octave C scale?",
+    "choices": [
+     "After finger 2",
+     "After finger 3",
+     "After finger 4",
+     "Never"
+    ],
+    "answerIndex": 1,
+    "explanation": "Fingers 1-2-3, thumb slips under, then 1-2-3-4-5 to the top.",
+    "choiceExplanations": [
+     "After finger 2 is too soon — you'd run out of fingers by the top.",
+     "Right — 1-2-3, thumb tucks under, then 1-2-3-4-5 carries you to the top.",
+     "After finger 4 is too late — the tuck happens mid-scale, not near the end.",
+     "Without a tuck, five fingers can't cover eight notes."
+    ]
+   },
+   {
+    "id": "tsg-q5",
+    "promptText": "The major triad on C uses degrees…",
+    "choices": [
+     "1-2-3",
+     "1-3-5",
+     "2-4-6",
+     "5-6-7"
+    ],
+    "answerIndex": 1,
+    "explanation": "Chords and scales are the same map — the triad picks 1, 3, and 5.",
+    "choiceExplanations": [
+     "1-2-3 are neighbors — a cluster, not a chord.",
+     "Right — the triad picks degrees 1, 3, and 5. Chords and scales are one map.",
+     "2-4-6 builds the ii chord (D minor in C) — a different family.",
+     "5-6-7 is another run of neighbors — steps, not a stack of skips."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-chord-symbols",
+  "name": "Reading chord symbols",
+  "explanation": "A letter above the music names a major chord: C means C-E-G. A \"7\" adds the seventh (G7), \"m\" makes it minor.",
+  "examples": [],
+  "linkedSkillIds": [
+   "theory-chord-symbols"
+  ],
+  "linkedSongIds": [
+   "amazing-grace"
+  ],
+  "questions": [
+   {
+    "id": "tcs-q1",
+    "promptText": "The symbol \"C\" above the staff means play…",
+    "choices": [
+     "The single note C",
+     "A C major chord",
+     "A C minor chord",
+     "A scale"
+    ],
+    "answerIndex": 1,
+    "explanation": "A bare letter = that major triad.",
+    "choiceExplanations": [
+     "A single note would just be written in the music — symbols speak in chords.",
+     "Right — a bare letter means that major triad: C = C-E-G.",
+     "Minor gets a lowercase m: 'Cm'.",
+     "Scales never appear as chord symbols — symbols are harmony shorthand."
+    ]
+   },
+   {
+    "id": "tcs-q2",
+    "promptText": "The symbol \"G7\" means…",
+    "choices": [
+     "G major",
+     "G minor",
+     "G dominant seventh",
+     "Seven G notes"
+    ],
+    "answerIndex": 2,
+    "explanation": "The 7 adds F on top of G-B-D — the leaning chord.",
+    "choiceExplanations": [
+     "Plain G major would be just the letter 'G'.",
+     "G minor would be written 'Gm'.",
+     "Right — G7 is the dominant seventh: G-B-D plus F, the leaning chord.",
+     "The 7 names an added NOTE (the seventh), not a count of Gs."
+    ]
+   },
+   {
+    "id": "tcs-q3",
+    "promptText": "The symbol \"Dm\" means…",
+    "choices": [
+     "D major",
+     "D minor",
+     "D dominant",
+     "D diminished"
+    ],
+    "answerIndex": 1,
+    "explanation": "A small m = minor.",
+    "choiceExplanations": [
+     "D major would be a bare 'D'.",
+     "Right — the small m means minor: D-F-A.",
+     "Dominant would be written 'D7'.",
+     "Diminished gets 'dim' or the ° symbol."
+    ]
+   },
+   {
+    "id": "tcs-q4",
+    "promptText": "Chord symbols mainly help you…",
+    "choices": [
+     "Read every note",
+     "Grasp the harmony at a glance",
+     "Skip practicing",
+     "Count bars"
+    ],
+    "answerIndex": 1,
+    "explanation": "Symbols are the fastest map of a song — the notation these genres run on.",
+    "choiceExplanations": [
+     "Reading every note is what staff notation does — symbols zoom OUT.",
+     "Right — symbols hand you the harmony at a glance. Blues, gospel, and country run on them.",
+     "No shortcut skips practicing — symbols just aim it better.",
+     "Bar counting is what the chart layout shows — symbols carry the harmony."
+    ]
+   },
+   {
+    "id": "tcs-q5",
+    "promptText": "A bar shows the symbol F. Your left hand's most useful single note is…",
+    "choices": [
+     "F",
+     "A",
+     "C",
+     "Any"
+    ],
+    "answerIndex": 0,
+    "explanation": "The root anchors the chord — bass players live on roots.",
+    "choiceExplanations": [
+     "Right — the root anchors the chord. Bass players live on roots.",
+     "A is the third — pretty, but it floats without the root under it.",
+     "C is the fifth — supportive, but not the anchor.",
+     "It matters a lot — the root tells everyone what the chord IS."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-cadence",
+  "name": "Finished or asking?",
+  "explanation": "Phrases end with punctuation: landing on I sounds finished (a period); pausing on V sounds like a question waiting for an answer.",
+  "examples": [],
+  "linkedSkillIds": [
+   "ear-phrase-ending"
+  ],
+  "linkedSongIds": [
+   "amazing-grace"
+  ],
+  "questions": [
+   {
+    "id": "tca-q1",
+    "promptText": "A phrase that ends on chord I sounds…",
+    "choices": [
+     "Unfinished",
+     "Finished, at rest",
+     "Wrong",
+     "Louder"
+    ],
+    "answerIndex": 1,
+    "explanation": "Home is where phrases rest — a full stop.",
+    "choiceExplanations": [
+     "Unfinished is how V feels — I is the opposite.",
+     "Right — ending on I sounds finished, at rest. Home is a full stop.",
+     "There's nothing wrong about it — it's the most natural ending in music.",
+     "Volume doesn't change with harmony — loudness is a separate choice."
+    ]
+   },
+   {
+    "id": "tca-q2",
+    "promptText": "A phrase that pauses on V or V7 sounds…",
+    "choices": [
+     "Finished",
+     "Like a question",
+     "Like an ending",
+     "Silent"
+    ],
+    "answerIndex": 1,
+    "explanation": "The dominant leaves the sentence hanging — the next phrase answers.",
+    "choiceExplanations": [
+     "Finished is how landing on I feels — V refuses to settle.",
+     "Right — pausing on V or V7 sounds like a question; the next phrase answers it.",
+     "An ending on V would leave every listener hanging — try it!",
+     "The music keeps sounding — 'silent' isn't a harmonic feeling."
+    ]
+   },
+   {
+    "id": "tca-q3",
+    "promptText": "Amazing Grace's halfway point parks on G7. That phrase is…",
+    "choices": [
+     "Complete",
+     "Asking a question",
+     "In a new key",
+     "A mistake"
+    ],
+    "answerIndex": 1,
+    "explanation": "The hymn breathes at the dominant, then the second half brings it home.",
+    "choiceExplanations": [
+     "Complete phrases land on I — this one deliberately doesn't.",
+     "Right — the hymn breathes at the dominant (a question), then the second half brings it home.",
+     "No key change happens — G7 still belongs to C's world.",
+     "It's a 300-year-old design, not a mistake — tension that makes the return sweeter."
+    ]
+   },
+   {
+    "id": "tca-q4",
+    "promptText": "The very last chord of most songs in C is…",
+    "choices": [
+     "F",
+     "G7",
+     "C",
+     "Am"
+    ],
+    "answerIndex": 2,
+    "explanation": "Endings land at home.",
+    "choiceExplanations": [
+     "F (IV) drifts away — a strange place to stop.",
+     "G7 (V7) would end the song mid-sentence — pure suspense.",
+     "Right — songs in C come home to C. Endings land at rest.",
+     "Am is a shadow-home — moody, but not the resting place these songs choose."
+    ]
+   },
+   {
+    "id": "tca-q5",
+    "promptText": "Hearing where a phrase is heading helps you…",
+    "choices": [
+     "Play louder",
+     "Breathe and shape the music",
+     "Skip the ending",
+     "Read faster"
+    ],
+    "answerIndex": 1,
+    "explanation": "Phrasing is the difference between typing notes and telling a story.",
+    "choiceExplanations": [
+     "Louder isn't a plan — dynamics follow the phrase, not the other way around.",
+     "Right — hearing where a phrase heads lets you breathe and shape it. That's the difference between typing notes and telling a story.",
+     "Skipping the ending skips the payoff the whole phrase was building.",
+     "Reading speed is a separate skill — phrasing is about meaning, not pace."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "theory-tier5-checkpoint",
+  "name": "Tier 5 check: degrees, symbols, cadences, waltz",
+  "explanation": "Everything Arc I taught, meeting in one place.",
+  "examples": [],
+  "linkedSkillIds": [
+   "scale-c-major",
+   "theory-chord-symbols",
+   "ear-phrase-ending",
+   "rhythm-time-sig-34"
+  ],
+  "linkedSongIds": [
+   "amazing-grace"
+  ],
+  "questions": [
+   {
+    "id": "t5c-q1",
+    "promptText": "In C major, degree 4 is…",
+    "choices": [
+     "E",
+     "F",
+     "G",
+     "B"
+    ],
+    "answerIndex": 1,
+    "explanation": "C-D-E-F: F is 4.",
+    "choiceExplanations": [
+     "E is degree 3.",
+     "Right — C-D-E-F: F is degree 4.",
+     "G is degree 5.",
+     "B is degree 7."
+    ]
+   },
+   {
+    "id": "t5c-q2",
+    "promptText": "\"G7\" tells you to play…",
+    "choices": [
+     "G-B-D",
+     "G-B-D-F",
+     "G-C-E",
+     "G alone"
+    ],
+    "answerIndex": 1,
+    "explanation": "Triad plus the seventh.",
+    "choiceExplanations": [
+     "G-B-D is plain G major — the 7 asks for one more note.",
+     "Right — G7 is the triad plus the seventh: G-B-D-F.",
+     "G-C-E is C major flipped over — different chord entirely.",
+     "One lone G is just a note — symbols always mean chords."
+    ]
+   },
+   {
+    "id": "t5c-q3",
+    "promptText": "A dotted half note in 3/4 lasts…",
+    "choices": [
+     "One beat",
+     "Two beats",
+     "A full bar",
+     "Two bars"
+    ],
+    "answerIndex": 2,
+    "explanation": "Three beats = one waltz bar.",
+    "choiceExplanations": [
+     "One beat is a plain quarter note.",
+     "Two beats is an undotted half note — the dot adds half again.",
+     "Right — dotted half = three beats = one full 3/4 bar.",
+     "Two bars would need six beats — twice what the dotted half holds."
+    ]
+   },
+   {
+    "id": "t5c-q4",
+    "promptText": "A phrase pausing on the dominant sounds…",
+    "choices": [
+     "Finished",
+     "Like a question",
+     "Minor",
+     "Out of time"
+    ],
+    "answerIndex": 1,
+    "explanation": "V asks; I answers.",
+    "choiceExplanations": [
+     "Finished is the sound of landing on I.",
+     "Right — pausing on the dominant sounds like a question. V asks; I answers.",
+     "Minor is a chord QUALITY — this is about where the phrase rests.",
+     "Time keeps flowing — harmony can't knock you out of meter."
+    ]
+   },
+   {
+    "id": "t5c-q5",
+    "promptText": "The primary chords of C major are…",
+    "choices": [
+     "C, F, G",
+     "C, Dm, G",
+     "C, E, Am",
+     "F, G, B"
+    ],
+    "answerIndex": 0,
+    "explanation": "I, IV, and V.",
+    "choiceExplanations": [
+     "Right — I, IV, and V: C, F, and G.",
+     "Dm is the ii chord — a cousin, not a primary.",
+     "E and Am are iii and vi — the minor relatives.",
+     "This set is missing home — C itself must be in it."
+    ]
+   },
+   {
+    "id": "t5c-q6",
+    "promptText": "The C major scale's thumb tuck comes after finger…",
+    "choices": [
+     "2",
+     "3",
+     "4",
+     "5"
+    ],
+    "answerIndex": 1,
+    "explanation": "1-2-3, tuck, 1-2-3-4-5.",
+    "choiceExplanations": [
+     "After 2 is too early — you'd arrive at the top a finger short.",
+     "Right — 1-2-3, tuck, then 1-2-3-4-5 to the top.",
+     "After 4 is too late for a smooth crossing.",
+     "Finger 5 caps the scale at the very top — no tucking after it."
+    ]
+   },
+   {
+    "id": "t5c-q7",
+    "promptText": "Why did every scale lesson end in a riff or fill?",
+    "choices": [
+     "Tradition",
+     "Scales exist to make music, not laps",
+     "To use time",
+     "It didn't"
+    ],
+    "answerIndex": 1,
+    "explanation": "A scale is a toolbox, not a lap around the track.",
+    "choiceExplanations": [
+     "Not tradition — intention. Laps for their own sake teach laps.",
+     "Right — scales exist to make music. The riff or fill is the point of the ladder.",
+     "Filling time is exactly what those lessons refused to do.",
+     "It did — every scale lesson ended by turning the scale into music."
+    ]
+   },
+   {
+    "id": "t5c-q8",
+    "promptText": "Melody in the right hand, roots in the left, at tempo, no help — that is the definition of…",
+    "choices": [
+     "Practice",
+     "Performance mastery",
+     "Sight-reading",
+     "Improvisation"
+    ],
+    "answerIndex": 1,
+    "explanation": "Accurate, in time, unassisted: the standard every tier boss asks for.",
+    "choiceExplanations": [
+     "Practice is how you GET there — this describes the arrival.",
+     "Right — accurate, in time, unassisted: performance mastery, the standard every tier boss asks for.",
+     "Sight-reading is playing something NEW from notation — this song you know well.",
+     "Improvisation invents in the moment — this is delivering a known piece cleanly."
+    ]
+   }
+  ]
+ }
 ]

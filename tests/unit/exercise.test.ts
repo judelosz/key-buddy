@@ -93,6 +93,7 @@ describe('generateExercise', () => {
         promptText: `Q${i}`,
         choices: ['a', 'b'],
         answerIndex: 0,
+        choiceExplanations: ['right', 'wrong'],
         explanation: '',
       })),
     };

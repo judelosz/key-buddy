@@ -34,6 +34,11 @@ export interface ExercisePrompt {
   audio?: AudioChord[];
   /** Labels for 'choice' answers. */
   choices?: string[];
+  /** One line per choice (aligned with `choices`): why the right one is right
+   * and why each wrong one is wrong. RULE (2026-07-23): every choice prompt —
+   * authored or generated — must provide these; they power the learner-facing
+   * "Explain my answer" panel. */
+  choiceExplanations?: string[];
   expected: ExpectedAnswer;
   /** Shown after a miss — one calm, specific line (doc 06 §10). */
   explanation?: string;
@@ -70,6 +75,8 @@ export interface PromptResult {
   deviationsMs?: number[];
   /** What actually happened, for specific feedback ("You played B3"). */
   detail?: string;
+  /** Choice prompts: the index the learner picked (drives "Explain my answer"). */
+  chosenIndex?: number;
 }
 
 export interface ExerciseResult {
