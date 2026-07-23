@@ -70,6 +70,51 @@ export interface RecommendedLesson {
   review?: boolean;
 }
 
+export interface OverdueLesson {
+  module: Module;
+  lesson: CurriculumLesson;
+  /** How far past due the most-overdue covered skill is. */
+  overdueMs: number;
+  dueSkillIds: string[];
+}
+
+/**
+ * Completed lessons (at or below the tier) that cover at least one FSRS-due
+ * skill, most-overdue first. Listen and scouting lessons are excluded — the
+ * shared review pool behind the spaced-review fallback AND the SessionBuilder
+ * due-review candidates.
+ */
+export function overdueCompletedLessons(
+  source: CurriculumSource,
+  lessonProgressById: ReadonlyMap<string, LessonProgress>,
+  learningTier: Tier,
+  skillProgressById: ReadonlyMap<string, SkillProgress>,
+  nowMs: number,
+): OverdueLesson[] {
+  const out: OverdueLesson[] = [];
+  for (const module of source.modules) {
+    if (module.tier > learningTier) continue;
+    for (const id of module.lessonIds) {
+      const lesson = source.getLesson(id);
+      if (!lesson) continue;
+      // Listening again teaches nothing; scouting is exploration, not review.
+      if (lesson.exerciseType === 'listen' || lesson.mode === 'scouting') continue;
+      if (lessonProgressById.get(id)?.completedAt === undefined) continue;
+      let overdueMs = -1;
+      const dueSkillIds: string[] = [];
+      for (const sid of lesson.skillIds) {
+        const p = skillProgressById.get(sid);
+        if (p && p.freshness.due <= nowMs) {
+          dueSkillIds.push(sid);
+          overdueMs = Math.max(overdueMs, nowMs - p.freshness.due);
+        }
+      }
+      if (overdueMs >= 0) out.push({ module, lesson, overdueMs, dueSkillIds });
+    }
+  }
+  return out.sort((a, b) => b.overdueMs - a.overdueMs);
+}
+
 /**
  * The one dominant "Continue" action: the first incomplete lesson of the
  * first available, incomplete module at or below the learning tier.
@@ -95,24 +140,13 @@ export function nextRecommendedLesson(
   }
 
   if (!skillProgressById || nowMs === undefined) return null;
-  let best: { rec: RecommendedLesson; overdueMs: number } | null = null;
-  for (const module of source.modules) {
-    if (module.tier > learningTier) continue;
-    for (const id of module.lessonIds) {
-      const lesson = source.getLesson(id);
-      if (!lesson) continue;
-      // Listening again teaches nothing; scouting is exploration, not review.
-      if (lesson.exerciseType === 'listen' || lesson.mode === 'scouting') continue;
-      if (lessonProgressById.get(id)?.completedAt === undefined) continue;
-      let overdueMs = -1;
-      for (const sid of lesson.skillIds) {
-        const p = skillProgressById.get(sid);
-        if (p && p.freshness.due <= nowMs) overdueMs = Math.max(overdueMs, nowMs - p.freshness.due);
-      }
-      if (overdueMs >= 0 && (best === null || overdueMs > best.overdueMs)) {
-        best = { rec: { module, lesson, review: true }, overdueMs };
-      }
-    }
-  }
-  return best?.rec ?? null;
+  const overdue = overdueCompletedLessons(
+    source,
+    lessonProgressById,
+    learningTier,
+    skillProgressById,
+    nowMs,
+  );
+  const top = overdue[0];
+  return top ? { module: top.module, lesson: top.lesson, review: true } : null;
 }
