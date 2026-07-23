@@ -200,7 +200,7 @@ function collectCandidates(
         activity,
         skillIds: rec.lesson.skillIds,
         families: familiesFor(inputs, rec.lesson.skillIds),
-        reason: checkpoint ? 'Show it sticks — no guides, your pace' : 'Something new',
+        reason: checkpoint ? 'No guides, your pace — show it sticks' : 'The next step on your path',
         priority: 1, // the path always leads
       };
     }

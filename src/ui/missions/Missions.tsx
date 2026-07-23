@@ -13,32 +13,42 @@ export function Missions() {
   const content = getContent();
   const setScreen = useAppStore((s) => s.setScreen);
   const setActiveLesson = useAppStore((s) => s.setActiveLesson);
+  const setSessionActive = useAppStore((s) => s.setSessionActive);
   const unlockProgress = useGameStore((s) => s.unlockProgress);
   const nextLesson = useGameStore((s) => s.nextLesson);
   const moduleProgressFor = useGameStore((s) => s.moduleProgressFor);
   const dueReviewSkillIds = useGameStore((s) => s.dueReviewSkillIds);
+  const missionsHero = useGameStore((s) => s.missionsHero);
+  const startSession = useGameStore((s) => s.startSession);
 
   const next = nextLesson();
+  const hero = missionsHero();
   const dueCount = dueReviewSkillIds().length;
   const nextLocked = content.songs
     .filter((s) => s.requiredSkills.length > 0)
     .map((s) => ({ song: s, prog: unlockProgress(s) }))
     .find(({ prog }) => !prog.unlocked);
 
+  const beginPractice = () => {
+    void startSession().then(() => setSessionActive(true));
+  };
+  const openNext = () =>
+    next && setActiveLesson({ moduleId: next.module.id, lessonId: next.lesson.id });
+
   return (
     <div className="flex flex-col gap-6">
-      {/* The one dominant action. */}
+      {/* The one dominant action — context-dependent (user decision): new
+          material leads with Continue; caught-up / review days lead with the
+          practice session. */}
       <section className="relative overflow-hidden rounded-[2rem] bg-surface p-8 shadow-soft">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-amber-soft opacity-70 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-24 h-40 w-40 rounded-full bg-rose-soft opacity-60 blur-2xl" />
-        {next ? (
+        {hero === 'new-material' && next ? (
           <div className="relative">
             <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
-              {next.review
-                ? 'Spaced review — bring back a skill'
-                : `${next.module.title} · ${
-                    moduleProgressFor(next.module.id)?.completedLessons ?? 0
-                  }/${next.module.lessonIds.length}`}
+              {`${next.module.title} · ${
+                moduleProgressFor(next.module.id)?.completedLessons ?? 0
+              }/${next.module.lessonIds.length}`}
             </p>
             <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">
               {next.lesson.title}
@@ -46,47 +56,72 @@ export function Missions() {
             <p className="mt-2 flex max-w-md items-center gap-2 text-sm text-ink-soft">
               <ModeChip mode={next.lesson.mode} /> {next.lesson.prompt}
             </p>
-            <button
-              type="button"
-              onClick={() =>
-                setActiveLesson({ moduleId: next.module.id, lessonId: next.lesson.id })
-              }
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
-            >
-              <Play size={18} className="fill-ink" /> Continue
-            </button>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={openNext}
+                className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+              >
+                <Play size={18} className="fill-ink" /> Continue
+              </button>
+              <button
+                type="button"
+                onClick={beginPractice}
+                className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+              >
+                <RefreshCcw size={15} /> Today&rsquo;s practice
+              </button>
+            </div>
           </div>
         ) : (
           <div className="relative">
             <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
-              All caught up
+              {dueCount > 0 ? 'Reviews are ready' : 'All caught up'}
             </p>
             <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">
-              Nothing due right now.
+              Today&rsquo;s practice, built for you.
             </h2>
             <p className="mt-2 max-w-md text-sm text-ink-soft">
-              Reviews come due as skills age — check back tomorrow to keep them fresh. Meanwhile,
-              Free Play keeps every take counting toward your skills.
+              {dueCount > 0
+                ? `A warm-up, ${dueCount} skill${dueCount === 1 ? '' : 's'} to bring back, song time, and one surprise — as much or as little as you like.`
+                : 'A warm-up, song time, and one surprise — practice as much or as little as you like.'}
             </p>
-            <button
-              type="button"
-              onClick={() => setScreen('free-play')}
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
-            >
-              <Play size={18} className="fill-ink" /> Free Play
-            </button>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={beginPractice}
+                className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+              >
+                <Play size={18} className="fill-ink" /> Start today&rsquo;s practice
+              </button>
+              {next && (
+                <button
+                  type="button"
+                  onClick={openNext}
+                  className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+                >
+                  <RefreshCcw size={15} /> Review: {next.lesson.title}
+                </button>
+              )}
+            </div>
           </div>
         )}
       </section>
 
       {dueCount > 0 && (
-        <div className="flex items-center gap-3 rounded-3xl bg-peri-soft px-5 py-3.5 text-sm text-peri-deep">
+        <button
+          type="button"
+          onClick={beginPractice}
+          className="flex items-center gap-3 rounded-3xl bg-peri-soft px-5 py-3.5 text-left text-sm text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+        >
           <RefreshCcw size={16} className="shrink-0" />
           <span>
-            <span className="font-medium">Review · {dueCount} skill{dueCount === 1 ? '' : 's'} due.</span>{' '}
-            Bring back a foundation skill — your next lessons weave the review in.
+            <span className="font-medium">
+              Review · {dueCount} skill{dueCount === 1 ? '' : 's'} due.
+            </span>{' '}
+            Start today&rsquo;s practice — it weaves them in between the new stuff.
           </span>
-        </div>
+        </button>
       )}
 
       <ModulePath />

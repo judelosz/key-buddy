@@ -15,6 +15,7 @@ import { LevelMeter } from '@/ui/components/LevelMeter';
 import { Onboarding } from '@/ui/onboarding/Onboarding';
 import { Missions } from '@/ui/missions/Missions';
 import { LessonRunner } from '@/ui/missions/LessonRunner';
+import { SessionRunner } from '@/ui/session/SessionRunner';
 import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
 import { Settings } from '@/ui/screens/Settings';
@@ -36,6 +37,7 @@ export default function App() {
   }, [initGame]);
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
+  const sessionActive = useAppStore((s) => s.sessionActive);
   const activeLessonView = useActiveLessonView();
   const showOnboarding = useAppStore((s) => s.showOnboarding);
   const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
@@ -101,7 +103,8 @@ export default function App() {
       </header>
 
       <main>
-        {screen === 'missions' && (activeLessonView ?? <Missions />)}
+        {screen === 'missions' &&
+          (sessionActive ? <SessionRunner /> : (activeLessonView ?? <Missions />))}
         {screen === 'free-play' && <FreePlay />}
         {screen === 'afk' && <AfkComingSoon />}
         {screen === 'progress' && <Progress />}
