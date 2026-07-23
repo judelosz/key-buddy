@@ -33,6 +33,17 @@ const TEMPO_OPTIONS = [
   { label: '100%', pct: 1 },
 ];
 
+/** Real-time per-hit verdict copy + styling (doc 03 §3.3 "in-the-moment"). */
+const LIVE_FLASH: Record<NoteGrade, { label: string; style: string }> = {
+  perfect: { label: 'Perfect!', style: 'bg-mint-deep text-white' },
+  great: { label: 'Great', style: 'bg-mint-soft text-mint-deep' },
+  good: { label: 'Good', style: 'bg-amber-soft text-amber-deep' },
+  early: { label: 'Early', style: 'bg-peri-soft text-peri-deep' },
+  late: { label: 'Late', style: 'bg-peri-soft text-peri-deep' },
+  miss: { label: 'Miss', style: 'bg-rose-soft text-rose-deep' },
+};
+const LIVE_FLASH_MS = 750;
+
 /**
  * How a lesson (or Free Play) is allowed to configure a take. The policy is
  * derived from the lesson mode — guided lessons force assists on, independent
@@ -108,13 +119,29 @@ export function ChartPlayer({
   const liveGradesRef = useRef<Map<string, NoteGrade>>(new Map());
   const sessionRef = useRef<PlaySession | null>(null);
   const recordedIdRef = useRef<string | null>(null);
+  /** The most recent hit's verdict, flashed near the hit line. */
+  const [liveFlash, setLiveFlash] = useState<{ grade: NoteGrade; seq: number } | null>(null);
+  const flashTimeoutRef = useRef<number | null>(null);
 
   if (!sessionRef.current) {
     sessionRef.current = new PlaySession({
-      onPhase: setPhase,
+      onPhase: (p) => {
+        // EVERY take begins with a count-in (including mid-take Restart, which
+        // bypasses start()) — wipe the previous pass's grade colors here so no
+        // attempt ever starts wearing the last one's feedback.
+        if (p === 'count-in') {
+          liveGradesRef.current = new Map();
+          setGradeVersion((v) => v + 1);
+          setLiveFlash(null);
+        }
+        setPhase(p);
+      },
       onLiveGrade: (g) => {
         liveGradesRef.current.set(g.noteEventId, g.grade);
         setGradeVersion((v) => v + 1);
+        setLiveFlash((prev) => ({ grade: g.grade, seq: (prev?.seq ?? 0) + 1 }));
+        if (flashTimeoutRef.current !== null) window.clearTimeout(flashTimeoutRef.current);
+        flashTimeoutRef.current = window.setTimeout(() => setLiveFlash(null), LIVE_FLASH_MS);
       },
       onComplete: setAttempt,
     });
@@ -191,7 +218,13 @@ export function ChartPlayer({
     }
   }, [phase, attempt, song, chart, recordAttempt, onRecorded, onAttemptCaptured]);
 
-  useEffect(() => () => sessionRef.current?.cancel(), []);
+  useEffect(
+    () => () => {
+      sessionRef.current?.cancel();
+      if (flashTimeoutRef.current !== null) window.clearTimeout(flashTimeoutRef.current);
+    },
+    [],
+  );
 
   if (phase === 'done' && attempt && !onAttemptCaptured) {
     return (
@@ -390,7 +423,22 @@ export function ChartPlayer({
 
       {/* Falling notes and the keyboard share one full-width container and the
           same pitch range, so each note drops straight onto its key. */}
-      <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-soft">
+      <div className="relative overflow-hidden rounded-3xl border border-line bg-surface shadow-soft">
+        {/* Real-time verdict for the last hit — feedback, not an assist: it
+            never shows what to play, only how the note landed. */}
+        {liveFlash && phase === 'playing' && mode === 'play' && (
+          <div
+            key={liveFlash.seq}
+            className="pointer-events-none absolute right-5 z-10 animate-pop"
+            style={{ bottom: 176 }}
+          >
+            <span
+              className={`rounded-full px-3.5 py-1.5 font-display text-sm font-semibold shadow-soft ${LIVE_FLASH[liveFlash.grade].style}`}
+            >
+              {LIVE_FLASH[liveFlash.grade].label}
+            </span>
+          </div>
+        )}
         {showFalling ? (
           <FallingNotes
             chart={chart}
