@@ -33,14 +33,17 @@ const TEMPO_OPTIONS = [
   { label: '100%', pct: 1 },
 ];
 
-/** Real-time per-hit verdict copy + styling (doc 03 §3.3 "in-the-moment"). */
-const LIVE_FLASH: Record<NoteGrade, { label: string; style: string }> = {
+/**
+ * Real-time per-hit verdict copy + styling (doc 03 §3.3 "in-the-moment").
+ * Only the celebratory top ("Perfect!") and the missed-the-mark grades flash a
+ * pill — a solid green note (great) already says "you played it", so it stays
+ * quiet and the pills keep their signal value: amber/peri = adjust something.
+ */
+const LIVE_FLASH: Partial<Record<NoteGrade, { label: string; style: string }>> = {
   perfect: { label: 'Perfect!', style: 'bg-mint-deep text-white' },
-  great: { label: 'Great', style: 'bg-mint-soft text-mint-deep' },
-  good: { label: 'Good', style: 'bg-amber-soft text-amber-deep' },
+  good: { label: 'A little off', style: 'bg-amber-soft text-amber-deep' },
   early: { label: 'Early', style: 'bg-peri-soft text-peri-deep' },
   late: { label: 'Late', style: 'bg-peri-soft text-peri-deep' },
-  miss: { label: 'Miss', style: 'bg-rose-soft text-rose-deep' },
 };
 const LIVE_FLASH_MS = 750;
 
@@ -139,9 +142,14 @@ export function ChartPlayer({
       onLiveGrade: (g) => {
         liveGradesRef.current.set(g.noteEventId, g.grade);
         setGradeVersion((v) => v + 1);
-        setLiveFlash((prev) => ({ grade: g.grade, seq: (prev?.seq ?? 0) + 1 }));
-        if (flashTimeoutRef.current !== null) window.clearTimeout(flashTimeoutRef.current);
-        flashTimeoutRef.current = window.setTimeout(() => setLiveFlash(null), LIVE_FLASH_MS);
+        if (LIVE_FLASH[g.grade]) {
+          setLiveFlash((prev) => ({ grade: g.grade, seq: (prev?.seq ?? 0) + 1 }));
+          if (flashTimeoutRef.current !== null) window.clearTimeout(flashTimeoutRef.current);
+          flashTimeoutRef.current = window.setTimeout(() => setLiveFlash(null), LIVE_FLASH_MS);
+        } else if (flashTimeoutRef.current === null) {
+          // A quiet grade with no pill pending — make sure nothing stale shows.
+          setLiveFlash(null);
+        }
       },
       onComplete: setAttempt,
     });
@@ -426,16 +434,16 @@ export function ChartPlayer({
       <div className="relative overflow-hidden rounded-3xl border border-line bg-surface shadow-soft">
         {/* Real-time verdict for the last hit — feedback, not an assist: it
             never shows what to play, only how the note landed. */}
-        {liveFlash && phase === 'playing' && mode === 'play' && (
+        {liveFlash && LIVE_FLASH[liveFlash.grade] && phase === 'playing' && mode === 'play' && (
           <div
             key={liveFlash.seq}
             className="pointer-events-none absolute right-5 z-10 animate-pop"
             style={{ bottom: 176 }}
           >
             <span
-              className={`rounded-full px-3.5 py-1.5 font-display text-sm font-semibold shadow-soft ${LIVE_FLASH[liveFlash.grade].style}`}
+              className={`rounded-full px-3.5 py-1.5 font-display text-sm font-semibold shadow-soft ${LIVE_FLASH[liveFlash.grade]!.style}`}
             >
-              {LIVE_FLASH[liveFlash.grade].label}
+              {LIVE_FLASH[liveFlash.grade]!.label}
             </span>
           </div>
         )}
