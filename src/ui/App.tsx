@@ -6,12 +6,14 @@ import {
   Armchair,
   TrendingUp,
   SlidersHorizontal,
+  Hand,
+  Brain,
 } from 'lucide-react';
 import { useAppStore, type Screen } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { getContent } from '@/core/content/bundled';
-import { LevelMeter } from '@/ui/components/LevelMeter';
+import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
 import { Onboarding } from '@/ui/onboarding/Onboarding';
 import { Missions } from '@/ui/missions/Missions';
 import { LessonRunner } from '@/ui/missions/LessonRunner';
@@ -44,6 +46,7 @@ export default function App() {
   const loaded = useGameStore((s) => s.loaded);
   const player = useGameStore((s) => s.player);
   const meter = useGameStore((s) => s.levelMeter)();
+  const gateStatus = useGameStore((s) => s.tierGateStatus)();
 
   // First-run: no persisted onboardedAt → land on onboarding, not the shell.
   const firstRun = loaded && player.onboardedAt === undefined;
@@ -85,19 +88,37 @@ export default function App() {
               </button>
             ))}
           </nav>
-          {/* The level ring is a shortcut to the full story on the Progress tab. */}
+          {/* The two tracks + the gate ring — a shortcut to the full story on
+              the Progress tab. The ring's five segments ARE the level gate;
+              Head has no bounded target, so it renders as a count, not a bar. */}
           <button
             type="button"
             onClick={() => setScreen('progress')}
             aria-label="View your progress"
             title="View your progress"
-            className="rounded-full transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+            className="flex items-center gap-2.5 rounded-full py-1 pl-3 pr-1 transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
           >
-            <LevelMeter
-              level={meter.level}
-              fraction={Math.min(1, meter.tierHandsXP / Math.max(1, meter.band))}
-              gatesRemaining={meter.requirementsRemaining.length > 0}
-            />
+            <span className="flex flex-col gap-1 text-left">
+              <span className="flex items-center gap-1.5">
+                <Hand size={12} className="shrink-0 text-amber-deep" />
+                <span className="h-1.5 w-16 overflow-hidden rounded-full bg-sand">
+                  <span
+                    className="block h-full rounded-full bg-amber-deep transition-[width] duration-700"
+                    style={{
+                      width: `${Math.round(Math.min(1, meter.tierHandsXP / Math.max(1, meter.band)) * 100)}%`,
+                    }}
+                  />
+                </span>
+                <span className="text-[10px] tabular-nums text-ink-soft">
+                  {meter.tierHandsXP}/{meter.band}
+                </span>
+              </span>
+              <span className="flex items-center gap-1.5 text-[10px] text-ink-soft">
+                <Brain size={12} className="shrink-0 text-peri-deep" />
+                <span className="tabular-nums">{player.headTrackXP} Head XP</span>
+              </span>
+            </span>
+            <GateRing level={meter.level} segments={gateRingSegments(gateStatus)} />
           </button>
         </div>
       </header>

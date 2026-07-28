@@ -4,7 +4,7 @@ import { inputService } from '@/input';
 import { getContent } from '@/core/content/bundled';
 import { useAppStore } from '@/ui/store/appStore';
 import { ChurchWindowMotif, PianoMotif, RoadMotif } from '@/ui/components/genreMotifs';
-import { LevelMeter } from '@/ui/components/LevelMeter';
+import { GateRing } from '@/ui/components/GateRing';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
 import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
@@ -139,7 +139,17 @@ export function HowItWorksStep() {
           </span>
         </div>
         <div className="flex items-center gap-4 rounded-2xl bg-surface p-4 shadow-soft">
-          <LevelMeter level={1} fraction={0.4} size={56} gatesRemaining />
+          <GateRing
+            level={1}
+            size={56}
+            segments={{
+              xpFraction: 0.4,
+              coreSkillsFraction: 0.5,
+              bossPassed: false,
+              checkpointPassed: true,
+              delayedReviewPassed: false,
+            }}
+          />
           <p className="text-ink-soft">
             <span className="font-medium text-ink">XP fills your Level meter, but XP alone never
             levels you up.</span>{' '}

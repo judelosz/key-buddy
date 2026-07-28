@@ -4,7 +4,7 @@ import type { Skill } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
-import { LevelMeter } from '@/ui/components/LevelMeter';
+import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
 import { ProgressBar } from '@/ui/components/ProgressBar';
 import { SongMasteryCard } from './SongMasteryCard';
 
@@ -16,27 +16,28 @@ export function Progress() {
 
   const lockedSongs = content.songs.filter((s) => s.requiredSkills.length > 0);
   const band = gateStatus?.handsXp.band ?? 100;
-  const gatesRemaining = gateStatus !== null && !gateStatus.passed;
 
   return (
     <div className="flex flex-col gap-6">
       <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">Your progress</h2>
 
-      {/* Level meter + the advancement checklist — the honest centerpiece. */}
+      {/* Gate ring + the advancement checklist — the honest centerpiece. The
+          checklist doubles as the ring's legend: five segments, five items. */}
       <div className="rounded-3xl border border-line bg-surface p-5 shadow-soft">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
           <div className="flex shrink-0 flex-col items-center gap-2">
-            <LevelMeter
+            <GateRing
               level={player.learningTier}
-              fraction={Math.min(1, player.tierHandsXP / band)}
+              segments={gateRingSegments(gateStatus)}
               size={104}
-              gatesRemaining={gatesRemaining}
             />
             <div className="text-center text-xs text-ink-soft">
               <div className="font-medium tabular-nums text-ink">
                 {player.tierHandsXP} / {band} tier XP
               </div>
-              Hands XP fills the ring
+              The ring&rsquo;s five segments are the five items beside it —
+              <br />
+              full ring = level up.
             </div>
           </div>
 
