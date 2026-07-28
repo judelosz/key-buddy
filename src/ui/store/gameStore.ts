@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { inputService } from '@/input';
+import { useAppStore } from '@/ui/store/appStore';
 import type { Attempt, Chart, PlayerState, SkillProgress, Song } from '@/core/types';
 import type {
   CurriculumLesson,
@@ -137,6 +139,8 @@ interface GameState {
     sessionCtx?: SessionRunContext,
   ) => Promise<LessonReward>;
   markSongPreviewed: (songId: string) => Promise<void>;
+  /** Persists the measured input-latency offset so it survives reloads. */
+  setCalibrationOffset: (offsetMs: number) => Promise<void>;
   /** Marks first-run onboarding done (persists onboardedAt; no-op on replay). */
   completeOnboarding: () => Promise<void>;
 
@@ -292,6 +296,10 @@ export const useGameStore = create<GameState>((set, get) => {
           repository.loadRecentAttempts(RECENT_CAP),
           repository.loadAllAdaptation(),
         ]);
+        // Rehydrate the measured input-latency offset — without this the
+        // calibration only holds for the session in which it was measured.
+        inputService.setCalibrationOffset(player.calibrationOffsetMs);
+        useAppStore.getState().setCalibrationOffsetMs(Math.round(player.calibrationOffsetMs));
         const skillProgressById = new Map(progressList.map((p) => [p.skillId, p]));
         set({
           loaded: true,
@@ -482,6 +490,12 @@ export const useGameStore = create<GameState>((set, get) => {
       const mastery = initialSongMastery(songId);
       set({ songMasteryById: new Map(songMasteryById).set(songId, mastery) });
       await repository.saveSongMastery(mastery);
+    },
+
+    setCalibrationOffset: async (offsetMs) => {
+      const next = { ...get().player, calibrationOffsetMs: offsetMs };
+      set({ player: next });
+      await repository.savePlayerState(next);
     },
 
     completeOnboarding: async () => {

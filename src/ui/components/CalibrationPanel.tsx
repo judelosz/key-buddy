@@ -4,6 +4,7 @@ import { audioService } from '@/audio/audioService';
 import { inputService } from '@/input';
 import { computeCalibrationOffset, type CalibrationResult } from '@/input/calibration';
 import { useAppStore } from '@/ui/store/appStore';
+import { useGameStore } from '@/ui/store/gameStore';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 
 const COUNT_IN_BEATS = 2;
@@ -59,6 +60,8 @@ export function CalibrationPanel({ showIntro = true }: CalibrationPanelProps) {
         const applied = res.sampleCount > 0 ? res.offsetMs : priorOffset;
         inputService.setCalibrationOffset(applied);
         setCalibrationOffsetMs(Math.round(applied));
+        // Persist so the offset survives reloads (rehydrated in gameStore.init).
+        void useGameStore.getState().setCalibrationOffset(applied);
         setResult(res);
         setPhase('done');
       }

@@ -10,6 +10,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 - [x] Input step: pressing an on-screen key shows "We heard you — input works!".
 - [ ] ⏳ Input step: connecting a real MIDI keyboard shows the device name; MIDI notes trigger the confirmation.
 - [ ] ⏳ Calibration (Settings only as of 2026-07-23 — removed from onboarding): run a real tap-along; deliberately calibrate badly, then re-run and confirm recovery. Onboarding's input step shows the Settings → Calibration tip instead.
+- [ ] ⏳ Calibration survives reload (fixed 2026-07-28): calibrate, reload the tab, Settings shows the same offset and notes still grade with it applied.
 - [x] Final step launches directly into the first lesson — never a blank dashboard.
 - [x] Reload after onboarding goes straight to the shell.
 - [x] Settings → Learning → "Replay the intro tour" works and Close returns to the shell.
