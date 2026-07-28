@@ -8,12 +8,19 @@ export interface SegmentFraming {
   eyebrow: string;
   /** Tailwind classes for the intro eyebrow chip. */
   tone: string;
+  /** Optional honest-practice line (doc-08 §3.4: learners misread mixed
+   * practice as worse — the app should say out loud that it isn't). */
+  honesty?: string;
 }
 
 const FRAMING: Record<SegmentPurpose, SegmentFraming> = {
   'familiar-win': { eyebrow: 'A familiar win to warm up', tone: 'bg-mint-soft text-mint-deep' },
   'new-material': { eyebrow: 'Something new', tone: 'bg-amber-soft text-amber-deep' },
-  'due-review': { eyebrow: 'Bring back a foundation skill', tone: 'bg-peri-soft text-peri-deep' },
+  'due-review': {
+    eyebrow: 'Bring back a foundation skill',
+    tone: 'bg-peri-soft text-peri-deep',
+    honesty: 'Mixing old and new feels harder than drilling one thing — and it works better. That’s the science, not a scheduling glitch.',
+  },
   'theory-ear': { eyebrow: 'Ear & theory — keep it sharp', tone: 'bg-peri-soft text-peri-deep' },
   remediation: { eyebrow: 'A smaller step first', tone: 'bg-sand text-ink-soft' },
   'song-application': { eyebrow: 'Song time', tone: 'bg-rose-soft text-rose-deep' },

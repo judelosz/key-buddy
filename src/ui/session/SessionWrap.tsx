@@ -35,6 +35,12 @@ export function SessionWrap({
             ? 'Showing up counts. Everything will be right here tomorrow.'
             : `${summary.segmentsCompleted} item${summary.segmentsCompleted === 1 ? '' : 's'} practiced — every take counted.`}
         </p>
+        {summary.practicedHands && summary.segmentsCompleted > 0 && (
+          <p className="mt-1.5 text-xs italic text-ink-soft">
+            You’ll be a little better at this tomorrow without touching the keys — sleep does
+            real work on motor skills.
+          </p>
+        )}
       </div>
 
       {(summary.xpHands > 0 || summary.xpHead > 0) && (

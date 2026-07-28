@@ -418,6 +418,9 @@ export function SessionRunner() {
             {current.adaptation.message}
           </p>
         )}
+        {framing.honesty && (
+          <p className="max-w-md text-xs italic text-ink-soft">{framing.honesty}</p>
+        )}
         <div className="flex items-center gap-3">
           <button
             type="button"

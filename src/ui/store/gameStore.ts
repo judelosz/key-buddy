@@ -86,6 +86,9 @@ export interface SessionSummary {
   tierAdvanced: boolean;
   /** Skills due within the next 24 h — the honest "due tomorrow" line. */
   dueTomorrowCount: number;
+  /** A hands segment was practiced — licenses the (true) sleep-consolidation
+   * line on the wrap: "you'll be better at this tomorrow" (doc-08 §3.12). */
+  practicedHands: boolean;
 }
 
 export interface SessionPreview {
@@ -563,6 +566,7 @@ export const useGameStore = create<GameState>((set, get) => {
         dueTomorrowCount: [...s.skillProgressById.values()].filter(
           (p) => p.freshness.due <= now + DAY_MS,
         ).length,
+        practicedHands: xp.xpHands > 0,
       };
       set({ activeSession: null, sessionEvents: { songLevelUps: [], tierAdvanced: false } });
       await repository.saveSession({
