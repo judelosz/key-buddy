@@ -47,6 +47,7 @@ export default function App() {
   const player = useGameStore((s) => s.player);
   const meter = useGameStore((s) => s.levelMeter)();
   const gateStatus = useGameStore((s) => s.tierGateStatus)();
+  const headBand = getContent().tierGates.find((g) => g.tier === meter.level)?.headXpBand;
 
   // First-run: no persisted onboardedAt → land on onboarding, not the shell.
   const firstRun = loaded && player.onboardedAt === undefined;
@@ -68,7 +69,7 @@ export default function App() {
           </span>
           <div>
             <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
-            <p className="text-xs text-ink-soft">Blues · Gospel · Country</p>
+            <p className="text-xs text-ink-soft">Your personal piano-learning companion</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -113,10 +114,28 @@ export default function App() {
                   {meter.tierHandsXP}/{meter.band}
                 </span>
               </span>
-              <span className="flex items-center gap-1.5 text-[10px] text-ink-soft">
-                <Brain size={12} className="shrink-0 text-peri-deep" />
-                <span className="tabular-nums">{player.headTrackXP} Head XP</span>
-              </span>
+              {headBand !== undefined ? (
+                <span className="flex items-center gap-1.5">
+                  <Brain size={12} className="shrink-0 text-peri-deep" />
+                  <span className="h-1.5 w-16 overflow-hidden rounded-full bg-sand">
+                    <span
+                      className="block h-full rounded-full bg-peri-deep transition-[width] duration-700"
+                      style={{
+                        width: `${Math.round(Math.min(1, player.tierHeadXP / Math.max(1, headBand)) * 100)}%`,
+                      }}
+                    />
+                  </span>
+                  <span className="text-[10px] tabular-nums text-ink-soft">
+                    {Math.min(player.tierHeadXP, headBand)}/{headBand}
+                    {player.tierHeadXP > headBand && ` +${player.tierHeadXP - headBand}`}
+                  </span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5 text-[10px] text-ink-soft">
+                  <Brain size={12} className="shrink-0 text-peri-deep" />
+                  <span className="tabular-nums">{player.headTrackXP} Head XP</span>
+                </span>
+              )}
             </span>
             <GateRing level={meter.level} segments={gateRingSegments(gateStatus)} />
           </button>

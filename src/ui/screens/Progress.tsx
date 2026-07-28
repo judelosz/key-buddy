@@ -3,7 +3,11 @@ import { Brain, Check, ChevronDown, ChevronRight, Circle, Flag, Hand, RefreshCcw
 import type { Skill } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
-import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
+import {
+  isHandsMastered,
+  isHeadMastered,
+  trackForExerciseType,
+} from '@/core/progression/progressionService';
 import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
 import { LockPip } from '@/ui/components/LockPip';
 import { ProgressBar } from '@/ui/components/ProgressBar';
@@ -17,6 +21,7 @@ export function Progress() {
 
   const lockedSongs = content.songs.filter((s) => s.requiredSkills.length > 0);
   const band = gateStatus?.handsXp.band ?? 100;
+  const headBand = content.tierGates.find((g) => g.tier === player.learningTier)?.headXpBand;
 
   return (
     <div className="flex flex-col gap-6">
@@ -46,10 +51,20 @@ export function Progress() {
             <h3 className="font-display text-sm font-semibold text-ink">
               Advancing to Level {player.learningTier + 1}
             </h3>
-            <p className="mb-3 mt-0.5 text-xs text-ink-soft">
+            <p className="mt-0.5 text-xs text-ink-soft">
               XP alone never levels you up — every item below must be earned. Done items stay as
               evidence of what you can play.
             </p>
+            {gateStatus && (
+              <p className="mb-3 mt-1 rounded-xl bg-sand px-3 py-1.5 text-xs font-medium text-ink">
+                Level up = fill the practice band + Hands-master the{' '}
+                {gateStatus.coreSkills.length} core skill
+                {gateStatus.coreSkills.length === 1 ? '' : 's'} + the boss mastery star + pass the
+                tier check quiz
+                {gateStatus.delayedReviewRequired ? ' + one review after a day away' : ''}.
+                That&rsquo;s the whole formula.
+              </p>
+            )}
             {gateStatus ? (
               <ul className="flex flex-col gap-1.5">
                 <ChecklistItem
@@ -100,10 +115,55 @@ export function Progress() {
         </div>
       </div>
 
+      {/* This tier vs lifetime — both tracks, metered where a band exists. */}
+      <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
+        <h3 className="mb-3 font-display text-sm font-semibold text-ink">
+          This tier (Level {player.learningTier})
+        </h3>
+        <div className="flex flex-col gap-3">
+          <div>
+            <div className="mb-1 flex items-center justify-between text-xs">
+              <span className="flex items-center gap-1.5 font-medium text-ink">
+                <Hand size={13} className="text-amber-deep" /> Hands XP — fills the gate&rsquo;s
+                practice band
+              </span>
+              <span className="tabular-nums text-ink-soft">
+                {player.tierHandsXP} / {band}
+              </span>
+            </div>
+            <ProgressBar fraction={player.tierHandsXP / Math.max(1, band)} tone="amber" showEmpty />
+          </div>
+          <div>
+            <div className="mb-1 flex items-center justify-between text-xs">
+              <span className="flex items-center gap-1.5 font-medium text-ink">
+                <Brain size={13} className="text-peri-deep" /> Head XP — knowledge &amp; ear this
+                tier
+              </span>
+              <span className="tabular-nums text-ink-soft">
+                {headBand !== undefined
+                  ? `${Math.min(player.tierHeadXP, headBand)} / ${headBand}${
+                      player.tierHeadXP > headBand ? ` +${player.tierHeadXP - headBand}` : ''
+                    }`
+                  : player.tierHeadXP}
+              </span>
+            </div>
+            <ProgressBar
+              fraction={headBand !== undefined ? player.tierHeadXP / Math.max(1, headBand) : 0}
+              tone="peri"
+              showEmpty
+            />
+            <p className="mt-1 text-[10px] text-ink-soft">
+              A full Head meter is knowledge momentum — it never levels you up by itself. Both
+              meters reset when you reach the next tier.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-3 gap-3">
         <Stat icon={<Zap size={16} />} label="Level" value={player.learningTier} />
         <Stat icon={<Hand size={16} />} label="Hands XP (lifetime)" value={player.totalXP} />
-        <Stat icon={<Brain size={16} />} label="Head XP" value={player.headTrackXP} />
+        <Stat icon={<Brain size={16} />} label="Head XP (lifetime)" value={player.headTrackXP} />
       </div>
 
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
@@ -117,7 +177,20 @@ export function Progress() {
       </div>
 
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
-        <h3 className="mb-3 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
+        <h3 className="mb-2 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
+        {/* The legend: what lights each pip, stated once. Per-skill pips list
+            the exact lessons that feed them (hover). */}
+        <div className="mb-3 flex flex-col gap-1.5 rounded-2xl bg-sand px-3 py-2.5 text-xs text-ink-soft sm:flex-row sm:items-center sm:gap-4">
+          <span className="flex items-center gap-1.5">
+            <LockPip on icon={<Hand size={12} />} title="Hands lock" />
+            lights when you PLAY it — at tempo, no visual help (drills alone cap below mastery)
+          </span>
+          <span className="flex items-center gap-1.5">
+            <LockPip on icon={<Brain size={12} />} title="Head lock" />
+            lights from the skill&rsquo;s ear &amp; theory lessons
+          </span>
+          <span className="text-ink">Both lit = gold. Hover a pip for the exact lessons.</span>
+        </div>
         <div className="flex flex-col gap-2">
           {(() => {
             // Contiguous tier rows: an authored gap (e.g. no tier-9 skills yet)
@@ -214,6 +287,7 @@ function TierSkillGroup({
             const p = skillProgressById.get(skill.id);
             const hands = p ? isHandsMastered(p) : false;
             const head = p ? isHeadMastered(p) : false;
+            const feeds = lockLessonsFor(skill.id);
             return (
               <div
                 key={skill.id}
@@ -224,8 +298,20 @@ function TierSkillGroup({
                   <div className="text-xs capitalize text-ink-soft">{skill.genre}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <LockPip on={hands} icon={<Hand size={13} />} title="Hands (play it)" />
-                  <LockPip on={head} icon={<Brain size={13} />} title="Head (know it)" />
+                  <LockPip
+                    on={hands}
+                    icon={<Hand size={13} />}
+                    title={`Hands lock — play it at tempo, unassisted (drills alone can't finish it).${
+                      feeds.hands.length > 0 ? ` Practice in: ${feeds.hands.join(' · ')}` : ''
+                    }`}
+                  />
+                  <LockPip
+                    on={head}
+                    icon={<Brain size={13} />}
+                    title={`Head lock — know and hear it (ear & theory).${
+                      feeds.head.length > 0 ? ` Practice in: ${feeds.head.join(' · ')}` : ''
+                    }`}
+                  />
                 </div>
               </div>
             );
@@ -268,6 +354,16 @@ function ChecklistItem({
       </span>
     </li>
   );
+}
+
+/** Which authored lessons feed each of a skill's two locks (for pip titles). */
+function lockLessonsFor(skillId: string): { hands: string[]; head: string[] } {
+  const hands: string[] = [];
+  const head: string[] = [];
+  for (const lesson of getContent().lessonsTeachingSkill(skillId)) {
+    (trackForExerciseType(lesson.exerciseType) === 'hands' ? hands : head).push(lesson.title);
+  }
+  return { hands: hands.slice(0, 4), head: head.slice(0, 4) };
 }
 
 function Stat({ icon, label, value }: { icon: ReactNode; label: string; value: string | number }) {

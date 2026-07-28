@@ -54,7 +54,7 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
           </span>
           <div>
             <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
-            <p className="text-xs text-ink-soft">Blues · Gospel · Country</p>
+            <p className="text-xs text-ink-soft">Your personal piano-learning companion</p>
           </div>
         </div>
         {replay && (
