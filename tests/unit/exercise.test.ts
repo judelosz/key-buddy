@@ -312,6 +312,53 @@ describe('ExerciseEngine', () => {
     expect(done.promptResult?.correct).toBe(true);
   });
 
+  it('learns a consistent tap bias from prompt 1 and forgives it on prompt 2', () => {
+    // doc-08 §3.9: bias (constant offset) is huge and individual; variability
+    // is tiny. A consistently-late tapper should be graded on precision.
+    const p = (id: string, beats: number[]) => ({
+      id,
+      expected: { kind: 'taps' as const, beats, bpm: 60, countInBeats: 0, beatsPerBar: 4 },
+    });
+    const engine = new ExerciseEngine(spec([p('p0', [0, 1, 2]), p('p1', [0, 1])], 1));
+    // Prompt 1: all taps +200 ms (inside scaled good ±315) → bias learned,
+    // clamped to TAP_BIAS_CLAMP_MS (150).
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    engine.feed({ kind: 'note', note: note(60, 200) });
+    engine.feed({ kind: 'note', note: note(60, 1_200) });
+    engine.feed({ kind: 'note', note: note(60, 2_200) });
+    const r1 = engine.feed({ kind: 'commit', atMs: 3_500 });
+    expect(r1.promptResult?.scorePct).toBe(1);
+    // Prompt 2: +340/+360 ms — beyond raw good (315) but within good once the
+    // learned +150 bias is subtracted (190/210).
+    engine.feed({ kind: 'prompt-shown', atMs: 10_000 });
+    engine.feed({ kind: 'note', note: note(60, 10_340) });
+    engine.feed({ kind: 'note', note: note(60, 11_360) });
+    const r2 = engine.feed({ kind: 'commit', atMs: 12_500 });
+    expect(r2.promptResult?.scorePct).toBe(1);
+    // Raw deviations are reported unchanged — the histogram keeps the truth.
+    expect(r2.promptResult?.deviationsMs).toEqual([340, 360]);
+  });
+
+  it('an erratic tapper earns no bias forgiveness', () => {
+    const p = (id: string, beats: number[]) => ({
+      id,
+      expected: { kind: 'taps' as const, beats, bpm: 60, countInBeats: 0, beatsPerBar: 4 },
+    });
+    const engine = new ExerciseEngine(spec([p('p0', [0, 1, 2]), p('p1', [0, 1])], 1));
+    // Prompt 1: +200, −200, +30 → mean ≈ +10 → negligible bias.
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    engine.feed({ kind: 'note', note: note(60, 200) });
+    engine.feed({ kind: 'note', note: note(60, 800) });
+    engine.feed({ kind: 'note', note: note(60, 2_030) });
+    engine.feed({ kind: 'commit', atMs: 3_500 });
+    // Prompt 2: +340 stays out of the window; +20 is fine → 1/2.
+    engine.feed({ kind: 'prompt-shown', atMs: 10_000 });
+    engine.feed({ kind: 'note', note: note(60, 10_340) });
+    engine.feed({ kind: 'note', note: note(60, 11_020) });
+    const r2 = engine.feed({ kind: 'commit', atMs: 12_500 });
+    expect(r2.promptResult?.scorePct).toBeCloseTo(1 / 2);
+  });
+
   it('counts missed targets and extra taps against the score', () => {
     const tapsPrompt = {
       id: 'p0',

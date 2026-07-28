@@ -32,6 +32,19 @@ const TAPS_PASS_PCT = 0.7;
  */
 export const TAP_WINDOW_SCALE = 1.75;
 
+/**
+ * Per-take systematic-bias correction (doc-08 §3.9). Untrained tappers are
+ * *consistent* (SD ~20–50 ms) but individually *biased* — negative mean
+ * asynchrony plus device latency can offset every tap by up to ~100+ ms in
+ * one direction. After each completed prompt the take's mean matched
+ * deviation (clamped) is subtracted from the NEXT prompt's grading, so the
+ * windows measure precision rather than punishing a constant offset. Raw
+ * deviations are still reported (histogram meanMs exposes the real bias).
+ */
+export const TAP_BIAS_CLAMP_MS = 150;
+/** Don't trust a bias estimate built on fewer matched taps than this. */
+const TAP_BIAS_MIN_SAMPLES = 3;
+
 function tapWindowsForTier(tier: number): TimingWindows {
   const w = windowsForTier(tier);
   return {
@@ -56,6 +69,9 @@ export class ExerciseEngine {
   private collected = new Set<number>();
   private collectedPitches: number[] = [];
   private taps: TapState = { deviations: [], extras: 0 };
+  /** Per-take systematic tap bias (ms), learned prompt-by-prompt — survives
+   * resetPromptState so prompt 1 always grades uncorrected. */
+  private tapBiasMs = 0;
   private finished = false;
 
   constructor(private readonly spec: ExerciseSpec) {
@@ -177,14 +193,17 @@ export class ExerciseEngine {
     let bestAbs = Infinity;
     targets.forEach((t, i) => {
       if (this.taps.deviations[i] !== null && this.taps.deviations[i] !== undefined) return;
-      const dev = atMs - t;
+      // Match on the bias-corrected deviation — a systematic lag larger than
+      // the match window would otherwise be lost as an "extra" before the
+      // grading correction could ever see it.
+      const dev = atMs - t - this.tapBiasMs;
       if (Math.abs(dev) < bestAbs) {
         bestAbs = Math.abs(dev);
         best = i;
       }
     });
     if (best >= 0 && bestAbs <= matchMs) {
-      this.taps.deviations[best] = atMs - targets[best];
+      this.taps.deviations[best] = atMs - targets[best]; // stored raw
     } else {
       this.taps.extras += 1;
     }
@@ -201,11 +220,19 @@ export class ExerciseEngine {
     const matched = expected.beats
       .map((_, i) => this.taps.deviations[i] ?? null)
       .filter((d): d is number => d !== null);
+    // Grade with the bias learned from PREVIOUS prompts subtracted; report
+    // raw deviations so the histogram still shows the true offset.
     const goodOrBetter = matched.filter((d) =>
-      ['perfect', 'great', 'good'].includes(gradeTiming(d, windows, matchMs)),
+      ['perfect', 'great', 'good'].includes(gradeTiming(d - this.tapBiasMs, windows, matchMs)),
     ).length;
     const denominator = expected.beats.length + this.taps.extras;
     const scorePct = denominator === 0 ? 0 : goodOrBetter / denominator;
+
+    // Update the take's bias estimate for the next prompt.
+    if (matched.length >= TAP_BIAS_MIN_SAMPLES) {
+      const rawMean = matched.reduce((s, d) => s + d, 0) / matched.length;
+      this.tapBiasMs = Math.max(-TAP_BIAS_CLAMP_MS, Math.min(TAP_BIAS_CLAMP_MS, rawMean));
+    }
 
     return this.finishPrompt(prompt, {
       correct: scorePct >= TAPS_PASS_PCT,
