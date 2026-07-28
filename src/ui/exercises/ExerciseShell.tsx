@@ -43,43 +43,51 @@ export function ExerciseShell({
       : -1;
 
   return (
-    <div data-testid="exercise-shell" className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          {Array.from({ length: progress.total }, (_, i) => (
-            <span
-              key={i}
-              className={`h-2 rounded-full transition-all ${
-                i < progress.index
-                  ? 'w-2 bg-mint-deep'
-                  : i === progress.index
-                    ? 'w-5 bg-amber-deep'
-                    : 'w-2 bg-line'
-              }`}
-            />
-          ))}
+    // Anchored in the upper third (not true vertical centering — the feedback
+    // strip appearing would re-center and jump the whole column mid-answer).
+    <div
+      data-testid="exercise-shell"
+      className="mx-auto flex w-full max-w-3xl flex-col gap-5 pt-[5vh]"
+    >
+      {/* The exercise gets a stage: dots + prompt + feedback live in one card
+          instead of floating loose on the page. */}
+      <div className="flex flex-col gap-4 rounded-3xl bg-surface p-5 shadow-soft">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: progress.total }, (_, i) => (
+              <span
+                key={i}
+                className={`h-2 rounded-full transition-all ${
+                  i < progress.index
+                    ? 'w-2 bg-mint-deep'
+                    : i === progress.index
+                      ? 'w-5 bg-amber-deep'
+                      : 'w-2 bg-line'
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-xs tabular-nums text-ink-soft">
+            {Math.min(progress.index + 1, progress.total)} / {progress.total}
+          </span>
         </div>
-        <span className="text-xs tabular-nums text-ink-soft">
-          {Math.min(progress.index + 1, progress.total)} / {progress.total}
-        </span>
-      </div>
 
-      {prompt?.displayText && (
-        <div className="flex flex-wrap items-center gap-3">
-          <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
-            {prompt.displayText}
-          </h3>
-          {prompt.audio && onReplayAudio && (
-            <button
-              type="button"
-              onClick={onReplayAudio}
-              className="inline-flex items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1.5 text-sm font-medium text-peri-deep transition hover:-translate-y-px active:translate-y-px"
-            >
-              <Volume2 size={14} /> Play again
-            </button>
-          )}
-        </div>
-      )}
+        {prompt?.displayText && (
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+              {prompt.displayText}
+            </h3>
+            {prompt.audio && onReplayAudio && (
+              <button
+                type="button"
+                onClick={onReplayAudio}
+                className="inline-flex items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1.5 text-sm font-medium text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+              >
+                <Volume2 size={14} /> Play again
+              </button>
+            )}
+          </div>
+        )}
 
       {lastResult && (
         <div
@@ -142,6 +150,7 @@ export function ExerciseShell({
           )}
         </div>
       )}
+      </div>
 
       {children}
     </div>

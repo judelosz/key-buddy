@@ -108,33 +108,36 @@ export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
         </p>
       ) : (
         /* Follow-along pulse: pops on every click of the shared metronome
-           clock — amber during the count-in, rose once taps count. */
-        <div className="flex flex-col items-center gap-2.5 rounded-3xl border border-line bg-surface px-6 py-5 shadow-soft">
+           clock — amber during the count-in, rose once taps count. Sized to
+           be THE thing on screen while the player locks in. */
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-line bg-surface px-6 py-6 shadow-soft">
           <span
             key={beat ?? -1}
-            className={`flex h-16 w-16 items-center justify-center rounded-full font-display text-2xl font-semibold shadow-soft animate-pop ${
+            className={`flex h-24 w-24 items-center justify-center rounded-full font-display text-4xl font-semibold shadow-soft animate-pop ${
               beat === null || inCountIn
-                ? 'bg-amber-soft text-amber-deep'
+                ? 'bg-amber text-ink'
                 : 'bg-rose-soft text-rose-deep'
             }`}
           >
             {beat === null ? '…' : barBeat + 1}
           </span>
-          <div className="flex items-center gap-2" aria-hidden="true">
+          <div className="flex items-center gap-2.5" aria-hidden="true">
             {Array.from({ length: beatsPerBar }, (_, i) => (
               <span
                 key={i}
-                className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                className={`rounded-full transition-all duration-150 ${
                   beat !== null && i === barBeat
-                    ? inCountIn
-                      ? 'bg-amber-deep'
-                      : 'bg-rose-deep'
-                    : 'bg-sand'
+                    ? `h-3.5 w-3.5 ${inCountIn ? 'bg-amber-deep' : 'bg-rose-deep'}`
+                    : 'h-2.5 w-2.5 bg-sand'
                 }`}
               />
             ))}
           </div>
-          <p className="font-display text-sm font-medium text-ink-soft">
+          <p
+            className={`font-display text-base font-semibold ${
+              beat === null || inCountIn ? 'text-amber-deep' : 'text-rose-deep'
+            }`}
+          >
             {beat === null || inCountIn
               ? 'Count-in — feel the pulse…'
               : 'Now tap with each pulse'}
@@ -169,26 +172,54 @@ export function ListenExerciseView({
     window.setTimeout(() => setState('done'), durationMs);
   };
 
+  const bars = Math.max(1, Math.ceil((chart.notes.length || 4) / 4));
+
   return (
-    <div className="flex flex-col items-start gap-4">
-      <button
-        type="button"
-        disabled={state === 'playing'}
-        onClick={() => void play()}
-        className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
-      >
-        <PlayCircle size={18} />
-        {state === 'idle' ? 'Play it' : state === 'playing' ? 'Playing…' : 'Play it again'}
-      </button>
-      {state === 'done' && (
+    // Listening gets a stage of its own — the first lesson a player ever sees
+    // shouldn't be a lone button on an empty page.
+    <div className="flex flex-col items-center gap-4 rounded-3xl border border-line bg-surface px-6 py-8 shadow-soft">
+      <div className="flex h-16 items-end gap-1.5" aria-hidden="true">
+        {EQ_BAR_HEIGHTS.map((h, i) => (
+          <span
+            key={i}
+            className={`w-2.5 rounded-full transition-all duration-500 ${
+              state === 'playing' ? 'animate-pulse bg-rose' : 'bg-peri-soft'
+            }`}
+            style={{
+              height: `${h}%`,
+              animationDelay: state === 'playing' ? `${i * 120}ms` : undefined,
+            }}
+          />
+        ))}
+      </div>
+      <p className="text-xs text-ink-soft">
+        {state === 'playing'
+          ? 'Playing — just listen.'
+          : `${chart.notes.length} notes · about ${bars} bar${bars === 1 ? '' : 's'} · ${tempoBPM} BPM`}
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
-          onClick={() => runner.markWatched()}
-          className="inline-flex items-center gap-2 rounded-full bg-mint-soft px-5 py-2.5 font-display text-sm font-semibold text-mint-deep transition hover:-translate-y-px active:translate-y-px"
+          disabled={state === 'playing'}
+          onClick={() => void play()}
+          className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px disabled:opacity-60"
         >
-          <Check size={16} /> Got it — continue
+          <PlayCircle size={18} />
+          {state === 'idle' ? 'Play it' : state === 'playing' ? 'Playing…' : 'Play it again'}
         </button>
-      )}
+        {state === 'done' && (
+          <button
+            type="button"
+            onClick={() => runner.markWatched()}
+            className="inline-flex items-center gap-2 rounded-full bg-mint-soft px-5 py-2.5 font-display text-sm font-semibold text-mint-deep transition hover:-translate-y-px active:translate-y-px"
+          >
+            <Check size={16} /> Got it — continue
+          </button>
+        )}
+      </div>
     </div>
   );
 }
+
+/** Static equalizer silhouette for the listen stage (heights in %). */
+const EQ_BAR_HEIGHTS = [38, 62, 88, 52, 74, 96, 60, 42, 70, 55];
