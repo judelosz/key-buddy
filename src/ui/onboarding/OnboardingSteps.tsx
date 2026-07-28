@@ -1,10 +1,11 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Check, Ear, Hand, Music, Sparkles, Drum, BookOpen, Piano } from 'lucide-react';
+import { Brain, Check, Ear, Hand, Music, Sparkles, Drum, BookOpen, Piano } from 'lucide-react';
 import { inputService } from '@/input';
 import { getContent } from '@/core/content/bundled';
 import { useAppStore } from '@/ui/store/appStore';
 import { ChurchWindowMotif, PianoMotif, RoadMotif } from '@/ui/components/genreMotifs';
 import { GateRing } from '@/ui/components/GateRing';
+import { LockPip } from '@/ui/components/LockPip';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
 import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
@@ -128,20 +129,42 @@ export function HowItWorksStep() {
           <span className="text-ink-soft">
             {' '}
             is your guided path: short modules that each teach one musical outcome, then apply it in
-            a real song. There&rsquo;s always one recommended next step.
+            a real song. There&rsquo;s always one recommended next step. (
+            <span className="font-medium text-ink">Free Play</span> is open practice — any unlocked
+            song, any time; takes there still count.)
           </span>
         </div>
+
+        {/* The two-lock model — the game's core rule, stated plainly. */}
         <div className="rounded-2xl bg-surface p-4 shadow-soft">
-          <span className="font-medium text-ink">Free Play</span>
-          <span className="text-ink-soft">
-            {' '}
-            is open practice — any song you&rsquo;ve unlocked, any time. Takes there still count.
-          </span>
+          <p className="font-medium text-ink">Every skill has two locks.</p>
+          <div className="mt-2.5 flex flex-col gap-2.5">
+            <div className="flex items-start gap-2.5">
+              <LockPip on icon={<Hand size={13} />} title="Hands lock" />
+              <p className="text-ink-soft">
+                <span className="font-medium text-ink">The Hands lock</span> — can you{' '}
+                <em>play</em> it: right notes, in time, at tempo, with no visual help. Opened only
+                at the keyboard. Playing earns{' '}
+                <span className="font-medium text-amber-deep">Hands XP</span>.
+              </p>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <LockPip on icon={<Brain size={13} />} title="Head lock" />
+              <p className="text-ink-soft">
+                <span className="font-medium text-ink">The Head lock</span> — do you{' '}
+                <em>know and hear</em> it: ear training and theory. That work earns{' '}
+                <span className="font-medium text-peri-deep">Head XP</span>. A skill goes gold only
+                when both locks are open.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-4 rounded-2xl bg-surface p-4 shadow-soft">
+
+        {/* What the locks actually gate — songs and levels. */}
+        <div className="flex items-start gap-4 rounded-2xl bg-surface p-4 shadow-soft">
           <GateRing
             level={1}
-            size={56}
+            size={64}
             segments={{
               xpFraction: 0.4,
               coreSkillsFraction: 0.5,
@@ -150,21 +173,29 @@ export function HowItWorksStep() {
               delayedReviewPassed: false,
             }}
           />
-          <p className="text-ink-soft">
-            <span className="font-medium text-ink">XP fills your Level meter, but XP alone never
-            levels you up.</span>{' '}
-            Advancing also takes mastery: playing the tier&rsquo;s skills and boss song accurately,
-            in time, at tempo, with no visual help. The Progress tab always shows exactly what&rsquo;s
-            left.
-          </p>
+          <div className="min-w-0 text-ink-soft">
+            <p>
+              <span className="font-medium text-ink">The locks are how you unlock everything.</span>{' '}
+              Songs unlock when their required skills are Hands-mastered — never with points. Your
+              level advances through a five-part gate, and this ring IS that gate:
+            </p>
+            <p className="mt-1.5 text-xs">
+              <span className="font-medium text-amber-deep">amber segments</span> = hands work
+              (practice XP band · core skills · boss song star · a review after a day away) ·{' '}
+              <span className="font-medium text-peri-deep">the peri segment</span> = your head work
+              (the tier&rsquo;s theory &amp; ear checkpoint). Full ring = level up — the ring never
+              looks fuller than the truth.
+            </p>
+          </div>
         </div>
+
         <div className="rounded-2xl bg-surface p-4 shadow-soft">
-          <span className="font-medium text-ink">Hands and Head.</span>
+          <span className="font-medium text-ink">So: Head XP never levels you up on its own.</span>
           <span className="text-ink-soft">
             {' '}
-            Knowing a chord (Head) and playing it in time (Hands) are tracked separately. Ear and
-            theory work opens Head locks — but only your hands can raise your playing level or
-            unlock songs.
+            Ear &amp; theory open Head locks and pass the checkpoint segment — real, visible
+            progress — but only your hands can raise your level or unlock songs. Both meters live
+            in the top-right corner, all the time.
           </span>
         </div>
       </div>

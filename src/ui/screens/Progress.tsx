@@ -5,6 +5,7 @@ import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
 import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
+import { LockPip } from '@/ui/components/LockPip';
 import { ProgressBar } from '@/ui/components/ProgressBar';
 import { SongMasteryCard } from './SongMasteryCard';
 
@@ -271,15 +272,3 @@ function Stat({ icon, label, value }: { icon: ReactNode; label: string; value: s
   );
 }
 
-function LockPip({ on, icon, title }: { on: boolean; icon: ReactNode; title: string }) {
-  return (
-    <span
-      title={title}
-      className={`flex h-6 w-6 items-center justify-center rounded-full ${
-        on ? 'bg-mint-soft text-mint-deep' : 'bg-sand text-ink-soft'
-      }`}
-    >
-      {icon}
-    </span>
-  );
-}
