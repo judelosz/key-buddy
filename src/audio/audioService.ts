@@ -35,6 +35,7 @@ export class AudioService {
   private beatsPerBar = 4;
   private lastEmittedBeat = -1;
   private rafId: number | null = null;
+  private tickIntervalId: number | null = null;
   private currentBeatSec = 0.5;
   private chartAudioIds: number[] = [];
   private tickListeners = new Set<(t: MetronomeTick) => void>();
@@ -169,7 +170,7 @@ export class AudioService {
     transport.start(startAudioTime);
 
     // Logical beat ticks off a rAF loop (robust, same clock as the visualizer).
-    const loop = () => {
+    const emitDue = () => {
       const sec = transport.seconds;
       const beat = Math.floor(sec / beatSec + 1e-6);
       while (this.lastEmittedBeat < beat) {
@@ -184,9 +185,18 @@ export class AudioService {
         };
         for (const l of this.tickListeners) l(tick);
       }
+    };
+    const loop = () => {
+      emitDue();
       this.rafId = requestAnimationFrame(loop);
     };
     this.rafId = requestAnimationFrame(loop);
+    // rAF pauses entirely in hidden tabs, which used to freeze a running take
+    // (no anchor tick, no completion). A low-frequency interval keeps beats
+    // flowing — throttled to ~1 Hz when hidden, which is fine: emitDue is
+    // idempotent and tick.perfMs carries the SCHEDULED beat time, so grading
+    // stays honest even when the tick event itself arrives late.
+    this.tickIntervalId = window.setInterval(emitDue, 300);
   }
 
   /**
@@ -224,6 +234,10 @@ export class AudioService {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
+    }
+    if (this.tickIntervalId !== null) {
+      window.clearInterval(this.tickIntervalId);
+      this.tickIntervalId = null;
     }
     if (this.metronomeId !== null) {
       transport.clear(this.metronomeId);

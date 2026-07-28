@@ -139,7 +139,14 @@ export class ExerciseRunner {
 
   private handle(out: ReturnType<ExerciseEngine['feed']>): void {
     if (this.disposed) return;
-    if (out.tapFeedback) this.cb.onTapFeedback?.(out.tapFeedback);
+    if (out.tapFeedback) {
+      this.cb.onTapFeedback?.(out.tapFeedback);
+      if (import.meta.env.DEV) {
+        // Dev-only tap trace (window.__tapDebug) — how each tap was classified.
+        const w = window as unknown as { __tapDebug?: unknown[] };
+        (w.__tapDebug ??= []).push({ ...out.tapFeedback, at: Math.round(performance.now()) });
+      }
+    }
     if (out.promptResult) this.cb.onPromptResult(out.promptResult);
     if (out.done) {
       this.stopTaps();

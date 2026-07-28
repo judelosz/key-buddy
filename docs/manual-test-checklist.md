@@ -20,7 +20,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 - [x] Fresh player: hero recommends Module 1 Lesson 1; the path shows done/current/locked nodes with mode chips.
 - [x] Listen lesson: playback sounds, "Got it — continue" appears after it ends, result screen awards Head XP.
 - [x] Note-id lesson: on-screen keys answer prompts; wrong key shows the calm "You played X" line; result awards Hands XP.
-- [ ] ⏳ Rhythm-tap lesson: count-in clicks, taps graded against the click (test with computer keys AND MIDI; watch for latency skew if uncalibrated). Margins widened ×1.75 (2026-07-23) and a visual pulse added — confirm the missions now feel passable and re-tune `TAP_WINDOW_SCALE` if still tight.
+- [ ] ⏳ Rhythm-tap lesson (RETEST after 2026-07-28 fixes): tap along with the count-in (it now self-calibrates the take's latency bias — the fix for the unpassable mission) and confirm the graded beats feel fair on MIDI; per-tap verdict pills ("✓ synced" → Perfect/Great/Good/Early/Late) flash under the pulse. A steady phase-offset tapper passes in `rhythmTap.spec.ts`; only re-tune `TAP_WINDOW_SCALE` if the human pass still feels tight.
 - [ ] ⏳ Theory quiz + interval-ear: audio prompts audible, explanations shown on a miss.
 - [ ] ⏳ Chord-build (Tier 4): any inversion accepted; wrong tone named; "Check my chord" evaluates a partial answer.
 - [ ] ⏳ Fragment/chart lessons: guided mode forces falling notes + slow tempo; independent hides the falling-notes toggle; performance pins 100% and shows the Checkpoint banner.
@@ -65,7 +65,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 
 ## Resilience
 
-- [ ] ⏳ Pause/restart/refresh/tab-switch mid-take (Free Play and a chart lesson) — no stuck phase, no orphan audio.
+- [ ] ⏳ Pause/restart/refresh/tab-switch mid-take (Free Play and a chart lesson) — no stuck phase, no orphan audio. (2026-07-28: the hidden-tab freeze is fixed — beat ticks now also flow from a low-frequency interval, since rAF pauses entirely in background tabs; verify a tab-switched take still completes with honest grading.)
 - [ ] ⏳ Offline first load: synth fallback plays; no crash from the Salamander fetch failing.
 - [ ] ⏳ Reduced-motion OS setting: animations gone, nothing broken.
 - [ ] ⏳ Keyboard-only navigation with visible focus rings across the shell, onboarding, and a lesson.
