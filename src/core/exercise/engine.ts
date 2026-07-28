@@ -60,6 +60,11 @@ const TAP_COUNTIN_SANITY_MS = 450;
 /** Need at least this many count-in taps to trust the estimate. */
 const TAP_COUNTIN_MIN_SAMPLES = 2;
 
+/** Two tap notes closer than this are ONE musical intent ("any key counts"):
+ * fat-finger chords, near-simultaneous fingers, or residual input doubles.
+ * The second never matches a target and never counts as an extra. */
+export const TAP_COLLAPSE_MS = 80;
+
 function median(values: readonly number[]): number {
   const sorted = [...values].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
@@ -85,7 +90,7 @@ interface TapState {
 
 /** Real-time verdict for one tap — drives the live pill in the tap view. */
 export interface TapFeedback {
-  kind: 'countIn' | 'graded' | 'extra';
+  kind: 'countIn' | 'graded' | 'extra' | 'duplicate';
   /** Present when graded (bias-corrected classification). */
   grade?: NoteGrade;
   /** Bias-corrected signed ms (negative = early). Present when graded. */
@@ -106,6 +111,8 @@ export class ExerciseEngine {
   private countInDevs: number[] = [];
   /** Set once per prompt, when the first graded tap arrives. */
   private countInBiasApplied = false;
+  /** Last accepted tap time — taps within TAP_COLLAPSE_MS are one intent. */
+  private lastTapAtMs: number | null = null;
   private finished = false;
 
   constructor(private readonly spec: ExerciseSpec) {
@@ -218,6 +225,12 @@ export class ExerciseEngine {
     atMs: number,
     expected: Extract<ExercisePrompt['expected'], { kind: 'taps' }>,
   ): TapFeedback {
+    // Collapse near-simultaneous notes into one tap intent — the second of a
+    // doubled delivery (or a two-finger tap) must never become an "extra".
+    if (this.lastTapAtMs !== null && atMs - this.lastTapAtMs < TAP_COLLAPSE_MS) {
+      return { kind: 'duplicate' };
+    }
+    this.lastTapAtMs = atMs;
     const targets = this.tapTargets(expected);
     const beatMs = 60_000 / expected.bpm;
     // Count-in taps are free — and they self-calibrate the take. The pulse
@@ -319,6 +332,7 @@ export class ExerciseEngine {
     this.taps = { deviations: [], extras: 0 };
     this.countInDevs = [];
     this.countInBiasApplied = false;
+    this.lastTapAtMs = null;
   }
 
   private finishPrompt(

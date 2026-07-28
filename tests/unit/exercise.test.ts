@@ -422,6 +422,34 @@ describe('ExerciseEngine', () => {
     expect(r2.promptResult?.scorePct).toBeCloseTo(1 / 2);
   });
 
+  it('doubled note delivery never becomes an extra (multi-port MIDI)', () => {
+    // Each physical press arriving twice (a few ms apart) is ONE tap intent:
+    // the first grades, the second reports 'duplicate' and touches nothing.
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1],
+        bpm: 60,
+        countInBeats: 0,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    const a1 = engine.feed({ kind: 'note', note: note(60, 10) });
+    const a2 = engine.feed({ kind: 'note', note: note(60, 15) }); // double
+    const b1 = engine.feed({ kind: 'note', note: note(60, 1_020) });
+    const b2 = engine.feed({ kind: 'note', note: note(60, 1_026) }); // double
+    expect(a1.tapFeedback?.kind).toBe('graded');
+    expect(a2.tapFeedback?.kind).toBe('duplicate');
+    expect(b1.tapFeedback?.kind).toBe('graded');
+    expect(b2.tapFeedback?.kind).toBe('duplicate');
+    const done = engine.feed({ kind: 'commit', atMs: 3_000 });
+    // 2 good ÷ 2 targets — no extras from the doubles.
+    expect(done.promptResult?.scorePct).toBe(1);
+  });
+
   it('counts missed targets and extra taps against the score', () => {
     const tapsPrompt = {
       id: 'p0',

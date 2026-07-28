@@ -197,7 +197,10 @@ function ExerciseLesson({
       onDone: (result: ExerciseResult) => {
         void recordLesson(lesson, module, { result }, sessionCtx).then(onReward);
       },
-      onTapFeedback: (f) => setTapFlash({ f, nonce: Date.now() }),
+      // Collapsed duplicates are non-events — they must not clear a live pill.
+      onTapFeedback: (f) => {
+        if (f.kind !== 'duplicate') setTapFlash({ f, nonce: Date.now() });
+      },
     });
     runnerRef.current = runner;
     runner.begin();

@@ -44,6 +44,10 @@ export interface InputProvider {
 type NoteListener = (n: NotePlayed) => void;
 type StatusListener = (s: InputStatus) => void;
 
+/** Same-pitch notes closer than this are one physical press delivered twice
+ * (multi-port MIDI controllers). Human same-pitch retriggers are ≥ ~30 ms. */
+export const DUPLICATE_NOTE_MS = 10;
+
 interface Entry {
   offNote: () => void;
   offStatus: () => void;
@@ -54,6 +58,8 @@ export class InputService {
   private offsetMs = 0;
   private readonly noteListeners = new Set<NoteListener>();
   private readonly statusListeners = new Set<StatusListener>();
+  /** Per-pitch last raw-emit time, for multi-port duplicate suppression. */
+  private readonly lastEmitByPitch = new Map<number, number>();
 
   /** Latency offset (ms) subtracted from every note timestamp. */
   setCalibrationOffset(ms: number): void {
@@ -126,6 +132,16 @@ export class InputService {
   }
 
   private emitNote(raw: RawNote, source: NotePlayed['source']): void {
+    // Multi-port MIDI controllers deliver one physical press on 2+ input
+    // ports; a same-pitch retrigger this fast is physically impossible, so
+    // it's always a duplicate — drop it before any consumer sees it. Scoped
+    // to MIDI: the virtual provider has no hardware to double-deliver from
+    // (and automated tests legitimately click faster than humans).
+    if (source === 'midi') {
+      const last = this.lastEmitByPitch.get(raw.pitch);
+      if (last !== undefined && raw.timestampMs - last < DUPLICATE_NOTE_MS) return;
+      this.lastEmitByPitch.set(raw.pitch, raw.timestampMs);
+    }
     const note: NotePlayed = {
       pitch: raw.pitch,
       velocity: raw.velocity,

@@ -48,12 +48,18 @@ test('a steady but phase-offset tapper passes the tap mission', async ({ page })
 
   // Steady tapper: 750 ms cadence = 80 BPM (the lesson tempo), phase-blind.
   // First tap launches the count-in; the next few land during the count-in
-  // (free + self-calibrating); the rest cover the 8 graded beats.
+  // (free + self-calibrating); the rest cover the 8 graded beats. Every tap
+  // is deliberately DOUBLED (press-release-press within a few ms) to model a
+  // multi-port MIDI controller — the dedup/collapse stack must absorb it.
   await page.evaluate(() => {
-    let n = 0;
-    const iv = setInterval(() => {
+    const press = () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z' }));
       window.dispatchEvent(new KeyboardEvent('keyup', { key: 'z' }));
+    };
+    let n = 0;
+    const iv = setInterval(() => {
+      press();
+      setTimeout(press, 4); // the second port's copy of the same press
       if (++n > 17) clearInterval(iv);
     }, 750);
   });
