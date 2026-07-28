@@ -68,7 +68,10 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
         )}
       </header>
 
-      <main className="flex-1 animate-fade-up" key={step}>
+      {/* Steps center vertically — content no longer hugs the top of an
+          otherwise empty page (visual-polish B4). Step changes are discrete,
+          so re-centering between steps can't jump mid-interaction. */}
+      <main className="flex flex-1 flex-col justify-center animate-fade-up" key={step}>
         {steps[step].body}
       </main>
 

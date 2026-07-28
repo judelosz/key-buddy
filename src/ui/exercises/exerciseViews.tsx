@@ -11,6 +11,7 @@ import { playNotesOnce } from '@/ui/session/exerciseRunner';
 import { audioService } from '@/audio/audioService';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
+import { PianoMotif } from '@/ui/components/genreMotifs';
 
 /** note-id and build-chord: play on the (real or on-screen) keyboard. */
 export function KeyboardExerciseView({
@@ -177,7 +178,11 @@ export function ListenExerciseView({
   return (
     // Listening gets a stage of its own — the first lesson a player ever sees
     // shouldn't be a lone button on an empty page.
-    <div className="flex flex-col items-center gap-4 rounded-3xl border border-line bg-surface px-6 py-8 shadow-soft">
+    <div className="relative flex flex-col items-center gap-4 overflow-hidden rounded-3xl border border-line bg-surface px-6 py-8 shadow-soft">
+      <PianoMotif
+        size={110}
+        className="pointer-events-none absolute -right-4 -top-5 opacity-40"
+      />
       <div className="flex h-16 items-end gap-1.5" aria-hidden="true">
         {EQ_BAR_HEIGHTS.map((h, i) => (
           <span

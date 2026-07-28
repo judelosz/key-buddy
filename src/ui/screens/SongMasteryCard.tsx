@@ -63,6 +63,14 @@ export function SongMasteryCard() {
                   />
                 ))}
               </div>
+              {/* Ladder legend at rest — hover-only titles hid the best copy
+                  in the system (level names). */}
+              <p className="mt-1 text-[11px] text-ink-soft">
+                <span className="font-medium text-rose-deep">{levelLabel}</span>
+                {mastery.level < SONG_MASTERY_LABELS.length - 1 && (
+                  <span> → next: {SONG_MASTERY_LABELS[mastery.level + 1]}</span>
+                )}
+              </p>
 
               {weakLabels.length > 0 && (
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">

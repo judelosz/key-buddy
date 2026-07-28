@@ -1,7 +1,9 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Check, Ear, Hand, Music, Sparkles, Drum, BookOpen, Piano } from 'lucide-react';
 import { inputService } from '@/input';
+import { getContent } from '@/core/content/bundled';
 import { useAppStore } from '@/ui/store/appStore';
+import { ChurchWindowMotif, PianoMotif, RoadMotif } from '@/ui/components/genreMotifs';
 import { LevelMeter } from '@/ui/components/LevelMeter';
 import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 import { KeyboardHint } from '@/ui/components/KeyboardHint';
@@ -161,6 +163,13 @@ export function HowItWorksStep() {
 }
 
 export function LaunchStep({ replay }: { replay: boolean }) {
+  const content = getContent();
+  const firstModule = content.modules[0];
+  const firstLessons = (firstModule?.lessonIds ?? [])
+    .slice(0, 3)
+    .map((id) => content.getLesson(id))
+    .filter((l): l is NonNullable<typeof l> => l !== undefined);
+
   return (
     <StepFrame
       kicker="Ready"
@@ -171,6 +180,40 @@ export function LaunchStep({ replay }: { replay: boolean }) {
           ? 'You can replay this intro any time from Settings → Learning.'
           : 'First up: Meet the Keyboard — find your way around the keys and play your first notes. A few good minutes a day is all it takes.'}
       </p>
+
+      {/* The send-off: where you're headed (three genres) and what's first. */}
+      <div className="flex items-center justify-center gap-8 py-2" aria-hidden="true">
+        <PianoMotif size={64} className="animate-pop" />
+        <ChurchWindowMotif size={64} className="animate-pop" />
+        <RoadMotif size={64} className="animate-pop" />
+      </div>
+
+      {!replay && firstModule && firstLessons.length > 0 && (
+        <div className="rounded-3xl bg-surface p-5 shadow-soft">
+          <p className="font-display text-xs font-medium uppercase tracking-wide text-rose-deep">
+            Mission 1
+          </p>
+          <h3 className="mt-0.5 font-display text-lg font-semibold text-ink">
+            {firstModule.title}
+          </h3>
+          <ul className="mt-3 flex flex-col gap-2">
+            {firstLessons.map((l, i) => (
+              <li key={l.id} className="flex items-center gap-2.5 text-sm text-ink">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sand font-display text-xs font-semibold text-ink-soft">
+                  {i + 1}
+                </span>
+                {l.title}
+              </li>
+            ))}
+            <li className="flex items-center gap-2.5 text-xs text-ink-soft">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sand">
+                …
+              </span>
+              and {Math.max(0, (firstModule.lessonIds.length ?? 0) - 3)} more small steps
+            </li>
+          </ul>
+        </div>
+      )}
     </StepFrame>
   );
 }
