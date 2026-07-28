@@ -353,6 +353,9 @@ export interface PlayerState {
 
   // Head / knowledge track — strictly separate (doc 04 §5).
   headTrackXP: number;
+  /** Head XP earned within the current tier — a DISPLAY meter only (fills
+   * the tier's headXpBand, overflows, resets on gate pass). Never gates. */
+  tierHeadXP: number;
 
   // First-run flag: set when onboarding completes (epoch ms).
   onboardedAt?: number;

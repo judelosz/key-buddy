@@ -365,6 +365,9 @@ export function validateCurriculum(raw: RawContent): string[] {
         );
       }
     }
+    if (gate.headXpBand !== undefined && gate.headXpBand <= 0) {
+      problems.push(`Tier gate ${gate.tier} has a non-positive headXpBand`);
+    }
     if (gate.handsXpBand <= 0) {
       problems.push(`Tier gate ${gate.tier} has a non-positive handsXpBand`);
     }

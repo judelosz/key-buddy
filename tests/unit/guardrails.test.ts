@@ -95,6 +95,9 @@ describe('#1 Head evidence can GATE but never SUBSTITUTE (level & tier from Hand
     const before = basePlayer();
     const after = awardHeadXp(before, 999_999);
     expect(after.headTrackXP).toBe(999_999);
+    // The per-tier display meter fills too — and a maxed-out head band still
+    // changes NO gate input (2026-07-28: headXpBand is display-only).
+    expect(after.tierHeadXP).toBe(999_999);
     expect(after.totalXP).toBe(before.totalXP);
     expect(after.tierHandsXP).toBe(before.tierHandsXP);
     expect(after.playerLevel).toBe(before.playerLevel);

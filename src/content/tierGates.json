@@ -13,7 +13,8 @@
       "assess-t1-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 45
+    "handsXpBand": 45,
+    "headXpBand": 45
   },
   {
     "tier": 2,
@@ -26,7 +27,8 @@
       "assess-t2-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 28
+    "handsXpBand": 28,
+    "headXpBand": 42
   },
   {
     "tier": 3,
@@ -39,7 +41,8 @@
       "assess-t3-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 28
+    "handsXpBand": 28,
+    "headXpBand": 40
   },
   {
     "tier": 4,
@@ -53,7 +56,8 @@
       "assess-t4-checkpoint"
     ],
     "requiresDelayedReview": true,
-    "handsXpBand": 35
+    "handsXpBand": 35,
+    "headXpBand": 55
   },
   {
     "tier": 5,
@@ -68,6 +72,7 @@
       "assess-t5-checkpoint"
     ],
     "requiresDelayedReview": true,
-    "handsXpBand": 38
+    "handsXpBand": 38,
+    "headXpBand": 75
   }
 ]

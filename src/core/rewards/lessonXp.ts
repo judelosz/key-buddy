@@ -88,8 +88,15 @@ export function xpForLessonResult(
 
 /**
  * Head XP accumulates on its own track ONLY — it never touches totalXP,
- * tierHandsXP, playerLevel, or any tier field (guardrail #1).
+ * tierHandsXP, playerLevel, or any GATE field (guardrail #1). `tierHeadXP`
+ * is the per-tier DISPLAY meter (fills a band, overflows, resets on tier-up);
+ * it is read by no gate.
  */
 export function awardHeadXp(state: PlayerState, xp: number): PlayerState {
-  return { ...state, headTrackXP: state.headTrackXP + Math.max(0, xp) };
+  const gain = Math.max(0, xp);
+  return {
+    ...state,
+    headTrackXP: state.headTrackXP + gain,
+    tierHeadXP: state.tierHeadXP + gain,
+  };
 }

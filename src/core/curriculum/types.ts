@@ -157,6 +157,10 @@ export interface TierGate {
   requiresDelayedReview: boolean;
   /** Hands XP band for this tier — fills the level meter and is required. */
   handsXpBand: number;
+  /** Head XP band for this tier — a DISPLAY meter only (fills, overflows,
+   * resets on tier-up); never a gate requirement (guardrail #1). Calibrated
+   * ≈75% of natural first-pass head-lesson accrual, like handsXpBand. */
+  headXpBand?: number;
 }
 
 // ─── User state (persisted) ─────────────────────────────────────────────────

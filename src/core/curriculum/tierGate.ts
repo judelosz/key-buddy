@@ -138,6 +138,7 @@ export function applyGateAdvance(
     learningTier: newTier,
     playerLevel: newTier,
     tierHandsXP: 0,
+    tierHeadXP: 0, // the display meter starts fresh with the new tier
     tierXpBySong: {}, // per-song cap ledger starts fresh with the new band
     tierGatePassedAt: { ...base.tierGatePassedAt, [status.tier]: nowMs },
   };
