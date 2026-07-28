@@ -83,6 +83,9 @@ export interface LessonReward {
   moduleCompleted: boolean;
   /** Chart lessons: the underlying chart reward (XP/riffs/encore/streak). */
   chartReward?: AttemptReward;
+  /** Chart lessons: the scored take, so result screens can show the timing
+   * detail (tip, weak bars, full report) without a second recording path. */
+  attempt?: Attempt;
 }
 
 export interface RecordLessonOutcome {
@@ -242,6 +245,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
         moduleCompleted:
           passed && moduleCompleted(module, input.lessonProgressById, lessonProgress),
         chartReward: chartResult.reward,
+        attempt: chartResult.attempt,
       },
     };
   }

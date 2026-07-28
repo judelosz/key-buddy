@@ -56,11 +56,17 @@ export default {
           '0%': { transform: 'translateX(-120%)' },
           '100%': { transform: 'translateX(220%)' },
         },
+        confetti: {
+          '0%': { transform: 'translateY(-4vh) rotate(0deg)', opacity: '1' },
+          '85%': { opacity: '1' },
+          '100%': { transform: 'translateY(108vh) rotate(540deg)', opacity: '0' },
+        },
       },
       animation: {
         pop: 'pop 0.42s cubic-bezier(0.22, 1, 0.36, 1) both',
         'fade-up': 'fade-up 0.4s ease-out both',
         shimmer: 'shimmer 1.6s ease-in-out infinite',
+        confetti: 'confetti 2s ease-in both',
       },
     },
   },

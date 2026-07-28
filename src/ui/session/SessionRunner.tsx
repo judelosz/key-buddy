@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
-  Brain,
   Compass,
-  Hand,
   Play,
   RotateCcw,
   SkipForward,
@@ -29,7 +27,9 @@ import {
 } from '@/core/adaptive/adaptive';
 import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore, type SessionSummary } from '@/ui/store/gameStore';
+import { Celebration } from '@/ui/components/Celebration';
 import { ChartPlayer, type ChartPlayerPolicy } from '@/ui/components/ChartPlayer';
+import { XpChip } from '@/ui/components/XpChip';
 import { LessonStage } from '@/ui/missions/LessonStage';
 import { ModeChip } from '@/ui/missions/modeChip';
 import { headline } from '@/ui/missions/resultCopy';
@@ -318,6 +318,7 @@ export function SessionRunner() {
         onWrapUp={wrapUp}
       >
         <div className="mx-auto flex max-w-xl flex-col items-center gap-5 py-8 text-center animate-fade-up">
+          <Celebration show={d.tierAdvanced} />
           <span
             className={`flex h-14 w-14 items-center justify-center rounded-full shadow-soft ${
               isStretch
@@ -332,23 +333,14 @@ export function SessionRunner() {
           <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">
             {d.headlineText}
           </h2>
-          {d.xp > 0 && (
-            <div className="flex items-center gap-2 rounded-full bg-surface px-5 py-2 shadow-soft">
-              {d.track === 'hands' ? (
-                <Hand size={15} className="text-amber-deep" />
-              ) : (
-                <Brain size={15} className="text-peri-deep" />
-              )}
-              <span className="font-display font-semibold tabular-nums text-ink">+{d.xp} XP</span>
-            </div>
-          )}
+          {d.xp > 0 && <XpChip xp={d.xp} track={d.track} size="sm" />}
           {d.tierAdvanced && (
-            <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
+            <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
               <TrendingUp size={15} /> Level up!
             </div>
           )}
           {d.passed && d.songLeveledTo !== undefined && (
-            <div className="rounded-2xl bg-rose-soft px-4 py-2 text-sm font-medium text-rose-deep">
+            <div className="animate-pop rounded-2xl bg-rose-soft px-4 py-2 text-sm font-medium text-rose-deep">
               Song mastery leveled up
             </div>
           )}

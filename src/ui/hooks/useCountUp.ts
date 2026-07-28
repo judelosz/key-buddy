@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-const prefersReducedMotion = (): boolean =>
+/** Shared JS-side reduced-motion check — the CSS gate in index.css can't
+ * reach rAF-driven motion (count-ups, canvas, celebration overlays). */
+export const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 

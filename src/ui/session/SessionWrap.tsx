@@ -1,8 +1,8 @@
-import { ArrowRight, Brain, CalendarClock, Hand, Music, PartyPopper, TrendingUp } from 'lucide-react';
+import { ArrowRight, CalendarClock, Music, PartyPopper, TrendingUp } from 'lucide-react';
 import { getContent } from '@/core/content/bundled';
 import { SONG_MASTERY_LABELS } from '@/core/songMastery/songMastery';
 import type { SessionSummary } from '@/ui/store/gameStore';
-import { useCountUp } from '@/ui/hooks/useCountUp';
+import { XpChip } from '@/ui/components/XpChip';
 
 /**
  * The session wrap — "Nice session." regardless of length (open-ended by
@@ -16,8 +16,6 @@ export function SessionWrap({
   summary: SessionSummary;
   onDone: () => void;
 }) {
-  const hands = useCountUp(summary.xpHands);
-  const head = useCountUp(summary.xpHead);
   const content = getContent();
 
   return (
@@ -41,36 +39,21 @@ export function SessionWrap({
 
       {(summary.xpHands > 0 || summary.xpHead > 0) && (
         <div className="flex items-center gap-3">
-          {summary.xpHands > 0 && (
-            <div className="flex items-center gap-2 rounded-full bg-surface px-5 py-2.5 shadow-soft">
-              <Hand size={16} className="text-amber-deep" />
-              <span className="font-display text-lg font-semibold tabular-nums text-ink">
-                +{hands}
-              </span>
-              <span className="text-xs text-ink-soft">Hands</span>
-            </div>
-          )}
-          {summary.xpHead > 0 && (
-            <div className="flex items-center gap-2 rounded-full bg-surface px-5 py-2.5 shadow-soft">
-              <Brain size={16} className="text-peri-deep" />
-              <span className="font-display text-lg font-semibold tabular-nums text-ink">
-                +{head}
-              </span>
-              <span className="text-xs text-ink-soft">Head</span>
-            </div>
-          )}
+          {summary.xpHands > 0 && <XpChip xp={summary.xpHands} track="hands" />}
+          {summary.xpHead > 0 && <XpChip xp={summary.xpHead} track="head" />}
         </div>
       )}
 
       {summary.tierAdvanced && (
-        <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-deep">
+        <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-deep">
           <TrendingUp size={16} /> You leveled up this session!
         </div>
       )}
-      {summary.songLevelUps.map(({ songId, level }) => (
+      {summary.songLevelUps.map(({ songId, level }, i) => (
         <div
           key={`${songId}-${level}`}
-          className="flex items-center gap-2 rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep"
+          className="flex animate-pop items-center gap-2 rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep"
+          style={{ animationDelay: `${(i + 1) * 120}ms` }}
         >
           <Music size={16} />
           {content.getSong(songId)?.title ?? songId} → {SONG_MASTERY_LABELS[level]}
@@ -78,7 +61,7 @@ export function SessionWrap({
       ))}
 
       {summary.dueTomorrowCount > 0 && (
-        <p className="flex items-center gap-2 text-xs text-ink-soft">
+        <p className="flex items-center gap-2 rounded-full bg-sand px-4 py-2 text-xs text-ink-soft">
           <CalendarClock size={13} />
           Due tomorrow: {summary.dueTomorrowCount} skill
           {summary.dueTomorrowCount === 1 ? '' : 's'} — tomorrow’s session weaves them in.
