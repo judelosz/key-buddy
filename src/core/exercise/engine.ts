@@ -45,6 +45,26 @@ export const TAP_BIAS_CLAMP_MS = 150;
 /** Don't trust a bias estimate built on fewer matched taps than this. */
 const TAP_BIAS_MIN_SAMPLES = 3;
 
+/**
+ * Count-in self-calibration. The pulse card invites tapping along with the
+ * count-in clicks; those free taps are a perfect per-take latency sample —
+ * the player syncs to the HEARD click, so their offset vs the scheduled
+ * click grid captures the whole output+input latency chain. Their median
+ * (clamped) becomes the take's starting bias, which is what makes
+ * single-prompt tap missions passable on an uncalibrated device.
+ */
+export const TAP_COUNTIN_BIAS_CLAMP_MS = 350;
+/** Ignore count-in taps wilder than this — not an attempt to hit a click. */
+const TAP_COUNTIN_SANITY_MS = 450;
+/** Need at least this many count-in taps to trust the estimate. */
+const TAP_COUNTIN_MIN_SAMPLES = 2;
+
+function median(values: readonly number[]): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 1 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
 function tapWindowsForTier(tier: number): TimingWindows {
   const w = windowsForTier(tier);
   return {
@@ -72,6 +92,10 @@ export class ExerciseEngine {
   /** Per-take systematic tap bias (ms), learned prompt-by-prompt — survives
    * resetPromptState so prompt 1 always grades uncorrected. */
   private tapBiasMs = 0;
+  /** This prompt's count-in tap offsets (vs the count-in click grid). */
+  private countInDevs: number[] = [];
+  /** Set once per prompt, when the first graded tap arrives. */
+  private countInBiasApplied = false;
   private finished = false;
 
   constructor(private readonly spec: ExerciseSpec) {
@@ -182,10 +206,31 @@ export class ExerciseEngine {
   ): void {
     const targets = this.tapTargets(expected);
     const beatMs = 60_000 / expected.bpm;
-    // Count-in taps are free. The pulse card invites tapping along with the
-    // count-in clicks; those taps land after the anchor but long before the
-    // first graded beat, and used to count as score-diluting "extras".
-    if (targets.length > 0 && atMs < targets[0] - beatMs / 2) return;
+    // Count-in taps are free — and they self-calibrate the take. The pulse
+    // card invites tapping along with the count-in clicks; each free tap's
+    // offset against the count-in click grid is recorded, and their median
+    // becomes this prompt's starting bias once graded taps begin.
+    if (targets.length > 0 && atMs < targets[0] - beatMs / 2) {
+      const anchor = this.promptShownAt ?? 0;
+      let best = Infinity;
+      for (let k = 0; k < expected.countInBeats; k++) {
+        const dev = atMs - (anchor + k * beatMs);
+        if (Math.abs(dev) < Math.abs(best)) best = dev;
+      }
+      if (Math.abs(best) <= TAP_COUNTIN_SANITY_MS) this.countInDevs.push(best);
+      return;
+    }
+    // First graded tap: fold the count-in sample into the bias.
+    if (!this.countInBiasApplied) {
+      this.countInBiasApplied = true;
+      if (this.countInDevs.length >= TAP_COUNTIN_MIN_SAMPLES) {
+        const m = median(this.countInDevs);
+        this.tapBiasMs = Math.max(
+          -TAP_COUNTIN_BIAS_CLAMP_MS,
+          Math.min(TAP_COUNTIN_BIAS_CLAMP_MS, m),
+        );
+      }
+    }
     const windows = tapWindowsForTier(this.spec.tier);
     const matchMs = matchWindowMs(windows, beatMs);
 
@@ -252,6 +297,8 @@ export class ExerciseEngine {
     this.collected = new Set();
     this.collectedPitches = [];
     this.taps = { deviations: [], extras: 0 };
+    this.countInDevs = [];
+    this.countInBiasApplied = false;
   }
 
   private finishPrompt(

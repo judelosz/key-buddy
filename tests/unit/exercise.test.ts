@@ -312,6 +312,62 @@ describe('ExerciseEngine', () => {
     expect(done.promptResult?.correct).toBe(true);
   });
 
+  it('count-in taps self-calibrate a single-prompt mission (the uncalibrated-device fix)', () => {
+    // A player on a laggy device: EVERYTHING lands ~+250 ms late (heard-click
+    // sync through the output+input latency chain). Count-in taps carry the
+    // same offset; their median becomes the take's bias, so the graded beats
+    // measure precision, not the device. +250 raw is inside scaled good
+    // (±315) but +250 with no correction plus one wobble fails the mission —
+    // with the count-in fold the wobble is what the window is FOR.
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1, 2, 3],
+        bpm: 60,
+        countInBeats: 4,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    // Count-in clicks at 0/1000/2000/3000 — taps consistently +250.
+    for (const t of [250, 1_250, 2_250]) engine.feed({ kind: 'note', note: note(60, t) });
+    // Graded targets at 4000..7000 — same +250 lag, one +420 wobble.
+    engine.feed({ kind: 'note', note: note(60, 4_250) });
+    engine.feed({ kind: 'note', note: note(60, 5_250) });
+    engine.feed({ kind: 'note', note: note(60, 6_420) }); // corrected: +170 → good
+    engine.feed({ kind: 'note', note: note(60, 7_250) });
+    const done = engine.feed({ kind: 'commit', atMs: 9_000 });
+    expect(done.promptResult?.scorePct).toBe(1);
+    // Without count-in taps the same +420 wobble would NOT be good (raw > 315).
+  });
+
+  it('count-in bias uses the median and ignores wild taps', () => {
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1],
+        bpm: 60,
+        countInBeats: 4,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    // Count-in: two honest +200s and one wild early smash (beyond the 450 ms
+    // sanity cap relative to every count-in click — ignored entirely).
+    engine.feed({ kind: 'note', note: note(60, 200) });
+    engine.feed({ kind: 'note', note: note(60, 1_200) });
+    engine.feed({ kind: 'note', note: note(60, 2_480) }); // +480 → outside sanity cap
+    // Graded targets 4000/5000; +400 taps pass only with the ~+200 median bias.
+    engine.feed({ kind: 'note', note: note(60, 4_400) });
+    engine.feed({ kind: 'note', note: note(60, 5_400) });
+    const done = engine.feed({ kind: 'commit', atMs: 7_000 });
+    expect(done.promptResult?.scorePct).toBe(1);
+  });
+
   it('learns a consistent tap bias from prompt 1 and forgives it on prompt 2', () => {
     // doc-08 §3.9: bias (constant offset) is huge and individual; variability
     // is tiny. A consistently-late tapper should be graded on precision.

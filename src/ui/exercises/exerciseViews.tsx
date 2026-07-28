@@ -140,7 +140,7 @@ export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
             }`}
           >
             {beat === null || inCountIn
-              ? 'Count-in — feel the pulse…'
+              ? 'Tap along with the count-in — it tunes the timing to your device'
               : 'Now tap with each pulse'}
           </p>
         </div>
