@@ -6,7 +6,7 @@
  */
 import { audioService } from '@/audio/audioService';
 import { inputService } from '@/input';
-import { ExerciseEngine } from '@/core/exercise/engine';
+import { ExerciseEngine, type TapFeedback } from '@/core/exercise/engine';
 import type {
   ExercisePrompt,
   ExerciseResult,
@@ -19,6 +19,8 @@ export interface ExerciseRunnerCallbacks {
   onChange: () => void;
   onPromptResult: (r: PromptResult) => void;
   onDone: (r: ExerciseResult) => void;
+  /** Live per-tap verdict (rhythm-tap prompts) — drives the on-time pill. */
+  onTapFeedback?: (f: TapFeedback) => void;
 }
 
 export class ExerciseRunner {
@@ -137,6 +139,7 @@ export class ExerciseRunner {
 
   private handle(out: ReturnType<ExerciseEngine['feed']>): void {
     if (this.disposed) return;
+    if (out.tapFeedback) this.cb.onTapFeedback?.(out.tapFeedback);
     if (out.promptResult) this.cb.onPromptResult(out.promptResult);
     if (out.done) {
       this.stopTaps();

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Drum, PlayCircle, Check } from 'lucide-react';
 import type { Chart } from '@/core/types';
 import type { ExercisePrompt } from '@/core/exercise/types';
+import type { TapFeedback } from '@/core/exercise/engine';
 import type { ExerciseRunner } from '@/ui/session/exerciseRunner';
 import { playNotesOnce } from '@/ui/session/exerciseRunner';
 import { audioService } from '@/audio/audioService';
@@ -75,14 +76,44 @@ export function ChoiceExerciseView({
   );
 }
 
+/** Per-tap verdict copy + styling — the tap view has no note lane, so unlike
+ * the chart player EVERY tap gets a verdict (this IS the timing feedback). */
+const TAP_FLASH_STYLES: Record<string, { label: string; style: string }> = {
+  perfect: { label: 'Perfect!', style: 'bg-mint-deep text-white' },
+  great: { label: 'Great', style: 'bg-mint-soft text-mint-deep' },
+  good: { label: 'Good', style: 'bg-amber-soft text-amber-deep' },
+  early: { label: 'Early', style: 'bg-peri-soft text-peri-deep' },
+  late: { label: 'Late', style: 'bg-peri-soft text-peri-deep' },
+  miss: { label: 'Missed', style: 'bg-rose-soft text-rose-deep' },
+  countIn: { label: '✓ synced', style: 'bg-sand text-ink-soft' },
+  extra: { label: 'Extra tap', style: 'bg-rose-soft text-rose-deep' },
+};
+const TAP_FLASH_MS = 750;
+
 /** rhythm-tap: the player's own first tap launches the count-in. */
-export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
+export function RhythmTapExerciseView({
+  runner,
+  tapFlash,
+}: {
+  runner: ExerciseRunner;
+  /** Latest tap verdict from the engine (nonce re-pops the pill per tap). */
+  tapFlash?: { f: TapFeedback; nonce: number } | null;
+}) {
   const range = runner.spec.keyboardRange;
   const prompt = runner.currentPrompt;
   const expected = prompt?.expected.kind === 'taps' ? prompt.expected : null;
   // Absolute beat index from the shared metronome clock (null until the first
   // tick lands) — drives the follow-along pulse.
   const [beat, setBeat] = useState<number | null>(null);
+  // The verdict pill hides itself shortly after the last tap.
+  const [flashVisible, setFlashVisible] = useState(false);
+  useEffect(() => {
+    if (!tapFlash) return;
+    setFlashVisible(true);
+    const t = window.setTimeout(() => setFlashVisible(false), TAP_FLASH_MS);
+    return () => window.clearTimeout(t);
+  }, [tapFlash]);
+  const flash = flashVisible && tapFlash ? TAP_FLASH_STYLES[tapFlash.f.grade ?? tapFlash.f.kind] : null;
 
   useEffect(() => {
     if (!runner.tapsRunning) {
@@ -133,6 +164,18 @@ export function RhythmTapExerciseView({ runner }: { runner: ExerciseRunner }) {
                 }`}
               />
             ))}
+          </div>
+          {/* Live verdict — how the last tap landed. Height reserved so the
+              card never jumps as pills come and go. */}
+          <div className="flex h-7 items-center" aria-live="polite">
+            {flash && (
+              <span
+                key={tapFlash?.nonce}
+                className={`animate-pop rounded-full px-3 py-1 font-display text-sm font-semibold shadow-soft ${flash.style}`}
+              >
+                {flash.label}
+              </span>
+            )}
           </div>
           <p
             className={`font-display text-base font-semibold ${

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Attempt } from '@/core/types';
 import type { CurriculumLesson, LessonMode, Module } from '@/core/curriculum/types';
 import type { ExerciseResult, ExerciseSpec, PromptResult } from '@/core/exercise/types';
+import type { TapFeedback } from '@/core/exercise/engine';
 import { generateExercise } from '@/core/exercise/generators';
 import { getContent } from '@/core/content/bundled';
 import { chartForLesson } from '@/core/content/resolveChart';
@@ -147,6 +148,7 @@ function ExerciseLesson({
   const recordLesson = useGameStore((s) => s.recordLesson);
   const [, setTick] = useState(0);
   const [lastResult, setLastResult] = useState<PromptResult | null>(null);
+  const [tapFlash, setTapFlash] = useState<{ f: TapFeedback; nonce: number } | null>(null);
   const runnerRef = useRef<ExerciseRunner | null>(null);
 
   const effectiveLesson: CurriculumLesson = useMemo(() => {
@@ -195,6 +197,7 @@ function ExerciseLesson({
       onDone: (result: ExerciseResult) => {
         void recordLesson(lesson, module, { result }, sessionCtx).then(onReward);
       },
+      onTapFeedback: (f) => setTapFlash({ f, nonce: Date.now() }),
     });
     runnerRef.current = runner;
     runner.begin();
@@ -243,7 +246,9 @@ function ExerciseLesson({
             }
           />
         )}
-        {prompt && lesson.exerciseType === 'rhythm-tap' && <RhythmTapExerciseView runner={runner} />}
+        {prompt && lesson.exerciseType === 'rhythm-tap' && (
+          <RhythmTapExerciseView runner={runner} tapFlash={tapFlash} />
+        )}
         {prompt &&
           (lesson.exerciseType === 'theory-quiz' ||
             lesson.exerciseType === 'interval-ear' ||

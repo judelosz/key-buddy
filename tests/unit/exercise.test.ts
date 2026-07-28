@@ -331,10 +331,17 @@ describe('ExerciseEngine', () => {
     };
     const engine = new ExerciseEngine(spec([tapsPrompt], 1));
     engine.feed({ kind: 'prompt-shown', atMs: 0 });
-    // Count-in clicks at 0/1000/2000/3000 — taps consistently +250.
-    for (const t of [250, 1_250, 2_250]) engine.feed({ kind: 'note', note: note(60, t) });
+    // Count-in clicks at 0/1000/2000/3000 — taps consistently +250. Each
+    // count-in tap reports live feedback (the "✓ synced" pill).
+    for (const t of [250, 1_250, 2_250]) {
+      expect(engine.feed({ kind: 'note', note: note(60, t) }).tapFeedback).toEqual({
+        kind: 'countIn',
+      });
+    }
     // Graded targets at 4000..7000 — same +250 lag, one +420 wobble.
-    engine.feed({ kind: 'note', note: note(60, 4_250) });
+    const first = engine.feed({ kind: 'note', note: note(60, 4_250) });
+    expect(first.tapFeedback?.kind).toBe('graded');
+    expect(first.tapFeedback?.grade).toBe('perfect'); // corrected: 0 ms
     engine.feed({ kind: 'note', note: note(60, 5_250) });
     engine.feed({ kind: 'note', note: note(60, 6_420) }); // corrected: +170 → good
     engine.feed({ kind: 'note', note: note(60, 7_250) });

@@ -4,6 +4,7 @@
  * ResponseEvents; it grades each prompt and returns the ExerciseResult when
  * the last prompt finishes. No I/O, timers, or randomness.
  */
+import type { NoteGrade } from '@/core/types';
 import { midiToName } from '@/core/music';
 import { buildHistogram } from '@/core/scoring/scoringEngine';
 import { gradeTiming } from '@/core/scoring/grade';
@@ -82,6 +83,15 @@ interface TapState {
   extras: number;
 }
 
+/** Real-time verdict for one tap — drives the live pill in the tap view. */
+export interface TapFeedback {
+  kind: 'countIn' | 'graded' | 'extra';
+  /** Present when graded (bias-corrected classification). */
+  grade?: NoteGrade;
+  /** Bias-corrected signed ms (negative = early). Present when graded. */
+  deviationMs?: number;
+}
+
 export class ExerciseEngine {
   private index = 0;
   private readonly results: PromptResult[] = [];
@@ -110,7 +120,12 @@ export class ExerciseEngine {
     return { index: this.index, total: this.spec.prompts.length };
   }
 
-  feed(e: ResponseEvent): { promptResult?: PromptResult; done?: ExerciseResult } {
+  feed(e: ResponseEvent): {
+    promptResult?: PromptResult;
+    done?: ExerciseResult;
+    /** Live per-tap verdict (taps prompts only) — pure addition, UI-facing. */
+    tapFeedback?: TapFeedback;
+  } {
     const prompt = this.currentPrompt;
     if (!prompt) return {};
 
@@ -162,8 +177,7 @@ export class ExerciseEngine {
         // "extra" against the score.
         if (this.promptShownAt === null) return {};
         if (e.kind === 'note') {
-          this.matchTap(e.note.timestampMs, expected);
-          return {};
+          return { tapFeedback: this.matchTap(e.note.timestampMs, expected) };
         }
         if (e.kind === 'commit') return this.evaluateTaps(prompt, expected);
         return {};
@@ -203,7 +217,7 @@ export class ExerciseEngine {
   private matchTap(
     atMs: number,
     expected: Extract<ExercisePrompt['expected'], { kind: 'taps' }>,
-  ): void {
+  ): TapFeedback {
     const targets = this.tapTargets(expected);
     const beatMs = 60_000 / expected.bpm;
     // Count-in taps are free — and they self-calibrate the take. The pulse
@@ -212,13 +226,13 @@ export class ExerciseEngine {
     // becomes this prompt's starting bias once graded taps begin.
     if (targets.length > 0 && atMs < targets[0] - beatMs / 2) {
       const anchor = this.promptShownAt ?? 0;
-      let best = Infinity;
+      let bestDev = Infinity;
       for (let k = 0; k < expected.countInBeats; k++) {
         const dev = atMs - (anchor + k * beatMs);
-        if (Math.abs(dev) < Math.abs(best)) best = dev;
+        if (Math.abs(dev) < Math.abs(bestDev)) bestDev = dev;
       }
-      if (Math.abs(best) <= TAP_COUNTIN_SANITY_MS) this.countInDevs.push(best);
-      return;
+      if (Math.abs(bestDev) <= TAP_COUNTIN_SANITY_MS) this.countInDevs.push(bestDev);
+      return { kind: 'countIn' };
     }
     // First graded tap: fold the count-in sample into the bias.
     if (!this.countInBiasApplied) {
@@ -249,9 +263,15 @@ export class ExerciseEngine {
     });
     if (best >= 0 && bestAbs <= matchMs) {
       this.taps.deviations[best] = atMs - targets[best]; // stored raw
-    } else {
-      this.taps.extras += 1;
+      const corrected = atMs - targets[best] - this.tapBiasMs;
+      return {
+        kind: 'graded',
+        grade: gradeTiming(corrected, windows, matchMs),
+        deviationMs: Math.round(corrected),
+      };
     }
+    this.taps.extras += 1;
+    return { kind: 'extra' };
   }
 
   private evaluateTaps(
