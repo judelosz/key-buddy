@@ -97,6 +97,21 @@ interface Candidate {
   families: SkillFamily[];
   reason: string;
   priority: number;
+  /** First-ever exposure of a brand-new skill (lesson never completed, skill
+   * reps = 0). Adjacent first exposures of the same skill may stay blocked —
+   * novices need a solution strategy before interference pays (doc-08 §3.3). */
+  firstExposure?: boolean;
+}
+
+/** Annotates a candidate with the first-exposure flag interleaveRepair honors. */
+function markFirstExposure(inputs: SessionInputs, c: Candidate): Candidate {
+  if (c.activity.kind !== 'lesson') return c;
+  const prog = inputs.lessonProgressById.get(c.activity.lessonId);
+  if (prog?.completedAt !== undefined) return c;
+  const hasNewSkill = c.skillIds.some(
+    (id) => (inputs.skillProgressById.get(id)?.freshness.reps ?? 0) === 0,
+  );
+  return hasNewSkill ? { ...c, firstExposure: true } : c;
 }
 
 /** Purposes that count toward the 20–35% due-review composition ratio. */
@@ -403,7 +418,17 @@ function collectCandidates(
     }
   }
 
-  return { familiarWin, newMaterial, due, song, transfer, stretch };
+  // Annotate first exposures so interleaveRepair can keep Discover→Copy
+  // blocks intact (doc-08 §3.3).
+  const mark = (c: Candidate | null) => (c ? markFirstExposure(inputs, c) : null);
+  return {
+    familiarWin: mark(familiarWin),
+    newMaterial: mark(newMaterial),
+    due: due.map((c) => markFirstExposure(inputs, c)),
+    song: song.map((c) => markFirstExposure(inputs, c)),
+    transfer: transfer.map((c) => markFirstExposure(inputs, c)),
+    stretch: mark(stretch),
+  };
 }
 
 function songReason(m: SongMastery, title: string): string {
@@ -499,16 +524,27 @@ function lowestPriorityReviewIndex(queue: readonly Candidate[]): number {
  * family when a swap with a later segment can fix it (doc 06 §3.5
  * interleaving). Index 0 (the warm-up) never moves.
  */
-export function interleaveRepair<T extends Pick<Candidate, 'families'>>(queue: T[]): T[] {
+export function interleaveRepair<
+  T extends Pick<Candidate, 'families'> & { firstExposure?: boolean; skillIds?: readonly string[] },
+>(queue: T[]): T[] {
   const out = [...queue];
   const fam = (c: T | undefined) => c?.families[0];
+  // An adjacent pair of first exposures sharing a skill is an intended
+  // Discover→Copy block — blocked practice is right for a brand-new skill
+  // (doc-08 §3.3); the repair must neither split it nor steal from it.
+  const isBlockPair = (a: T | undefined, b: T | undefined) =>
+    a?.firstExposure === true &&
+    b?.firstExposure === true &&
+    (a.skillIds ?? []).some((s) => (b.skillIds ?? []).includes(s));
   for (let pass = 0; pass < out.length; pass++) {
     let swapped = false;
     for (let i = 1; i < out.length; i++) {
       const prev = fam(out[i - 1]);
       if (prev === undefined || fam(out[i]) !== prev) continue;
+      if (isBlockPair(out[i - 1], out[i])) continue;
       for (let j = i + 1; j < out.length; j++) {
         if (fam(out[j]) === prev) continue;
+        if (isBlockPair(out[j - 1], out[j]) || isBlockPair(out[j], out[j + 1])) continue;
         // The swap must not create a new clash where j sat. When j is right
         // after i, the moved item's new predecessor is the swapped-in one.
         const jPrev = j - 1 === i ? fam(out[j]) : fam(out[j - 1]);
@@ -540,6 +576,7 @@ function toSegment(
     skillIds: c.skillIds,
     families: c.families,
     reason: c.reason,
+    ...(c.firstExposure ? { firstExposure: true } : {}),
   };
   // Resume prior adaptive settings — explicitly, never silently.
   if (c.activity.kind === 'lesson') {

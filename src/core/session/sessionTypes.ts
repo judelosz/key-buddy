@@ -48,6 +48,9 @@ export interface SessionSegment {
   reason: string;
   /** Explicit adaptation applied to this run (never silent). */
   adaptation?: AdaptationDirective;
+  /** First-ever exposure of a new skill — interleave repair keeps adjacent
+   * first exposures of the same skill blocked (doc-08 §3.3). */
+  firstExposure?: boolean;
 }
 
 export interface SessionPlan {

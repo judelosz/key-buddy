@@ -192,6 +192,26 @@ describe('interleaveRepair', () => {
     const same = [seg('a', 'rhythm-groove'), seg('b', 'rhythm-groove')];
     expect(interleaveRepair(same).map((s) => s.id)).toEqual(['a', 'b']);
   });
+  it('keeps an adjacent first-exposure pair of the same skill blocked (doc-08 §3.3)', () => {
+    // Discover→Copy of a brand-new skill is an intended block — the repair
+    // must not split it even though a different-family swap target exists.
+    const block = (id: string) =>
+      ({
+        id,
+        families: ['rhythm-groove'],
+        skillIds: ['skill-x'],
+        firstExposure: true,
+      }) as never;
+    const fixed = interleaveRepair([block('discover'), block('copy'), seg('c', 'left-hand')]);
+    expect(fixed.map((s: { id: string }) => s.id)).toEqual(['discover', 'copy', 'c']);
+    // Without the first-exposure flag the same shape IS repaired.
+    const plain = interleaveRepair([
+      seg('a', 'rhythm-groove'),
+      seg('b', 'rhythm-groove'),
+      seg('c', 'left-hand'),
+    ]);
+    expect(plain.map((s) => s.id)).toEqual(['a', 'c', 'b']);
+  });
 });
 
 describe('advanceSession — remediation + the two-fail bar', () => {
