@@ -271,7 +271,7 @@ The product must be careful with physical coaching. MIDI can support feedback ab
 | 16–22 | Walking-bass subdivision, ii–V–I cadence timing, groove switching | Identify meter/feel and track form while texture changes | Three-style medley and transposed accompaniment |
 | 23–30 | Faster subdivisions, dynamic groove, rubato within a pulse, recovery | Maintain internal pulse through errors and listen critically to rush/drag | Boogie, backing-track improvisation, performance take |
 
-Rhythm mastery should use more than note-onset percentages. A player must also demonstrate continuity: keep the pulse, complete the form, and recover on the next beat after an error. Rhythm-tap exercises should reuse the same calibration and timing concepts as keyboard play.
+Rhythm mastery should use more than note-onset percentages. A player must also demonstrate continuity: keep the pulse, complete the form, and recover on the next beat after an error. Rhythm-tap exercises should reuse the same calibration and timing concepts as keyboard play. *(2026-07-28: continuity is now measured — `Attempt.continuity` records stops (gaps > 2 beats where the chart expected notes) and the worst gap; Tier 6+ gates should consume it — doc-08 §4.9.)*
 
 #### Time-signature progression
 
@@ -326,6 +326,14 @@ The Head lock should move from recognition to prediction and production. At late
 | 23–30 | Arrange and perform independently | Reharmonization, backing track, intros/outros, texture | Multi-chorus improvisation, one-take performance, teach-back |
 
 Repertoire should maintain three simultaneous roles: **current song** for achievable mastery, **review songs** for durable retention, and **stretch fragments** for aspiration. Free Play can draw from current and review songs but must not be confused with a curriculum checkpoint.
+
+**Strand-ladder amendments (2026-07-28, from doc-08):**
+
+- **Technique ladder, Tiers 6–10**: add basic damper pedal (down/up on chord changes, no smear) — currently the ladder's first pedal contact is Tiers 23–30, ~15 tiers after the gospel content that needs it (G1).
+- **Ear ladder, Tiers 1–10**: rebalance recognition → **production**. The strongest sound-before-sign evidence comes from production/improvisation, not choice prompts (doc-08 §3.8); the catalog's `echo play`/`fill-the-gap` archetypes need generators, and every module should carry at least one production-ear rep. The tradition's smallest creative choices ("pick your ending note") belong inside Arc I content, not first at Tier 8.
+- **Ear ladder, Tiers 6–10**: major-vs-minor triad *quality* discrimination stays in this band even though minor triad *construction* waits for Tier 11 — don't let the hearing slip out with the hands work (doc-08 §1.9).
+- **Practice craft / metacognition** (G10): the strongest single predictor of retention in the piano literature is error-location-and-repair strategy, and no strand carries it. Decision for the syllabus audit: sixth strand vs. gate evidence on the technique ladder at Tier 15+ (e.g. the player picks which bar to drill *before* the app suggests one, scored against `barAccuracies`).
+- **Arc IV note**: the extensions (T18) vs passing-chords (T19) ordering has no practitioner consensus (one major course inverts it); treat as swappable at authoring time — the only invariant is "after dom7 fluency."
 
 ### 4.5 Cross-strand gates
 
@@ -390,6 +398,8 @@ The exact thresholds can be tuned after playtesting, but the default Song Master
 - one delayed retrieval after the song has left the immediate practice queue;
 - one transfer performance, such as a new key, alternate arrangement, backing track, reduced visual guidance, or memory/lead-sheet mode, when the song supports it;
 - evidence that quality remains stable after at least one intervening session focused on other material.
+
+*Spacing principle (2026-07-28, doc-08 §3.13): the optimal review gap is roughly 10–20% of the retention interval you actually want. The implemented floors — 48 h for delayed skill review, 72 h for song delayed retrieval — therefore target a ~2–4-week retention horizon, which is right for a tier gate. If a future gate means "still plays it in 6 months," its delay floor must grow accordingly; tune against this principle, not by feel.*
 
 Free Play attempts contribute normally to this track when they meet the evidence requirements. Free Play is not a shortcut; it is one of the legitimate places where durable song evidence can accumulate.
 
@@ -500,11 +510,22 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 
 | Tier | Core outcome | Theory / ear | Movement / rhythm | Song or applied task | Gate |
 |---:|---|---|---|---|---|
-| 6 | Feel and remember the 12-bar form | I–IV–V map: bars 1–4 / 5–6 / 1–2 / 5–6 / 1–2; hear turnaround to I | Quarter-note chord comping; count 12 bars without losing place | **12-Bar Blues in C**, plain triads | Complete three 12-bar choruses; name each chord by number |
+| 6 | Feel and remember the 12-bar form | I–IV–V map: bars 1–4 / 5–6 / 1–2 / 5–6 / 1–2; hear turnaround to I; **V7 sound preview** (hear the "wants to go home" color — construction waits for Tier 7) | Quarter-note chord comping; count 12 bars without losing place | **12-Bar Blues in C**, plain triads | Complete three 12-bar choruses; name each chord by number; **identify the next change from audio** (internalized = heard, not counted) |
 | 7 | Introduce dominant 7ths | Dom7 = 1–3–5–♭7; major vs dom7 by ear | Add the seventh without squeezing; release together | 12-Bar Blues with C7/F7/G7 | Build and play three dom7s; 80% chord-ear accuracy |
-| 8 | Establish shuffle feel | Straight vs swung eighths; shuffle notation; beat 2/4 backbeat; minor pentatonic sound | LH long-short root/fifth; no accent on every note | Frankie and Johnny or a shuffle fragment | Four bars of shuffle at 80% target tempo, then answer a 2-bar phrase with minor-pentatonic notes |
+| 8 | Establish shuffle feel | Straight vs swung eighths; shuffle notation; beat 2/4 backbeat; minor pentatonic sound | LH long-short **root-5↔root-6 rock** (the 6th is the blues sound — amended 2026-07-28, was "root/fifth"); no accent on every note | Frankie and Johnny or a shuffle fragment | Four bars of shuffle at 80% target tempo, then answer a 2-bar phrase with minor-pentatonic notes |
 | 9 | Apply chord changes without stopping | Harmonic rhythm; phrase endings; hear I→IV and V→I | RH chord inversions for minimal movement; steady LH root | C.C. Rider or a 12-bar song | Three choruses with ≥85% correct chord onsets |
-| 10 | First branch checkpoint: groove + form | Nashville numbers 1, 4, 5; identify I–IV–V by ear | LH shuffle + RH dom7 comping; recover after a miss | **Blues boss: 12-bar Blues full arrangement** | Mastery star at target tempo; theory/ear checkpoint ≥80% |
+| 10 | First branch checkpoint: groove + form | Nashville numbers 1, 4, 5; identify I–IV–V by ear | LH shuffle + RH dom7 comping; recover after a miss | **Blues boss: 12-bar Blues full arrangement** | Mastery star at target tempo; theory/ear checkpoint ≥80%; **one continuity/retrieval item** (chart-hidden bars or name-the-bar-you're-on — the boss must mean "holds the form", not "tracked the scroll") |
+
+**Arc II amendments (2026-07-28, from doc-08 — apply when authoring this band):**
+
+- **Damper pedal enters here** (gap G1): a pedal skill card in the Tiers 8–12 window. Both flagship adult methods teach basic pedal at this stage, the gospel arc needs it by Tiers 16+, and MIDI CC64 makes it honestly scorable. (Engineering prerequisite: the input pipeline currently ignores CC64.)
+- **Swing is graded on a ratio band, not a triplet grid** (G7): score the offbeat within a tolerance band around a tempo-appropriate swing ratio (~1.7:1–2.5:1 at Tier-8 tempos), with per-player bias correction; report a measured "your swing ratio" and its drift (flattening-toward-straight is the #1 documented failure mode). A grading spec must exist before Tier-8 content is authored — the widened symmetric tap windows would let a player who never swings pass.
+- **Teach the feel before grading it**: A/B straight↔swung identification → swing-dial comparison (§8.3) → echo a heard shuffle cell → play the chart (notated straight, marked swing feel — real-world convention).
+- **Anti-note-chasing rules for the 12-bar band**: the repeating form is maximally screen-memorizable — author number-prompt retrieval mid-form ("what chord is bar 5?"), and at least one falling-notes-off non-checkpoint lesson per module.
+- **Reference-recording listen lessons** (G11): each genre module ships ≥1 listen lesson anchored to an authentic recording (PD-era shuffle piano is usable) so ear targets train against real timbres, not only the sampler.
+- **The Tier 5→6 branch moment is one dominant door**: "your path continues into blues (recommended)" with country/gospel as labeled previews — never three equal doors (the documented content-buffet stall).
+- **Blocked-then-interleaved for each new dom7** (Tier 7): C7, F7, G7 each get consecutive Discover→Copy segments before the change-drill interleaves them (the builder's first-exposure exemption exists for exactly this).
+- **Tiers 8–10 are the retention danger zone**: the dropout cliff and competitor plateau land here at realistic pacing. Keep step-down/remediation prominent; playtest the Tier-10 gate the way the Tier-1 boss was — but never soften its ear/theory legs (they are the moat).
 
 ### Arc III — Vocabulary and independence (Tiers 11–15)
 
@@ -515,6 +536,14 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 | 13 | Build a country accompaniment | Nashville numbers in C/G; diatonic triad qualities | Boom-chick: LH bass then RH chord; consistent release | Red River Valley or Wildwood Flower | Play 1–4–5 in C and G from numbers, not letter prompts |
 | 14 | Add a turnaround and fill | Dominant-to-tonic resolution; phrase space; call/response | RH fills between phrases; avoid filling over the melody | Blues with a Turnaround | Perform 3 different endings and leave intentional space |
 | 15 | Branch checkpoint: accompaniment + vocabulary | Transpose I–IV–V to F; hear major/minor/dom7 | Hands-independent groove; dynamic accents | **Country/gospel/blues choice boss** | One song in C plus one transposed fragment in F or G |
+
+**Arc III amendments (2026-07-28, from doc-08 — apply when authoring this band):**
+
+- **Gospel walk-ups/walk-downs at ~Tier 11** (G2): stepwise diatonic bass connecting I–IV–V (the classic 1→4 walk-up). Every gospel-piano source teaches it as *entry* vocabulary — easier than extensions or passing chords; pairs with the Tier-11 Saints gospel arrangement and previews Tier-16 walking bass (the §3.5 "shuffle becomes walking bass" spiral gains its missing gospel stepping stone).
+- **Country slip-note (Floyd Cramer) at ~Tier 13–14** (G3): the whole-step-below note slipping into the chord tone (2→3), pentatonic-derived, on the beat, as loud as its target — without it the country branch never sounds like country RH. *Engineering note: charts have no ornament concept; prototype the representation (short on-beat NoteEvents vs an ornament annotation with widened windows) before authoring — the timing windows would punish the deliberately crushed spacing.*
+- **Harmonize-a-heard-melody at ~Tiers 11–15** (G4): hear a familiar melody → find it → attach I/ii/IV/V/vi under each note. Gospel's actual entry skill (GospelKeys' whole beginner curriculum) and the single best Head→Hands bridge the ear strand can ask for; diatonic triad qualities are already at Tier 13.
+- **First simple lead sheet at ~Tiers 10–13** (G5): known melody + known chord symbols, no arrangement chart. The user reads chord symbols from Tier 5; Faber puts lead sheets at the equivalent band. Tiers 21/27 keep form markers, slash chords, and first-look reading.
+- **Note-duration/release scoring lands in this band** (G13): committed here rather than "later tiers" so the right-onset-wrong-length criticism has an expiry date. Needs the note-off input channel (CLAUDE.md §6 TODO).
 
 ### Arc IV — Genre fluency (Tiers 16–22)
 
@@ -634,7 +663,9 @@ AFK can open Head progress and preserve the habit, but it cannot create a Hands 
 - **Left-hand ostinato:** repeat root/fifth, shuffle, boom-chick, walking, or boogie pattern.
 - **Melody-over-bed:** RH phrase over a repeating LH pattern.
 - **Fill-the-gap:** respond to a four-bar melody with a two-bar fill.
-- **Recovery rep:** intentionally omit a note or introduce a pause; continue on the next beat.
+- **Recovery rep:** intentionally omit a note or introduce a pause; continue on the next beat. *(Author in the Tier 6–10 band — continuity is now measured evidence.)*
+- **Lift a lick** *(added 2026-07-28, unimplemented — G8)*: hear a 2-bar phrase with no falling notes and no notation, reconstruct it on the keys, then transpose it. The single most authentic exercise in all three home traditions (phrase-level "copying records"); maps onto the Tier 11–15 call-and-response ladder.
+- **Memory mode** *(added 2026-07-28, unimplemented — G9)*: play a known chart with the falling notes/chart hidden after bar N. The app's only missing retrieval mode for repertoire, and the honest path to emitting the typed-but-never-emitted `'memory'` transfer evidence. Promoted ahead of other Phase-6 candidates.
 
 ### 8.2 Visual and notation exercises
 
@@ -658,10 +689,14 @@ Notation is secondary to chord symbols and the playable visualizer in the early 
 - rhythm clapback and steady-pulse continuation;
 - I–IV–V, ii–V–I, and 1–5–6–4 progression recognition;
 - straight vs swing/shuffle feel identification;
+- **swing dial** *(added 2026-07-28, unimplemented — doc-08 2.11)*: the same cell played at parameterized swing ratios (e.g. 50/58/66%) — "which swings more / match the reference." Trivially implementable on the Tone.js Transport; stronger than binary straight-vs-swung ID and prerequisite listening for Tier 8;
+- **improvise-an-answer** *(added 2026-07-28, unimplemented — G8)*: answer a heard 2-bar call within a constrained note set, scored on "in the set, in time, resolved to a chord tone" — never on melodic creativity;
 - “what changed?” passing chord or inversion detection;
 - build-a-chord and explain its formula;
+- **harmonize a heard melody** *(added 2026-07-28, unimplemented — G4)*: hear a familiar melody, find it, attach diatonic chords under each phrase — gospel's entry skill and the strongest Head→Hands bridge;
 - transpose a progression by scale degree;
-- identify a lick, turnaround, voicing, or groove by sound.
+- identify a lick, turnaround, voicing, or groove by sound;
+- progression recognition is strongest as **audio → Nashville numbers** (hear it, chart it by number) from Tier 10 on — not symbol-to-symbol conversion quizzes (doc-08 2.19).
 
 The ear catalog follows a proven musicianship progression: introductory pitch direction, pitch patterns, triad quality, rhythm identification and clapback first; intervals, scales, melodies, chord degrees, and progressions later. This mirrors the structure used by established conservatory musicianship programs.
 
@@ -772,6 +807,15 @@ The curriculum uses the following converging evidence and established practice s
 - Ear training should begin with pitch direction, patterns, basic chord quality, and rhythm, then grow into intervals, melody, chord degrees, and progressions.
 
 The app should treat these sources as guidance, not as a claim that a game score is equivalent to a teacher’s physical observation. The curriculum is strongest when it makes musical outcomes observable, keeps technical claims modest, and leaves room for teacher or self-reflection outside the MIDI signal.
+
+**Honesty pass (2026-07-28, from the doc-08 research findings):**
+
+- **Interleaving, stated precisely**: contextual interference has solid meta-analytic support for *adult motor transfer in general* (and adults specifically); the *music-specific* evidence is directionally consistent but thin, small-n, and drawn from advanced players. No study shows interleaving beats blocking for absolute-beginner musicians. The design keeps interleaving (with a first-exposure blocking exemption); it must not claim a retention multiplier.
+- **No hand-independence timelines**: every specific "adults get independence in N weeks" figure in circulation is blog content, not research. The mirror-symmetry bias is real; the timeline is unknown — the doc deliberately states none.
+- **Practice quality over quantity**: retention is predicted by *how* players practice (precise error location, isolation, repair), not by minutes or rep counts. Any copy or stat that equates time-in-app with progress contradicts the best piano-specific evidence.
+- **Calibration note for Tiers 11–30**: this syllabus intentionally runs its harmonic/ear expectations ~2 external grades ahead of its technical expectations (relative to RCM/ABRSM). That is the genre-app trade, not an error — future authors should not "correct" Tiers 11–22 toward classical technical difficulty. Conversely, Tiers 16–30 have **no external calibration anchor at all** (no adult method covers ii–V–I, extensions, walking bass, or reharmonization in graded sequence); their difficulty steps will need playtest-driven tuning more than Tiers 1–15.
+- **Institutionalization guard**: this app is an institutionalization of three aural traditions, and the documented failure mode of institutionalizing an aural tradition is theory/notation scaffolding crowding out the listening-imitation core. The standing rule: every genre module ships at least one recording-anchored listen lesson, and ear-strand production reps never fall below recognition reps in a module.
+- **Multi-day floors have a mechanism, not just an intuition**: sleep-dependent consolidation is replicated music-specifically (gains only across sleep; a similar sequence learned right after recall can block the gain). This is the empirical justification for the ≥5-day song-mastery floor — and for the builder rule that a near-identical variation is never scheduled immediately after a first success in the same sitting.
 
 ## Sources
 
