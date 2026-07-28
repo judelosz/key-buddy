@@ -30,7 +30,7 @@ test('fresh profile: hero leads with new material, session runs a real lesson an
   // Session takeover: intro card for the first (and only) segment — the
   // recommended listen lesson framed as "Something new".
   await expect(page.getByText('Something new')).toBeVisible();
-  await expect(page.getByText('· more ready when you are')).toBeVisible();
+  await expect(page.getByText('more ready when you are')).toBeVisible();
 
   // Skipping is guilt-free and ends on the wrap when nothing is left.
   await page.getByRole('button', { name: 'Skip this one' }).click();

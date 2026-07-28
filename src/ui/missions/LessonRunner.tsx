@@ -121,6 +121,7 @@ export function LessonRunner({ lesson, module }: { lesson: CurriculumLesson; mod
           key={nonce}
           lesson={lesson}
           module={module}
+          hideChartHeader
           policyOverride={retryOverride?.policyOverride}
           generatorOverrides={retryOverride?.generatorOverrides}
           practiceRun={retryOverride !== null}

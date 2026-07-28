@@ -347,7 +347,7 @@ export function SessionRunner() {
               <TrendingUp size={15} /> Level up!
             </div>
           )}
-          {d.songLeveledTo !== undefined && (
+          {d.passed && d.songLeveledTo !== undefined && (
             <div className="rounded-2xl bg-rose-soft px-4 py-2 text-sm font-medium text-rose-deep">
               Song mastery leveled up
             </div>
@@ -474,7 +474,7 @@ function SessionFrame({
           {Array.from({ length: upcoming }, (_, i) => (
             <span key={`u${i}`} className="h-2 w-2 rounded-full bg-sand" />
           ))}
-          <span className="ml-1.5 text-[11px] text-ink-soft">· more ready when you are</span>
+          <span className="ml-1.5 text-[11px] text-ink-soft">more ready when you are</span>
         </div>
         <button
           type="button"

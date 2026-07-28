@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { COMPUTER_KEY_MAP } from '@/input/providers/virtualProvider';
 import { virtualProvider, inputService } from '@/input';
 import { audioService } from '@/audio/audioService';
@@ -48,20 +48,41 @@ export function PianoKeyboard({
   const showLabel = (pitch: number) =>
     labels === 'notes' && (!denseLabels || pitch % 12 === 0);
 
+  // One pending clear-timer per pitch: re-pressing resets it, and every timer
+  // is cancelled on unmount/range change — an orphaned timeout used to leave a
+  // key lit past its flash (throttled tabs, audio-init stalls, unmount races).
+  const flashTimersRef = useRef<Map<number, number>>(new Map());
   const flash = useCallback((pitch: number) => {
     setActive((prev) => new Set(prev).add(pitch));
-    window.setTimeout(() => {
-      setActive((prev) => {
-        const next = new Set(prev);
-        next.delete(pitch);
-        return next;
-      });
-    }, 180);
+    const timers = flashTimersRef.current;
+    const prior = timers.get(pitch);
+    if (prior !== undefined) window.clearTimeout(prior);
+    timers.set(
+      pitch,
+      window.setTimeout(() => {
+        timers.delete(pitch);
+        setActive((prev) => {
+          const next = new Set(prev);
+          next.delete(pitch);
+          return next;
+        });
+      }, 180),
+    );
   }, []);
 
   // Highlight keys from the unified input stream, so MIDI, computer keys, AND
   // on-screen taps all light up the key that was played.
   useEffect(() => inputService.onNote((n) => flash(n.pitch)), [flash]);
+
+  // Range change or unmount: cancel pending clears and drop stale highlights.
+  useEffect(() => {
+    const timers = flashTimersRef.current;
+    return () => {
+      for (const t of timers.values()) window.clearTimeout(t);
+      timers.clear();
+      setActive(new Set());
+    };
+  }, [lowPitch, highPitch]);
 
   const trigger = useCallback(async (pitch: number) => {
     await ensureAudio();

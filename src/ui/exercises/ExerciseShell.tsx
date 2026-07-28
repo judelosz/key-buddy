@@ -43,7 +43,7 @@ export function ExerciseShell({
       : -1;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div data-testid="exercise-shell" className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           {Array.from({ length: progress.total }, (_, i) => (

@@ -21,7 +21,10 @@ export function SessionWrap({
   const content = getContent();
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col items-center gap-6 py-10 text-center animate-fade-up">
+    <div
+      data-testid="session-wrap"
+      className="mx-auto flex max-w-xl flex-col items-center gap-6 py-10 text-center animate-fade-up"
+    >
       <span className="flex h-16 w-16 items-center justify-center rounded-full bg-mint-soft text-mint-deep shadow-soft">
         <PartyPopper size={28} />
       </span>

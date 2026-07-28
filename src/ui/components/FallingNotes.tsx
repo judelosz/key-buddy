@@ -4,7 +4,9 @@ import { midiToName } from '@/core/music';
 import { keyRectMap } from '@/core/pianoLayout';
 import { audioService } from '@/audio/audioService';
 
-const GRADE_COLORS: Record<NoteGrade, string> = {
+/** Canvas can't read Tailwind classes — these MUST mirror tailwind.config.ts
+ * `grade.*` (drift-guarded by tests/unit/gradeColors.test.ts). */
+export const GRADE_COLORS: Record<NoteGrade, string> = {
   perfect: '#34B378',
   great: '#7FD0A6',
   good: '#E3A72E',

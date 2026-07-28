@@ -54,6 +54,9 @@ export interface LessonStageProps {
   onReward: (r: LessonReward) => void;
   onExit: () => void;
   exitLabel?: string;
+  /** Host renders its own frame with a back affordance — drop ChartPlayer's
+   * header row so chart lessons never show two stacked headers. */
+  hideChartHeader?: boolean;
 }
 
 /**
@@ -78,6 +81,7 @@ function ChartLesson({
   onReward,
   onExit,
   exitLabel,
+  hideChartHeader,
 }: LessonStageProps) {
   const recordLesson = useGameStore((s) => s.recordLesson);
   const resolved = useMemo(() => chartForLesson(getContent(), lesson), [lesson]);
@@ -110,6 +114,7 @@ function ChartLesson({
       onExit={onExit}
       onAttemptCaptured={onAttemptCaptured}
       exitLabel={exitLabel ?? 'Missions'}
+      hideHeader={hideChartHeader}
       banner={
         banner ?? (
           <div

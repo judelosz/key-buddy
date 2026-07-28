@@ -89,6 +89,12 @@ export interface ChartPlayerProps {
   banner?: ReactNode;
   /** Label for the exit button (defaults to "Songs"). */
   exitLabel?: string;
+  /**
+   * Hosts that render their own frame (lesson/session takeovers) set this to
+   * drop the player's back-link + title row — the song meta collapses to one
+   * muted line so a lesson never shows two stacked headers.
+   */
+  hideHeader?: boolean;
 }
 
 /**
@@ -105,6 +111,7 @@ export function ChartPlayer({
   onAttemptCaptured,
   banner,
   exitLabel = 'Songs',
+  hideHeader = false,
 }: ChartPlayerProps) {
   const content = getContent();
   const [chart, setChart] = useState<Chart>(initialChart);
@@ -256,24 +263,30 @@ export function ChartPlayer({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => {
-            sessionRef.current?.cancel();
-            onExit();
-          }}
-          className="inline-flex items-center gap-1 text-sm text-ink-soft hover:text-ink"
-        >
-          <ChevronLeft size={16} /> {exitLabel}
-        </button>
-        <div className="text-right">
-          <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{song.title}</h2>
-          <p className="text-xs text-ink-soft">
-            {song.genre} · tier {song.tier} · {chart.arrangementLevel} · target {song.tempoTargetBPM} BPM
-          </p>
+      {hideHeader ? (
+        <p className="text-xs text-ink-soft">
+          {song.title} · {song.genre} · {chart.arrangementLevel} · target {song.tempoTargetBPM} BPM
+        </p>
+      ) : (
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => {
+              sessionRef.current?.cancel();
+              onExit();
+            }}
+            className="inline-flex items-center gap-1 text-sm text-ink-soft hover:text-ink"
+          >
+            <ChevronLeft size={16} /> {exitLabel}
+          </button>
+          <div className="text-right">
+            <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{song.title}</h2>
+            <p className="text-xs text-ink-soft">
+              {song.genre} · tier {song.tier} · {chart.arrangementLevel} · target {song.tempoTargetBPM} BPM
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {banner}
 

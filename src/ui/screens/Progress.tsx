@@ -5,6 +5,7 @@ import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { isHandsMastered, isHeadMastered } from '@/core/progression/progressionService';
 import { LevelMeter } from '@/ui/components/LevelMeter';
+import { ProgressBar } from '@/ui/components/ProgressBar';
 import { SongMasteryCard } from './SongMasteryCard';
 
 export function Progress() {
@@ -56,11 +57,11 @@ export function Progress() {
                 />
                 <ChecklistItem
                   done={gateStatus.coreSkills.every((s) => s.mastered)}
-                  label={`Core skills Hands-mastered (${gateStatus.coreSkills.filter((s) => s.mastered).length}/${gateStatus.coreSkills.length})`}
-                  todo={gateStatus.coreSkills
+                  label={`Core skills Hands-mastered — ${gateStatus.coreSkills.filter((s) => s.mastered).length} of ${gateStatus.coreSkills.length}`}
+                  todo={`These ${gateStatus.coreSkills.length} gate the level (the tier may list more): ${gateStatus.coreSkills
                     .filter((s) => !s.mastered)
                     .map((s) => content.getSkill(s.skillId)?.name ?? s.skillId)
-                    .join(', ')}
+                    .join(', ')}`}
                 />
                 <ChecklistItem
                   done={gateStatus.bossPassed}
@@ -108,16 +109,30 @@ export function Progress() {
       <div className="rounded-3xl border border-line bg-surface p-4 shadow-soft">
         <h3 className="mb-3 font-display text-sm font-semibold text-ink">Skills (two locks)</h3>
         <div className="flex flex-col gap-2">
-          {[...new Set(content.skills.map((s) => s.tier))]
-            .sort((a, b) => a - b)
-            .map((tier) => (
-              <TierSkillGroup
-                key={tier}
-                tier={tier}
-                skills={content.skills.filter((s) => s.tier === tier)}
-                defaultOpen={tier === player.learningTier}
-              />
-            ))}
+          {(() => {
+            // Contiguous tier rows: an authored gap (e.g. no tier-9 skills yet)
+            // gets an honest placeholder instead of silently vanishing.
+            const authored = new Set(content.skills.map((s) => s.tier));
+            const maxTier = Math.max(...authored);
+            return Array.from({ length: maxTier }, (_, i) => i + 1).map((tier) =>
+              authored.has(tier) ? (
+                <TierSkillGroup
+                  key={tier}
+                  tier={tier}
+                  skills={content.skills.filter((s) => s.tier === tier)}
+                  defaultOpen={tier === player.learningTier}
+                />
+              ) : (
+                <div
+                  key={tier}
+                  className="flex items-center justify-between rounded-2xl border border-dashed border-line px-4 py-2.5 text-sm text-ink-soft"
+                >
+                  <span className="font-display font-semibold">Tier {tier}</span>
+                  <span className="text-xs">no skills to learn here yet</span>
+                </div>
+              ),
+            );
+          })()}
         </div>
         <p className="mt-3 text-xs text-ink-soft">
           A skill goes gold only when both locks open. Ear &amp; theory lessons open the Head lock;
@@ -143,12 +158,7 @@ export function Progress() {
                       {prog.masteredCount}/{prog.requiredCount} skills
                     </span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-sand">
-                    <div
-                      className="h-full rounded-full bg-mint-deep/70 transition-[width] duration-700"
-                      style={{ width: `${Math.round((prog.masteredCount / prog.requiredCount) * 100)}%` }}
-                    />
-                  </div>
+                  <ProgressBar fraction={prog.masteredCount / prog.requiredCount} />
                 </div>
               );
             })}
@@ -228,7 +238,11 @@ function ChecklistItem({
   icon?: ReactNode;
 }) {
   return (
-    <li className="flex items-start gap-2.5 rounded-2xl bg-sand px-3 py-2">
+    <li
+      className={`flex items-start gap-2.5 rounded-2xl px-3 py-2 ${
+        done ? 'bg-mint-soft/40' : 'bg-sand'
+      }`}
+    >
       <span
         className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
           done ? 'bg-mint-soft text-mint-deep' : 'bg-surface text-ink-soft'
@@ -237,7 +251,9 @@ function ChecklistItem({
         {done ? <Check size={12} /> : (icon ?? <Circle size={10} />)}
       </span>
       <span className="min-w-0">
-        <span className={`block text-sm ${done ? 'text-ink' : 'text-ink'}`}>{label}</span>
+        <span className={`block text-sm ${done ? 'text-ink-soft' : 'font-medium text-ink'}`}>
+          {label}
+        </span>
         {!done && todo && <span className="block text-xs text-ink-soft">{todo}</span>}
       </span>
     </li>

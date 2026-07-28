@@ -39,7 +39,10 @@ export function LessonResult({
   const tip = nextStep(lesson, reward);
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col items-center gap-6 py-8 text-center animate-fade-up">
+    <div
+      data-testid="lesson-result"
+      className="mx-auto flex max-w-xl flex-col items-center gap-6 py-8 text-center animate-fade-up"
+    >
       <span
         className={`flex h-16 w-16 items-center justify-center rounded-full shadow-soft ${
           reward.passed ? 'bg-mint-soft text-mint-deep' : 'bg-amber-soft text-amber-deep'
@@ -84,7 +87,9 @@ export function LessonResult({
           New song unlocked — find it in Free Play.
         </div>
       )}
-      {reward.chartReward?.songMasteryLeveledTo !== undefined && (
+      {/* A celebratory chip on a failed take reads as a contradiction — the
+          level-up still recorded; it just waits for the next pass to shine. */}
+      {reward.passed && reward.chartReward?.songMasteryLeveledTo !== undefined && (
         <div className="rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep">
           Song mastery leveled up →{' '}
           {SONG_MASTERY_LABELS[reward.chartReward.songMasteryLeveledTo]}

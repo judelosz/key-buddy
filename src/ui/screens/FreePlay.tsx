@@ -4,6 +4,7 @@ import type { Chart, Song } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { ChartPlayer, FREE_PLAY_POLICY } from '@/ui/components/ChartPlayer';
+import { ProgressBar } from '@/ui/components/ProgressBar';
 
 /**
  * Free Play — open practice of unlocked songs. Same player, scoring, and
@@ -98,18 +99,11 @@ function SongPicker({ songs, onPick }: { songs: Song[]; onPick: (s: Song) => voi
                       .map((id) => content.getSkill(id)?.name ?? id)
                       .join(', ')}
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-sand">
-                    <div
-                      className="h-full rounded-full bg-mint-deep/70 transition-[width] duration-700"
-                      style={{
-                        width: `${
-                          prog.requiredCount === 0
-                            ? 100
-                            : Math.round((prog.masteredCount / prog.requiredCount) * 100)
-                        }%`,
-                      }}
-                    />
-                  </div>
+                  <ProgressBar
+                    fraction={
+                      prog.requiredCount === 0 ? 1 : prog.masteredCount / prog.requiredCount
+                    }
+                  />
                 </div>
               )}
             </button>
