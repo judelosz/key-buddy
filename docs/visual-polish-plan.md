@@ -1,4 +1,4 @@
-# Piano Pro — Visual Polish Audit & Backlog
+# Key-Buddy — Visual Polish Audit & Backlog
 
 *Audit date 2026-07-28, on a throwaway profile (fresh IndexedDB at `localhost:5199` — Jude's real profile at `:5173` untouched). Full-app screenshot sweep driven through the real UI plus the `__pianoTest` dev seams; 47 screenshots preserved in the session scratchpad (`polish-sweep/`). This is a review document — no code was changed. Items are graded **impact** (what the player feels) × **effort/risk**, and grouped into Quick wins / Worth a pass / Needs a design decision.*
 

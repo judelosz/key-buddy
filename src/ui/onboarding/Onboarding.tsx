@@ -53,7 +53,7 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
             <Piano size={24} />
           </span>
           <div>
-            <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Piano Pro</h1>
+            <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
             <p className="text-xs text-ink-soft">Blues · Gospel · Country</p>
           </div>
         </div>

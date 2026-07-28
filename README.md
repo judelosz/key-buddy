@@ -1,4 +1,4 @@
-# Piano Pro
+# Key-Buddy
 
 A personal-use, gamified piano-learning web app for a complete beginner working toward **blues, gospel, and country**. It teaches through a research-backed loop: play a charted song on a MIDI keyboard, get fair note-and-timing scoring, and earn honest progression where every reward is a byproduct of actually getting better.
 

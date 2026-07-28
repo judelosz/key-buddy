@@ -1,4 +1,4 @@
-# AGENTS.md — Piano Pro engineering memory
+# AGENTS.md — Key-Buddy engineering memory
 
 This is the **living engineering memory** for the project (build-spec §0.1). It is a map + decision log, not a duplicate of the design docs. Keep it current: at the end of any task that adds a module, changes the data model, alters a scoring/reward/algorithm parameter, or resolves an open question, update the relevant section **in the same commit**. Treat an out-of-date `AGENTS.md` as a bug.
 

@@ -1,4 +1,4 @@
-# Piano Pro — manual test checklist
+# Key-Buddy — manual test checklist
 
 *A living checklist (roadmap §8/§9): rerun the relevant sections after any change to input, scoring, progression, the curriculum engine, or the shell. Automated coverage (`npm run typecheck | test | e2e`) must be green before starting a manual pass.*
 

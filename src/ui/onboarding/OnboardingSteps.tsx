@@ -64,7 +64,7 @@ export function InputSetupStep() {
   return (
     <StepFrame kicker="Step 1 · Input" title="How will you play?">
       <p className="max-w-prose text-sm text-ink-soft">
-        Piano Pro listens through a <span className="font-medium text-ink">MIDI keyboard</span> (best)
+        Key-Buddy listens through a <span className="font-medium text-ink">MIDI keyboard</span> (best)
         or the <span className="font-medium text-ink">on-screen / computer keys</span> below — there&rsquo;s
         no microphone mode. Press any key now to check your input works.
       </p>

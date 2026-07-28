@@ -38,7 +38,7 @@ test('first run lands on onboarding and Get Started walks into the shell', async
 
   // Reload → straight to the shell; onboarding is done and persisted.
   await page.reload();
-  await expect(page.getByRole('heading', { name: 'Piano Pro' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Key-Buddy' })).toBeVisible();
   await expect(
     page.getByRole('heading', { name: /Learn blues, gospel & country piano/ }),
   ).not.toBeVisible();

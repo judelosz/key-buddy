@@ -1,4 +1,4 @@
-# Piano Pro — Development Roadmap
+# Key-Buddy — Development Roadmap
 
 *The living delivery plan from the current MVP through the intended curriculum, Woodshed/AFK mode, and functional piano fluency experience.*
 

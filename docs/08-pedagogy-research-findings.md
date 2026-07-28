@@ -1,4 +1,4 @@
-# Piano Pro — Pedagogy Research Findings
+# Key-Buddy — Pedagogy Research Findings
 
 *A research pass to ground the curriculum work before authoring Tiers 6+. Companion to `06-comprehensive-curriculum-plan.md` (doc-06); every finding is mapped to the doc-06 (or doc-01/doc-03) section it touches, marked **SUPPORTS**, **CHALLENGES**, or **SUGGESTS REFINING**. Produced 2026-07-28 by four parallel research passes: method-book sequencing, genre pedagogy, music cognition & motor learning, and the gamified-app landscape.*
 
@@ -40,7 +40,7 @@ What Faber Adult Piano Adventures, Alfred's Adult All-in-One, and the RCM/ABRSM 
 
 1.14 **Attrition clusters around ~18 months; dropouts are the students who "achieved set goals less often," and adult quitting is shame/perfectionism-driven.** (Studies are mostly children/teens in lessons; adult-in-app is extrapolation.) — medium-high. **SUPPORTS** the zero-guilt wrap and §5.6 remediation; **SUGGESTS REFINING** Arc II–III attention: at realistic pacing the cliff lands in Tiers 8–15 — watch the Tier 10 boss-gate difficulty spike in playtesting the way the Tier-1 boss was watched.
 
-1.15 **Where methods DISAGREE — reading approach — is exactly where Piano Pro has freedom.** Alfred position-based, Faber guide-note/intervallic, Hal Leonard reading-centric; the only cross-method invariant is *some* staff literacy accumulating from Book 1. — medium-high. **SUPPORTS** doc-06 §8.2's chord-symbols-primary + drip-fed staff stance.
+1.15 **Where methods DISAGREE — reading approach — is exactly where Key-Buddy has freedom.** Alfred position-based, Faber guide-note/intervallic, Hal Leonard reading-centric; the only cross-method invariant is *some* staff literacy accumulating from Book 1. — medium-high. **SUPPORTS** doc-06 §8.2's chord-symbols-primary + drip-fed staff stance.
 
 1.16 **Nothing external calibrates Tiers 16–30.** Both adult courses end around triad inversions, 6/8, 16ths, multiple keys; everything in Arcs IV–V exists only in genre/jazz supplemental literature. — high. **SUPPORTS** Arcs IV–V as necessarily original design; flags that their difficulty steps will need playtest-driven tuning more than Tiers 1–15.
 
@@ -142,11 +142,11 @@ The full agent report (with complete source lists) is preserved in the project h
 
 ## 4. The gamified-app landscape — what works, what fails
 
-4.1 **Simply Piano passes players who play the wrong rhythm entirely** (note-hit-only scoring, duration ignored, binary green/red; teachers report transfer students "learned absolutely nothing about rhythm and hand independence"). — high. **SUPPORTS** doc-03 §3 and doc-06 §2 ("timing is a first-class outcome") — the market leader's most documented failure is Piano Pro's core bet.
+4.1 **Simply Piano passes players who play the wrong rhythm entirely** (note-hit-only scoring, duration ignored, binary green/red; teachers report transfer students "learned absolutely nothing about rhythm and hand independence"). — high. **SUPPORTS** doc-03 §3 and doc-06 §2 ("timing is a first-class outcome") — the market leader's most documented failure is Key-Buddy's core bet.
 
 4.2 **Flowkey's Wait Mode can't distinguish a good performance from a bad one** (no pulse requirement at all). — high. **SUPPORTS** doc-03 guardrails 5–6: wait-style scaffolds are fine *as assists*; Flowkey shows what happens when the assist IS the assessment.
 
-4.3 **Playground Sessions grades onset-at-tempo but ignores duration and dynamics** ("play terribly and get a perfect score so long as you're pressing keys at the correct tempo"). — medium-high. **SUGGESTS REFINING** doc-03 §3.1: duration/release scoring is marked "later tiers" with no tier named — commit it to a band (e.g. alongside Tier 11–15 phrasing) so it doesn't drift indefinitely; the identical criticism will apply to Piano Pro until then.
+4.3 **Playground Sessions grades onset-at-tempo but ignores duration and dynamics** ("play terribly and get a perfect score so long as you're pressing keys at the correct tempo"). — medium-high. **SUGGESTS REFINING** doc-03 §3.1: duration/release scoring is marked "later tiers" with no tier named — commit it to a band (e.g. alongside Tier 11–15 phrasing) so it doesn't drift indefinitely; the identical criticism will apply to Key-Buddy until then.
 
 4.4 **Yousician: accurate per-note scoring + one-dimensional gates still produces "learning a video game" plateaus.** — medium. **SUPPORTS** §4.5 cross-strand gates and §5.5 ("no single metric can pass a tier") — the proof case.
 
@@ -160,7 +160,7 @@ The full agent report (with complete source lists) is preserved in the project h
 
 4.9 **…but the divergence cases are about *continuity*, not note counts.** The same study: a burst of replayed notes scored terribly but got a B ("a single mistake"); near-perfect notes with two mid-piece *pauses* got a C. Teachers weight pulse-survival and recovery above error tallies. — high (primary source). **SUGGESTS REFINING** doc-03 §3.4 and doc-06 §4.4: add a **continuity/no-stop evidence bit** on Attempt (pulse never broken > N beats; recovered within a beat), feeding Tier 6+ gates. Doc-06 already says "keep the pulse, complete the form, recover" — the shipped ScoringEngine can't see it. Also retroactively validates the count-in early-note-buffering fix.
 
-4.10 **Controlled efficacy evidence for ALL these apps is thin and supplement-only** (the one sizable study tested apps as supplements to human lessons; Duolingo's research measures engagement, not learning). — medium; the gap is the finding. **SUPPORTS** guardrail #8 (the timing graph as the only defensible progress claim) — and a marketing-honesty note: no app in this space can legitimately claim proven efficacy; neither should Piano Pro's copy.
+4.10 **Controlled efficacy evidence for ALL these apps is thin and supplement-only** (the one sizable study tested apps as supplements to human lessons; Duolingo's research measures engagement, not learning). — medium; the gap is the finding. **SUPPORTS** guardrail #8 (the timing graph as the only defensible progress claim) — and a marketing-honesty note: no app in this space can legitimately claim proven efficacy; neither should Key-Buddy's copy.
 
 4.11 **Instant playable win in onboarding is the category's proven retention engine** (Simply Piano: playing a recognizable melody within minutes, before any theory). — medium. **SUPPORTS** §7.0 (onboarding ends inside the first lesson) and dropping calibration from onboarding — every step before the first playable note is friction the market leader proves you shouldn't have.
 

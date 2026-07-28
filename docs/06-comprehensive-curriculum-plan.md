@@ -1,4 +1,4 @@
-# Piano Pro — Comprehensive Curriculum Plan
+# Key-Buddy — Comprehensive Curriculum Plan
 
 *Implementation-ready syllabus for a complete beginner learning blues, gospel, and country piano.*
 
@@ -6,7 +6,7 @@ Prepared July 2026. This document extends `docs/01-curriculum-and-learning-desig
 
 ## 1. Curriculum promise
 
-Piano Pro should take a user from “I have never played” to a useful, independent musician who can:
+Key-Buddy should take a user from “I have never played” to a useful, independent musician who can:
 
 - keep a steady pulse and play with a metronome;
 - locate notes, use comfortable fingering, and move around the keyboard without staring at it constantly;
@@ -85,7 +85,7 @@ Not every module needs all eight lessons on the first visit. The SessionBuilder 
 
 ### 3.3 Practice modes
 
-Piano Pro should distinguish these modes in content and analytics:
+Key-Buddy should distinguish these modes in content and analytics:
 
 - **Guided** — visual aids, note names, slowed tempo, one-hand isolation.
 - **Supported** — metronome and chord symbols; limited visual assistance.
@@ -111,7 +111,7 @@ This makes failure informative rather than punitive. A miss should produce one n
 
 ### 3.5 Spiral curriculum and durable retrieval
 
-Piano Pro should use a **spiral curriculum**: old material returns at increasing levels of variation and independence as new skills are introduced.
+Key-Buddy should use a **spiral curriculum**: old material returns at increasing levels of variation and independence as new skills are introduced.
 
 The app should resurface:
 
@@ -568,7 +568,7 @@ The 30 tiers are grouped into five arcs. Each tier has a **core outcome**, a **t
 | 27 | Read and play unfamiliar material | Lead-sheet shorthand, slash chords, repeats, coda | First-look strategy; keep pulse through mistakes | Fresh public-domain lead sheet | 8-bar sight-read at a safe tempo with ≥75% correct notes |
 | 28 | Arrange for a listener | Intro/outro, texture, dynamics, register, pedal decisions | Balance melody and accompaniment; intentional silence | User-selected arrangement | Record a complete arrangement and self-identify one improvement |
 | 29 | Perform under conditions | Memory retrieval, recovery, count-in, stage routine | No restart after errors; expressive timing within pulse | Capstone medley: blues + gospel + country | One-take performance; no assists; timing and pitch thresholds met |
-| 30 | Demonstrate functional fluency | Explain form, key, progression, voicing choices, and next goal | Choose technique appropriate to the music | **Piano Pro recital / free-play challenge** | Play, transpose, improvise, identify by ear, and teach-back a short idea |
+| 30 | Demonstrate functional fluency | Explain form, key, progression, voicing choices, and next goal | Choose technique appropriate to the music | **Key-Buddy recital / free-play challenge** | Play, transpose, improvise, identify by ear, and teach-back a short idea |
 
 Tiers 23–30 should not be interpreted as “advanced classical piano.” They define the first meaningful plateau of genre fluency. Later content can add faster keys, richer voicings, stride, gospel reharmonization, accompaniment in more meters, and more demanding repertoire without changing the trunk.
 
