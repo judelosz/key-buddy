@@ -34,8 +34,7 @@ function cannedMasteryAttempt(chartId: string): Attempt {
 }
 
 export function installDevTest(): void {
-  Object.assign(window, {
-    __pianoTest: {
+  const seam = {
       async recordCanned(songId = 'ode-to-joy', chartId = 'ode-to-joy--simplified') {
         const content = getContent();
         const song = content.getSong(songId);
@@ -176,6 +175,26 @@ export function installDevTest(): void {
         const { useAppStore } = await import('@/ui/store/appStore');
         useAppStore.getState().setShowOnboarding(false);
       },
-    },
-  });
+      /**
+       * Pass Tier 1 through the REAL reducers (momentum schedule: no spaced
+       * evidence needed, so it completes in one call): canned-complete every
+       * tier-1 lesson (minus `skipLessonIds`) plus a canned boss mastery
+       * take. Doubles as a completability check — if the gate doesn't open,
+       * tier 1 is not one-sitting-completable and that's a content bug.
+       */
+      async completeTier1(skipLessonIds: string[] = []) {
+        const content = getContent();
+        await useGameStore.getState().init();
+        for (const module of content.modules.filter((m) => m.tier === 1)) {
+          for (const id of module.lessonIds) {
+            if (skipLessonIds.includes(id)) continue;
+            await seam.recordCannedLesson(id, 1);
+          }
+        }
+        const gate = content.tierGates.find((g) => g.tier === 1);
+        if (gate) await seam.recordCanned(gate.bossSongId, gate.bossChartId);
+        return useGameStore.getState().player.learningTier;
+      },
+  };
+  Object.assign(window, { __pianoTest: seam });
 }

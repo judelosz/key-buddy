@@ -18,22 +18,33 @@ async function reset(page: import('@playwright/test').Page) {
   await skipOnboarding(page);
 }
 
-test('fresh profile: hero leads with new material, session runs a real lesson and wraps', async ({
+test('sessions unlock with Tier 1: locked pill first, then a session runs and wraps', async ({
   page,
 }) => {
   await reset(page);
 
-  // New material available → Continue is the primary; practice is secondary.
+  // Fresh (tier-1) profile: daily practice is visibly LOCKED — the momentum
+  // schedule states the gate instead of hiding the feature.
   await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /Today.s practice/ }).click();
+  await expect(page.getByText(/unlocks when you pass Tier 1/)).toBeVisible();
 
-  // Session takeover: intro card for the first (and only) segment — the
-  // recommended listen lesson framed as "Something new".
-  await expect(page.getByText('Something new')).toBeVisible();
+  // Pass Tier 1 through the real reducers (one sitting — momentum schedule),
+  // keeping one lesson incomplete so new material still leads the hero.
+  const tier = await page.evaluate(async () => {
+    // @ts-expect-error dev-only seam
+    return window.__pianoTest.completeTier1(['l-fm-vary']);
+  });
+  expect(tier).toBe(2);
+  await page.reload();
+  await seamReady(page);
+
+  // Practice is now available as the secondary action.
+  await page.getByRole('button', { name: /Today.s practice/ }).click();
   await expect(page.getByText('more ready when you are')).toBeVisible();
 
-  // Skipping is guilt-free and ends on the wrap when nothing is left.
-  await page.getByRole('button', { name: 'Skip this one' }).click();
+  // Skipping is guilt-free; skip through to the wrap.
+  // (The queue may hold several segments now — wrap directly.)
+  await page.getByRole('button', { name: 'Wrap up for today' }).click();
   await expect(page.getByRole('heading', { name: 'Nice session.' })).toBeVisible();
   await page.getByRole('button', { name: /Back to Missions/ }).click();
   await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeVisible();
@@ -44,14 +55,25 @@ test('a note-id segment completes through the real exercise UI inside a session'
 }) => {
   await reset(page);
 
-  // Get past the listen lesson so the next recommendation is the note-id one.
+  // Pass Tier 1 (sessions gate) but leave the note-id lesson incomplete so
+  // it becomes the session's recommended new material.
   await page.evaluate(async () => {
     // @ts-expect-error dev-only seam
-    await window.__pianoTest.recordCannedLesson('l-mk-listen', 1);
+    await window.__pianoTest.completeTier1(['l-mk-find-c']);
   });
+  await page.reload();
+  await seamReady(page);
 
   await page.getByRole('button', { name: /Today.s practice/ }).click();
-  await expect(page.getByText('Something new')).toBeVisible();
+  // The queue leads with a familiar win now that tier 1 is complete — skip
+  // intro cards until the new-material segment (the incomplete note-id
+  // lesson) comes up.
+  await expect(page.getByRole('button', { name: /Let’s go/ })).toBeVisible();
+  for (let i = 0; i < 8; i++) {
+    if (await page.getByRole('heading', { name: 'Find every C', exact: true }).isVisible()) break;
+    await page.getByRole('button', { name: 'Skip this one' }).click();
+    await expect(page.getByRole('button', { name: /Let’s go/ })).toBeVisible();
+  }
   await expect(page.getByRole('heading', { name: 'Find every C' })).toBeVisible();
   await page.getByRole('button', { name: /Let’s go/ }).click();
 
@@ -77,24 +99,13 @@ test('review-day hero leads with the practice session and the seam walks segment
 }) => {
   await reset(page);
 
-  // Complete the first module and force its skills due → review context.
-  const lessons = [
-    'l-mk-listen',
-    'l-mk-find-c',
-    'l-mk-theory-map',
-    'l-mk-cde',
-    'l-mk-whites',
-    'l-mk-ear-direction',
-    'l-mk-checkpoint',
-  ];
-  await page.evaluate(async (ids) => {
-    for (const id of ids) {
-      // @ts-expect-error dev-only seam
-      await window.__pianoTest.recordCannedLesson(id, 1);
-    }
+  // Pass Tier 1 (sessions gate) and force everything due → review context.
+  await page.evaluate(async () => {
+    // @ts-expect-error dev-only seam
+    await window.__pianoTest.completeTier1();
     // @ts-expect-error dev-only seam
     await window.__pianoTest.makeReviewsDue();
-  }, lessons);
+  });
   await page.reload();
   await seamReady(page);
 

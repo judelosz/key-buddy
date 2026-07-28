@@ -198,6 +198,15 @@ export function HowItWorksStep() {
             in the top-right corner, all the time.
           </span>
         </div>
+        <div className="rounded-2xl bg-surface p-4 shadow-soft">
+          <span className="font-medium text-ink">The pace, stated plainly.</span>
+          <span className="text-ink-soft">
+            {' '}
+            Tiers 1–3 can each be finished in a single sitting. From Tier 4, leveling up also
+            takes practice across separate days — and daily practice (which unlocks once you pass
+            Tier 1) becomes the path that gets you there.
+          </span>
+        </div>
       </div>
     </StepFrame>
   );

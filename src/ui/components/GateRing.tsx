@@ -15,7 +15,9 @@ export interface GateRingSegments {
   bossPassed: boolean;
   /** The theory/ear checkpoint — the Head-driven segment. */
   checkpointPassed: boolean;
-  delayedReviewPassed: boolean;
+  /** Absent on momentum-schedule tiers (1–3): no spaced evidence required,
+   * so the ring honestly renders four segments instead of five. */
+  delayedReviewPassed?: boolean;
 }
 
 /** Derive the ring model from the store's gate status (null = all gates passed). */
@@ -29,7 +31,7 @@ export function gateRingSegments(status: TierGateStatus | null): GateRingSegment
         : status.coreSkills.filter((s) => s.mastered).length / status.coreSkills.length,
     bossPassed: status.bossPassed,
     checkpointPassed: status.checkpoints.length > 0 && status.checkpoints.every((c) => c.passed),
-    delayedReviewPassed: status.delayedReviewPassed,
+    ...(status.delayedReviewRequired ? { delayedReviewPassed: status.delayedReviewPassed } : {}),
   };
 }
 
@@ -40,9 +42,9 @@ interface GateRingProps {
   size?: number;
 }
 
-/** Share of the circle per requirement: the XP band fills continuously and
- * gets the biggest arc; the four evidence items get equal slices. */
-const ARC_SHARES = [0.4, 0.15, 0.15, 0.15, 0.15] as const;
+/** The XP band fills continuously and gets the biggest arc; the evidence
+ * items split the rest equally (works for 4- and 5-segment gates). */
+const XP_ARC_SHARE = 0.4;
 /** Gap between segments, as a fraction of the full circle. */
 const GAP = 0.015;
 
@@ -57,18 +59,21 @@ export function GateRing({ level, segments, size = 48 }: GateRingProps) {
         { fraction: segments.coreSkillsFraction, head: false, title: 'Core skills mastered' },
         { fraction: segments.bossPassed ? 1 : 0, head: false, title: 'Boss song mastery star' },
         { fraction: segments.checkpointPassed ? 1 : 0, head: true, title: 'Theory & ear checkpoint' },
-        { fraction: segments.delayedReviewPassed ? 1 : 0, head: false, title: 'Delayed review' },
+        ...(segments.delayedReviewPassed !== undefined
+          ? [{ fraction: segments.delayedReviewPassed ? 1 : 0, head: false, title: 'Delayed review' }]
+          : []),
       ]
     : null;
-  const doneCount = fills ? fills.filter((f) => f.fraction >= 1).length : 5;
+  const doneCount = fills ? fills.filter((f) => f.fraction >= 1).length : (fills?.length ?? 5);
 
   // Each segment: a sand track arc plus a fill arc from the segment's start.
   let cursor = 0;
   const arcs =
     fills?.map((f, i) => {
-      const span = Math.max(0, ARC_SHARES[i] - GAP);
+      const share = i === 0 ? XP_ARC_SHARE : (1 - XP_ARC_SHARE) / (fills.length - 1);
+      const span = Math.max(0, share - GAP);
       const start = cursor + GAP / 2;
-      cursor += ARC_SHARES[i];
+      cursor += share;
       return { ...f, start, span };
     }) ?? [];
 
@@ -82,7 +87,7 @@ export function GateRing({ level, segments, size = 48 }: GateRingProps) {
       className="relative inline-flex items-center justify-center"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`Level ${level} — ${doneCount} of 5 gate requirements complete`}
+      aria-label={`Level ${level} — ${doneCount} of ${fills?.length ?? 5} gate requirements complete`}
       title={
         segments
           ? `Level ${level} — the ring is the level gate: XP band · core skills · boss star · theory/ear checkpoint · delayed review`

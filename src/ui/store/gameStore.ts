@@ -510,6 +510,10 @@ export const useGameStore = create<GameState>((set, get) => {
     },
 
     startSession: async () => {
+      // No path around the UI gate: sessions open once Tier 1 is passed.
+      if (get().player.learningTier < 2) {
+        throw new Error('Daily practice unlocks when Tier 1 is passed');
+      }
       const plan = buildSession(sessionInputs());
       set({
         activeSession: { plan, runState: initialRunState() },
@@ -634,6 +638,9 @@ export const useGameStore = create<GameState>((set, get) => {
       get().adaptationByRef.get(lesson.id) ?? initialAdaptation(lesson.id, lesson, Date.now()),
 
     missionsHero: () => {
+      // Daily practice unlocks with Tier 1 (momentum schedule) — until then
+      // the hero always leads with path material.
+      if (get().player.learningTier < 2) return 'new-material';
       const rec = get().nextLesson();
       return rec && rec.review !== true ? 'new-material' : 'practice-session';
     },

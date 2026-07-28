@@ -76,12 +76,20 @@ export function Progress() {
                   label="Theory & ear checkpoint (80%+)"
                   todo="Pass the tier check quiz in Missions"
                 />
-                <ChecklistItem
-                  done={gateStatus.delayedReviewPassed}
-                  label="One older skill reviewed after a delay"
-                  todo="Come back another day and pass a review"
-                  icon={<RefreshCcw size={13} />}
-                />
+                {gateStatus.delayedReviewRequired ? (
+                  <ChecklistItem
+                    done={gateStatus.delayedReviewPassed}
+                    label="One older skill reviewed after a delay"
+                    todo="Come back another day and pass a review"
+                    icon={<RefreshCcw size={13} />}
+                  />
+                ) : (
+                  <li className="rounded-2xl border border-dashed border-line px-3 py-2 text-xs text-ink-soft">
+                    Through Tier 3 you can level up in a single sitting. From Tier 4, advancing
+                    also takes practice on separate days — that&rsquo;s when daily practice
+                    becomes the path.
+                  </li>
+                )}
               </ul>
             ) : (
               <p className="text-sm text-ink-soft">

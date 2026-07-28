@@ -159,6 +159,35 @@ describe('evaluateTierGate — anti-grind matrix', () => {
     expect(open.coreSkills.find((c) => c.skillId === 'skill-a')?.mastered).toBe(true);
   });
 
+  it('a momentum-schedule gate waives ALL spaced evidence (Tiers 1–3, 2026-07-28)', () => {
+    // requiresDelayedReview:false governs both spaced requirements: the
+    // delayed review AND repeatedSessions distinct-day enforcement — the
+    // early game is completable in one sitting.
+    const s = allMet();
+    const skillById = new Map([
+      [
+        'skill-a',
+        {
+          id: 'skill-a', name: '', family: 'geography-mechanics' as const, tier: 1,
+          genre: 'foundation' as const, prerequisites: [], description: '',
+          assessment: {
+            minStars: 3 as const, minNotesCorrectPct: 0.9, minGoodOrBetterPct: 0.75,
+            requiresAtTempo: true, requiresNoAssists: true, repeatedSessions: 2,
+          },
+        },
+      ],
+    ]);
+    const momentum = { ...gate, requiresDelayedReview: false };
+    // One evidence day, NO delayed review anywhere — still opens.
+    const oneDay = new Map(s.skills);
+    oneDay.set('skill-a', { ...mastered('skill-a'), handsEvidenceDates: ['2026-07-28'] });
+    const status = evaluateTierGate(
+      momentum, assessments, oneDay, s.lessons, true, s.tierXp, skillById,
+    );
+    expect(status.delayedReviewRequired).toBe(false);
+    expect(status.passed).toBe(true);
+  });
+
   it('HEAD-ONLY evidence can never open a gate (guardrail #1 refinement)', () => {
     // Perfect theory/ear evidence everywhere, zero Hands mastery, no boss.
     const headOnly = new Map([

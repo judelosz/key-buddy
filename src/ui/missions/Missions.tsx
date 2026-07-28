@@ -24,6 +24,8 @@ export function Missions() {
   const next = nextLesson();
   const hero = missionsHero();
   const dueCount = dueReviewSkillIds().length;
+  // Daily practice unlocks with Tier 1 (momentum schedule) — visible, honest.
+  const sessionsUnlocked = useGameStore((s) => s.player.learningTier >= 2);
   const nextLocked = content.songs
     .filter((s) => s.requiredSkills.length > 0)
     .map((s) => ({ song: s, prog: unlockProgress(s) }))
@@ -64,13 +66,22 @@ export function Missions() {
               >
                 <Play size={18} className="fill-ink" /> Continue
               </button>
-              <button
-                type="button"
-                onClick={beginPractice}
-                className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
-              >
-                <RefreshCcw size={15} /> Today&rsquo;s practice
-              </button>
+              {sessionsUnlocked ? (
+                <button
+                  type="button"
+                  onClick={beginPractice}
+                  className="inline-flex items-center gap-2 rounded-full bg-sand px-5 py-2.5 font-display text-sm font-semibold text-ink transition hover:-translate-y-px active:translate-y-px"
+                >
+                  <RefreshCcw size={15} /> Today&rsquo;s practice
+                </button>
+              ) : (
+                <span
+                  title="Daily practice mixes review into your day — it opens once you've passed Tier 1."
+                  className="inline-flex items-center gap-2 rounded-full border border-dashed border-line px-5 py-2.5 font-display text-sm font-medium text-ink-soft"
+                >
+                  <Lock size={14} /> Daily practice · unlocks when you pass Tier 1
+                </span>
+              )}
             </div>
           </div>
         ) : (
@@ -108,7 +119,7 @@ export function Missions() {
         )}
       </section>
 
-      {dueCount > 0 && (
+      {dueCount > 0 && sessionsUnlocked && (
         <button
           type="button"
           onClick={beginPractice}

@@ -474,6 +474,8 @@ A player advances to the next tier when:
 - the user has passed the tier’s theory/ear checkpoint at ≥80%;
 - at least one previously learned skill has passed a spaced review after a delay.
 
+**Amended 2026-07-28 — the momentum schedule (user decision):** the spaced-evidence requirement (the delayed review above, plus `assessment.repeatedSessions` distinct-day enforcement on core skills) applies **from Tier 4 on**. Tiers 1–3 are deliberately completable in a single sitting so a new player can reach real momentum on day one; daily practice sessions unlock when Tier 1 is passed. The schedule is stated plainly in-app (Progress checklist + onboarding) — the gate is transparent, not hidden. Content-driven via `TierGate.requiresDelayedReview` (false for gates 1–3).
+
 The gold requirement is not needed to advance the playing tier. Gold is a durable musicianship badge and improves review rewards, but it must not make a user wait for AFK access before continuing to play.
 
 ### 5.5 No single metric can pass a tier

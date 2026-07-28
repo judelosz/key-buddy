@@ -14,6 +14,8 @@ export interface TierGateStatus {
   /** The boss chart has earned a mastery star (at tempo, no assists). */
   bossPassed: boolean;
   checkpoints: { assessmentId: string; bestScorePct: number; passed: boolean }[];
+  /** False for Tiers 1–3 (momentum schedule) — no spaced evidence needed. */
+  delayedReviewRequired: boolean;
   delayedReviewPassed: boolean;
   handsXp: { current: number; band: number; reached: boolean };
   passed: boolean;
@@ -31,8 +33,11 @@ export function evaluateTierGate(
   const coreSkills = gate.coreSkillIds.map((skillId) => {
     const p = skillProgressById.get(skillId);
     // A skill whose assessment demands N separate sessions needs N distinct
-    // evidence dates on top of the lock threshold (doc 06 §5.1).
-    const needsSessions = skillById?.get(skillId)?.assessment?.repeatedSessions;
+    // evidence dates on top of the lock threshold (doc 06 §5.1) — waived on
+    // momentum-schedule gates (Tiers 1–3 are one-sitting-completable).
+    const needsSessions = gate.requiresDelayedReview
+      ? skillById?.get(skillId)?.assessment?.repeatedSessions
+      : undefined;
     const sessionsOk =
       needsSessions === undefined || (p?.handsEvidenceDates?.length ?? 0) >= needsSessions;
     return { skillId, mastered: p !== undefined && isHandsMastered(p) && sessionsOk };
@@ -74,6 +79,7 @@ export function evaluateTierGate(
     coreSkills,
     bossPassed: bossMasteryStar,
     checkpoints,
+    delayedReviewRequired: gate.requiresDelayedReview,
     delayedReviewPassed,
     handsXp,
     passed,
@@ -157,7 +163,9 @@ export function gateRequirementsRemaining(status: TierGateStatus): string[] {
   for (const c of status.checkpoints) {
     if (!c.passed) out.push('Pass the theory & ear checkpoint (80%+)');
   }
-  if (!status.delayedReviewPassed) out.push('Pass one review of an older skill after a delay');
+  if (status.delayedReviewRequired && !status.delayedReviewPassed) {
+    out.push('Pass one review of an older skill after a delay');
+  }
   if (!status.handsXp.reached) out.push('Keep practicing — fill the tier XP band');
   return out;
 }

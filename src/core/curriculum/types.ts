@@ -146,7 +146,14 @@ export interface TierGate {
   bossChartId: string;
   /** Theory/ear checkpoint assessments, each ≥ its passScorePct. */
   checkpointAssessmentIds: string[];
-  /** At least one older skill must pass a delayed (due) review. */
+  /**
+   * Governs ALL of the gate's spaced-evidence requirements (2026-07-28
+   * momentum schedule): when true, at least one older skill must pass a
+   * delayed (due) review AND core-skill `assessment.repeatedSessions`
+   * distinct-day evidence is enforced. Authored FALSE for Tiers 1–3 so the
+   * early game is completable in one sitting; true from Tier 4 on, where
+   * advancement deliberately takes practice across separate days.
+   */
   requiresDelayedReview: boolean;
   /** Hands XP band for this tier — fills the level meter and is required. */
   handsXpBand: number;
