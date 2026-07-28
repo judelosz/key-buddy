@@ -152,6 +152,51 @@ function ratePerformance(
   return 0;
 }
 
+/** A pulse break: consecutive played onsets more than this many beats apart
+ * while the chart expected notes in between (chart rests never count). */
+export const STOP_GAP_BEATS = 2;
+
+/**
+ * Continuity evidence (doc-08 §4.9): teachers grade pulse-survival above raw
+ * error counts — near-perfect notes with two mid-take stops reads as a C, a
+ * flubbed-but-flowing take as a B. Note percentages can't see a stop; the
+ * played timestamps (only available here) can.
+ */
+function computeContinuity(
+  played: readonly { timestampMs: number }[],
+  sortedEvents: readonly { startBeat: number }[],
+  startTimeMs: number,
+  beatMs: number,
+): { stops: number; maxGapBeats: number } {
+  if (sortedEvents.length === 0) return { stops: 0, maxGapBeats: 0 };
+  const first = startTimeMs + sortedEvents[0].startBeat * beatMs;
+  const last = startTimeMs + sortedEvents[sortedEvents.length - 1].startBeat * beatMs;
+  const expected = sortedEvents.map((e) => startTimeMs + e.startBeat * beatMs);
+
+  const onsets = played
+    .map((n) => n.timestampMs)
+    .filter((t) => t > first - beatMs && t < last + beatMs)
+    .sort((a, b) => a - b);
+  // Anchor the walk at the first and last expected onsets so silence at the
+  // start or a hands-off ending counts as a gap too.
+  const anchors = [first, ...onsets, last];
+
+  let stops = 0;
+  let maxGapBeats = 0;
+  for (let i = 1; i < anchors.length; i++) {
+    const a = anchors[i - 1];
+    const b = anchors[i];
+    const gapBeats = (b - a) / beatMs;
+    if (gapBeats <= STOP_GAP_BEATS) continue;
+    // Only a gap the CHART wanted filled is a stop — written rests are music.
+    const expectedInside = expected.some((o) => o > a + beatMs / 2 && o < b - beatMs / 2);
+    if (!expectedInside) continue;
+    stops += 1;
+    maxGapBeats = Math.max(maxGapBeats, gapBeats);
+  }
+  return { stops, maxGapBeats: Math.round(maxGapBeats * 100) / 100 };
+}
+
 export function scoreAttempt(params: ScoreParams): Attempt {
   const { chart, played, tempoBPM, targetTempoBPM, tier, startTimeMs } = params;
   const assistsUsed = params.assistsUsed ?? [];
@@ -222,8 +267,10 @@ export function scoreAttempt(params: ScoreParams): Attempt {
   const stars = ratePerformance(notesCorrectPct, goodOrBetterPct, greatOrBetterPct);
   const atTempo = tempoBPM >= targetTempoBPM * 0.99;
   const masteryStar = stars === 3 && atTempo && assistsUsed.length === 0;
+  const continuity = computeContinuity(played, events, startTimeMs, beatMs);
 
   return {
+    continuity,
     id: params.attemptId ?? crypto.randomUUID(),
     refId: chart.id,
     refKind: 'chart',

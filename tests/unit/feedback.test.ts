@@ -61,6 +61,19 @@ describe('generateTip', () => {
     expect(generateTip(score(played), chart)).toMatch(/right notes/i);
   });
 
+  it('calls out a mid-take stop before any timing nudge (doc-08 §4.9)', () => {
+    // Beats 0–2 and 6–7 played (accuracy 5/8 ≥ 0.6, so the accuracy rule
+    // doesn't mask the stop), slightly late so a drag tip WOULD apply.
+    const played = [0, 1, 2, 6, 7].map((b) => play(60 + b, b * 1000 + 40));
+    const tip = generateTip(score(played), chart);
+    expect(tip).toMatch(/pulse stopped/i);
+  });
+
+  it('a large but consistent lag points at calibration, not hands', () => {
+    const played = Array.from({ length: 8 }, (_, i) => play(60 + i, i * 1000 + 70));
+    expect(generateTip(score(played), chart)).toMatch(/calibration/i);
+  });
+
   it('calls out rushing', () => {
     const played = Array.from({ length: 8 }, (_, i) => play(60 + i, i * 1000 - 40));
     expect(generateTip(score(played), chart)).toMatch(/rushing/i);

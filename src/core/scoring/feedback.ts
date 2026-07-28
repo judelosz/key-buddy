@@ -68,6 +68,14 @@ export function generateTip(attempt: Attempt, chart: Chart): string {
     return 'Focus on the right notes first — slow the tempo and aim for accuracy before timing.';
   }
 
+  // Stops outrank timing bias: keeping the pulse through a mistake is the
+  // musicianship teachers actually grade (doc-08 §4.9), and a player who
+  // pauses to fix a note deserves that feedback before any early/late nudge.
+  if ((attempt.continuity?.stops ?? 0) > 0) {
+    const s = attempt.continuity!.stops;
+    return `The pulse stopped ${s === 1 ? 'once' : `${s} times`} mid-take. Playing through a miss beats stopping to fix it — the band wouldn't wait, and neither does the song.`;
+  }
+
   // A LARGE but CONSISTENT lag is usually input/audio latency, not hands —
   // the honest fix is calibration, and the player deserves to be told so.
   if (mean >= 60 && attempt.timingHistogram.stdDevMs <= 60) {

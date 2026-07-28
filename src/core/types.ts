@@ -255,6 +255,11 @@ export interface Attempt {
   /** Set when the take was a section drill (a sliced sub-chart) — such
    * attempts accrue section evidence only, never chart/boss mastery. */
   sectionId?: string;
+  /** Pulse-survival evidence (doc-08 §4.9): a stop = a gap > STOP_GAP_BEATS
+   * between played onsets where the chart expected notes. Teachers weight
+   * continuity above error counts; note percentages can't see a stop.
+   * Optional — absent on pre-2026-07-28 attempts and canned test takes. */
+  continuity?: { stops: number; maxGapBeats: number };
 }
 
 export type Assist = 'falling-notes' | 'note-names' | 'one-hand' | 'slow-down' | 'metronome-count-in';

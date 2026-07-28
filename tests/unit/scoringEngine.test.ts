@@ -321,3 +321,45 @@ describe('determinism', () => {
     expect(a.stars).toBe(b.stars);
   });
 });
+
+// ─── continuity (pulse-survival evidence, doc-08 §4.9) ──────────────────────
+
+describe('continuity', () => {
+  // An 8-note chart on beats 0..7 (60 BPM → 1 beat = 1000 ms).
+  const EIGHT = chartOf(
+    Array.from({ length: 8 }, (_, i) => note(`n${i}`, [60 + i], i)),
+  );
+
+  it('a flowing take has zero stops', () => {
+    const played = Array.from({ length: 8 }, (_, i) => play(60 + i, i * 1000));
+    const a = scoreAttempt(base({ chart: EIGHT, played }));
+    expect(a.continuity).toEqual({ stops: 0, maxGapBeats: 0 });
+  });
+
+  it('a mid-take pause over expected notes counts as one stop', () => {
+    // Beats 0–2 played, silence over beats 3–5, resume at 6–7 → one ~4-beat gap.
+    const played = [0, 1, 2, 6, 7].map((b) => play(60 + b, b * 1000));
+    const a = scoreAttempt(base({ chart: EIGHT, played }));
+    expect(a.continuity?.stops).toBe(1);
+    expect(a.continuity?.maxGapBeats).toBeCloseTo(4);
+  });
+
+  it('a written rest is music, not a stop', () => {
+    // Chart with a 4-beat rest between beat 1 and beat 6.
+    const RESTY = chartOf([
+      note('n0', [60], 0),
+      note('n1', [62], 1),
+      note('n2', [64], 6),
+      note('n3', [65], 7),
+    ]);
+    const played = [0, 1, 6, 7].map((b, i) => play([60, 62, 64, 65][i], b * 1000));
+    const a = scoreAttempt(base({ chart: RESTY, played }));
+    expect(a.continuity?.stops).toBe(0);
+  });
+
+  it('hands coming off before the end counts as a stop', () => {
+    const played = [0, 1, 2, 3].map((b) => play(60 + b, b * 1000));
+    const a = scoreAttempt(base({ chart: EIGHT, played }));
+    expect(a.continuity?.stops).toBe(1);
+  });
+});
