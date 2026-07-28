@@ -166,6 +166,10 @@ export class ExerciseEngine {
   ): void {
     const targets = this.tapTargets(expected);
     const beatMs = 60_000 / expected.bpm;
+    // Count-in taps are free. The pulse card invites tapping along with the
+    // count-in clicks; those taps land after the anchor but long before the
+    // first graded beat, and used to count as score-diluting "extras".
+    if (targets.length > 0 && atMs < targets[0] - beatMs / 2) return;
     const windows = tapWindowsForTier(this.spec.tier);
     const matchMs = matchWindowMs(windows, beatMs);
 

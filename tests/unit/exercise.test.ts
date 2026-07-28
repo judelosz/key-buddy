@@ -284,6 +284,34 @@ describe('ExerciseEngine', () => {
     expect(done.promptResult?.correct).toBe(true);
   });
 
+  it('taps during the count-in are free — the pulse card invites them', () => {
+    // Anchor at the FIRST count-in click (how the runner feeds prompt-shown):
+    // a player tapping along with all four count-in clicks used to rack up
+    // "extras" that diluted scorePct through the denominator.
+    const tapsPrompt = {
+      id: 'p0',
+      expected: {
+        kind: 'taps' as const,
+        beats: [0, 1],
+        bpm: 60,
+        countInBeats: 4,
+        beatsPerBar: 4,
+      },
+    };
+    const engine = new ExerciseEngine(spec([tapsPrompt], 1));
+    engine.feed({ kind: 'prompt-shown', atMs: 0 });
+    // Tapping along with the count-in clicks (targets start at 4000).
+    engine.feed({ kind: 'note', note: note(60, 10) });
+    engine.feed({ kind: 'note', note: note(60, 1_020) });
+    engine.feed({ kind: 'note', note: note(60, 2_000) });
+    // Then the two graded beats, on time.
+    engine.feed({ kind: 'note', note: note(60, 4_010) });
+    engine.feed({ kind: 'note', note: note(60, 5_020) });
+    const done = engine.feed({ kind: 'commit', atMs: 6_000 });
+    expect(done.promptResult?.scorePct).toBe(1);
+    expect(done.promptResult?.correct).toBe(true);
+  });
+
   it('counts missed targets and extra taps against the score', () => {
     const tapsPrompt = {
       id: 'p0',
