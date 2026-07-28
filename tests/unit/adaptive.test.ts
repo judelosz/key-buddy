@@ -8,6 +8,7 @@ import {
   initialAdaptation,
   policyOverrideFor,
   stepDownFor,
+  workingTempoPct,
 } from '@/core/adaptive/adaptive';
 
 const NOW = 1_753_000_000_000;
@@ -44,11 +45,42 @@ describe('adaptAfterResult — the §5.6 matrix', () => {
     expect(maxed.recommendRemediation).toBe(true);
   });
 
-  it('70–85% repeats with one small variation', () => {
-    const { next, directive } = adaptAfterResult(start, { scorePct: 0.78, passed: true }, NOW);
+  it('70–85% below target: repeats with a variation, alternating a full-tempo taste', () => {
+    // doc-08 §3.11 — alternating slow/target beats a monotonic staircase.
+    const first = adaptAfterResult(start, { scorePct: 0.78, passed: true }, NOW);
+    expect(first.next.variationIdx).toBe(1);
+    expect(first.next.tempoPct).toBe(start.tempoPct); // working tempo untouched
+    expect(first.next.nextRepAtTarget).toBe(true); // …but the next rep runs full
+    expect(first.directive?.tempoPct).toBe(1);
+    expect(workingTempoPct(first.next)).toBe(1);
+
+    // Another flow-band rep flips back to the working tempo.
+    const second = adaptAfterResult(first.next, { scorePct: 0.8, passed: true }, NOW);
+    expect(second.next.nextRepAtTarget).toBe(false);
+    expect(second.directive?.tempoPct).toBe(start.tempoPct);
+    expect(workingTempoPct(second.next)).toBe(start.tempoPct);
+  });
+
+  it('70–85% at full tempo keeps the plain variation repeat', () => {
+    const atFull = { ...start, tempoPct: 1 };
+    const { next, directive } = adaptAfterResult(atFull, { scorePct: 0.78, passed: true }, NOW);
     expect(next.variationIdx).toBe(1);
-    expect(next.tempoPct).toBe(start.tempoPct);
-    expect(directive?.variationIdx).toBe(1);
+    expect(next.nextRepAtTarget).toBe(false);
+    expect(directive?.tempoPct).toBeUndefined();
+  });
+
+  it('a failed full-tempo taste is never punished — back to the working tempo, no fail streak', () => {
+    const primed = { ...start, nextRepAtTarget: true };
+    const { next, directive, recommendRemediation } = adaptAfterResult(
+      primed,
+      { scorePct: 0.4, passed: false },
+      NOW,
+    );
+    expect(next.tempoPct).toBe(start.tempoPct); // no step-down
+    expect(next.failStreak).toBe(0);
+    expect(next.nextRepAtTarget).toBe(false);
+    expect(directive?.tempoPct).toBe(start.tempoPct);
+    expect(recommendRemediation).toBeUndefined();
   });
 
   it('steps up only after TWO ≥85% results, tempo before assists', () => {
@@ -63,6 +95,18 @@ describe('adaptAfterResult — the §5.6 matrix', () => {
     const assistOff = adaptAfterResult(atTempo, { scorePct: 0.95, passed: true }, NOW);
     expect(assistOff.next.assistLevel).toBe(0);
     expect(assistOff.directive?.assists).toBe('off');
+  });
+
+  it('removing the LAST assist requires an at-tempo take (doc-08 §3.17)', () => {
+    // A slowed 95% take must not strip the final guide; the same take marked
+    // at-tempo (or with atTempo undefined — non-chart lessons) may.
+    const atTempo = { ...start, tempoPct: 1, successesAtSetting: 1 };
+    const slowed = adaptAfterResult(atTempo, { scorePct: 0.95, passed: true, atTempo: false }, NOW);
+    expect(slowed.next.assistLevel).toBe(start.assistLevel);
+    expect(slowed.directive).toBeUndefined();
+
+    const honest = adaptAfterResult(atTempo, { scorePct: 0.95, passed: true, atTempo: true }, NOW);
+    expect(honest.next.assistLevel).toBe(0);
   });
 
   it('a fail streak of 2 recommends remediation, and a 3★-at-tempo offers the checkpoint', () => {

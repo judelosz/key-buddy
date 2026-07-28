@@ -29,8 +29,18 @@ export interface AdaptationState {
   /** Consecutive ≥85% results at the current settings (step-up needs 2). */
   successesAtSetting: number;
   failStreak: number;
+  /** Flow-band alternation (doc-08 §3.11): the next rep runs at FULL tempo as
+   * a one-off taste — slow-only practice builds a different motor solution,
+   * and alternating slow/target beats a gradual staircase on piano. The
+   * working tempoPct is untouched; a failed at-target rep is never punished. */
+  nextRepAtTarget?: boolean;
   lastScorePct?: number;
   lastUpdatedMs: number;
+}
+
+/** The tempo the NEXT run actually uses (resolves the alternation flag). */
+export function workingTempoPct(adapt: AdaptationState): number {
+  return adapt.nextRepAtTarget ? 1 : adapt.tempoPct;
 }
 
 /** An explicit, learner-visible change applied to the NEXT run of an item. */
@@ -93,6 +103,19 @@ export function adaptAfterResult(
   const base: AdaptationState = { ...prev, lastScorePct: outcome.scorePct, lastUpdatedMs: nowMs };
   const offerCheckpoint = outcome.stars === 3 && outcome.atTempo === true;
 
+  // A failed FULL-TEMPO taste rep is never punished — it was a stretch by
+  // design (doc-08 §3.11: even a scrappy rep at target teaches the real
+  // movement). Return to the working tempo without touching the fail streak.
+  if (prev.nextRepAtTarget === true && (outcome.scorePct < FLOW_LOW || !outcome.passed)) {
+    return {
+      next: { ...base, nextRepAtTarget: false, successesAtSetting: 0 },
+      directive: {
+        tempoPct: prev.tempoPct,
+        message: `That was the full-tempo taste — back to ${pct(prev.tempoPct)} to build it clean.`,
+      },
+    };
+  }
+
   // < 70%: step DOWN one dimension — tempo first, then visual support.
   if (outcome.scorePct < FLOW_LOW || !outcome.passed) {
     const failStreak = prev.failStreak + 1;
@@ -125,14 +148,32 @@ export function adaptAfterResult(
     };
   }
 
-  // 70–85%: the flow band — repeat with ONE small variation.
+  // 70–85%: the flow band — repeat with ONE small variation, alternating a
+  // one-off full-tempo rep with the working tempo when below target
+  // (doc-08 §3.11: alternation beats a monotonic staircase).
   if (outcome.scorePct < FLOW_HIGH) {
     const variationIdx = prev.variationIdx + 1;
+    if (prev.tempoPct < 1 - 1e-9 && prev.nextRepAtTarget !== true) {
+      return {
+        next: { ...base, variationIdx, nextRepAtTarget: true, successesAtSetting: 0, failStreak: 0 },
+        directive: {
+          variationIdx,
+          tempoPct: 1,
+          message:
+            'Close — this next one runs at FULL tempo, just for a taste. Scrappy is fine; the target speed is the real movement.',
+        },
+        offerCheckpoint,
+      };
+    }
     return {
-      next: { ...base, variationIdx, successesAtSetting: 0, failStreak: 0 },
+      next: { ...base, variationIdx, nextRepAtTarget: false, successesAtSetting: 0, failStreak: 0 },
       directive: {
         variationIdx,
-        message: 'Close — same challenge, small variation. Lock it in.',
+        ...(prev.nextRepAtTarget === true ? { tempoPct: prev.tempoPct } : {}),
+        message:
+          prev.nextRepAtTarget === true
+            ? `Nice taste of full tempo — back to ${pct(prev.tempoPct)} to lock it in clean.`
+            : 'Close — same challenge, small variation. Lock it in.',
       },
       offerCheckpoint,
     };
@@ -140,11 +181,12 @@ export function adaptAfterResult(
 
   // ≥ 85%: count successes; the second one steps UP one dimension.
   const successesAtSetting = prev.successesAtSetting + 1;
+  const cleared: AdaptationState = { ...base, nextRepAtTarget: false };
   if (successesAtSetting >= STEP_UP_SUCCESSES) {
     if (prev.tempoPct < 1 - 1e-9) {
       const tempoPct = Math.min(1, +(prev.tempoPct + TEMPO_STEP_UP).toFixed(2));
       return {
-        next: { ...base, tempoPct, successesAtSetting: 0, failStreak: 0 },
+        next: { ...cleared, tempoPct, successesAtSetting: 0, failStreak: 0 },
         directive: {
           tempoPct,
           message: `You've earned a nudge — tempo up to ${pct(tempoPct)}.`,
@@ -152,10 +194,13 @@ export function adaptAfterResult(
         offerCheckpoint,
       };
     }
-    if (prev.assistLevel > 0) {
+    // Removing the LAST support (assists at full tempo) needs an at-tempo
+    // take among the qualifying results — a single easy pass shouldn't strip
+    // the final guide (doc-08 §3.17); undefined (non-chart) is unaffected.
+    if (prev.assistLevel > 0 && outcome.atTempo !== false) {
       const assistLevel = (prev.assistLevel - 1) as 0 | 1;
       return {
-        next: { ...base, assistLevel, successesAtSetting: 0, failStreak: 0 },
+        next: { ...cleared, assistLevel, successesAtSetting: 0, failStreak: 0 },
         directive: {
           assists: 'off',
           message: 'Solid twice in a row — try it without the guides this time.',
@@ -164,7 +209,7 @@ export function adaptAfterResult(
       };
     }
   }
-  return { next: { ...base, successesAtSetting, failStreak: 0 }, offerCheckpoint };
+  return { next: { ...cleared, successesAtSetting, failStreak: 0 }, offerCheckpoint };
 }
 
 const CHECKPOINT_MODES: readonly LessonMode[] = ['independent', 'performance'];
@@ -180,7 +225,7 @@ export function practicePolicyOverrideFor(
   adapt: AdaptationState,
 ): { tempoPct: number; fallingNotes: 'on' | 'off' } | undefined {
   if (lesson.exerciseType !== 'play-chart' && lesson.exerciseType !== 'fragment') return undefined;
-  return { tempoPct: adapt.tempoPct, fallingNotes: adapt.assistLevel >= 1 ? 'on' : 'off' };
+  return { tempoPct: workingTempoPct(adapt), fallingNotes: adapt.assistLevel >= 1 ? 'on' : 'off' };
 }
 
 /**
@@ -203,8 +248,9 @@ export function practiceGeneratorOverridesFor(
 ): Record<string, unknown> | undefined {
   if (lesson.exerciseType === 'rhythm-tap') {
     const bpm = lesson.generatorParams?.bpm;
-    if (typeof bpm === 'number' && adapt.tempoPct < 1) {
-      return { bpm: Math.round(bpm * adapt.tempoPct) };
+    const tempo = workingTempoPct(adapt);
+    if (typeof bpm === 'number' && tempo < 1) {
+      return { bpm: Math.round(bpm * tempo) };
     }
   }
   return undefined;
