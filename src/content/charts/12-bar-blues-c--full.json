@@ -1081,21 +1081,27 @@
   "sections": [
     {
       "id": "I",
-      "label": "Bars 1–4 — home",
+      "label": "Bars 1\u20134 \u2014 home",
       "startBar": 0,
       "endBar": 3
     },
     {
       "id": "IV",
-      "label": "Bars 5–8 — away and back",
+      "label": "Bars 5\u20138 \u2014 away and back",
       "startBar": 4,
       "endBar": 7
     },
     {
       "id": "V",
-      "label": "Bars 9–12 — the turnaround",
+      "label": "Bars 9\u201312 \u2014 the turnaround",
       "startBar": 8,
       "endBar": 11
     }
+  ],
+  "taughtSkills": [
+    "harmony-12bar-form",
+    "chord-dom7",
+    "harmony-i-iv-v",
+    "lh-root-notes"
   ]
 }

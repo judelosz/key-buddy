@@ -1,0 +1,247 @@
+[
+  {
+    "id": "l-tb-watch",
+    "moduleId": "m6-twelve-bar",
+    "order": 0,
+    "title": "Hear the 12-bar form",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "harmony-12bar-form"
+    ],
+    "prompt": "Welcome to the blues. Twelve bars, three chords, one shape that thousands of songs share.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "chartId": "12-bar-blues-c--simplified",
+    "generatorParams": {
+      "promptText": "Count the bars out loud: four bars of C, two of F, two of C, one G, one F, then home \u2014 C and a G turnaround."
+    }
+  },
+  {
+    "id": "l-tb-theory",
+    "moduleId": "m6-twelve-bar",
+    "order": 1,
+    "title": "The form by the numbers",
+    "mode": "guided",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "harmony-12bar-form"
+    ],
+    "prompt": "Know the map before you drive it: which chord owns which bar.",
+    "successRule": "Answer all 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-12bar-form",
+    "generatorParams": {
+      "count": 5
+    }
+  },
+  {
+    "id": "l-tb-comp",
+    "moduleId": "m6-twelve-bar",
+    "order": 2,
+    "title": "The whole form in blocked chords",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-12bar-form",
+      "chord-major-triad"
+    ],
+    "prompt": "One chord per bar, both hands. Say the chord names as you land them.",
+    "successRule": "Play the form through \u2014 every chord right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-12bar-comp-cell"
+  },
+  {
+    "id": "l-tb-v7-listen",
+    "moduleId": "m6-twelve-bar",
+    "order": 3,
+    "title": "The wants-to-go-home chord",
+    "mode": "guided",
+    "exerciseType": "listen",
+    "skillIds": [
+      "harmony-12bar-form"
+    ],
+    "prompt": "A preview of next tier\u2019s star: G7 \u2014 the chord that leans toward home.",
+    "successRule": "Listen through once.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [],
+    "fragmentId": "frag-v7-resolve",
+    "generatorParams": {
+      "promptText": "Hear the lean, then the landing. G7 is restless; C is home. Bar 9 of the blues rides exactly this pull."
+    }
+  },
+  {
+    "id": "l-tb-ear",
+    "moduleId": "m6-twelve-bar",
+    "order": 4,
+    "title": "Home or leaning?",
+    "mode": "supported",
+    "exerciseType": "chord-ear",
+    "skillIds": [
+      "harmony-12bar-form"
+    ],
+    "prompt": "The change is something you hear before you name it. Settled major, or that leaning, buzzier seventh?",
+    "successRule": "Name all 6 correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [],
+    "generatorParams": {
+      "qualities": [
+        "major",
+        "dom7"
+      ],
+      "roots": [
+        "C",
+        "F",
+        "G"
+      ],
+      "count": 6
+    }
+  },
+  {
+    "id": "l-tb-roots",
+    "moduleId": "m6-twelve-bar",
+    "order": 5,
+    "title": "Walk the form in the bass",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-12bar-form",
+      "lh-root-notes"
+    ],
+    "prompt": "Left hand only: a root on every beat, changing exactly on the barline.",
+    "successRule": "Every root right, every change on time; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-12bar-roots"
+  },
+  {
+    "id": "l-tb-eyes-up",
+    "moduleId": "m6-twelve-bar",
+    "order": 6,
+    "title": "Eyes on the symbols",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "harmony-12bar-form",
+      "chord-major-triad"
+    ],
+    "prompt": "No falling notes this time \u2014 read the chord symbols and count the bars. This is how blues players actually think.",
+    "successRule": "Earn at least one star from the symbols alone \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "slow-down"
+    ],
+    "chartId": "12-bar-blues-c--simplified"
+  },
+  {
+    "id": "l-tb-apply",
+    "moduleId": "m6-twelve-bar",
+    "order": 7,
+    "title": "A full chorus",
+    "mode": "supported",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "harmony-12bar-form",
+      "harmony-i-iv-v"
+    ],
+    "prompt": "The whole 12 bars, both hands, at your tempo.",
+    "successRule": "Earn at least one star \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "chartId": "12-bar-blues-c--simplified"
+  },
+  {
+    "id": "l-tb-gate-quiz",
+    "moduleId": "m6-twelve-bar",
+    "order": 8,
+    "title": "Tier 6 check: the form, inside and out",
+    "mode": "independent",
+    "exerciseType": "theory-quiz",
+    "skillIds": [
+      "harmony-12bar-form",
+      "theory-chord-symbols"
+    ],
+    "prompt": "The Tier 6 knowledge check \u2014 the form by number, by bar, and by ear.",
+    "successRule": "Answer every question correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [],
+    "theoryConceptId": "theory-tier6-checkpoint",
+    "generatorParams": {
+      "count": 6
+    }
+  },
+  {
+    "id": "l-tb-boss",
+    "moduleId": "m6-twelve-bar",
+    "order": 9,
+    "title": "Performance: 12-Bar Blues in C",
+    "mode": "performance",
+    "exerciseType": "play-chart",
+    "skillIds": [
+      "harmony-12bar-form",
+      "lh-root-notes"
+    ],
+    "prompt": "The Tier 6 boss: a full chorus at 84 BPM, unassisted, every change on its bar.",
+    "successRule": "Earn the mastery star: three stars at tempo, no assists \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "requiresMasteryStar": true,
+      "minScorePct": 1
+    },
+    "assistOptions": [],
+    "chartId": "12-bar-blues-c--simplified"
+  },
+  {
+    "id": "l-tb-stretch",
+    "moduleId": "m6-twelve-bar",
+    "order": 10,
+    "title": "Boss Challenge: Pinetop\u2019s changes",
+    "mode": "scouting",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "harmony-i-iv-v"
+    ],
+    "prompt": "The same three chords you just mastered, driving a boogie-woogie eighteen tiers up. Just explore.",
+    "successRule": "No stars, no failure \u2014 feel how the changes you know power the big piece.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-pinetops-change-cell",
+    "stretchBoss": true
+  }
+]

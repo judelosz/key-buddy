@@ -209,11 +209,32 @@
     "name": "12-bar blues form",
     "family": "harmony-progressions",
     "tier": 6,
-    "genre": "foundation",
+    "genre": "blues",
     "prerequisites": [
       "harmony-i-iv-v"
     ],
-    "description": "The canonical 12-bar chord sequence \u2014 the on-ramp to improvisation."
+    "description": "The canonical 12-bar chord sequence \u2014 the on-ramp to improvisation.",
+    "arc": "blues",
+    "strand": "harmony",
+    "outcome": "Play the 12-bar form from memory \u2014 the right chord change lands on the right bar, all twelve bars.",
+    "moduleId": "m6-twelve-bar",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0.95,
+      "minGoodOrBetterPct": 0.7,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "chord-dom7",
+      "rhythm-swing-feel"
+    ],
+    "commonErrors": [
+      "Changing chords a bar early (rushing bar 5)",
+      "Missing the single G bar (bar 9) and playing two",
+      "Losing count mid-form without the words"
+    ]
   },
   {
     "id": "lh-root-notes",

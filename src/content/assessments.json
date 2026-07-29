@@ -55,5 +55,16 @@
       "l-sy-theory",
       "l-sy-cadence"
     ]
+  },
+  {
+    "id": "assess-t6-checkpoint",
+    "scope": "tier",
+    "tier": 6,
+    "lessonId": "l-tb-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-tb-theory",
+      "l-tb-ear"
+    ]
   }
 ]

@@ -122,10 +122,38 @@ export function validateContent(raw: RawContent, requireCharts = false): string[
     }
   }
 
+  const songById = new Map(raw.songs.map((s) => [s.id, s]));
   for (const chart of raw.charts) {
     if (!songIds.has(chart.songId)) {
       problems.push(`Chart ${chart.id} references missing song ${chart.songId}`);
     }
+    if (chart.taughtSkills !== undefined) {
+      const song = songById.get(chart.songId);
+      if (chart.taughtSkills.length === 0) {
+        problems.push(`Chart ${chart.id} declares an empty taughtSkills override`);
+      }
+      for (const sid of chart.taughtSkills) {
+        if (song && !song.taughtSkills.includes(sid)) {
+          problems.push(
+            `Chart ${chart.id} teaches ${sid}, which its song ${chart.songId} does not list`,
+          );
+        }
+      }
+    }
+  }
+  // Every song-taught skill must remain teachable by at least one of its
+  // charts once overrides exist — otherwise the skill silently goes dead.
+  for (const song of raw.songs) {
+    const charts = raw.charts.filter((c) => c.songId === song.id);
+    if (charts.length === 0) continue;
+    const effective = new Set(charts.flatMap((c) => c.taughtSkills ?? song.taughtSkills));
+    for (const sid of song.taughtSkills) {
+      if (!effective.has(sid)) {
+        problems.push(`Song ${song.id} lists taught skill ${sid} but no chart teaches it`);
+      }
+    }
+  }
+  for (const chart of raw.charts) {
     if (chart.notes.length === 0) {
       problems.push(`Chart ${chart.id} has no notes`);
     }

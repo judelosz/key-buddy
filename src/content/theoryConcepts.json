@@ -2023,5 +2023,324 @@
         ]
       }
     ]
+  },
+  {
+    "id": "theory-12bar-form",
+    "name": "The 12-bar blues form",
+    "explanation": "Twelve bars, three chords (I, IV, V \u2014 C, F, G in C), in one fixed shape: four bars of I, two of IV, two of I, then G, F, C, and a G turnaround pointing back to bar 1. Thousands of songs share this exact map.",
+    "examples": [
+      "Bars: C C C C | F F C C | G F C G"
+    ],
+    "linkedSkillIds": [
+      "harmony-12bar-form"
+    ],
+    "linkedSongIds": [
+      "12-bar-blues-c"
+    ],
+    "questions": [
+      {
+        "id": "12b-q1",
+        "promptText": "How many bars are in one chorus of the blues form?",
+        "choices": [
+          "8",
+          "12",
+          "16",
+          "10"
+        ],
+        "answerIndex": 1,
+        "explanation": "Twelve \u2014 it\u2019s in the name.",
+        "choiceExplanations": [
+          "Eight bars is a common pop phrase, but the blues adds the answer phrases \u2014 twelve.",
+          "Right \u2014 twelve bars, then the form repeats.",
+          "Sixteen is a common song-section length, not the blues chorus.",
+          "Ten isn\u2019t a standard form \u2014 the blues resolves in twelve."
+        ]
+      },
+      {
+        "id": "12b-q2",
+        "promptText": "In C, the first four bars of the form are\u2026",
+        "choices": [
+          "All C",
+          "C F C F",
+          "All F",
+          "C C G G"
+        ],
+        "answerIndex": 0,
+        "explanation": "The form sits home on I for four bars.",
+        "choiceExplanations": [
+          "Right \u2014 four bars of the home chord, C, before anything moves.",
+          "Alternating C and F is a different progression \u2014 the blues stays home first.",
+          "F doesn\u2019t arrive until bar 5.",
+          "G waits until bar 9 \u2014 much later."
+        ]
+      },
+      {
+        "id": "12b-q3",
+        "promptText": "Bar 5 is where the form first moves. To which chord (in C)?",
+        "choices": [
+          "G",
+          "F",
+          "A minor",
+          "C7"
+        ],
+        "answerIndex": 1,
+        "explanation": "Bar 5 goes to IV \u2014 F.",
+        "choiceExplanations": [
+          "G (the V chord) enters at bar 9, not bar 5.",
+          "Right \u2014 bar 5 lifts to the IV chord, F, for two bars.",
+          "A minor isn\u2019t part of the basic blues form at all.",
+          "C7 is a color of the home chord \u2014 bar 5 is a real change, to F."
+        ]
+      },
+      {
+        "id": "12b-q4",
+        "promptText": "You\u2019re in bar 9 of the form. What chord (in C)?",
+        "choices": [
+          "C",
+          "F",
+          "G",
+          "It depends"
+        ],
+        "answerIndex": 2,
+        "explanation": "Bar 9 is the V chord \u2014 the form\u2019s peak of tension.",
+        "choiceExplanations": [
+          "C is bars 7\u20138 \u2014 you just left it.",
+          "F follows in bar 10, one bar later.",
+          "Right \u2014 bar 9 is G, the single most charged bar of the form.",
+          "The basic form is fixed \u2014 that certainty is what makes the blues playable with strangers."
+        ]
+      },
+      {
+        "id": "12b-q5",
+        "promptText": "What does the \u201cturnaround\u201d (bar 12) do?",
+        "choices": [
+          "Ends the song",
+          "Points back to bar 1",
+          "Changes key",
+          "Doubles the tempo"
+        ],
+        "answerIndex": 1,
+        "explanation": "The V in bar 12 leans back toward home so the next chorus can start.",
+        "choiceExplanations": [
+          "A final chorus can end on C instead, but the turnaround\u2019s job is the opposite of ending.",
+          "Right \u2014 the G in bar 12 pulls the ear back to bar 1 for another chorus.",
+          "The key stays put through the whole form.",
+          "Tempo never changes \u2014 the turnaround is harmonic, not rhythmic."
+        ]
+      },
+      {
+        "id": "12b-q6",
+        "promptText": "By the numbers, the three chords of the blues form are\u2026",
+        "choices": [
+          "I, IV, V",
+          "I, II, III",
+          "I, V, VII",
+          "II, IV, VI"
+        ],
+        "answerIndex": 0,
+        "explanation": "One, four, five \u2014 the same primary chords you met in Tier 4.",
+        "choiceExplanations": [
+          "Right \u2014 I, IV and V. In C: C, F and G.",
+          "II and III are neighbors, not the blues pillars.",
+          "VII barely appears in early blues at all.",
+          "That set skips the home chord entirely \u2014 no form can."
+        ]
+      },
+      {
+        "id": "12b-q7",
+        "promptText": "How many bars does the IV chord get in bars 5\u20138?",
+        "choices": [
+          "One",
+          "Two",
+          "Four",
+          "Three"
+        ],
+        "answerIndex": 1,
+        "explanation": "Two bars of F, then back home for two.",
+        "choiceExplanations": [
+          "One bar of IV happens later (bar 10) \u2014 bars 5\u20136 give it two.",
+          "Right \u2014 F owns bars 5 and 6, then C returns for 7 and 8.",
+          "Four bars of IV would crowd out the return home.",
+          "Three would leave the phrase lopsided \u2014 the form moves in pairs here."
+        ]
+      },
+      {
+        "id": "12b-q8",
+        "promptText": "A band says \u201cblues in C, from the top.\u201d Which bar do you worry about most?",
+        "choices": [
+          "Bar 2",
+          "Bar 3",
+          "Bar 9",
+          "Bar 7"
+        ],
+        "answerIndex": 2,
+        "explanation": "Bar 9 is the single G bar \u2014 the change players miss.",
+        "choiceExplanations": [
+          "Bar 2 is still home \u2014 nothing to miss.",
+          "Bar 3 is still home too.",
+          "Right \u2014 bar 9\u2019s G lasts ONE bar before F takes bar 10; rushing or holding it is the classic mistake.",
+          "Bar 7 just returns to C \u2014 a comfortable landing."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "theory-tier6-checkpoint",
+    "name": "Tier 6 check: the form, inside and out",
+    "explanation": "The 12-bar form by bar number, by chord symbol, and by ear.",
+    "examples": [],
+    "linkedSkillIds": [
+      "harmony-12bar-form",
+      "theory-chord-symbols"
+    ],
+    "linkedSongIds": [
+      "12-bar-blues-c"
+    ],
+    "questions": [
+      {
+        "id": "t6c-q1",
+        "promptText": "Fill in the form: C C C C | F F ? ? | G F C G",
+        "choices": [
+          "F F",
+          "C C",
+          "G G",
+          "C G"
+        ],
+        "answerIndex": 1,
+        "explanation": "Bars 7\u20138 come back home.",
+        "choiceExplanations": [
+          "Four straight bars of F would overshoot \u2014 IV gets two.",
+          "Right \u2014 after two bars of F the form returns to C for bars 7\u20138.",
+          "G doesn\u2019t arrive until bar 9.",
+          "The G belongs to bar 9, not bar 8."
+        ]
+      },
+      {
+        "id": "t6c-q2",
+        "promptText": "You\u2019re playing bar 10. Which chord (in C)?",
+        "choices": [
+          "G",
+          "F",
+          "C",
+          "C7"
+        ],
+        "answerIndex": 1,
+        "explanation": "Bar 10 is the IV chord answering bar 9\u2019s V.",
+        "choiceExplanations": [
+          "G was bar 9 \u2014 it lasts exactly one bar.",
+          "Right \u2014 bar 10 is F, easing the tension G created.",
+          "C waits for bar 11.",
+          "C7 is a dressing of C \u2014 and C isn\u2019t due until bar 11 anyway."
+        ]
+      },
+      {
+        "id": "t6c-q3",
+        "promptText": "The symbol \u201cF\u201d above a bar asks for\u2026",
+        "choices": [
+          "F-A-C",
+          "F-A-C-E",
+          "F alone",
+          "F-G-A"
+        ],
+        "answerIndex": 0,
+        "explanation": "A plain letter means the major triad.",
+        "choiceExplanations": [
+          "Right \u2014 F major: F-A-C.",
+          "F-A-C-E adds a seventh \u2014 that would be written Fmaj7.",
+          "A chord symbol always means a chord, not a single note.",
+          "F-G-A is a scale fragment, not a chord."
+        ]
+      },
+      {
+        "id": "t6c-q4",
+        "promptText": "How many different chords does the whole basic form use?",
+        "choices": [
+          "Two",
+          "Three",
+          "Four",
+          "Six"
+        ],
+        "answerIndex": 1,
+        "explanation": "Just I, IV and V.",
+        "choiceExplanations": [
+          "Two chords can\u2019t make the bar-9 peak \u2014 you need V as well as IV.",
+          "Right \u2014 three: C, F and G carry all twelve bars.",
+          "The basic form needs no fourth chord \u2014 that economy is the point.",
+          "Six chords is jazz territory \u2014 the blues skeleton uses three."
+        ]
+      },
+      {
+        "id": "t6c-q5",
+        "promptText": "Which bars of the form are home (C) in the last four bars?",
+        "choices": [
+          "9 and 10",
+          "10 and 11",
+          "11 only",
+          "11 and 12"
+        ],
+        "answerIndex": 2,
+        "explanation": "G-F-C-G: only bar 11 is home.",
+        "choiceExplanations": [
+          "Bars 9\u201310 are the G and F bars \u2014 maximum motion.",
+          "Bar 10 is F, not C.",
+          "Right \u2014 bar 11 is the only C in the final four; bar 12 turns around on G.",
+          "Bar 12 is the G turnaround, not home."
+        ]
+      },
+      {
+        "id": "t6c-q6",
+        "promptText": "Why can strangers jam a blues together without sheet music?",
+        "choices": [
+          "Everyone improvises freely",
+          "The form is fixed and shared",
+          "Blues has no chords",
+          "They read each other\u2019s hands"
+        ],
+        "answerIndex": 1,
+        "explanation": "The fixed map is the contract.",
+        "choiceExplanations": [
+          "The solos improvise \u2014 but over a structure everyone trusts.",
+          "Right \u2014 all twelve bars are agreed in advance; \u201cblues in C\u201d says everything.",
+          "Blues absolutely has chords \u2014 three of them, in a fixed order.",
+          "Watching hands helps, but the form is what makes it work."
+        ]
+      },
+      {
+        "id": "t6c-q7",
+        "promptText": "The G7 you previewed \u2014 what does the \u201cleaning\u201d feeling want?",
+        "choices": [
+          "To stay put",
+          "To resolve home to C",
+          "To get louder",
+          "To slow down"
+        ],
+        "answerIndex": 1,
+        "explanation": "Dominant tension resolves to the I chord.",
+        "choiceExplanations": [
+          "A dominant chord is the least stay-put sound in the form.",
+          "Right \u2014 G7 leans toward C; bar 12 uses that lean to restart the form.",
+          "Loudness doesn\u2019t discharge harmonic tension \u2014 resolution does.",
+          "Tempo has nothing to do with it \u2014 the pull is in the notes."
+        ]
+      },
+      {
+        "id": "t6c-q8",
+        "promptText": "Counting \u201cONE-two-three-four\u201d per bar, when do you change to F the first time?",
+        "choices": [
+          "Bar 4, beat 4",
+          "Bar 5, beat 1",
+          "Bar 5, beat 3",
+          "Bar 6, beat 1"
+        ],
+        "answerIndex": 1,
+        "explanation": "Changes land ON the barline.",
+        "choiceExplanations": [
+          "Changing early is THE classic blues mistake \u2014 hold C through all of bar 4.",
+          "Right \u2014 the change lands exactly on the downbeat of bar 5.",
+          "Halfway through the bar is too late \u2014 the band moved on beat 1.",
+          "Bar 6 is the second bar of F \u2014 you\u2019d be a bar behind."
+        ]
+      }
+    ]
   }
 ]

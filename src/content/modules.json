@@ -454,5 +454,41 @@
       "chord-dom7",
       "harmony-12bar-form"
     ]
+  },
+  {
+    "id": "m6-twelve-bar",
+    "arc": "blues",
+    "tier": 6,
+    "title": "The 12-bar form",
+    "promise": "The blues skeleton \u2014 twelve bars you\u2019ll play for the rest of your life",
+    "prerequisiteModuleIds": [
+      "m5-amazing-grace"
+    ],
+    "lessonIds": [
+      "l-tb-watch",
+      "l-tb-theory",
+      "l-tb-comp",
+      "l-tb-v7-listen",
+      "l-tb-ear",
+      "l-tb-roots",
+      "l-tb-eyes-up",
+      "l-tb-apply",
+      "l-tb-gate-quiz",
+      "l-tb-boss",
+      "l-tb-stretch"
+    ],
+    "coreSkillIds": [
+      "harmony-12bar-form"
+    ],
+    "bossLessonId": "l-tb-boss",
+    "revisits": [
+      "harmony-i-iv-v",
+      "chord-major-triad",
+      "lh-root-notes"
+    ],
+    "prepares": [
+      "chord-dom7",
+      "rhythm-swing-feel"
+    ]
   }
 ]

@@ -170,7 +170,10 @@ export function recordChartAttempt(input: RecordAttemptInput): RecordAttemptResu
   };
 
   // Freshness of the exercised skills BEFORE this take (drives XP weighting).
-  const taught = song.taughtSkills.map((id) => skillProgressOr(skillProgressById, id, nowMs));
+  // The played CHART's attribution wins when it declares one — a simplified
+  // arrangement must not credit skills only the full arrangement exercises.
+  const taughtIds = chart.taughtSkills ?? song.taughtSkills;
+  const taught = taughtIds.map((id) => skillProgressOr(skillProgressById, id, nowMs));
   const baseXp = xpForAttempt(song, attempt, taught.map((p) => p.freshness), nowMs);
   const encore = rollEncoreBonus(attempt, input.rand);
   // Drills reward practice via XP but never improvement riffs or chart bests.

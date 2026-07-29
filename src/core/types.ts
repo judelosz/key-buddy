@@ -95,6 +95,14 @@ export interface Chart {
   /** Phrase-level sections covering every bar; required on song charts
    * (fragments' embedded charts are exempt). */
   sections?: ChartSection[];
+  /**
+   * Per-arrangement skill attribution: when set, a take on THIS chart credits
+   * only these skills (must be a subset of the song's taughtSkills). Without
+   * it the song's full list applies. Exists so e.g. the triad arrangement of
+   * a song can't Hands-master the dom7 skill its full arrangement teaches.
+   * Fragment takes always credit the fragment's own skillTags.
+   */
+  taughtSkills?: string[];
 }
 
 export type ArrangementLevel = 'simplified' | 'full';

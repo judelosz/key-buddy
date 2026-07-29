@@ -8,7 +8,7 @@ import { recordLessonAttempt } from '@/core/session/recordLesson';
 import { initialPlayerState } from '@/data/repository';
 
 /**
- * Walk the entire authored path (Tiers 1–5) through the real reducer, one
+ * Walk the entire authored path (every tier with a gate) through the real reducer, one
  * simulated day per lesson, always following nextRecommendedLesson. Proves the
  * whole curriculum is completable: every gate's XP band is reachable, bosses
  * are playable, checkpoints pass, and delayed reviews occur naturally as FSRS
@@ -42,8 +42,8 @@ function cannedAttempt(refId: string, refKind: 'chart' | 'fragment', performance
   };
 }
 
-describe('the authored Tier 1–5 path is completable end to end', () => {
-  it('walking every recommended lesson advances through all five gates', () => {
+describe('the authored path is completable end to end', () => {
+  it('walking every recommended lesson advances through every authored gate', () => {
     const content = ContentService.createValidated(rawContent);
     let player: PlayerState = initialPlayerState();
     let skills = new Map<string, SkillProgress>();
@@ -146,9 +146,12 @@ describe('the authored Tier 1–5 path is completable end to end', () => {
     const allLessonIds = content.modules.flatMap((m) => m.lessonIds);
     expect(new Set(visited).size).toBe(allLessonIds.length);
 
-    // All five tier gates opened along the way.
-    expect(player.learningTier).toBe(6);
-    expect(player.playerLevel).toBe(6);
-    expect(Object.keys(player.tierGatePassedAt).map(Number).sort()).toEqual([1, 2, 3, 4, 5]);
+    // Every authored tier gate opened along the way (content-driven, so the
+    // suite extends itself as new tiers are authored).
+    const gateTiers = content.tierGates.map((g) => g.tier).sort((a, b) => a - b);
+    const topTier = gateTiers[gateTiers.length - 1] + 1;
+    expect(player.learningTier).toBe(topTier);
+    expect(player.playerLevel).toBe(topTier);
+    expect(Object.keys(player.tierGatePassedAt).map(Number).sort((a, b) => a - b)).toEqual(gateTiers);
   });
 });

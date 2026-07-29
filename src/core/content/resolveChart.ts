@@ -12,6 +12,10 @@ export function fragmentAsChart(fragment: Fragment): Chart {
     id: fragment.id,
     songId: fragment.sourceSongId,
     arrangementLevel: 'simplified',
+    // A fragment take exercises the fragment's own skills — never the source
+    // song's full list (a Tier-1 stretch cell from a Tier-24 song must not
+    // credit swing/dom7 Hands evidence).
+    taughtSkills: fragment.skillTags,
     ...fragment.chart,
   };
 }

@@ -52,6 +52,28 @@ const entry = song('entry', 1, [], ['a', 'b']);
 const gated = song('gated', 6, ['a', 'b'], []);
 
 describe('recordChartAttempt', () => {
+  it('a chart-level taughtSkills override credits ONLY the listed skills (arrangement honesty)', () => {
+    // The simplified arrangement declares it teaches only 'a' — a mastery take
+    // on it must not Hands-master 'b', which only the full arrangement plays.
+    const res = recordChartAttempt({
+      song: entry,
+      chart: { ...chartFx, taughtSkills: ['a'] },
+      attempt: attempt({ masteryStar: true, stars: 3 }),
+      playerState: initialPlayerState(),
+      skillProgressById: new Map(),
+      prevBestStars: 0,
+      allSkills: skills,
+      allSongs: [entry, gated],
+      nowMs: 1_000_000,
+      todayISO: '2026-07-22',
+      rand: 1,
+    });
+    const byId = new Map(res.changedSkills.map((s) => [s.skillId, s]));
+    expect(isHandsMastered(byId.get('a')!)).toBe(true);
+    expect(byId.has('b')).toBe(false);
+    expect(res.reward.newlyUnlockedSongIds).not.toContain('gated');
+  });
+
   it('mastering the entry song unlocks the gated song and rewards real progress', () => {
     const res = recordChartAttempt({
       song: entry,
