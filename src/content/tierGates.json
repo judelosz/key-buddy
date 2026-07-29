@@ -4,8 +4,7 @@
     "coreSkillIds": [
       "geo-note-names",
       "mech-five-finger-c",
-      "rhythm-steady-pulse",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "bossSongId": "ode-to-joy",
     "bossChartId": "ode-to-joy--simplified",
@@ -13,7 +12,7 @@
       "assess-t1-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 45,
+    "handsXpBand": 30,
     "headXpBand": 45
   },
   {
@@ -27,7 +26,7 @@
       "assess-t2-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 28,
+    "handsXpBand": 20,
     "headXpBand": 42
   },
   {
@@ -41,7 +40,7 @@
       "assess-t3-checkpoint"
     ],
     "requiresDelayedReview": false,
-    "handsXpBand": 28,
+    "handsXpBand": 20,
     "headXpBand": 40
   },
   {

@@ -84,7 +84,7 @@ function inputs(over: Partial<SessionInputs> = {}): SessionInputs {
 function tier2Inputs(): SessionInputs {
   const then = NOW - 20 * DAY;
   const skills = new Map<string, SkillProgress>(
-    ['geo-note-names', 'ear-pitch-direction', 'mech-five-finger-c', 'rhythm-steady-pulse', 'rhythm-time-sig-44'].map(
+    ['geo-note-names', 'ear-pitch-direction', 'mech-five-finger-c', 'rhythm-steady-pulse'].map(
       (id) => [id, progress(id, then, 0.9)],
     ),
   );

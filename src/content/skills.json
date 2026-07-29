@@ -63,7 +63,7 @@
     "prerequisites": [
       "geo-note-names"
     ],
-    "description": "Right-hand C-D-E-F-G under fingers 1–5, even tone, no reaching.",
+    "description": "Right-hand C-D-E-F-G under fingers 1\u20135, even tone, no reaching.",
     "arc": "foundation",
     "strand": "technique",
     "outcome": "Play a five-finger melody in C with steady, even notes at 96 BPM.",
@@ -85,16 +85,16 @@
   },
   {
     "id": "rhythm-steady-pulse",
-    "name": "Steady pulse with a metronome",
+    "name": "Steady pulse in 4/4",
     "family": "rhythm-groove",
     "tier": 1,
     "genre": "foundation",
     "prerequisites": [],
     "theoryConceptId": "theory-beat-subdivision",
-    "description": "Play quarter notes locked to the click; feel the downbeat.",
+    "description": "Play quarter notes locked to the click; count four beats to the bar and land the downbeat.",
     "arc": "foundation",
     "strand": "rhythm",
-    "outcome": "Tap or play eight quarter notes in a row locked to the click.",
+    "outcome": "Tap or play eight quarter notes locked to the click, counting 1-2-3-4 and landing every downbeat.",
     "moduleId": "m1-steady-beat",
     "assessment": {
       "minStars": 0,
@@ -104,41 +104,12 @@
       "requiresNoAssists": true
     },
     "transferTargets": [
-      "rhythm-time-sig-44",
-      "rhythm-eighth-notes"
-    ],
-    "commonErrors": [
-      "Rushing after a correct note",
-      "Stopping to restart after a miss"
-    ]
-  },
-  {
-    "id": "rhythm-time-sig-44",
-    "name": "Common time (4/4)",
-    "family": "rhythm-groove",
-    "tier": 1,
-    "genre": "foundation",
-    "prerequisites": [
-      "rhythm-steady-pulse"
-    ],
-    "theoryConceptId": "theory-time-sig-44",
-    "description": "Count four beats to the bar, find the downbeat, and keep the bar shape.",
-    "arc": "foundation",
-    "strand": "rhythm",
-    "outcome": "Count 1-2-3-4 aloud with the click and land the downbeat every bar.",
-    "moduleId": "m1-steady-beat",
-    "assessment": {
-      "minStars": 0,
-      "minNotesCorrectPct": 0,
-      "minGoodOrBetterPct": 0.7,
-      "requiresAtTempo": true,
-      "requiresNoAssists": true
-    },
-    "transferTargets": [
+      "rhythm-eighth-notes",
       "rhythm-time-sig-24",
       "rhythm-time-sig-34"
     ],
     "commonErrors": [
+      "Rushing after a correct note",
       "Losing count mid-bar",
       "Accenting every beat equally"
     ]
@@ -186,7 +157,7 @@
     "prerequisites": [
       "chord-major-triad"
     ],
-    "description": "Build 1-♭3-5 minor triads."
+    "description": "Build 1-\u266d3-5 minor triads."
   },
   {
     "id": "chord-dom7",
@@ -197,11 +168,11 @@
     "prerequisites": [
       "chord-major-triad"
     ],
-    "description": "The single most important blues color: 1-3-5-♭7."
+    "description": "The single most important blues color: 1-3-5-\u266d7."
   },
   {
     "id": "harmony-i-iv-v",
-    "name": "The I–IV–V relationship",
+    "name": "The I\u2013IV\u2013V relationship",
     "family": "harmony-progressions",
     "tier": 4,
     "genre": "foundation",
@@ -231,7 +202,7 @@
     "prerequisites": [
       "harmony-i-iv-v"
     ],
-    "description": "Think in scale degrees 1–7 to transpose instantly."
+    "description": "Think in scale degrees 1\u20137 to transpose instantly."
   },
   {
     "id": "harmony-12bar-form",
@@ -242,7 +213,7 @@
     "prerequisites": [
       "harmony-i-iv-v"
     ],
-    "description": "The canonical 12-bar chord sequence — the on-ramp to improvisation."
+    "description": "The canonical 12-bar chord sequence \u2014 the on-ramp to improvisation."
   },
   {
     "id": "lh-root-notes",
@@ -296,7 +267,7 @@
     "tier": 2,
     "genre": "foundation",
     "prerequisites": [
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "theoryConceptId": "theory-time-sig-24",
     "description": "Feel and identify two beats to a bar versus four.",
@@ -503,7 +474,7 @@
       "mech-five-finger-c",
       "lh-root-notes"
     ],
-    "description": "RH sings the melody while LH anchors the downbeats — a whole song, alone.",
+    "description": "RH sings the melody while LH anchors the downbeats \u2014 a whole song, alone.",
     "arc": "foundation",
     "strand": "repertoire",
     "outcome": "Perform a full song with melody and left-hand roots, at tempo, unassisted.",

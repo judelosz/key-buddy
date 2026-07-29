@@ -9,7 +9,7 @@
     "skillIds": [
       "mech-five-finger-c"
     ],
-    "prompt": "Ode to Joy uses exactly the five keys you know — C D E F G, one finger each.",
+    "prompt": "Ode to Joy uses exactly the five keys you know \u2014 C D E F G, one finger each.",
     "successRule": "Listen through once.",
     "passCriteria": {
       "minScorePct": 0
@@ -30,8 +30,8 @@
     "skillIds": [
       "mech-five-finger-c"
     ],
-    "prompt": "Bars 1–4 at an easy tempo, with the falling notes to guide you.",
-    "successRule": "Finish the phrase — every note right (timing is graded, as always).",
+    "prompt": "Bars 1\u20134 at an easy tempo, with the falling notes to guide you.",
+    "successRule": "Finish the phrase \u2014 every note right (timing is graded, as always).",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -52,7 +52,7 @@
     "skillIds": [
       "geo-note-names"
     ],
-    "prompt": "The phrase you played is E-E-F-G… Find those keys cold, by name.",
+    "prompt": "The phrase you played is E-E-F-G\u2026 Find those keys cold, by name.",
     "successRule": "Play all 6 asked-for keys correctly.",
     "passCriteria": {
       "minScorePct": 1
@@ -79,8 +79,8 @@
     "skillIds": [
       "mech-five-finger-c"
     ],
-    "prompt": "Bars 5–8 — almost the same as the first phrase, with a different landing.",
-    "successRule": "Finish the phrase — every note right (timing is graded, as always).",
+    "prompt": "Bars 5\u20138 \u2014 almost the same as the first phrase, with a different landing.",
+    "successRule": "Finish the phrase \u2014 every note right (timing is graded, as always).",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -102,8 +102,8 @@
       "mech-five-finger-c",
       "rhythm-steady-pulse"
     ],
-    "prompt": "Both phrases back to back. Keep the pulse — recover on the next beat if you slip.",
-    "successRule": "Earn at least one star — every note right; a slip means a replay.",
+    "prompt": "Both phrases back to back. Keep the pulse \u2014 recover on the next beat if you slip.",
+    "successRule": "Earn at least one star \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -124,8 +124,8 @@
     "skillIds": [
       "mech-five-finger-c"
     ],
-    "prompt": "Starting mid-song is harder than it sounds — and it proves you're not just replaying a picture.",
-    "successRule": "Two stars on the second phrase — every note right; a slip means a replay.",
+    "prompt": "Starting mid-song is harder than it sounds \u2014 and it proves you're not just replaying a picture.",
+    "successRule": "Two stars on the second phrase \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 2,
       "minScorePct": 1
@@ -145,7 +145,6 @@
     "skillIds": [
       "geo-note-names",
       "rhythm-steady-pulse",
-      "rhythm-time-sig-44",
       "ear-pitch-direction"
     ],
     "prompt": "Everything Tier 1 taught, in one short check.",
@@ -169,11 +168,10 @@
     "skillIds": [
       "mech-five-finger-c",
       "rhythm-steady-pulse",
-      "rhythm-time-sig-44",
       "geo-note-names"
     ],
-    "prompt": "Full tempo, no falling notes, no help. Accurate and in time — that's mastery.",
-    "successRule": "Earn the mastery star: three stars at 96 BPM with no assists — every note right; a slip means a replay.",
+    "prompt": "Full tempo, no falling notes, no help. Accurate and in time \u2014 that's mastery.",
+    "successRule": "Earn the mastery star: three stars at 96 BPM with no assists \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "requiresMasteryStar": true,
       "minScorePct": 1

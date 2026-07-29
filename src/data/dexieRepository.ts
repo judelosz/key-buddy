@@ -19,7 +19,12 @@ import type { LessonProgress, LessonResult, SongMastery } from '@/core/curriculu
 import type { PracticeSession } from '@/core/session/sessionTypes';
 import type { AdaptationState } from '@/core/adaptive/adaptive';
 import { normalizeSongMastery } from '@/core/songMastery/songMastery';
-import { normalizePlayerState, normalizeSkillProgress, type Repository } from './repository';
+import {
+  mergeLegacySkillIds,
+  normalizePlayerState,
+  normalizeSkillProgress,
+  type Repository,
+} from './repository';
 
 /** Stretch songs whose Phase-4 SongMastery rows were bogus (fragment-driven). */
 const STRETCH_RESET_SONG_IDS = ['pinetops-boogie'];
@@ -137,7 +142,7 @@ export class DexieRepository implements Repository {
 
   async loadAllSkillProgress(): Promise<SkillProgress[]> {
     const rows = await this.get().skillProgress.toArray();
-    return rows.map(normalizeSkillProgress);
+    return mergeLegacySkillIds(rows.map(normalizeSkillProgress));
   }
 
   async saveSkillProgress(progress: SkillProgress[]): Promise<void> {

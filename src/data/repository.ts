@@ -104,3 +104,46 @@ export function normalizeSkillProgress(raw: SkillProgress): SkillProgress {
       : [];
   return { ...raw, handsEvidenceDates: seed };
 }
+
+/** Skills that were merged away in content — stored rows migrate into the
+ * survivor on load so no earned evidence is lost. */
+const LEGACY_SKILL_ID_MAP: Record<string, string> = {
+  // 2026-07-28: "Common time (4/4)" folded into "Steady pulse in 4/4".
+  'rhythm-time-sig-44': 'rhythm-steady-pulse',
+};
+
+/** Fold legacy-id rows into their surviving skill (max locks, union of
+ * evidence, most-conservative freshness). Runs on every load — the stale row
+ * stays in the table but never reaches the app. */
+export function mergeLegacySkillIds(rows: SkillProgress[]): SkillProgress[] {
+  const byId = new Map<string, SkillProgress>();
+  const merge = (a: SkillProgress, b: SkillProgress): SkillProgress => ({
+    ...a,
+    headLock: Math.max(a.headLock, b.headLock),
+    handsLock: Math.max(a.handsLock, b.handsLock),
+    masteredAt:
+      a.masteredAt !== undefined && b.masteredAt !== undefined
+        ? Math.min(a.masteredAt, b.masteredAt)
+        : (a.masteredAt ?? b.masteredAt),
+    // Most-conservative schedule: the card that comes due sooner wins.
+    freshness: a.freshness.due <= b.freshness.due ? a.freshness : b.freshness,
+    lastReviewed:
+      a.lastReviewed !== undefined && b.lastReviewed !== undefined
+        ? Math.max(a.lastReviewed, b.lastReviewed)
+        : (a.lastReviewed ?? b.lastReviewed),
+    delayedReviewPassedAt:
+      a.delayedReviewPassedAt !== undefined && b.delayedReviewPassedAt !== undefined
+        ? Math.max(a.delayedReviewPassedAt, b.delayedReviewPassedAt)
+        : (a.delayedReviewPassedAt ?? b.delayedReviewPassedAt),
+    handsEvidenceDates: [
+      ...new Set([...(a.handsEvidenceDates ?? []), ...(b.handsEvidenceDates ?? [])]),
+    ].sort(),
+  });
+  for (const row of rows) {
+    const id = LEGACY_SKILL_ID_MAP[row.skillId] ?? row.skillId;
+    const renamed = id === row.skillId ? row : { ...row, skillId: id };
+    const existing = byId.get(id);
+    byId.set(id, existing ? merge(existing, renamed) : renamed);
+  }
+  return [...byId.values()];
+}

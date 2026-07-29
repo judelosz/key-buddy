@@ -4,6 +4,7 @@ import { newCard } from '@/core/srs/fsrs';
 import {
   initialPlayerState,
   normalizePlayerState,
+  mergeLegacySkillIds,
   normalizeSkillProgress,
 } from '@/data/repository';
 
@@ -86,5 +87,55 @@ describe('normalizeSkillProgress', () => {
   it('never touches rows that already carry evidence', () => {
     const current = { ...base, handsEvidenceDates: ['2026-07-01', '2026-07-05'] };
     expect(normalizeSkillProgress(current)).toBe(current);
+  });
+});
+
+describe('mergeLegacySkillIds — the 2026-07-28 tier-1 skill merge', () => {
+  const T0 = Date.parse('2026-07-10T12:00:00Z');
+  const row = (over: Partial<SkillProgress>): SkillProgress => ({
+    skillId: 's',
+    handsLock: 0,
+    headLock: 0,
+    freshness: newCard(T0),
+    handsEvidenceDates: [],
+    ...over,
+  });
+
+  it('folds a stored rhythm-time-sig-44 row into rhythm-steady-pulse without losing evidence', () => {
+    const legacy = row({
+      skillId: 'rhythm-time-sig-44',
+      handsLock: 0.9,
+      headLock: 0.4,
+      handsEvidenceDates: ['2026-07-08'],
+      freshness: { ...newCard(T0), due: T0 + 1000 }, // due sooner
+    });
+    const survivor = row({
+      skillId: 'rhythm-steady-pulse',
+      handsLock: 0.6,
+      headLock: 0.8,
+      handsEvidenceDates: ['2026-07-09'],
+      freshness: { ...newCard(T0), due: T0 + 999_999 },
+    });
+    const merged = mergeLegacySkillIds([legacy, survivor]);
+    expect(merged).toHaveLength(1);
+    expect(merged[0]).toMatchObject({
+      skillId: 'rhythm-steady-pulse',
+      handsLock: 0.9,
+      headLock: 0.8,
+      handsEvidenceDates: ['2026-07-08', '2026-07-09'],
+    });
+    expect(merged[0].freshness.due).toBe(T0 + 1000); // sooner-due card wins
+  });
+
+  it('renames a lone legacy row and leaves unrelated rows alone', () => {
+    const merged = mergeLegacySkillIds([
+      row({ skillId: 'rhythm-time-sig-44', handsLock: 0.7 }),
+      row({ skillId: 'geo-note-names', handsLock: 0.3 }),
+    ]);
+    expect(merged.map((r) => r.skillId).sort()).toEqual([
+      'geo-note-names',
+      'rhythm-steady-pulse',
+    ]);
+    expect(merged.find((r) => r.skillId === 'rhythm-steady-pulse')?.handsLock).toBe(0.7);
   });
 });

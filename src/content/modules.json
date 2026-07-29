@@ -4,7 +4,7 @@
     "arc": "foundation",
     "tier": 1,
     "title": "Meet the Keyboard",
-    "promise": "Find your way around the keys — and trust your ears",
+    "promise": "Find your way around the keys \u2014 and trust your ears",
     "prerequisiteModuleIds": [],
     "lessonIds": [
       "l-mk-listen",
@@ -44,8 +44,7 @@
       "l-sb-checkpoint"
     ],
     "coreSkillIds": [
-      "rhythm-steady-pulse",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "bossLessonId": "l-sb-checkpoint",
     "revisits": [],
@@ -59,7 +58,7 @@
     "arc": "foundation",
     "tier": 1,
     "title": "Your First Melody",
-    "promise": "Play Ode to Joy — really play it, in time",
+    "promise": "Play Ode to Joy \u2014 really play it, in time",
     "prerequisiteModuleIds": [
       "m1-meet-keyboard",
       "m1-steady-beat"
@@ -137,7 +136,7 @@
     "bossLessonId": "l-rm-checkpoint",
     "revisits": [
       "ear-pitch-direction",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "prepares": [
       "rhythm-time-sig-34",
@@ -249,7 +248,7 @@
     "bossLessonId": "l-su-boss",
     "revisits": [
       "lh-root-notes",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "prepares": [
       "harmony-i-iv-v"
@@ -289,7 +288,7 @@
     "arc": "foundation",
     "tier": 4,
     "title": "The Three Chords That Run Everything",
-    "promise": "I, IV, and V — home, away, and the pull back",
+    "promise": "I, IV, and V \u2014 home, away, and the pull back",
     "prerequisiteModuleIds": [
       "m4-build-triad"
     ],
@@ -428,7 +427,7 @@
     "arc": "foundation",
     "tier": 5,
     "title": "Amazing Grace",
-    "promise": "The Tier 5 boss — a whole hymn in 3/4, both hands",
+    "promise": "The Tier 5 boss \u2014 a whole hymn in 3/4, both hands",
     "prerequisiteModuleIds": [
       "m5-chord-symbols"
     ],

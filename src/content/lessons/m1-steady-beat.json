@@ -9,7 +9,7 @@
     "skillIds": [
       "rhythm-steady-pulse"
     ],
-    "prompt": "Listen to a steady pulse. Count 1-2-3-4 along with it — out loud helps.",
+    "prompt": "Listen to a steady pulse. Count 1-2-3-4 along with it \u2014 out loud helps.",
     "successRule": "Listen through once.",
     "passCriteria": {
       "minScorePct": 0
@@ -30,7 +30,7 @@
     "skillIds": [
       "rhythm-steady-pulse"
     ],
-    "prompt": "Any key counts — what matters is WHEN. Land your taps right on the click.",
+    "prompt": "Any key counts \u2014 what matters is WHEN. Land your taps right on the click.",
     "successRule": "7 of 8 taps in time.",
     "passCriteria": {
       "minScorePct": 0.7
@@ -64,7 +64,7 @@
     "skillIds": [
       "rhythm-steady-pulse"
     ],
-    "prompt": "Three words musicians use constantly — and what they mean for your hands.",
+    "prompt": "Three words musicians use constantly \u2014 and what they mean for your hands.",
     "successRule": "Answer all 5 correctly.",
     "passCriteria": {
       "minScorePct": 1
@@ -83,10 +83,9 @@
     "mode": "supported",
     "exerciseType": "rhythm-tap",
     "skillIds": [
-      "rhythm-steady-pulse",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
-    "prompt": "Same job at a quicker pulse. Keep counting 1-2-3-4 — the count is the bar.",
+    "prompt": "Same job at a quicker pulse. Keep counting 1-2-3-4 \u2014 the count is the bar.",
     "successRule": "6 of 8 taps in time.",
     "passCriteria": {
       "minScorePct": 0.7
@@ -118,7 +117,7 @@
     "mode": "supported",
     "exerciseType": "theory-quiz",
     "skillIds": [
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
     "prompt": "The two numbers at the start of a chart tell you the bar's shape. Decode them.",
     "successRule": "Answer all 5 correctly.",
@@ -139,10 +138,9 @@
     "mode": "independent",
     "exerciseType": "rhythm-tap",
     "skillIds": [
-      "rhythm-steady-pulse",
-      "rhythm-time-sig-44"
+      "rhythm-steady-pulse"
     ],
-    "prompt": "Twelve beats, three bars, no second chances — keep the pulse all the way through.",
+    "prompt": "Twelve beats, three bars, no second chances \u2014 keep the pulse all the way through.",
     "successRule": "At least 70% of taps in time across three bars.",
     "passCriteria": {
       "minScorePct": 0.7
