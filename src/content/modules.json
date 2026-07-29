@@ -96,6 +96,7 @@
     ],
     "lessonIds": [
       "l-lh-listen",
+      "l-lh-home",
       "l-lh-bed",
       "l-lh-low-notes",
       "l-lh-changes",
@@ -107,7 +108,8 @@
     ],
     "bossLessonId": "l-lh-checkpoint",
     "revisits": [
-      "geo-note-names"
+      "geo-note-names",
+      "mech-five-finger-c"
     ],
     "prepares": [
       "rep-melody-accompaniment"
@@ -154,7 +156,12 @@
     ],
     "lessonIds": [
       "l-st-watch",
+      "l-st-place",
+      "l-st-melody-a",
+      "l-st-melody-b",
       "l-st-melody",
+      "l-st-bass",
+      "l-st-hands-a",
       "l-st-hands",
       "l-st-full",
       "l-st-vary",

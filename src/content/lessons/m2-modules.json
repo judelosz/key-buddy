@@ -9,7 +9,7 @@
     "skillIds": [
       "lh-root-notes"
     ],
-    "prompt": "The Saints — listen for the bass notes landing on the downbeats in the second half.",
+    "prompt": "The Saints \u2014 listen for the bass notes landing on the downbeats in the second half.",
     "successRule": "Listen through once.",
     "passCriteria": {
       "minScorePct": 0
@@ -17,13 +17,35 @@
     "assistOptions": [],
     "chartId": "when-the-saints--simplified",
     "generatorParams": {
-      "promptText": "The left hand plays one anchor note per bar — right on beat 1."
+      "promptText": "The left hand plays one anchor note per bar \u2014 right on beat 1."
     }
+  },
+  {
+    "id": "l-lh-home",
+    "moduleId": "m2-left-hand",
+    "order": 1,
+    "title": "Left-hand home",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "geo-note-names"
+    ],
+    "prompt": "Before the left hand plays in time, it needs a home: pinky resting on the C below middle C. All three roots this tier uses live under that one calm hand \u2014 no reaching, no jumping.",
+    "successRule": "Play the four roots in place \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-lh-home"
   },
   {
     "id": "l-lh-bed",
     "moduleId": "m2-left-hand",
-    "order": 1,
+    "order": 2,
     "title": "Anchor the downbeat",
     "mode": "guided",
     "exerciseType": "fragment",
@@ -31,7 +53,7 @@
       "lh-root-notes"
     ],
     "prompt": "One C in the bass, every bar, exactly on beat 1. Let it ring.",
-    "successRule": "Finish the pattern — every note right; a slip means a replay.",
+    "successRule": "Finish the pattern \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -45,14 +67,14 @@
   {
     "id": "l-lh-low-notes",
     "moduleId": "m2-left-hand",
-    "order": 2,
+    "order": 3,
     "title": "Find the bass keys",
     "mode": "supported",
     "exerciseType": "note-id",
     "skillIds": [
       "geo-note-names"
     ],
-    "prompt": "C, F, and G live below middle C too — the map repeats everywhere.",
+    "prompt": "C, F, and G live below middle C too \u2014 the map repeats everywhere.",
     "successRule": "Play all 6 asked-for keys correctly.",
     "passCriteria": {
       "minScorePct": 1
@@ -72,15 +94,15 @@
   {
     "id": "l-lh-changes",
     "moduleId": "m2-left-hand",
-    "order": 3,
+    "order": 4,
     "title": "Roots that move",
     "mode": "supported",
     "exerciseType": "fragment",
     "skillIds": [
       "lh-root-notes"
     ],
-    "prompt": "C, then F, then G — the bass tells the harmony where to go.",
-    "successRule": "Two stars on the changing roots — every note right; a slip means a replay.",
+    "prompt": "C, then F, then G \u2014 the bass tells the harmony where to go.",
+    "successRule": "Two stars on the changing roots \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 2,
       "minScorePct": 1
@@ -93,16 +115,16 @@
   {
     "id": "l-lh-combine",
     "moduleId": "m2-left-hand",
-    "order": 4,
-    "title": "Both hands, second half",
+    "order": 5,
+    "title": "Both hands, one pulse",
     "mode": "supported",
     "exerciseType": "fragment",
     "skillIds": [
       "lh-root-notes",
       "mech-five-finger-c"
     ],
-    "prompt": "Melody on top, anchors underneath — the Saints second half, hands together.",
-    "successRule": "Two stars, hands together — every note right; a slip means a replay.",
+    "prompt": "Your first hands-together playing \u2014 a five-finger walk over a steady bass anchor. Not the song yet: just the feeling of two hands sharing one pulse.",
+    "successRule": "Every note right, both hands; a slip means a replay.",
     "passCriteria": {
       "minStars": 2,
       "minScorePct": 1
@@ -111,20 +133,20 @@
       "falling-notes",
       "slow-down"
     ],
-    "fragmentId": "frag-saints-hands-9-16"
+    "fragmentId": "frag-two-hands-bed"
   },
   {
     "id": "l-lh-checkpoint",
     "moduleId": "m2-left-hand",
-    "order": 5,
+    "order": 6,
     "title": "Checkpoint: moving roots, no help",
     "mode": "independent",
     "exerciseType": "fragment",
     "skillIds": [
       "lh-root-notes"
     ],
-    "prompt": "The changing roots again — no falling notes, chord symbols only.",
-    "successRule": "Two stars with no visual help — every note right; a slip means a replay.",
+    "prompt": "The changing roots again \u2014 no falling notes, chord symbols only.",
+    "successRule": "Two stars with no visual help \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 2,
       "minScorePct": 1
@@ -163,7 +185,7 @@
     "skillIds": [
       "ear-pitch-direction"
     ],
-    "prompt": "Two notes — trust your ears before your eyes.",
+    "prompt": "Two notes \u2014 trust your ears before your eyes.",
     "successRule": "Get all 6 right.",
     "passCriteria": {
       "minScorePct": 1
@@ -240,7 +262,7 @@
       "rhythm-time-sig-24",
       "ear-pitch-direction"
     ],
-    "prompt": "Staff direction, bar lines, and 2/4 vs 4/4 — the Tier 2 knowledge check.",
+    "prompt": "Staff direction, bar lines, and 2/4 vs 4/4 \u2014 the Tier 2 knowledge check.",
     "successRule": "Answer every question correctly.",
     "passCriteria": {
       "minScorePct": 1
@@ -261,7 +283,7 @@
     "skillIds": [
       "lh-root-notes"
     ],
-    "prompt": "Notice the pickup — the melody starts before the first full bar.",
+    "prompt": "Notice the pickup \u2014 the melody starts before the first full bar.",
     "successRule": "Listen through once.",
     "passCriteria": {
       "minScorePct": 0
@@ -269,21 +291,85 @@
     "assistOptions": [],
     "chartId": "when-the-saints--simplified",
     "generatorParams": {
-      "promptText": "The tune starts on beat 2 — a pickup. Count the empty beat 1."
+      "promptText": "The tune starts on beat 2 \u2014 a pickup. Count the empty beat 1."
     }
   },
   {
-    "id": "l-st-melody",
+    "id": "l-st-place",
     "moduleId": "m2-saints",
     "order": 1,
-    "title": "Melody, first half",
+    "title": "Place both hands",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-five-finger-c",
+      "lh-root-notes"
+    ],
+    "prompt": "Set up the song before you play a bar of it: right thumb on middle C, pinky on G \u2014 that frame plays the whole melody. Left pinky on the low C \u2014 the roots live there.",
+    "successRule": "Every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-anchors"
+  },
+  {
+    "id": "l-st-melody-a",
+    "moduleId": "m2-saints",
+    "order": 2,
+    "title": "The rising call (bars 1\u20134)",
     "mode": "guided",
     "exerciseType": "fragment",
     "skillIds": [
       "mech-five-finger-c"
     ],
-    "prompt": "Just the right hand: the famous rising phrase, three times.",
-    "successRule": "Finish the phrase — every note right; a slip means a replay.",
+    "prompt": "The famous four notes, twice. Four bars \u2014 this is the whole first phrase.",
+    "successRule": "Every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-melody-1-4"
+  },
+  {
+    "id": "l-st-melody-b",
+    "moduleId": "m2-saints",
+    "order": 3,
+    "title": "The answer (bars 5\u20138)",
+    "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
+    "prompt": "Same start, different landing \u2014 the phrase that answers the call. Four more bars and you own the first half.",
+    "successRule": "Every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-melody-5-8"
+  },
+  {
+    "id": "l-st-melody",
+    "moduleId": "m2-saints",
+    "order": 4,
+    "title": "Join the phrases: the first half",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
+    "prompt": "The call and the answer, back to back \u2014 bars 1\u20138 in one take.",
+    "successRule": "Finish the phrase \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -295,18 +381,61 @@
     "fragmentId": "frag-saints-melody-1-8"
   },
   {
-    "id": "l-st-hands",
+    "id": "l-st-bass",
     "moduleId": "m2-saints",
-    "order": 2,
-    "title": "Hands together, second half",
+    "order": 5,
+    "title": "The bass line alone (bars 9\u201316)",
     "mode": "guided",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes"
+    ],
+    "prompt": "Left hand only \u2014 the second half\u2019s whole bass part is eight notes. Learn it by itself so it feels automatic before the melody joins.",
+    "successRule": "Every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-bass-9-16"
+  },
+  {
+    "id": "l-st-hands-a",
+    "moduleId": "m2-saints",
+    "order": 6,
+    "title": "Hands together, one chunk (bars 9\u201312)",
+    "mode": "supported",
     "exerciseType": "fragment",
     "skillIds": [
       "lh-root-notes",
       "mech-five-finger-c"
     ],
-    "prompt": "The left hand anchors while the melody finishes the story.",
-    "successRule": "Finish the section — every note right; a slip means a replay.",
+    "prompt": "Just four bars with both hands. Small enough to get right, big enough to feel the song.",
+    "successRule": "Every note right; a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
+    "fragmentId": "frag-saints-hands-9-12"
+  },
+  {
+    "id": "l-st-hands",
+    "moduleId": "m2-saints",
+    "order": 7,
+    "title": "Hands together: the whole second half",
+    "mode": "supported",
+    "exerciseType": "fragment",
+    "skillIds": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "prompt": "The chunk you just played, extended to the end of the song \u2014 bars 9\u201316, both hands.",
+    "successRule": "Finish the section \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -320,7 +449,7 @@
   {
     "id": "l-st-full",
     "moduleId": "m2-saints",
-    "order": 3,
+    "order": 8,
     "title": "The whole song",
     "mode": "supported",
     "exerciseType": "play-chart",
@@ -330,7 +459,7 @@
       "rhythm-steady-pulse"
     ],
     "prompt": "All sixteen bars. If a note slips, the next downbeat is your friend.",
-    "successRule": "Earn at least one star — every note right; a slip means a replay.",
+    "successRule": "Earn at least one star \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 1,
       "minScorePct": 1
@@ -344,7 +473,7 @@
   {
     "id": "l-st-vary",
     "moduleId": "m2-saints",
-    "order": 4,
+    "order": 9,
     "title": "Start from the second half",
     "mode": "supported",
     "exerciseType": "fragment",
@@ -353,7 +482,7 @@
       "mech-five-finger-c"
     ],
     "prompt": "Entering mid-song proves the music lives in you, not on the screen.",
-    "successRule": "Two stars on the second half — every note right; a slip means a replay.",
+    "successRule": "Two stars on the second half \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "minStars": 2,
       "minScorePct": 1
@@ -366,7 +495,7 @@
   {
     "id": "l-st-boss",
     "moduleId": "m2-saints",
-    "order": 5,
+    "order": 10,
     "title": "Performance: When the Saints",
     "mode": "performance",
     "exerciseType": "play-chart",
@@ -376,7 +505,7 @@
       "rhythm-steady-pulse"
     ],
     "prompt": "Full tempo, both hands, no help. March it home.",
-    "successRule": "Earn the mastery star: three stars at 96 BPM, no assists — every note right; a slip means a replay.",
+    "successRule": "Earn the mastery star: three stars at 96 BPM, no assists \u2014 every note right; a slip means a replay.",
     "passCriteria": {
       "requiresMasteryStar": true,
       "minScorePct": 1

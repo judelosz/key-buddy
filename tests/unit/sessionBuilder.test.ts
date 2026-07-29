@@ -96,6 +96,7 @@ function tier2Inputs(): SessionInputs {
   const lessons = new Map<string, LessonProgress>([
     ...tier1LessonIds.map((id) => done(id, then)),
     done('l-lh-listen', NOW - 2 * DAY),
+    done('l-lh-home', NOW - 2 * DAY),
     done('l-lh-bed', NOW - 2 * DAY),
     done('l-lh-low-notes', NOW - DAY),
   ]);

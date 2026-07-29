@@ -4265,5 +4265,790 @@
         }
       ]
     }
+  },
+  {
+    "id": "frag-saints-melody-1-4",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints \u2014 the rising call (bars 1\u20134)",
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "40",
+          "pitches": [
+            60
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "41",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "42",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "43",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "44",
+          "pitches": [
+            60
+          ],
+          "startBeat": 9,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "45",
+          "pitches": [
+            64
+          ],
+          "startBeat": 10,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "46",
+          "pitches": [
+            65
+          ],
+          "startBeat": 11,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "47",
+          "pitches": [
+            67
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-melody-5-8",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints \u2014 the answer (bars 5\u20138)",
+    "skillTags": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "80",
+          "pitches": [
+            60
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "81",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "82",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "83",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "84",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "85",
+          "pitches": [
+            60
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "86",
+          "pitches": [
+            64
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "87",
+          "pitches": [
+            62
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-bass-9-16",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints \u2014 the bass line alone (bars 9\u201316)",
+    "skillTags": [
+      "lh-root-notes"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 6,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 7,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "160",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "161",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "162",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "163",
+          "pitches": [
+            53
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "164",
+          "pitches": [
+            48
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "165",
+          "pitches": [
+            48
+          ],
+          "startBeat": 20,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "166",
+          "pitches": [
+            55
+          ],
+          "startBeat": 24,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "167",
+          "pitches": [
+            48
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-hands-9-12",
+    "sourceSongId": "when-the-saints",
+    "label": "Saints \u2014 hands together (bars 9\u201312)",
+    "skillTags": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F"
+        }
+      ],
+      "notes": [
+        {
+          "id": "120",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "121",
+          "pitches": [
+            64
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "122",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "123",
+          "pitches": [
+            62
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "124",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "125",
+          "pitches": [
+            60
+          ],
+          "startBeat": 4,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "126",
+          "pitches": [
+            60
+          ],
+          "startBeat": 6,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "127",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "128",
+          "pitches": [
+            64
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "129",
+          "pitches": [
+            67
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "1210",
+          "pitches": [
+            53
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "1211",
+          "pitches": [
+            65
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-lh-home",
+    "sourceSongId": "when-the-saints",
+    "label": "Left-hand home: three roots, one position",
+    "skillTags": [
+      "lh-root-notes",
+      "geo-note-names"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "lhh0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lhh1",
+          "pitches": [
+            53
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lhh2",
+          "pitches": [
+            55
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "lhh3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-two-hands-bed",
+    "sourceSongId": "when-the-saints",
+    "label": "Both hands, one pulse (five-finger walk over a bass anchor)",
+    "skillTags": [
+      "lh-root-notes",
+      "mech-five-finger-c"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "thb0",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "thb1",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb2",
+          "pitches": [
+            62
+          ],
+          "startBeat": 1,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb3",
+          "pitches": [
+            64
+          ],
+          "startBeat": 2,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb4",
+          "pitches": [
+            65
+          ],
+          "startBeat": 3,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb5",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "thb6",
+          "pitches": [
+            67
+          ],
+          "startBeat": 4,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb7",
+          "pitches": [
+            65
+          ],
+          "startBeat": 5,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb8",
+          "pitches": [
+            64
+          ],
+          "startBeat": 6,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb9",
+          "pitches": [
+            62
+          ],
+          "startBeat": 7,
+          "durationBeats": 1,
+          "hand": "right"
+        },
+        {
+          "id": "thb10",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "thb11",
+          "pitches": [
+            60
+          ],
+          "startBeat": 8,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "thb12",
+          "pitches": [
+            64
+          ],
+          "startBeat": 10,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "thb13",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "thb14",
+          "pitches": [
+            60
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-saints-anchors",
+    "sourceSongId": "when-the-saints",
+    "label": "The Saints anchors: right-hand frame, left-hand roots",
+    "skillTags": [
+      "mech-five-finger-c",
+      "lh-root-notes"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "F"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "sa0",
+          "pitches": [
+            60
+          ],
+          "startBeat": 0,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sa1",
+          "pitches": [
+            67
+          ],
+          "startBeat": 2,
+          "durationBeats": 2,
+          "hand": "right"
+        },
+        {
+          "id": "sa2",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "sa3",
+          "pitches": [
+            53
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "sa4",
+          "pitches": [
+            55
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "sa5",
+          "pitches": [
+            60
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "sa6",
+          "pitches": [
+            48
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
   }
 ]

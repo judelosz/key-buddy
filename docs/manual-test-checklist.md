@@ -38,6 +38,7 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 - [ ] ⏳ Challenge songs in Free Play: locked cards show "Bonus · Tier N Challenge" + "Unlocks at Level N" with a level-fraction bar; passing Tier 1 unlocks Camptown Races (and the wrap/report mentions the unlock). (2026-07-28: section render, badge, level bar, and the unlocked/locked split verified in-browser on the :5199 profile.)
 - [ ] ⏳ Tier 6–7 module walkthrough (human pass): the 12-bar form lessons feel right in sequence (listen → theory → blocked comping → V7 preview → ear → roots walk → symbols-only → apply → checkpoint → boss), the dom7 change drills sit under the hands, and the "Eyes on the symbols" lessons are playable without falling notes at the authored tempos.
 - [ ] ⏳ Tier 6–7 ear lessons on real audio: the major-vs-dom7 chord-ear prompts are distinguishable through the sampled piano at normal volume.
+- [ ] ⏳ Tier 2 pacing feel (2026-07-29 rework): the hand-placement lessons ("Left-hand home", "Place both hands") read as setup rather than busywork, the 4-bar Saints chunks are the right size on a real keyboard, and the join/assembly steps don't feel repetitive.
 - [ ] ⏳ Amazing Grace (3/4): metronome accents in three, falling notes align to keys, report heat-map bars are 3 beats wide, pickup beat behaves.
 - [ ] ⏳ Saints pickup: count-in then an empty beat 1 — falling notes and scoring line up.
 - [ ] ⏳ Mountain full arrangement: chords + bass playable hands-together at 50% tempo; live grading colors sensible.
