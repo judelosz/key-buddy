@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import {
   Check,
+  ChevronDown,
+  ChevronRight,
   Lock,
   Ear,
   Search,
@@ -96,6 +99,41 @@ function ModuleCard({
 }) {
   const content = getContent();
   const lessons = content.lessonsForModule(module.id);
+  // Completed modules fold into a dropdown — every mission stays replayable
+  // (user decision 2026-07-28). Current modules stay auto-expanded.
+  const [replayOpen, setReplayOpen] = useState(false);
+  const showLessons = expanded || (completed && replayOpen);
+
+  const header = (
+    <div className="flex items-center justify-between gap-3">
+      <div className="min-w-0 text-left">
+        <h3 className="font-display text-lg font-semibold tracking-tight text-ink">
+          {module.title}
+        </h3>
+        <p className="text-sm text-ink-soft">{module.promise}</p>
+      </div>
+      <div className="flex shrink-0 items-center gap-2 text-right">
+        {completed ? (
+          <>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-mint-soft px-3 py-1 text-xs font-medium text-mint-deep">
+              <Check size={13} /> Done
+            </span>
+            <span className="text-xs text-ink-soft">
+              {replayOpen ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
+            </span>
+          </>
+        ) : available ? (
+          <span className="font-display text-sm font-semibold tabular-nums text-ink-soft">
+            {completedLessons}/{module.lessonIds.length}
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1 text-xs font-medium text-ink-soft">
+            <Lock size={12} /> Finish the previous module
+          </span>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div
@@ -103,32 +141,27 @@ function ModuleCard({
         available ? '' : 'opacity-60'
       }`}
     >
-      <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="font-display text-lg font-semibold tracking-tight text-ink">
-            {module.title}
-          </h3>
-          <p className="text-sm text-ink-soft">{module.promise}</p>
-        </div>
-        <div className="shrink-0 text-right">
-          {completed ? (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-mint-soft px-3 py-1 text-xs font-medium text-mint-deep">
-              <Check size={13} /> Done
-            </span>
-          ) : available ? (
-            <span className="font-display text-sm font-semibold tabular-nums text-ink-soft">
-              {completedLessons}/{module.lessonIds.length}
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1 text-xs font-medium text-ink-soft">
-              <Lock size={12} /> Finish the previous module
-            </span>
-          )}
-        </div>
-      </div>
+      {completed ? (
+        <button
+          type="button"
+          aria-expanded={replayOpen}
+          onClick={() => setReplayOpen((v) => !v)}
+          className="w-full rounded-2xl transition hover:opacity-90"
+          title="Open to replay any mission from this module"
+        >
+          {header}
+        </button>
+      ) : (
+        header
+      )}
 
-      {expanded && (
+      {showLessons && (
         <ol className="mt-4 flex flex-col gap-1.5 border-t border-line pt-4">
+          {completed && (
+            <li className="pb-1 text-xs text-ink-soft">
+              Replay any mission — repeats pay less XP, but reviews keep skills gold.
+            </li>
+          )}
           {lessons.map((lesson) => (
             <LessonNode
               key={lesson.id}
