@@ -91,7 +91,7 @@ test('a note-id segment completes through the real exercise UI inside a session'
   // Wrap up mid-queue: zero-guilt wrap with the earned Hands XP.
   await page.getByRole('button', { name: 'Wrap up for today' }).click();
   await expect(page.getByRole('heading', { name: 'Nice session.' })).toBeVisible();
-  await expect(page.getByText('Hands')).toBeVisible();
+  await expect(page.getByTestId('session-wrap').getByText('Hands')).toBeVisible();
 });
 
 test('review-day hero leads with the practice session and the seam walks segments', async ({

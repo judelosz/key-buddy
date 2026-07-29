@@ -187,7 +187,7 @@ function CurrentModulePath({ view }: { view: ModuleView }) {
       <ol className="relative mx-auto flex max-w-3xl flex-col gap-3 px-5 py-7 sm:px-8">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-12 left-1/2 top-12 w-px -translate-x-1/2 bg-line"
+          className="pointer-events-none absolute bottom-12 left-[3.25rem] top-12 w-px -translate-x-1/2 bg-line sm:left-1/2"
         />
         {lessons.map((lesson, index) => (
           <PathLesson
@@ -220,18 +220,23 @@ function PathLesson({
   const isBoss = module.bossLessonId === lesson.id;
   const clickable = done || isNext;
   const side = index % 2 === 0 ? 'left' : 'right';
-  const offset = index % 3 === 0 ? '-translate-x-3' : index % 3 === 2 ? 'translate-x-3' : '';
+  const offset =
+    index % 3 === 0 ? 'sm:-translate-x-3' : index % 3 === 2 ? 'sm:translate-x-3' : '';
 
   return (
-    <li className="relative z-[1] grid min-h-[4.5rem] grid-cols-[1fr_4rem_1fr] items-center gap-2">
-      <div className={side === 'left' ? 'col-start-1 row-start-1 text-right' : 'col-start-3 row-start-1'}>
+    <li className="relative z-[1] grid min-h-[4.5rem] grid-cols-[3.5rem_1fr] items-center gap-3 sm:grid-cols-[1fr_4rem_1fr] sm:gap-2">
+      <div
+        className={`col-start-2 row-start-1 text-left ${
+          side === 'left' ? 'sm:col-start-1 sm:text-right' : 'sm:col-start-3'
+        }`}
+      >
         <p className={`text-sm font-semibold ${clickable ? 'text-ink' : 'text-ink-soft'}`}>
           {lesson.title}
         </p>
         <p className="mt-0.5 line-clamp-2 text-xs leading-snug text-ink-soft">
           {lesson.successRule}
         </p>
-        <div className={`mt-1 ${side === 'left' ? 'flex justify-end' : ''}`}>
+        <div className={`mt-1 ${side === 'left' ? 'sm:flex sm:justify-end' : ''}`}>
           <ModeChip mode={lesson.mode} />
         </div>
       </div>
@@ -241,7 +246,7 @@ function PathLesson({
         data-testid={`lesson-${lesson.id}`}
         aria-label={`${lesson.title}${isNext ? ' — current mission' : done ? ' — completed' : ' — locked'}`}
         onClick={() => setActiveLesson({ moduleId: module.id, lessonId: lesson.id })}
-        className={`col-start-2 row-start-1 flex h-14 w-14 items-center justify-center justify-self-center rounded-[1.15rem] border-b-[3px] transition ${offset} ${
+        className={`col-start-1 row-start-1 flex h-14 w-14 items-center justify-center justify-self-center rounded-[1.15rem] border-b-[3px] transition sm:col-start-2 ${offset} ${
           done
             ? 'border-mint-deep/25 bg-mint text-ink hover:-translate-y-px'
             : isNext

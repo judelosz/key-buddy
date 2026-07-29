@@ -2,7 +2,19 @@
 
 *A living checklist (roadmap §8/§9): rerun the relevant sections after any change to input, scoring, progression, the curriculum engine, or the shell. Automated coverage (`npm run typecheck | test | e2e`) must be green before starting a manual pass.*
 
-Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → real lesson → compact result → wrap verified in-browser and by `session.spec.ts`; items marked ⏳ still need a human pass, ideally with a MIDI keyboard).
+Last full pass: 2026-07-29 (Modern Music Room shell — responsive screenshots at 390/1024/1440/1920, focus layouts, mission horizon, and curriculum dialog verified in-browser; 265 unit + 19 e2e green. Items marked ⏳ still need a human pass, ideally with a MIDI keyboard).
+
+## Modern Music Room shell (2026-07-29)
+
+- [x] At 1920×1080 and 1440×900, navigation and player rails are both visible; the center stage stays readable and the right rail shows the real gate, Hands/Head, practice, unlock, and input state.
+- [x] At 1024×768, the left rail is icon-only, the player rail is gone, and every destination retains an accessible label/tooltip.
+- [x] At 390×844, compact top navigation is usable without horizontal page overflow.
+- [x] Opening a lesson, practice session, or Free Play song removes all global rails; exiting restores the same lobby screen.
+- [x] Missions shows only the last/current/next horizon; “View full curriculum” exposes every tier and returns keyboard focus to its trigger on close.
+- [x] Current, completed, boss, and locked lesson keycaps are visually distinct; locked lesson copy remains readable.
+- [ ] ⏳ Keyboard-only: tab through both rails, open/close the curriculum dialog, and start/exit a lesson with visible focus throughout.
+- [ ] ⏳ Reduced motion: current-node and page transitions collapse to near-zero duration; no confetti appears.
+- [ ] ⏳ MIDI: connect/disconnect from the player rail, then play in focus mode; input continues without a remount or lost device state.
 
 ## First run & onboarding
 
