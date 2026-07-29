@@ -24,7 +24,11 @@ import {
 } from '@/core/curriculum/selectors';
 import { remediationCandidates } from '@/core/curriculum/remediation';
 import { selectStretchFragment, stretchSongFor } from '@/core/curriculum/stretch';
-import { initialAdaptation, policyOverrideFor } from '@/core/adaptive/adaptive';
+import {
+  generatorOverridesFor,
+  initialAdaptation,
+  policyOverrideFor,
+} from '@/core/adaptive/adaptive';
 import {
   activityRef,
   type SegmentActivity,
@@ -583,16 +587,22 @@ function toSegment(
     const lesson = inputs.content.getLesson(c.activity.lessonId);
     const state = inputs.adaptationByRef.get(c.activity.lessonId);
     if (lesson && state) {
-      const override = policyOverrideFor(lesson, state);
       const baseline = initialAdaptation(state.refId, lesson, inputs.nowMs);
-      if (
-        override &&
-        (state.tempoPct !== baseline.tempoPct || state.assistLevel !== baseline.assistLevel)
-      ) {
+      const moved =
+        state.tempoPct !== baseline.tempoPct || state.assistLevel !== baseline.assistLevel;
+      const override = policyOverrideFor(lesson, state);
+      if (override && moved) {
         segment.adaptation = {
           tempoPct: override.tempoPct,
           assists: override.fallingNotes,
           message: `Starting at ${Math.round(override.tempoPct * 100)}% tempo — picking up where you left off.`,
+        };
+      } else if (moved && generatorOverridesFor(lesson, state) !== undefined) {
+        // Generator-adapted exercises (rhythm-tap bpm) resume too — the
+        // audit found this path silently ran at full tempo (2026-07-28).
+        segment.adaptation = {
+          tempoPct: state.tempoPct,
+          message: `Starting at ${Math.round(state.tempoPct * 100)}% tempo — picking up where you left off.`,
         };
       }
     }

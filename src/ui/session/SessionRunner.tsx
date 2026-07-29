@@ -21,6 +21,7 @@ import {
 import type { LessonReward } from '@/core/session/recordLesson';
 import {
   directiveLabel,
+  generatorOverridesFor,
   policyOverrideFor,
   practiceGeneratorOverridesFor,
   practicePolicyOverrideFor,
@@ -33,7 +34,7 @@ import { XpChip } from '@/ui/components/XpChip';
 import { LessonStage } from '@/ui/missions/LessonStage';
 import { ModeChip } from '@/ui/missions/modeChip';
 import { headline } from '@/ui/missions/resultCopy';
-import { framingFor } from './segmentCopy';
+import { buildsFor, framingFor } from './segmentCopy';
 import { SessionWrap } from './SessionWrap';
 
 /** What one finished segment shows on its compact result card. */
@@ -255,7 +256,9 @@ export function SessionRunner() {
                 : policyOverrideFor(resolved.lesson, adapt)
             }
             generatorOverrides={
-              phase.practice ? practiceGeneratorOverridesFor(resolved.lesson, adapt) : undefined
+              phase.practice
+                ? practiceGeneratorOverridesFor(resolved.lesson, adapt)
+                : generatorOverridesFor(resolved.lesson, adapt)
             }
             practiceRun={phase.practice}
             banner={banner}
@@ -401,6 +404,25 @@ export function SessionRunner() {
       onWrapUp={wrapUp}
     >
       <div className="mx-auto flex max-w-xl flex-col items-center gap-5 py-10 text-center animate-fade-up">
+        {/* First intro of the sitting: today's plan, so the whole session's
+            purpose is visible before anything runs (transparency decision). */}
+        {completedCount === 0 && activeSession.plan.queue.length > 1 && (
+          <div className="flex max-w-md flex-wrap items-center justify-center gap-1.5">
+            <span className="text-[11px] font-medium uppercase tracking-wide text-ink-soft">
+              Today&rsquo;s plan:
+            </span>
+            {activeSession.plan.queue.map((seg) => (
+              <span
+                key={seg.id}
+                title={buildsFor(seg.purpose)}
+                className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${framingFor(seg.purpose).tone}`}
+              >
+                {framingFor(seg.purpose).eyebrow.split(' — ')[0]}
+              </span>
+            ))}
+            <span className="text-[11px] text-ink-soft">+ more if you want it</span>
+          </div>
+        )}
         <span className={`rounded-full px-4 py-1.5 font-display text-sm font-medium ${framing.tone}`}>
           {framing.eyebrow}
         </span>
@@ -413,6 +435,8 @@ export function SessionRunner() {
         <p className="flex max-w-md items-center justify-center gap-2 text-sm text-ink-soft">
           {resolved.lesson && <ModeChip mode={resolved.lesson.mode} />} {current.reason}
         </p>
+        {/* What this segment builds toward — the level-up math, per card. */}
+        <p className="max-w-md text-xs font-medium text-ink-soft">{buildsFor(current.purpose)}</p>
         {current.adaptation && (
           <p className="rounded-2xl bg-peri-soft px-4 py-2 text-xs text-peri-deep">
             {current.adaptation.message}

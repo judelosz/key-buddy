@@ -55,6 +55,24 @@ export function SessionWrap({
           <TrendingUp size={16} /> You leveled up this session!
         </div>
       )}
+
+      {/* What this sitting moved on the level gate — the session's purpose,
+          made visible (transparency decision, 2026-07-28). */}
+      {summary.gateProgress.length > 0 && !summary.tierAdvanced && (
+        <div className="flex max-w-md flex-wrap items-center justify-center gap-1.5">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-ink-soft">
+            Gate progress:
+          </span>
+          {summary.gateProgress.map((line) => (
+            <span
+              key={line}
+              className="rounded-full bg-amber-soft px-2.5 py-0.5 text-[11px] font-medium text-amber-deep"
+            >
+              {line}
+            </span>
+          ))}
+        </div>
+      )}
       {summary.songLevelUps.map(({ songId, level }, i) => (
         <div
           key={`${songId}-${level}`}

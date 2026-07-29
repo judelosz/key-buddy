@@ -14,6 +14,7 @@ import { recordChartAttempt } from '@/core/session/recordAttempt';
 import { trackForExerciseType } from '@/core/progression/progressionService';
 import { sliceChartSection } from '@/core/songMastery/sections';
 import { adaptAfterResult, initialAdaptation, type AdaptationState } from '@/core/adaptive/adaptive';
+import { nextRecommendedLesson } from '@/core/curriculum/selectors';
 import {
   buildSession,
   advanceSession,
@@ -352,6 +353,79 @@ describe('walkSessions — daily practice through the real builder + reducers', 
     // The stretch song never accrues mastery from Boss Challenges — at most
     // the level-0 "Discovered" record, never "Started" (the Phase-4 bug).
     expect(sim.songMastery.get('pinetops-boogie')?.level ?? 0).toBe(0);
+  });
+
+  it('practice-mix audit: recency, earlier-tier maintenance, and adaptive resume', () => {
+    // Walk a perfect player to tier 3, then inspect ONE built session.
+    const sim = freshSim();
+    const rand = seeded(23);
+    const runCounts = new Map<string, number>();
+    let nowMs = START;
+    let days = 0;
+    while (sim.player.learningTier < 3 && days < 40) {
+      runDay(sim, nowMs, rand, () => 'perfect', runCounts);
+      nowMs += DAY;
+      days += 1;
+    }
+    expect(sim.player.learningTier).toBe(3);
+
+    // Force everything due, so maintenance candidates exist.
+    for (const [id, p] of sim.skills) {
+      sim.skills.set(id, { ...p, freshness: { ...p.freshness, due: nowMs - 1 } });
+    }
+    // Seed a stepped-down adaptation on EVERY completed adaptable lesson
+    // (chart / fragment / rhythm-tap) — resume must never be silent.
+    // Checkpoints are excluded: they run clean by design (never resumed).
+    const ADAPTABLE = new Set(['play-chart', 'fragment', 'rhythm-tap']);
+    const CHECKPOINT = new Set(['independent', 'performance']);
+    for (const lessonId of sim.lessons.keys()) {
+      const lesson = content.getLesson(lessonId);
+      if (!lesson || !ADAPTABLE.has(lesson.exerciseType) || CHECKPOINT.has(lesson.mode)) continue;
+      sim.adaptation.set(lessonId, {
+        ...initialAdaptation(lessonId, lesson, nowMs),
+        tempoPct: 0.55,
+        lastUpdatedMs: nowMs,
+      });
+    }
+    const rec = nextRecommendedLesson(content, sim.lessons, sim.player.learningTier, sim.skills, nowMs);
+
+    const plan = buildSession(inputsFor(sim, nowMs, rand));
+    const tier1SkillIds = new Set(content.skills.filter((s) => s.tier === 1).map((s) => s.id));
+
+    // (i) Recency: the new-material segment IS the path frontier.
+    const newMat = plan.queue.find((s) => s.purpose === 'new-material');
+    if (newMat && rec && newMat.activity.kind === 'lesson') {
+      expect(newMat.activity.lessonId).toBe(rec.lesson.id);
+    }
+    // (ii) Maintenance: at tier 3 with everything due, at least one segment
+    // reaches back to tier-1 skills — earlier modules stay alive.
+    expect(
+      plan.queue.some((s) => s.skillIds.some((id) => tier1SkillIds.has(id))),
+    ).toBe(true);
+    // (iii) Adaptive resume, never silent: every queued NON-CHECKPOINT lesson
+    // segment whose ref carries MOVED (stepped-down) state must announce it.
+    // Checkpoints run clean by design; baseline states have nothing to say.
+    const adapted = plan.queue.filter((s) => {
+      if (s.activity.kind !== 'lesson') return false;
+      const lesson = content.getLesson(s.activity.lessonId);
+      const state = sim.adaptation.get(s.activity.lessonId);
+      if (!lesson || !state || CHECKPOINT.has(lesson.mode)) return false;
+      const baseline = initialAdaptation(s.activity.lessonId, lesson, nowMs);
+      return (
+        ADAPTABLE.has(lesson.exerciseType) &&
+        (state.tempoPct !== baseline.tempoPct || state.assistLevel !== baseline.assistLevel)
+      );
+    });
+    expect(adapted.length).toBeGreaterThan(0);
+    for (const seg of adapted) {
+      const lessonId = seg.activity.kind === 'lesson' ? seg.activity.lessonId : '?';
+      const lesson = content.getLesson(lessonId);
+      expect(
+        seg.adaptation,
+        `segment ${seg.purpose} ${lessonId} (${lesson?.exerciseType}/${lesson?.mode}) resumed silently`,
+      ).toBeDefined();
+      expect(seg.adaptation?.message).toMatch(/55% tempo/);
+    }
   });
 
   it('head-only practice can never raise the level, tier, or Hands XP', () => {

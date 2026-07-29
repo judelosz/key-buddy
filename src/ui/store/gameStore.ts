@@ -89,6 +89,9 @@ export interface SessionSummary {
   /** A hands segment was practiced — licenses the (true) sleep-consolidation
    * line on the wrap: "you'll be better at this tomorrow" (doc-08 §3.12). */
   practicedHands: boolean;
+  /** Which level-gate items moved this session — the wrap's transparency
+   * lines ("Practice band +12 · check quiz passed"). */
+  gateProgress: string[];
 }
 
 export interface SessionPreview {
@@ -125,6 +128,8 @@ interface GameState {
   lastAdaptation: AdaptationOutcome | null;
   activeSession: { plan: SessionPlan; runState: SessionRunState } | null;
   sessionEvents: SessionEvents;
+  /** Gate snapshot at session start — the wrap diffs against it. */
+  sessionStartGate: TierGateStatus | null;
 
   init: () => Promise<void>;
   recordAttempt: (
@@ -271,6 +276,7 @@ export const useGameStore = create<GameState>((set, get) => {
     lastAdaptation: null,
     activeSession: null,
     sessionEvents: { songLevelUps: [], tierAdvanced: false },
+    sessionStartGate: null,
 
     init: () => {
       initPromise ??= (async () => {
@@ -518,6 +524,8 @@ export const useGameStore = create<GameState>((set, get) => {
       set({
         activeSession: { plan, runState: initialRunState() },
         sessionEvents: { songLevelUps: [], tierAdvanced: false },
+        // Snapshot the gate so the wrap can show exactly what moved.
+        sessionStartGate: get().tierGateStatus(),
       });
       await repository.saveSession({
         id: plan.sessionId,
@@ -561,6 +569,39 @@ export const useGameStore = create<GameState>((set, get) => {
       if (!active) return null;
       const xp = xpForSession(active.plan.sessionId);
       const now = Date.now();
+
+      // Which gate items moved this sitting (transparency: every session
+      // visibly lands on the level-up math).
+      const before = s.sessionStartGate;
+      const after = s.tierGateStatus();
+      const gateProgress: string[] = [];
+      if (s.sessionEvents.tierAdvanced) {
+        gateProgress.push('Gate opened — you leveled up!');
+      } else if (before && after && before.tier === after.tier) {
+        const xpDelta = after.handsXp.current - before.handsXp.current;
+        if (xpDelta > 0) {
+          gateProgress.push(
+            `Practice band +${xpDelta} XP (${after.handsXp.current}/${after.handsXp.band})`,
+          );
+        }
+        const masteredDelta =
+          after.coreSkills.filter((c) => c.mastered).length -
+          before.coreSkills.filter((c) => c.mastered).length;
+        if (masteredDelta > 0) {
+          gateProgress.push(`+${masteredDelta} core skill${masteredDelta === 1 ? '' : 's'} mastered`);
+        }
+        if (!before.bossPassed && after.bossPassed) gateProgress.push('Boss mastery star earned');
+        if (
+          !before.checkpoints.every((c) => c.passed) &&
+          after.checkpoints.every((c) => c.passed)
+        ) {
+          gateProgress.push('Theory & ear checkpoint passed');
+        }
+        if (after.delayedReviewRequired && !before.delayedReviewPassed && after.delayedReviewPassed) {
+          gateProgress.push('“Review after a delay” gate item done');
+        }
+      }
+
       const summary: SessionSummary = {
         sessionId: active.plan.sessionId,
         segmentsCompleted: active.runState.completed.length,
@@ -571,8 +612,13 @@ export const useGameStore = create<GameState>((set, get) => {
           (p) => p.freshness.due <= now + DAY_MS,
         ).length,
         practicedHands: xp.xpHands > 0,
+        gateProgress,
       };
-      set({ activeSession: null, sessionEvents: { songLevelUps: [], tierAdvanced: false } });
+      set({
+        activeSession: null,
+        sessionEvents: { songLevelUps: [], tierAdvanced: false },
+        sessionStartGate: null,
+      });
       await repository.saveSession({
         id: active.plan.sessionId,
         startedAt: active.plan.startedAt,
