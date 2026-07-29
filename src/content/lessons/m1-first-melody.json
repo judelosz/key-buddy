@@ -6,13 +6,19 @@
     "title": "Watch it once",
     "mode": "guided",
     "exerciseType": "listen",
-    "skillIds": ["mech-five-finger-c"],
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
     "prompt": "Ode to Joy uses exactly the five keys you know — C D E F G, one finger each.",
     "successRule": "Listen through once.",
-    "passCriteria": { "minScorePct": 0 },
+    "passCriteria": {
+      "minScorePct": 0
+    },
     "assistOptions": [],
     "chartId": "ode-to-joy--simplified",
-    "generatorParams": { "promptText": "Every note is played by the finger that lives on that key. No reaching." }
+    "generatorParams": {
+      "promptText": "Every note is played by the finger that lives on that key. No reaching."
+    }
   },
   {
     "id": "l-fm-frag1",
@@ -21,11 +27,19 @@
     "title": "First phrase, slowly",
     "mode": "guided",
     "exerciseType": "fragment",
-    "skillIds": ["mech-five-finger-c"],
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
     "prompt": "Bars 1–4 at an easy tempo, with the falling notes to guide you.",
-    "successRule": "Finish the phrase — most notes on their beats.",
-    "passCriteria": { "minStars": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "successRule": "Finish the phrase — every note right (timing is graded, as always).",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-ode-bars-1-4"
   },
   {
@@ -35,12 +49,25 @@
     "title": "Name what you just played",
     "mode": "supported",
     "exerciseType": "note-id",
-    "skillIds": ["geo-note-names"],
+    "skillIds": [
+      "geo-note-names"
+    ],
     "prompt": "The phrase you played is E-E-F-G… Find those keys cold, by name.",
-    "successRule": "Play 5 of 6 asked-for keys correctly.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Play all 6 asked-for keys correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "noteNames": ["E", "F", "G", "D", "C"], "count": 6 }
+    "generatorParams": {
+      "noteNames": [
+        "E",
+        "F",
+        "G",
+        "D",
+        "C"
+      ],
+      "count": 6
+    }
   },
   {
     "id": "l-fm-frag2",
@@ -49,11 +76,19 @@
     "title": "Second phrase, slowly",
     "mode": "guided",
     "exerciseType": "fragment",
-    "skillIds": ["mech-five-finger-c"],
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
     "prompt": "Bars 5–8 — almost the same as the first phrase, with a different landing.",
-    "successRule": "Finish the phrase — most notes on their beats.",
-    "passCriteria": { "minStars": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "successRule": "Finish the phrase — every note right (timing is graded, as always).",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-ode-bars-5-8"
   },
   {
@@ -63,11 +98,20 @@
     "title": "The whole melody",
     "mode": "supported",
     "exerciseType": "play-chart",
-    "skillIds": ["mech-five-finger-c", "rhythm-steady-pulse"],
+    "skillIds": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse"
+    ],
     "prompt": "Both phrases back to back. Keep the pulse — recover on the next beat if you slip.",
-    "successRule": "Earn at least one star.",
-    "passCriteria": { "minStars": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "successRule": "Earn at least one star — every note right; a slip means a replay.",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "chartId": "ode-to-joy--simplified"
   },
   {
@@ -77,11 +121,18 @@
     "title": "Start from the middle",
     "mode": "supported",
     "exerciseType": "fragment",
-    "skillIds": ["mech-five-finger-c"],
+    "skillIds": [
+      "mech-five-finger-c"
+    ],
     "prompt": "Starting mid-song is harder than it sounds — and it proves you're not just replaying a picture.",
-    "successRule": "Two stars on the second phrase.",
-    "passCriteria": { "minStars": 2 },
-    "assistOptions": ["falling-notes"],
+    "successRule": "Two stars on the second phrase — every note right; a slip means a replay.",
+    "passCriteria": {
+      "minStars": 2,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes"
+    ],
     "fragmentId": "frag-ode-bars-5-8"
   },
   {
@@ -91,13 +142,22 @@
     "title": "Tier 1 check: keys, beats, and bars",
     "mode": "independent",
     "exerciseType": "theory-quiz",
-    "skillIds": ["geo-note-names", "rhythm-steady-pulse", "rhythm-time-sig-44", "ear-pitch-direction"],
+    "skillIds": [
+      "geo-note-names",
+      "rhythm-steady-pulse",
+      "rhythm-time-sig-44",
+      "ear-pitch-direction"
+    ],
     "prompt": "Everything Tier 1 taught, in one short check.",
-    "successRule": "Answer at least 80% correctly.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Answer every question correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
     "theoryConceptId": "theory-tier1-checkpoint",
-    "generatorParams": { "count": 6 }
+    "generatorParams": {
+      "count": 6
+    }
   },
   {
     "id": "l-fm-boss",
@@ -106,10 +166,18 @@
     "title": "Performance: Ode to Joy",
     "mode": "performance",
     "exerciseType": "play-chart",
-    "skillIds": ["mech-five-finger-c", "rhythm-steady-pulse", "rhythm-time-sig-44", "geo-note-names"],
+    "skillIds": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse",
+      "rhythm-time-sig-44",
+      "geo-note-names"
+    ],
     "prompt": "Full tempo, no falling notes, no help. Accurate and in time — that's mastery.",
-    "successRule": "Earn the mastery star: three stars at 96 BPM with no assists.",
-    "passCriteria": { "requiresMasteryStar": true },
+    "successRule": "Earn the mastery star: three stars at 96 BPM with no assists — every note right; a slip means a replay.",
+    "passCriteria": {
+      "requiresMasteryStar": true,
+      "minScorePct": 1
+    },
     "assistOptions": [],
     "chartId": "ode-to-joy--simplified"
   }

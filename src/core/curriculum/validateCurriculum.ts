@@ -190,6 +190,27 @@ export function validateCurriculum(raw: RawContent): string[] {
       problems.push(`Lesson ${lesson.id} references missing theory concept ${lesson.theoryConceptId}`);
     }
 
+    // Clean-run rule (user decision 2026-07-28): a mistake means a replay.
+    // Discrete-answer and chart/fragment missions must demand a perfect
+    // accuracy run (minScorePct 1 — for charts that floor reads
+    // notesCorrectPct, so timing stays graded by stars/windows as before).
+    // rhythm-tap is exempt (its timing windows ARE the mistake definition)
+    // and scouting/woodshed stays no-fail by design.
+    const CLEAN_RUN_TYPES: readonly string[] = [
+      'note-id', 'build-chord', 'theory-quiz', 'interval-ear', 'chord-ear',
+      'play-chart', 'fragment',
+    ];
+    if (
+      CLEAN_RUN_TYPES.includes(lesson.exerciseType) &&
+      lesson.mode !== 'scouting' &&
+      lesson.mode !== 'woodshed' &&
+      lesson.passCriteria.minScorePct !== 1
+    ) {
+      problems.push(
+        `Lesson ${lesson.id} (${lesson.exerciseType}) must set passCriteria.minScorePct to 1 — mistakes mean a replay (clean-run rule)`,
+      );
+    }
+
     switch (lesson.exerciseType) {
       case 'play-chart':
         if (!lesson.chartId) problems.push(`play-chart lesson ${lesson.id} has no chartId`);

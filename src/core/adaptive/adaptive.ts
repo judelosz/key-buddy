@@ -284,6 +284,9 @@ export function directiveLabel(directive: AdaptationDirective, practiceOnly: boo
   return practiceOnly ? `${what} (practice run)` : what;
 }
 
+/** Exercise types with a real dimension to step down (tempo/guides). */
+const STEPPABLE_TYPES: readonly string[] = ['play-chart', 'fragment', 'rhythm-tap'];
+
 /** The post-fail step-down offer for a lesson's "Try Again" flow. */
 export function stepDownFor(
   lesson: CurriculumLesson,
@@ -292,6 +295,10 @@ export function stepDownFor(
   nowMs: number,
 ): StepDownOffer | null {
   if (outcome.passed) return null;
+  // Discrete-answer lessons (quizzes, note-id, ear IDs) have no tempo or
+  // guides to ease — a "Try at 55% tempo" offer there is nonsense. Plain
+  // Try Again (with fresh prompts) is the honest retry.
+  if (!STEPPABLE_TYPES.includes(lesson.exerciseType)) return null;
   const { directive } = adaptAfterResult(adapt, outcome, nowMs);
   if (!directive) return null;
   const practiceOnly = CHECKPOINT_MODES.includes(lesson.mode);

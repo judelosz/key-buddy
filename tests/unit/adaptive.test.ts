@@ -165,4 +165,12 @@ describe('override mapping', () => {
     const adapt = initialAdaptation('c1', lesson(), NOW);
     expect(stepDownFor(lesson(), adapt, { scorePct: 0.9, passed: true }, NOW)).toBeNull();
   });
+
+  it('no step-down offer for discrete-answer lessons — nothing to ease', () => {
+    // Under the clean-run rule fails are common on quizzes; a "Try at 55%
+    // tempo" button on a theory quiz would be nonsense.
+    const quiz = lesson({ exerciseType: 'theory-quiz', theoryConceptId: 'tc', chartId: undefined });
+    const adapt = initialAdaptation(quiz.id, quiz, NOW);
+    expect(stepDownFor(quiz, adapt, { scorePct: 0.8, passed: false }, NOW)).toBeNull();
+  });
 });

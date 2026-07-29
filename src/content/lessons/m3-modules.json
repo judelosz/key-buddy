@@ -10,9 +10,9 @@
       "theory-steps-skips"
     ],
     "prompt": "Melodies mostly walk (steps) and sometimes leap (skips). Naming the move helps your hands find it.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-steps-skips",
@@ -32,9 +32,9 @@
       "theory-steps-skips"
     ],
     "prompt": "Up or down — and soon, how far. Keep your ears ahead of your fingers.",
-    "successRule": "Get 5 of 6 right.",
+    "successRule": "Get all 6 right.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -53,9 +53,9 @@
       "geo-note-names"
     ],
     "prompt": "One key past G — A joins the crew for Susanna.",
-    "successRule": "Play 6 of 7 asked-for keys correctly.",
+    "successRule": "Play all 7 asked-for keys correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -83,9 +83,9 @@
       "mech-pentascale-cfg"
     ],
     "prompt": "Steps, skips, eighth notes, and the three home positions.",
-    "successRule": "Answer at least 80% correctly.",
+    "successRule": "Answer every question correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-tier3-checkpoint",
@@ -125,9 +125,10 @@
       "mech-pentascale-cfg"
     ],
     "prompt": "Five fingers, five keys, even as a clock.",
-    "successRule": "Finish the pattern with most notes on their beats.",
+    "successRule": "Finish the pattern — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -146,9 +147,10 @@
       "mech-pentascale-cfg"
     ],
     "prompt": "The F shape needs one black key. Let finger 4 sit on B♭.",
-    "successRule": "Two stars on the F pattern.",
+    "successRule": "Two stars on the F pattern — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes"
@@ -166,9 +168,10 @@
       "mech-pentascale-cfg"
     ],
     "prompt": "Back to all white keys, one step higher than home.",
-    "successRule": "Two stars on the G pattern.",
+    "successRule": "Two stars on the G pattern — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes"
@@ -220,9 +223,10 @@
       "mech-pentascale-cfg"
     ],
     "prompt": "C into F into G, one run, no falling notes.",
-    "successRule": "Two stars with no visual help.",
+    "successRule": "Two stars with no visual help — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "fragmentId": "frag-pentascale-shift"
@@ -260,9 +264,10 @@
       "rhythm-eighth-notes"
     ],
     "prompt": "One phrase, slowly — the pickup eighths are the only fast part.",
-    "successRule": "Finish the phrase with most notes on their beats.",
+    "successRule": "Finish the phrase — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -317,9 +322,10 @@
       "lh-root-notes"
     ],
     "prompt": "Verse and chorus, hands together, at your tempo.",
-    "successRule": "Earn at least one star.",
+    "successRule": "Earn at least one star — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -340,9 +346,10 @@
       "lh-root-notes"
     ],
     "prompt": "Full tempo, no help — keep the lilt light.",
-    "successRule": "Earn the mastery star: three stars at 92 BPM, no assists.",
+    "successRule": "Earn the mastery star: three stars at 92 BPM, no assists — every note right; a slip means a replay.",
     "passCriteria": {
-      "requiresMasteryStar": true
+      "requiresMasteryStar": true,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "chartId": "oh-susanna--simplified"

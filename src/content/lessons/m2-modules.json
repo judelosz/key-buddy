@@ -31,9 +31,10 @@
       "lh-root-notes"
     ],
     "prompt": "One C in the bass, every bar, exactly on beat 1. Let it ring.",
-    "successRule": "Finish the pattern with most notes on their beats.",
+    "successRule": "Finish the pattern — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -52,9 +53,9 @@
       "geo-note-names"
     ],
     "prompt": "C, F, and G live below middle C too — the map repeats everywhere.",
-    "successRule": "Play 5 of 6 asked-for keys correctly.",
+    "successRule": "Play all 6 asked-for keys correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -79,9 +80,10 @@
       "lh-root-notes"
     ],
     "prompt": "C, then F, then G — the bass tells the harmony where to go.",
-    "successRule": "Two stars on the changing roots.",
+    "successRule": "Two stars on the changing roots — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes"
@@ -100,9 +102,10 @@
       "mech-five-finger-c"
     ],
     "prompt": "Melody on top, anchors underneath — the Saints second half, hands together.",
-    "successRule": "Two stars, hands together.",
+    "successRule": "Two stars, hands together — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -121,9 +124,10 @@
       "lh-root-notes"
     ],
     "prompt": "The changing roots again — no falling notes, chord symbols only.",
-    "successRule": "Two stars with no visual help.",
+    "successRule": "Two stars with no visual help — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "fragmentId": "frag-lh-roots-cfg"
@@ -139,9 +143,9 @@
       "notation-staff-direction"
     ],
     "prompt": "Notes climbing the staff climb the keyboard. Bar lines slice the beats.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-staff-direction",
@@ -160,9 +164,9 @@
       "ear-pitch-direction"
     ],
     "prompt": "Two notes — trust your ears before your eyes.",
-    "successRule": "Get 5 of 6 right.",
+    "successRule": "Get all 6 right.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -181,9 +185,9 @@
       "rhythm-time-sig-24"
     ],
     "prompt": "2/4 is a march: ONE-two, ONE-two. Half the bar of 4/4.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-time-sig-24",
@@ -237,9 +241,9 @@
       "ear-pitch-direction"
     ],
     "prompt": "Staff direction, bar lines, and 2/4 vs 4/4 — the Tier 2 knowledge check.",
-    "successRule": "Answer at least 80% correctly.",
+    "successRule": "Answer every question correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-tier2-checkpoint",
@@ -279,9 +283,10 @@
       "mech-five-finger-c"
     ],
     "prompt": "Just the right hand: the famous rising phrase, three times.",
-    "successRule": "Finish the phrase with most notes on their beats.",
+    "successRule": "Finish the phrase — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -301,9 +306,10 @@
       "mech-five-finger-c"
     ],
     "prompt": "The left hand anchors while the melody finishes the story.",
-    "successRule": "Finish the section with most notes on their beats.",
+    "successRule": "Finish the section — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -324,9 +330,10 @@
       "rhythm-steady-pulse"
     ],
     "prompt": "All sixteen bars. If a note slips, the next downbeat is your friend.",
-    "successRule": "Earn at least one star.",
+    "successRule": "Earn at least one star — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -346,9 +353,10 @@
       "mech-five-finger-c"
     ],
     "prompt": "Entering mid-song proves the music lives in you, not on the screen.",
-    "successRule": "Two stars on the second half.",
+    "successRule": "Two stars on the second half — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes"
@@ -368,9 +376,10 @@
       "rhythm-steady-pulse"
     ],
     "prompt": "Full tempo, both hands, no help. March it home.",
-    "successRule": "Earn the mastery star: three stars at 96 BPM, no assists.",
+    "successRule": "Earn the mastery star: three stars at 96 BPM, no assists — every note right; a slip means a replay.",
     "passCriteria": {
-      "requiresMasteryStar": true
+      "requiresMasteryStar": true,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "chartId": "when-the-saints--simplified"

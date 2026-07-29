@@ -55,6 +55,10 @@ export function newCard(nowMs: number): FsrsState {
 }
 
 /** Map a take's star result to an FSRS grade (no self-report). */
+// Re-exported so reducers can reason about rating ceilings without
+// importing ts-fsrs directly.
+export { Rating };
+
 export function starsToRating(stars: 0 | 1 | 2 | 3): Grade {
   switch (stars) {
     case 0:

@@ -10,9 +10,9 @@
       "chord-major-triad"
     ],
     "prompt": "Every major chord is the same recipe: 1-3-5. Learn the recipe once, own every chord.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-chord-construction",
@@ -31,9 +31,9 @@
       "chord-major-triad"
     ],
     "prompt": "C, E, G — together or one at a time, any octave.",
-    "successRule": "Build it correctly 2 of 3 times.",
+    "successRule": "Build it correctly all 3 times.",
     "passCriteria": {
-      "minScorePct": 0.66
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -54,9 +54,9 @@
       "chord-major-triad"
     ],
     "prompt": "C, F, and G major — the same 1-3-5 shape from three roots.",
-    "successRule": "Build 5 of 6 correctly.",
+    "successRule": "Build all 6 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -79,9 +79,9 @@
       "chord-major-triad"
     ],
     "prompt": "Bright and settled, or shaded and darker — your ear knows before you can name it.",
-    "successRule": "Get 5 of 6 right.",
+    "successRule": "Get all 6 right.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -108,9 +108,9 @@
       "chord-major-triad"
     ],
     "prompt": "Six chords, no hints, any inversion.",
-    "successRule": "Build 5 of 6 correctly.",
+    "successRule": "Build all 6 correctly.",
     "passCriteria": {
-      "minScorePct": 0.85
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -133,9 +133,9 @@
       "harmony-i-iv-v"
     ],
     "prompt": "I, IV, and V: home, away, and the pull back home. Most songs you love live here.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-primary-chords",
@@ -155,9 +155,9 @@
       "chord-major-triad"
     ],
     "prompt": "C (I), F (IV), G7 (V7) — the V gets a seventh for extra pull.",
-    "successRule": "Build 5 of 6 correctly.",
+    "successRule": "Build all 6 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -181,9 +181,10 @@
       "chord-major-triad"
     ],
     "prompt": "Whole-note chords: C to F to C to G7 and home. The change happens BEFORE the beat.",
-    "successRule": "Finish the drill with most chords on their beats.",
+    "successRule": "Finish the drill — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -202,9 +203,9 @@
       "ear-tonic-away"
     ],
     "prompt": "Major sits at rest; the dominant seventh leans forward, asking to resolve.",
-    "successRule": "Get 5 of 6 right.",
+    "successRule": "Get all 6 right.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "generatorParams": {
@@ -231,9 +232,10 @@
       "chord-major-triad"
     ],
     "prompt": "Same three chords in a new order — reading the symbols, not the memory.",
-    "successRule": "Two stars on the shuffled drill.",
+    "successRule": "Two stars on the shuffled drill — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes"
@@ -251,9 +253,10 @@
       "harmony-i-iv-v"
     ],
     "prompt": "The shuffled changes with chord symbols only.",
-    "successRule": "Two stars with no visual help.",
+    "successRule": "Two stars with no visual help — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 2
+      "minStars": 2,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "fragmentId": "frag-change-drill-varied"
@@ -269,9 +272,9 @@
       "rhythm-time-sig-34"
     ],
     "prompt": "ONE-two-three: the waltz. Amazing Grace lives here.",
-    "successRule": "Answer 4 of 5 correctly.",
+    "successRule": "Answer all 5 correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-time-sig-34",
@@ -377,9 +380,10 @@
       "lh-root-notes"
     ],
     "prompt": "Sixteen bars of tune over bass roots — familiar ground.",
-    "successRule": "Earn at least one star.",
+    "successRule": "Earn at least one star — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -399,9 +403,10 @@
       "harmony-i-iv-v"
     ],
     "prompt": "Now the right hand plays CHORDS — two pushes per bar over the bass.",
-    "successRule": "Finish the pattern with most chords on their beats.",
+    "successRule": "Finish the pattern — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -422,9 +427,10 @@
       "lh-root-notes"
     ],
     "prompt": "The \"band\" arrangement: roots below, triads above, all three chords.",
-    "successRule": "Earn at least one star.",
+    "successRule": "Earn at least one star — every note right; a slip means a replay.",
     "passCriteria": {
-      "minStars": 1
+      "minStars": 1,
+      "minScorePct": 1
     },
     "assistOptions": [
       "falling-notes",
@@ -446,9 +452,9 @@
       "ear-tonic-away"
     ],
     "prompt": "Triads, the I-IV-V family, and 3/4 — the Tier 4 knowledge check.",
-    "successRule": "Answer at least 80% correctly.",
+    "successRule": "Answer every question correctly.",
     "passCriteria": {
-      "minScorePct": 0.8
+      "minScorePct": 1
     },
     "assistOptions": [],
     "theoryConceptId": "theory-tier4-checkpoint",
@@ -469,9 +475,10 @@
       "lh-root-notes"
     ],
     "prompt": "The full arrangement at 100 BPM — chords changing without the pulse blinking.",
-    "successRule": "Earn the mastery star: three stars at tempo, no assists.",
+    "successRule": "Earn the mastery star: three stars at tempo, no assists — every note right; a slip means a replay.",
     "passCriteria": {
-      "requiresMasteryStar": true
+      "requiresMasteryStar": true,
+      "minScorePct": 1
     },
     "assistOptions": [],
     "chartId": "shell-be-comin--full"

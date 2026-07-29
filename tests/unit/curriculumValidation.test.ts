@@ -92,7 +92,7 @@ const lesson = (id: string, over: Partial<CurriculumLesson> = {}): CurriculumLes
   skillIds: ['skill-a'],
   prompt: 'do the thing',
   successRule: 'do it well',
-  passCriteria: { minScorePct: 0.8 },
+  passCriteria: { minScorePct: 1 },
   assistOptions: [],
   generatorParams: { pitchPool: ['C'], count: 3 },
   ...over,

@@ -28,7 +28,7 @@ import {
 } from '@/core/progression/progressionService';
 import { awardHeadXp, xpForLessonResult, type XpPurpose } from '@/core/rewards/lessonXp';
 import { updateStreak } from '@/core/rewards/rewardService';
-import { isDue, newCard, reviewCard, scoreToRating } from '@/core/srs/fsrs';
+import { isDue, newCard, reviewCard, scoreToRating, Rating } from '@/core/srs/fsrs';
 import { applyGateAdvance, type TierGateStatus } from '@/core/curriculum/tierGate';
 import {
   recordChartAttempt,
@@ -278,7 +278,11 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
   });
 
   // Scouting (incl. stretch bosses) is exploration: no locks, no review cards.
-  const rating = scoreToRating(scorePct);
+  // Clean-run rule (2026-07-28): a FAILED lesson can never rate the skill
+  // better than Hard — a near-miss (e.g. 4/5 under a perfect-run bar) must
+  // pull the review CLOSER, not push it out. "Progression brings you back."
+  const rawRating = scoreToRating(scorePct);
+  const rating = passed || rawRating <= Rating.Hard ? rawRating : Rating.Hard;
   const changedSkills = isScouting
     ? []
     : prevSkills.map((prev) => {

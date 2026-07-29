@@ -109,6 +109,8 @@ New material begins around 50–65% of target tempo and with a reduced arrangeme
 
 This makes failure informative rather than punitive. A miss should produce one next action (“left hand is late on beat 3”) instead of a pile of generic advice.
 
+**Amended 2026-07-28 — the clean-run rule (user decision):** passing a mission requires a mistake-free run on its ACCURACY dimension. Discrete-answer missions (note-id, build-chord, theory-quiz, interval-ear, chord-ear) require every prompt correct; chart/fragment missions require every note right with no extras (`passCriteria.minScorePct: 1`, which reads `notesCorrectPct` — timing stays graded by the star thresholds and windows exactly as before, so this never recreates the unpassable-boss problem). Rhythm-tap is exempt (its windows ARE the mistake definition) and scouting/woodshed stays no-fail. Support removal (the ladder above) is unchanged — "easy first attempt" still means slow tempo and guides, not a forgiving pass bar. A failed mission caps the skill's spaced-review rating at Hard so the mistake pulls its review closer, and retries regenerate fresh prompts. Enforced by the content validator.
+
 ### 3.5 Spiral curriculum and durable retrieval
 
 Key-Buddy should use a **spiral curriculum**: old material returns at increasing levels of variation and independence as new skills are introduced.

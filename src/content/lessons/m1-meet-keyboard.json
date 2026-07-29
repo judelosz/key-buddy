@@ -6,13 +6,19 @@
     "title": "Hear where you're going",
     "mode": "guided",
     "exerciseType": "listen",
-    "skillIds": ["ear-pitch-direction"],
+    "skillIds": [
+      "ear-pitch-direction"
+    ],
     "prompt": "This is Ode to Joy — the first song you'll really play. Just listen for now.",
     "successRule": "Listen to the whole melody once.",
-    "passCriteria": { "minScorePct": 0 },
+    "passCriteria": {
+      "minScorePct": 0
+    },
     "assistOptions": [],
     "chartId": "ode-to-joy--simplified",
-    "generatorParams": { "promptText": "Listen to the melody. Notice how it moves in small steps, up and down." }
+    "generatorParams": {
+      "promptText": "Listen to the melody. Notice how it moves in small steps, up and down."
+    }
   },
   {
     "id": "l-mk-find-c",
@@ -21,12 +27,23 @@
     "title": "Find every C",
     "mode": "guided",
     "exerciseType": "note-id",
-    "skillIds": ["geo-note-names"],
+    "skillIds": [
+      "geo-note-names"
+    ],
     "prompt": "C sits just left of every pair of black keys. Find it — in more than one octave.",
     "successRule": "Play the asked-for key 4 times.",
-    "passCriteria": { "minScorePct": 0.75 },
-    "assistOptions": ["note-names"],
-    "generatorParams": { "noteNames": ["C"], "count": 4 }
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "note-names"
+    ],
+    "generatorParams": {
+      "noteNames": [
+        "C"
+      ],
+      "count": 4
+    }
   },
   {
     "id": "l-mk-theory-map",
@@ -35,13 +52,19 @@
     "title": "The keyboard map",
     "mode": "guided",
     "exerciseType": "theory-quiz",
-    "skillIds": ["geo-note-names"],
+    "skillIds": [
+      "geo-note-names"
+    ],
     "prompt": "Why the black-key groups matter: they're your landmarks for every white key.",
-    "successRule": "Answer 4 of 5 correctly.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Answer all 5 correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
     "theoryConceptId": "theory-note-names",
-    "generatorParams": { "count": 5 }
+    "generatorParams": {
+      "count": 5
+    }
   },
   {
     "id": "l-mk-cde",
@@ -50,12 +73,23 @@
     "title": "C, D, and E",
     "mode": "supported",
     "exerciseType": "note-id",
-    "skillIds": ["geo-note-names"],
+    "skillIds": [
+      "geo-note-names"
+    ],
     "prompt": "Three neighbors around the two black keys. Find each one as it's called.",
-    "successRule": "Play 5 of 6 asked-for keys correctly.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Play all 6 asked-for keys correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "noteNames": ["C", "D", "E"], "count": 6 }
+    "generatorParams": {
+      "noteNames": [
+        "C",
+        "D",
+        "E"
+      ],
+      "count": 6
+    }
   },
   {
     "id": "l-mk-whites",
@@ -64,12 +98,25 @@
     "title": "The whole hand: C to G",
     "mode": "supported",
     "exerciseType": "note-id",
-    "skillIds": ["geo-note-names"],
+    "skillIds": [
+      "geo-note-names"
+    ],
     "prompt": "Add F (left of the three black keys) and G. These five keys are your first home.",
-    "successRule": "Play 7 of 8 asked-for keys correctly.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Play all 8 asked-for keys correctly.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "noteNames": ["C", "D", "E", "F", "G"], "count": 8 }
+    "generatorParams": {
+      "noteNames": [
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "count": 8
+    }
   },
   {
     "id": "l-mk-ear-direction",
@@ -78,12 +125,19 @@
     "title": "Up or down?",
     "mode": "supported",
     "exerciseType": "interval-ear",
-    "skillIds": ["ear-pitch-direction"],
+    "skillIds": [
+      "ear-pitch-direction"
+    ],
     "prompt": "Your ears already know the keyboard's direction — higher is right, lower is left. Prove it.",
-    "successRule": "Get 5 of 6 right.",
-    "passCriteria": { "minScorePct": 0.8 },
+    "successRule": "Get all 6 right.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "variant": "direction", "count": 6 }
+    "generatorParams": {
+      "variant": "direction",
+      "count": 6
+    }
   },
   {
     "id": "l-mk-checkpoint",
@@ -92,11 +146,25 @@
     "title": "Checkpoint: note hunt",
     "mode": "independent",
     "exerciseType": "note-id",
-    "skillIds": ["geo-note-names", "ear-pitch-direction"],
+    "skillIds": [
+      "geo-note-names",
+      "ear-pitch-direction"
+    ],
     "prompt": "No hints this time — find each key as it's called.",
-    "successRule": "Play 9 of 10 asked-for keys correctly, no name labels.",
-    "passCriteria": { "minScorePct": 0.9 },
+    "successRule": "Play all 10 asked-for keys correctly, no name labels.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "noteNames": ["C", "D", "E", "F", "G"], "count": 10 }
+    "generatorParams": {
+      "noteNames": [
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "count": 10
+    }
   }
 ]
