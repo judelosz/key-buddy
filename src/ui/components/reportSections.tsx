@@ -6,8 +6,35 @@
 import { AlertTriangle, Lightbulb } from 'lucide-react';
 import type { Attempt, Chart } from '@/core/types';
 import { barAccuracies } from '@/core/scoring/feedback';
+import { recitalGrade } from '@/core/scoring/recitalGrade';
 
 const pct = (v: number) => `${Math.round(v * 100)}%`;
+
+/** Accent per letter band — A range celebrates, the rest stay warm-neutral
+ * (no red anywhere; a rough recital is information, not punishment). */
+function gradeClasses(letter: string): string {
+  if (letter.startsWith('A')) return 'bg-mint-soft text-mint-deep';
+  if (letter.startsWith('B')) return 'bg-amber-soft text-amber-deep';
+  return 'bg-sand text-ink-soft';
+}
+
+/**
+ * Recital grade badge (display layer only — the pass bar is still the star
+ * matrix / passCriteria). Shown on recital surfaces: Free Play reports,
+ * performance missions, boss segments in sessions.
+ */
+export function GradeBadge({ attempt }: { attempt: Attempt }) {
+  const grade = recitalGrade(attempt);
+  return (
+    <div
+      data-testid="recital-grade"
+      className={`flex items-center gap-2 rounded-2xl px-3.5 py-2 ${gradeClasses(grade.letter)}`}
+    >
+      <span className="font-display text-2xl font-semibold leading-none">{grade.letter}</span>
+      <span className="text-xs font-medium opacity-80">{grade.score} / 100</span>
+    </div>
+  );
+}
 
 export function TimingHistogramCard({ attempt }: { attempt: Attempt }) {
   const mean = Math.round(attempt.timingHistogram.meanMs);

@@ -79,6 +79,8 @@ Each song/exercise attempt earns **1–3 stars**, the familiar model from Yousic
 - **3 stars** — ≥95% correct AND ≥85% at Good or better AND ≥50% at Great or better. *(Amended 2026-07-23 — originally "≥85% at Great or better", which demanded near-advanced steadiness (±110 ms at tier 1) at the very first checkpoint and made honest beginner mastery takes fail; see the ADR log.)*
 - **Gold/"mastery" star** — 3 stars at the *target tempo* (not slowed down). This separates "I can play it slowly" from "I've mastered it."
 
+*(Amended 2026-07-29 — recital letter grades, a display layer:)* recital surfaces (Free Play take reports, performance missions) also show a school-style **0–100 score + letter (A+…E)**, computed by interpolating *within* these star bands using the same dimensions — a take exactly at the 3★ floor is an A- (90), a perfect take an A+ (100), 2★ spans 75–89, 1★ 60–74, 0★ is an E. The letter never gates anything: pass/fail remains the star matrix above, so "A- or better at tempo, no assists" is the mastery star restated, not a new bar.
+
 ### 3.5 Input methods (MIDI vs. microphone)
 
 Both are supported per your requirement, but they are not equal and the app should be honest about that:

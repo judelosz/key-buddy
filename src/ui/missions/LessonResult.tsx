@@ -19,7 +19,7 @@ import { chartForLesson } from '@/core/content/resolveChart';
 import { getContent } from '@/core/content/bundled';
 import { Celebration } from '@/ui/components/Celebration';
 import { XpChip } from '@/ui/components/XpChip';
-import { BarHeatMapCard, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
+import { BarHeatMapCard, GradeBadge, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
 import { headline, nextStep } from './resultCopy';
 
 interface LessonResultProps {
@@ -74,6 +74,19 @@ export function LessonResult({
         </h2>
         {tip && <p className="mx-auto mt-2 max-w-sm text-sm text-ink-soft">{tip}</p>}
       </div>
+
+      {/* Recital surfaces only (user decision 2026-07-29): performances get a
+          letter grade; practice lessons stay capability, not score. */}
+      {lesson.mode === 'performance' && reward.attempt && (
+        <div className="flex flex-col items-center gap-1.5">
+          <GradeBadge attempt={reward.attempt} />
+          {!reward.passed && (
+            <p className="text-xs text-ink-soft">
+              Pass: A- or better at full tempo, with no assists.
+            </p>
+          )}
+        </div>
+      )}
 
       {reward.xp > 0 && <XpChip xp={reward.xp} track={reward.track} />}
 

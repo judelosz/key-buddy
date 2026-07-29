@@ -136,6 +136,17 @@ export function buildHistogram(deviations: number[]): TimingHistogram {
   return { buckets, meanMs: mean, medianMs: median, stdDevMs: stdDev };
 }
 
+/**
+ * The star matrix floors (doc 03 §3.4, amended 2026-07-23 — see ADR).
+ * Exported so the recital-grade display layer interpolates within EXACTLY
+ * these bands and can never drift from the pass bar.
+ */
+export const STAR_FLOORS = {
+  three: { notes: 0.95, good: 0.85, great: 0.5 },
+  two: { notes: 0.85, good: 0.7 },
+  one: { notes: 0.6 },
+} as const;
+
 function ratePerformance(
   notesCorrectPct: number,
   goodOrBetterPct: number,
@@ -146,9 +157,10 @@ function ratePerformance(
   // first checkpoint, and unreachable for a correct, steady beginner. Now 3★ =
   // near-perfect notes, strong Good-window timing, and half the notes Great —
   // still impossible to earn sloppily (guardrail #8), reachable when earned.
-  if (notesCorrectPct >= 0.95 && goodOrBetterPct >= 0.85 && greatOrBetterPct >= 0.5) return 3;
-  if (notesCorrectPct >= 0.85 && goodOrBetterPct >= 0.7) return 2;
-  if (notesCorrectPct >= 0.6) return 1;
+  const f = STAR_FLOORS;
+  if (notesCorrectPct >= f.three.notes && goodOrBetterPct >= f.three.good && greatOrBetterPct >= f.three.great) return 3;
+  if (notesCorrectPct >= f.two.notes && goodOrBetterPct >= f.two.good) return 2;
+  if (notesCorrectPct >= f.one.notes) return 1;
   return 0;
 }
 

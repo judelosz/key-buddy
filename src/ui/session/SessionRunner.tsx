@@ -31,6 +31,7 @@ import { useGameStore, type SessionSummary } from '@/ui/store/gameStore';
 import { Celebration } from '@/ui/components/Celebration';
 import { ChartPlayer, type ChartPlayerPolicy } from '@/ui/components/ChartPlayer';
 import { XpChip } from '@/ui/components/XpChip';
+import { GradeBadge } from '@/ui/components/reportSections';
 import { LessonStage } from '@/ui/missions/LessonStage';
 import { ModeChip } from '@/ui/missions/modeChip';
 import { headline } from '@/ui/missions/resultCopy';
@@ -46,6 +47,8 @@ interface SegmentResultData {
   headlineText: string;
   tierAdvanced: boolean;
   songLeveledTo?: number;
+  /** Set only for performance-mode segments — recital surfaces get a grade. */
+  gradedAttempt?: Attempt;
 }
 
 type Phase =
@@ -184,6 +187,7 @@ export function SessionRunner() {
         headlineText: resolved.lesson ? headline(resolved.lesson, r) : 'Done.',
         tierAdvanced: r.tierAdvanced,
         songLeveledTo: r.chartReward?.songMasteryLeveledTo,
+        gradedAttempt: resolved.lesson?.mode === 'performance' ? r.attempt : undefined,
       },
     });
   };
@@ -336,6 +340,7 @@ export function SessionRunner() {
           <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">
             {d.headlineText}
           </h2>
+          {d.gradedAttempt && <GradeBadge attempt={d.gradedAttempt} />}
           {d.xp > 0 && <XpChip xp={d.xp} track={d.track} size="sm" />}
           {d.tierAdvanced && (
             <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">

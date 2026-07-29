@@ -5,7 +5,7 @@ import { generateTip } from '@/core/scoring/feedback';
 import type { AttemptReward } from '@/core/session/recordAttempt';
 import { getContent } from '@/core/content/bundled';
 import { useCountUp } from '@/ui/hooks/useCountUp';
-import { BarHeatMapCard, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
+import { BarHeatMapCard, GradeBadge, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
 
 interface SessionReportProps {
   attempt: Attempt;
@@ -30,19 +30,22 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
           </p>
           <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">{song.title}</h2>
         </div>
-        <div className="flex items-center gap-1">
-          {[1, 2, 3].map((s) => (
-            <Star
-              key={s}
-              size={34}
-              style={{ animationDelay: `${s * 120}ms` }}
-              className={
-                s <= attempt.stars
-                  ? 'animate-pop fill-amber text-amber-deep'
-                  : 'text-line'
-              }
-            />
-          ))}
+        <div className="flex items-center gap-3">
+          <GradeBadge attempt={attempt} />
+          <div className="flex items-center gap-1">
+            {[1, 2, 3].map((s) => (
+              <Star
+                key={s}
+                size={34}
+                style={{ animationDelay: `${s * 120}ms` }}
+                className={
+                  s <= attempt.stars
+                    ? 'animate-pop fill-amber text-amber-deep'
+                    : 'text-line'
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
 

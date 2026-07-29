@@ -45,6 +45,6 @@ export function nextStep(lesson: CurriculumLesson, reward: LessonReward): string
   if (lesson.exerciseType === 'rhythm-tap') {
     return 'Try once more — count the four-beat count-in out loud, then keep counting as you tap.';
   }
-  // Clean-run rule: one slip means a replay — and the mistake isn't lost.
-  return 'A clean run is what counts — one slip means a replay (fresh questions each try). The skill you missed also goes back into your review rotation.';
+  // No rule lecture on a plain fail — the retry button says everything.
+  return null;
 }
