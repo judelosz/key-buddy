@@ -1,19 +1,9 @@
 import { useEffect } from 'react';
-import {
-  Piano,
-  Map,
-  Music,
-  Armchair,
-  TrendingUp,
-  SlidersHorizontal,
-  Hand,
-  Brain,
-} from 'lucide-react';
-import { useAppStore, type Screen } from '@/ui/store/appStore';
+import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
 import { getContent } from '@/core/content/bundled';
-import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
+import { AppShell } from '@/ui/shell/AppShell';
 import { Onboarding } from '@/ui/onboarding/Onboarding';
 import { Missions } from '@/ui/missions/Missions';
 import { LessonRunner } from '@/ui/missions/LessonRunner';
@@ -22,14 +12,6 @@ import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
 import { Settings } from '@/ui/screens/Settings';
 import { AfkComingSoon } from '@/ui/screens/AfkComingSoon';
-
-const NAV: { id: Screen; label: string; icon: typeof Map }[] = [
-  { id: 'missions', label: 'Missions', icon: Map },
-  { id: 'free-play', label: 'Free Play', icon: Music },
-  { id: 'afk', label: 'AFK Mode', icon: Armchair },
-  { id: 'progress', label: 'Progress', icon: TrendingUp },
-  { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
-];
 
 export default function App() {
   useInputWiring();
@@ -45,9 +27,6 @@ export default function App() {
   const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
   const loaded = useGameStore((s) => s.loaded);
   const player = useGameStore((s) => s.player);
-  const meter = useGameStore((s) => s.levelMeter)();
-  const gateStatus = useGameStore((s) => s.tierGateStatus)();
-  const headBand = getContent().tierGates.find((g) => g.tier === meter.level)?.headXpBand;
 
   // First-run: no persisted onboardedAt → land on onboarding, not the shell.
   const firstRun = loaded && player.onboardedAt === undefined;
@@ -61,96 +40,16 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto flex min-h-full max-w-4xl flex-col gap-8 px-5 py-8 sm:px-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-soft text-amber-deep shadow-soft">
-            <Piano size={24} />
-          </span>
-          <div>
-            <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
-            <p className="text-xs text-ink-soft">Your personal piano-learning companion</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <nav className="flex gap-1 rounded-full bg-sand p-1">
-            {NAV.map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setScreen(id)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${
-                  screen === id
-                    ? 'bg-surface text-ink shadow-soft'
-                    : 'text-ink-soft hover:text-ink'
-                }`}
-              >
-                <Icon size={15} /> <span className="hidden md:inline">{label}</span>
-              </button>
-            ))}
-          </nav>
-          {/* The two tracks + the gate ring — a shortcut to the full story on
-              the Progress tab. The ring's five segments ARE the level gate;
-              Head has no bounded target, so it renders as a count, not a bar. */}
-          <button
-            type="button"
-            onClick={() => setScreen('progress')}
-            aria-label="View your progress"
-            title="View your progress"
-            className="flex items-center gap-2.5 rounded-full py-1 pl-3 pr-1 transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
-          >
-            <span className="flex flex-col gap-1 text-left">
-              <span className="flex items-center gap-1.5">
-                <Hand size={12} className="shrink-0 text-amber-deep" />
-                <span className="h-1.5 w-16 overflow-hidden rounded-full bg-sand">
-                  <span
-                    className="block h-full rounded-full bg-amber-deep transition-[width] duration-700"
-                    style={{
-                      width: `${Math.round(Math.min(1, meter.tierHandsXP / Math.max(1, meter.band)) * 100)}%`,
-                    }}
-                  />
-                </span>
-                <span className="text-[10px] tabular-nums text-ink-soft">
-                  {meter.tierHandsXP}/{meter.band}
-                </span>
-              </span>
-              {headBand !== undefined ? (
-                <span className="flex items-center gap-1.5">
-                  <Brain size={12} className="shrink-0 text-peri-deep" />
-                  <span className="h-1.5 w-16 overflow-hidden rounded-full bg-sand">
-                    <span
-                      className="block h-full rounded-full bg-peri-deep transition-[width] duration-700"
-                      style={{
-                        width: `${Math.round(Math.min(1, player.tierHeadXP / Math.max(1, headBand)) * 100)}%`,
-                      }}
-                    />
-                  </span>
-                  <span className="text-[10px] tabular-nums text-ink-soft">
-                    {Math.min(player.tierHeadXP, headBand)}/{headBand}
-                    {player.tierHeadXP > headBand && ` +${player.tierHeadXP - headBand}`}
-                  </span>
-                </span>
-              ) : (
-                <span className="flex items-center gap-1.5 text-[10px] text-ink-soft">
-                  <Brain size={12} className="shrink-0 text-peri-deep" />
-                  <span className="tabular-nums">{player.headTrackXP} Head XP</span>
-                </span>
-              )}
-            </span>
-            <GateRing level={meter.level} segments={gateRingSegments(gateStatus)} />
-          </button>
-        </div>
-      </header>
-
-      <main>
+    <AppShell screen={screen} onNavigate={setScreen}>
+      <>
         {screen === 'missions' &&
           (sessionActive ? <SessionRunner /> : (activeLessonView ?? <Missions />))}
         {screen === 'free-play' && <FreePlay />}
         {screen === 'afk' && <AfkComingSoon />}
         {screen === 'progress' && <Progress />}
         {screen === 'settings' && <Settings />}
-      </main>
-    </div>
+      </>
+    </AppShell>
   );
 }
 
