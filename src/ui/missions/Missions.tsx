@@ -4,6 +4,7 @@ import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { ModulePath } from './ModulePath';
 import { ModeChip } from './modeChip';
+import { PianoMotif } from '@/ui/components/genreMotifs';
 
 /**
  * Missions — the default guided-path home (doc 07 §1). One dominant
@@ -43,6 +44,10 @@ export function Missions() {
           material leads with Continue; caught-up / review days lead with the
           practice session. */}
       <section className="relative overflow-hidden rounded-[2rem] bg-surface p-8 shadow-soft">
+        <PianoMotif
+          size={126}
+          className="pointer-events-none absolute -right-2 top-1/2 -translate-y-1/2 rotate-6 opacity-20"
+        />
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-amber-soft opacity-70 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-24 h-40 w-40 rounded-full bg-rose-soft opacity-60 blur-2xl" />
         {hero === 'new-material' && next ? (

@@ -1,24 +1,24 @@
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import {
-  BookOpen,
   Check,
   ChevronDown,
   ChevronRight,
-  Crown,
-  Ear,
-  Flag,
   Lock,
   Map as MapIcon,
-  Music,
-  Search,
   X,
 } from 'lucide-react';
-import type { CurriculumLesson, ExerciseType, Module } from '@/core/curriculum/types';
+import type { CurriculumLesson, Module } from '@/core/curriculum/types';
 import { getContent } from '@/core/content/bundled';
 import { isModuleAvailable } from '@/core/curriculum/selectors';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useAppStore } from '@/ui/store/appStore';
 import { ModeChip } from './modeChip';
+import { LessonGlyph } from '@/ui/components/LessonGlyph';
+import {
+  ChurchWindowMotif,
+  PianoMotif,
+  RoadMotif,
+} from '@/ui/components/genreMotifs';
 
 interface ModuleView {
   module: Module;
@@ -28,18 +28,6 @@ interface ModuleView {
   nextLessonId: string | null;
   current: boolean;
 }
-
-const TYPE_ICONS: Partial<Record<ExerciseType, typeof Ear>> = {
-  listen: Music,
-  'note-id': Search,
-  'rhythm-tap': Music,
-  'theory-quiz': BookOpen,
-  'interval-ear': Ear,
-  'chord-ear': Ear,
-  'build-chord': Music,
-  'play-chart': Music,
-  fragment: Music,
-};
 
 /**
  * The short-horizon Missions map: yesterday, today, and the next two rooms.
@@ -176,7 +164,10 @@ function CurrentModulePath({ view }: { view: ModuleView }) {
   return (
     <article className="relative overflow-hidden rounded-[2rem] border border-line bg-surface shadow-soft">
       <header className="relative overflow-hidden border-b border-line bg-amber-soft/55 px-6 py-5 sm:px-7">
-        <div className="pointer-events-none absolute -right-8 -top-12 h-36 w-36 rounded-full border-[18px] border-white/45" />
+        <PianoMotif
+          size={132}
+          className="pointer-events-none absolute -right-2 -top-7 rotate-6 opacity-35"
+        />
         <div className="relative flex items-end justify-between gap-4">
           <div>
             <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-amber-deep">
@@ -228,11 +219,6 @@ function PathLesson({
   const done = progress?.completedAt !== undefined;
   const isBoss = module.bossLessonId === lesson.id;
   const clickable = done || isNext;
-  const Icon = lesson.stretchBoss
-    ? Crown
-    : isBoss
-      ? Flag
-      : (TYPE_ICONS[lesson.exerciseType] ?? Music);
   const side = index % 2 === 0 ? 'left' : 'right';
   const offset = index % 3 === 0 ? '-translate-x-3' : index % 3 === 2 ? 'translate-x-3' : '';
 
@@ -263,7 +249,16 @@ function PathLesson({
               : 'cursor-not-allowed border-line bg-sand text-ink-soft'
         } ${isBoss ? 'h-16 w-16 rounded-[1.35rem]' : ''}`}
       >
-        {done ? <Check size={21} /> : <Icon size={isBoss ? 23 : 20} />}
+        {done ? (
+          <Check size={21} />
+        ) : (
+          <LessonGlyph
+            type={lesson.exerciseType}
+            boss={isBoss}
+            stretch={lesson.stretchBoss}
+            size={isBoss ? 24 : 21}
+          />
+        )}
       </button>
     </li>
   );
@@ -356,6 +351,7 @@ function CurriculumDialog({
           {tiers.map(([tier, tierViews]) => (
             <section key={tier}>
               <div className="mb-3 flex items-center gap-3">
+                <TierMotif tier={tier} />
                 <span className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft">
                   Tier {tier}
                 </span>
@@ -462,7 +458,13 @@ function CurriculumModule({
                         : 'bg-sand text-ink-soft'
                   }`}
                 >
-                  {done ? <Check size={15} /> : clickable ? <Music size={14} /> : <Lock size={13} />}
+                  {done ? (
+                    <Check size={15} />
+                  ) : clickable ? (
+                    <LessonGlyph type={lesson.exerciseType} size={15} />
+                  ) : (
+                    <Lock size={13} />
+                  )}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className={`block truncate text-sm font-medium ${clickable ? 'text-ink' : 'text-ink-soft'}`}>
@@ -478,4 +480,11 @@ function CurriculumModule({
       )}
     </div>
   );
+}
+
+function TierMotif({ tier }: { tier: number }) {
+  const props = { size: 30, className: 'shrink-0 opacity-70' };
+  if (tier % 3 === 2) return <ChurchWindowMotif {...props} />;
+  if (tier % 3 === 0) return <RoadMotif {...props} />;
+  return <PianoMotif {...props} />;
 }

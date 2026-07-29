@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, ChevronLeft, Piano } from 'lucide-react';
+import { ArrowRight, ChevronLeft } from 'lucide-react';
 import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import {
@@ -9,6 +9,7 @@ import {
   HowItWorksStep,
   LaunchStep,
 } from './OnboardingSteps';
+import { KeyBuddyMark } from '@/ui/components/KeyBuddyMark';
 
 /**
  * Landing onboarding (doc 06 §7.0, calibration removed 2026-07-23 — it lives
@@ -49,9 +50,7 @@ export function Onboarding({ replay = false }: { replay?: boolean }) {
     <div className="mx-auto flex min-h-full max-w-3xl flex-col gap-8 px-5 py-8 sm:px-6">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-soft text-amber-deep shadow-soft">
-            <Piano size={24} />
-          </span>
+          <KeyBuddyMark size={44} />
           <div>
             <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
             <p className="text-xs text-ink-soft">Your personal piano-learning companion</p>

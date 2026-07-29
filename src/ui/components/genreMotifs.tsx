@@ -20,12 +20,12 @@ export function PianoMotif({ size = 72, className = '' }: MotifProps) {
       aria-hidden="true"
       className={className}
     >
-      <rect x="8" y="20" width="56" height="34" rx="6" fill="#E7E9FB" />
+      <rect x="8" y="20" width="56" height="34" rx="6" className="fill-peri-soft" />
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <rect key={i} x={11 + i * 8} y="23" width="7" height="28" rx="2" fill="#FFFFFF" />
+        <rect key={i} x={11 + i * 8} y="23" width="7" height="28" rx="2" className="fill-surface" />
       ))}
       {[0, 1, 3, 4].map((i) => (
-        <rect key={i} x={16 + i * 8} y="23" width="4.6" height="17" rx="1.5" fill="#7681CE" />
+        <rect key={i} x={16 + i * 8} y="23" width="4.6" height="17" rx="1.5" className="fill-peri-deep" />
       ))}
     </svg>
   );
@@ -42,11 +42,11 @@ export function ChurchWindowMotif({ size = 72, className = '' }: MotifProps) {
       aria-hidden="true"
       className={className}
     >
-      <path d="M22 58V30c0-9 6-16 14-16s14 7 14 16v28H22Z" fill="#FCEFD2" />
-      <path d="M27 58V31c0-6.5 4-11 9-11s9 4.5 9 11v27" stroke="#C79445" strokeWidth="2.5" />
-      <line x1="36" y1="20" x2="36" y2="58" stroke="#C79445" strokeWidth="2" />
-      <line x1="23" y1="42" x2="49" y2="42" stroke="#C79445" strokeWidth="2" />
-      <rect x="18" y="58" width="36" height="4" rx="2" fill="#E9DFCB" />
+      <path d="M22 58V30c0-9 6-16 14-16s14 7 14 16v28H22Z" className="fill-amber-soft" />
+      <path d="M27 58V31c0-6.5 4-11 9-11s9 4.5 9 11v27" className="stroke-amber-deep" strokeWidth="2.5" />
+      <line x1="36" y1="20" x2="36" y2="58" className="stroke-amber-deep" strokeWidth="2" />
+      <line x1="23" y1="42" x2="49" y2="42" className="stroke-amber-deep" strokeWidth="2" />
+      <rect x="18" y="58" width="36" height="4" rx="2" className="fill-line" />
     </svg>
   );
 }
@@ -62,10 +62,20 @@ export function RoadMotif({ size = 72, className = '' }: MotifProps) {
       aria-hidden="true"
       className={className}
     >
-      <circle cx="52" cy="22" r="8" fill="#F6D08A" />
-      <path d="M6 46c14-6 46-6 60 0v2H6v-2Z" fill="#E2F2EA" />
-      <path d="M30 62 36 46l6 16H30Z" fill="#D9C9B2" />
-      <path d="M36 48v3M36 55v3" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="52" cy="22" r="8" className="fill-amber" />
+      <path d="M6 46c14-6 46-6 60 0v2H6v-2Z" className="fill-mint-soft" />
+      <path d="M30 62 36 46l6 16H30Z" className="fill-line" />
+      <path d="M36 48v3M36 55v3" className="stroke-surface" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
+}
+
+export function GenreMotif({
+  genre,
+  size = 72,
+  className = '',
+}: MotifProps & { genre: string }) {
+  if (genre === 'gospel') return <ChurchWindowMotif size={size} className={className} />;
+  if (genre === 'country') return <RoadMotif size={size} className={className} />;
+  return <PianoMotif size={size} className={className} />;
 }

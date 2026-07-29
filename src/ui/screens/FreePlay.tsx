@@ -6,6 +6,7 @@ import { useGameStore } from '@/ui/store/gameStore';
 import { ChartPlayer, FREE_PLAY_POLICY } from '@/ui/components/ChartPlayer';
 import { ProgressBar } from '@/ui/components/ProgressBar';
 import { useAppStore } from '@/ui/store/appStore';
+import { GenreMotif } from '@/ui/components/genreMotifs';
 
 /**
  * Free Play — open practice of unlocked songs. Same player, scoring, and
@@ -115,13 +116,18 @@ function SongCard({ song: s, onPick }: { song: Song; onPick: (s: Song) => void }
       disabled={!unlocked}
       onClick={() => onPick(s)}
       data-testid={`song-${s.id}`}
-      className={`rounded-3xl p-5 text-left transition ${
+      className={`relative overflow-hidden rounded-3xl p-5 text-left transition ${
         unlocked
           ? 'bg-surface shadow-soft hover:-translate-y-0.5 hover:shadow-lift'
           : 'cursor-not-allowed border border-dashed border-line bg-transparent'
       }`}
     >
-      <div className="flex items-center justify-between gap-2">
+      <GenreMotif
+        genre={s.genre}
+        size={86}
+        className="pointer-events-none absolute -right-2 -top-2 opacity-[0.16]"
+      />
+      <div className="relative flex items-center justify-between gap-2">
         <h3 className={`font-display font-semibold ${unlocked ? 'text-ink' : 'text-ink-soft'}`}>
           {s.title}
         </h3>
@@ -135,11 +141,11 @@ function SongCard({ song: s, onPick }: { song: Song; onPick: (s: Song) => void }
           </span>
         )}
       </div>
-      <p className="mt-1 text-xs capitalize text-ink-soft">
+      <p className="relative mt-1 text-xs capitalize text-ink-soft">
         {s.genre} · {s.key} · {s.tempoTargetBPM} BPM · {s.feel}
       </p>
       {unlocked ? (
-        <div className="mt-2 flex items-center gap-1">
+        <div className="relative mt-2 flex items-center gap-1">
           {[1, 2, 3].map((n) => (
             <Star
               key={n}
@@ -150,14 +156,14 @@ function SongCard({ song: s, onPick }: { song: Song; onPick: (s: Song) => void }
           {stars === 0 && <span className="ml-1 text-xs text-ink-soft">Not yet played</span>}
         </div>
       ) : prog.challengeTier !== undefined ? (
-        <div className="mt-2">
+        <div className="relative mt-2">
           <div className="mb-1 flex items-center gap-1.5 text-xs text-ink-soft">
             <Lock size={12} /> Unlocks at Level {prog.challengeTier}
           </div>
           <ProgressBar fraction={Math.min(1, learningTier / prog.challengeTier)} />
         </div>
       ) : (
-        <div className="mt-2">
+        <div className="relative mt-2">
           <div className="mb-1 flex items-center gap-1.5 text-xs text-ink-soft">
             <Lock size={12} /> {prog.requiredCount - prog.masteredCount} skill
             {prog.requiredCount - prog.masteredCount === 1 ? '' : 's'} to unlock:{' '}

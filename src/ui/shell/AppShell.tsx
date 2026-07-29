@@ -6,7 +6,6 @@ import {
   Lock,
   Map,
   Music,
-  Piano,
   Play,
   RefreshCcw,
   SlidersHorizontal,
@@ -19,6 +18,7 @@ import { getContent } from '@/core/content/bundled';
 import { gateRequirementsRemaining } from '@/core/curriculum/tierGate';
 import { GateRing, gateRingSegments } from '@/ui/components/GateRing';
 import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
+import { KeyBuddyMark } from '@/ui/components/KeyBuddyMark';
 
 interface AppShellProps {
   screen: Screen;
@@ -72,9 +72,7 @@ export function AppShell({ screen, onNavigate, focusMode = false, children }: Ap
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <div className={`flex items-center ${compact ? 'justify-center' : 'gap-3'}`}>
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-soft text-amber-deep shadow-soft">
-        <Piano size={23} />
-      </span>
+      <KeyBuddyMark size={44} />
       {!compact && (
         <div className="min-w-0">
           <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Key-Buddy</h1>
