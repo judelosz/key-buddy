@@ -490,5 +490,41 @@
       "chord-dom7",
       "rhythm-swing-feel"
     ]
+  },
+  {
+    "id": "m7-dominant-color",
+    "arc": "blues",
+    "tier": 7,
+    "title": "The dominant color",
+    "promise": "One extra note turns plain chords into the blues \u2014 meet the dominant 7th",
+    "prerequisiteModuleIds": [
+      "m6-twelve-bar"
+    ],
+    "lessonIds": [
+      "l-dc-watch",
+      "l-dc-theory",
+      "l-dc-build",
+      "l-dc-ear",
+      "l-dc-change-cf",
+      "l-dc-change-cg",
+      "l-dc-form",
+      "l-dc-symbols",
+      "l-dc-apply",
+      "l-dc-gate-quiz",
+      "l-dc-boss",
+      "l-dc-stretch"
+    ],
+    "coreSkillIds": [
+      "chord-dom7"
+    ],
+    "bossLessonId": "l-dc-boss",
+    "revisits": [
+      "harmony-12bar-form",
+      "chord-major-triad",
+      "lh-root-notes"
+    ],
+    "prepares": [
+      "rhythm-swing-feel"
+    ]
   }
 ]

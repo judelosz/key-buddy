@@ -87,5 +87,19 @@
     "requiresDelayedReview": true,
     "handsXpBand": 30,
     "headXpBand": 55
+  },
+  {
+    "tier": 7,
+    "coreSkillIds": [
+      "chord-dom7"
+    ],
+    "bossSongId": "12-bar-blues-c",
+    "bossChartId": "12-bar-blues-c--full",
+    "checkpointAssessmentIds": [
+      "assess-t7-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 32,
+    "headXpBand": 55
   }
 ]

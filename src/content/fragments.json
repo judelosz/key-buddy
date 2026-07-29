@@ -3713,5 +3713,557 @@
         }
       ]
     }
+  },
+  {
+    "id": "frag-dom7-change-cf",
+    "sourceSongId": "12-bar-blues-c",
+    "label": "Change drill: C7 \u2194 F7 (the bar-5 move)",
+    "skillTags": [
+      "chord-dom7",
+      "harmony-12bar-form"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "F7"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "F7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cf0",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cf1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cf2",
+          "pitches": [
+            65,
+            69,
+            72,
+            75
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cf3",
+          "pitches": [
+            53
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cf4",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cf5",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cf6",
+          "pitches": [
+            65,
+            69,
+            72,
+            75
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cf7",
+          "pitches": [
+            53
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-dom7-change-cg",
+    "sourceSongId": "12-bar-blues-c",
+    "label": "Change drill: C7 \u2194 G7 (the bar-9 pivot)",
+    "skillTags": [
+      "chord-dom7",
+      "harmony-12bar-form"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 1,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 2,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 3,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "cg0",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cg1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cg2",
+          "pitches": [
+            67,
+            71,
+            74,
+            77
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cg3",
+          "pitches": [
+            55
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cg4",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cg5",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "cg6",
+          "pitches": [
+            67,
+            71,
+            74,
+            77
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "cg7",
+          "pitches": [
+            55
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
+  },
+  {
+    "id": "frag-dom7-form",
+    "sourceSongId": "12-bar-blues-c",
+    "label": "The whole form in dominant 7ths",
+    "skillTags": [
+      "chord-dom7",
+      "harmony-12bar-form"
+    ],
+    "chart": {
+      "timeSignature": {
+        "beatsPerBar": 4,
+        "beatUnit": 4
+      },
+      "chordSymbols": [
+        {
+          "bar": 0,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 4,
+          "beat": 0,
+          "symbol": "F7"
+        },
+        {
+          "bar": 6,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 8,
+          "beat": 0,
+          "symbol": "G7"
+        },
+        {
+          "bar": 9,
+          "beat": 0,
+          "symbol": "F7"
+        },
+        {
+          "bar": 10,
+          "beat": 0,
+          "symbol": "C7"
+        },
+        {
+          "bar": 11,
+          "beat": 0,
+          "symbol": "G7"
+        }
+      ],
+      "notes": [
+        {
+          "id": "form0",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form1",
+          "pitches": [
+            48
+          ],
+          "startBeat": 0,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form2",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form3",
+          "pitches": [
+            48
+          ],
+          "startBeat": 4,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form4",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form5",
+          "pitches": [
+            48
+          ],
+          "startBeat": 8,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form6",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form7",
+          "pitches": [
+            48
+          ],
+          "startBeat": 12,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form8",
+          "pitches": [
+            65,
+            69,
+            72,
+            75
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form9",
+          "pitches": [
+            53
+          ],
+          "startBeat": 16,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form10",
+          "pitches": [
+            65,
+            69,
+            72,
+            75
+          ],
+          "startBeat": 20,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form11",
+          "pitches": [
+            53
+          ],
+          "startBeat": 20,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form12",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 24,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form13",
+          "pitches": [
+            48
+          ],
+          "startBeat": 24,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form14",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form15",
+          "pitches": [
+            48
+          ],
+          "startBeat": 28,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form16",
+          "pitches": [
+            67,
+            71,
+            74,
+            77
+          ],
+          "startBeat": 32,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form17",
+          "pitches": [
+            55
+          ],
+          "startBeat": 32,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form18",
+          "pitches": [
+            65,
+            69,
+            72,
+            75
+          ],
+          "startBeat": 36,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form19",
+          "pitches": [
+            53
+          ],
+          "startBeat": 36,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form20",
+          "pitches": [
+            60,
+            64,
+            67,
+            70
+          ],
+          "startBeat": 40,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form21",
+          "pitches": [
+            48
+          ],
+          "startBeat": 40,
+          "durationBeats": 4,
+          "hand": "left"
+        },
+        {
+          "id": "form22",
+          "pitches": [
+            67,
+            71,
+            74,
+            77
+          ],
+          "startBeat": 44,
+          "durationBeats": 4,
+          "hand": "right"
+        },
+        {
+          "id": "form23",
+          "pitches": [
+            55
+          ],
+          "startBeat": 44,
+          "durationBeats": 4,
+          "hand": "left"
+        }
+      ]
+    }
   }
 ]

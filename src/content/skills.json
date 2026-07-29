@@ -164,11 +164,31 @@
     "name": "Dominant 7th chords",
     "family": "chords-voicings",
     "tier": 7,
-    "genre": "foundation",
+    "genre": "blues",
     "prerequisites": [
       "chord-major-triad"
     ],
-    "description": "The single most important blues color: 1-3-5-\u266d7."
+    "description": "The single most important blues color: 1-3-5-\u266d7.",
+    "arc": "blues",
+    "strand": "harmony",
+    "outcome": "Build and play C7, F7 and G7 on demand, and move between them cleanly on the barline.",
+    "moduleId": "m7-dominant-color",
+    "assessment": {
+      "minStars": 0,
+      "minNotesCorrectPct": 0.95,
+      "minGoodOrBetterPct": 0.7,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "rhythm-swing-feel"
+    ],
+    "commonErrors": [
+      "Playing the plain triad and forgetting the seventh",
+      "Reaching the \u266d7 a half-step too high (major 7 instead)",
+      "Re-fingering the whole hand instead of moving the minimum notes"
+    ]
   },
   {
     "id": "harmony-i-iv-v",

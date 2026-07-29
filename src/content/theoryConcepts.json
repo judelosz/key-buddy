@@ -2342,5 +2342,326 @@
         ]
       }
     ]
+  },
+  {
+    "id": "theory-dom7",
+    "name": "The dominant 7th",
+    "explanation": "Take a major triad (1-3-5) and add the \u266d7 \u2014 a whole step below the root's octave. C7 = C-E-G-B\u266d. The added note makes the chord lean, buzzy, restless; the blues puts it on all three chords of the form.",
+    "examples": [
+      "C7 = C E G B\u266d",
+      "F7 = F A C E\u266d",
+      "G7 = G B D F"
+    ],
+    "linkedSkillIds": [
+      "chord-dom7"
+    ],
+    "linkedSongIds": [
+      "12-bar-blues-c"
+    ],
+    "questions": [
+      {
+        "id": "d7-q1",
+        "promptText": "The recipe for a dominant 7th chord is\u2026",
+        "choices": [
+          "1-3-5",
+          "1-3-5-7",
+          "1-3-5-\u266d7",
+          "1-\u266d3-5-\u266d7"
+        ],
+        "answerIndex": 2,
+        "explanation": "Major triad plus the LOWERED seventh.",
+        "choiceExplanations": [
+          "1-3-5 is the plain major triad \u2014 no seventh yet.",
+          "1-3-5-7 with the natural 7 is a major 7th chord \u2014 dreamy, not bluesy.",
+          "Right \u2014 the major triad plus a \u266d7 on top.",
+          "Lowering the 3 as well makes it a MINOR 7th \u2014 a different color."
+        ]
+      },
+      {
+        "id": "d7-q2",
+        "promptText": "C7 is spelled\u2026",
+        "choices": [
+          "C-E-G",
+          "C-E-G-B",
+          "C-E-G-B\u266d",
+          "C-E\u266d-G-B\u266d"
+        ],
+        "answerIndex": 2,
+        "explanation": "C major plus B\u266d.",
+        "choiceExplanations": [
+          "C-E-G is plain C major \u2014 the 7 in the symbol asks for one more note.",
+          "B natural gives Cmaj7 \u2014 a completely different, softer sound.",
+          "Right \u2014 C-E-G-B\u266d: the \u266d7 sits a whole step below the C above.",
+          "E\u266d makes it C minor 7 \u2014 the 3rd must stay major here."
+        ]
+      },
+      {
+        "id": "d7-q3",
+        "promptText": "F7 adds which note to the F major triad (F-A-C)?",
+        "choices": [
+          "E",
+          "E\u266d",
+          "D",
+          "G"
+        ],
+        "answerIndex": 1,
+        "explanation": "The \u266d7 of F is E\u266d.",
+        "choiceExplanations": [
+          "E natural would be Fmaj7 \u2014 the blues wants the flattened one.",
+          "Right \u2014 E\u266d, a whole step below the F above, completes F7.",
+          "D is the 6th of F \u2014 a different color entirely (F6).",
+          "G is the 2nd \u2014 it thickens the chord but isn\u2019t any kind of 7th."
+        ]
+      },
+      {
+        "id": "d7-q4",
+        "promptText": "What does the \u266d7 DO to the chord\u2019s character?",
+        "choices": [
+          "Makes it brighter",
+          "Makes it restless \u2014 it leans",
+          "Makes it minor",
+          "Makes it quieter"
+        ],
+        "answerIndex": 1,
+        "explanation": "The seventh adds the pull.",
+        "choiceExplanations": [
+          "Brightness comes from the major 3rd \u2014 that was already there.",
+          "Right \u2014 the \u266d7 rubs against the chord and makes it want to move. Blues lives on that lean.",
+          "Minor comes from lowering the 3rd \u2014 the \u266d7 leaves the 3rd alone.",
+          "Volume is in your hands, not the spelling."
+        ]
+      },
+      {
+        "id": "d7-q5",
+        "promptText": "In the blues form, which chords get the 7th treatment?",
+        "choices": [
+          "Only the V",
+          "Only I and V",
+          "All three \u2014 I, IV and V",
+          "None \u2014 sevenths are jazz"
+        ],
+        "answerIndex": 2,
+        "explanation": "C7, F7 AND G7 \u2014 that saturation is the blues signature.",
+        "choiceExplanations": [
+          "In classical harmony only V carries it \u2014 the blues breaks exactly that rule.",
+          "IV joins in too \u2014 F7 at bar 5 is half the flavor.",
+          "Right \u2014 the blues puts a dominant 7th on every chord of the form.",
+          "Jazz stacks more \u2014 but the dominant 7th is the blues\u2019 home base."
+        ]
+      },
+      {
+        "id": "d7-q6",
+        "promptText": "Moving C7 \u2192 F7, the smart move is\u2026",
+        "choices": [
+          "Lift the whole hand and re-plant",
+          "Move only the fingers that must change",
+          "Play F7 an octave up",
+          "Drop the 7th during changes"
+        ],
+        "answerIndex": 1,
+        "explanation": "Minimum motion is the craft.",
+        "choiceExplanations": [
+          "Re-planting the whole hand is slower and misses the shared notes.",
+          "Right \u2014 C and E move to C and E\u266d\u2026 the closer you look, the fewer notes actually change.",
+          "Jumping octaves breaks the comping register for no reason.",
+          "The 7th IS the sound \u2014 dropping it under pressure is the classic slip."
+        ]
+      },
+      {
+        "id": "d7-q7",
+        "promptText": "G7 is spelled\u2026",
+        "choices": [
+          "G-B-D",
+          "G-B-D-F",
+          "G-B\u266d-D-F",
+          "G-B-D-F\u266f"
+        ],
+        "answerIndex": 1,
+        "explanation": "G major triad plus F natural.",
+        "choiceExplanations": [
+          "G-B-D is the plain triad.",
+          "Right \u2014 G-B-D-F: F natural is the \u266d7 of G.",
+          "B\u266d lowers the 3rd \u2014 that\u2019s G minor 7.",
+          "F\u266f is the natural 7 \u2014 Gmaj7, the wrong kind of dreamy."
+        ]
+      },
+      {
+        "id": "d7-q8",
+        "promptText": "Why did you meet G7 a tier before C7 and F7?",
+        "choices": [
+          "It\u2019s the easiest to finger",
+          "Bar 12\u2019s turnaround already used its pull",
+          "It has fewer notes",
+          "It didn\u2019t \u2014 trick question"
+        ],
+        "answerIndex": 1,
+        "explanation": "The turnaround previewed the dominant pull.",
+        "choiceExplanations": [
+          "The fingering is the same shape as the others.",
+          "Right \u2014 the wants-to-go-home lean of G7 powered bar 12 (and bar 9) all through Tier 6.",
+          "All three sevenths have exactly four notes.",
+          "You really did \u2014 the V7 preview lesson."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "theory-tier7-checkpoint",
+    "name": "Tier 7 check: sevenths in the form",
+    "explanation": "Dominant 7ths by recipe and symbol, placed correctly in the 12-bar form.",
+    "examples": [],
+    "linkedSkillIds": [
+      "chord-dom7",
+      "harmony-12bar-form"
+    ],
+    "linkedSongIds": [
+      "12-bar-blues-c"
+    ],
+    "questions": [
+      {
+        "id": "t7c-q1",
+        "promptText": "Which spelling is a DOMINANT 7th?",
+        "choices": [
+          "C-E-G-B",
+          "C-E\u266d-G-B\u266d",
+          "C-E-G-B\u266d",
+          "C-E-G-A"
+        ],
+        "answerIndex": 2,
+        "explanation": "Major 3rd + flat 7.",
+        "choiceExplanations": [
+          "B natural = major 7th \u2014 close, but the wrong lean.",
+          "Flat 3rd AND flat 7th = minor 7th.",
+          "Right \u2014 major triad below, \u266d7 on top.",
+          "Adding the 6th (A) makes C6 \u2014 settled, not leaning."
+        ]
+      },
+      {
+        "id": "t7c-q2",
+        "promptText": "Blues in C: bar 5 with the new color is\u2026",
+        "choices": [
+          "F",
+          "F7",
+          "C7",
+          "G7"
+        ],
+        "answerIndex": 1,
+        "explanation": "The IV chord, now with its seventh.",
+        "choiceExplanations": [
+          "Plain F is Tier 6\u2019s version \u2014 Tier 7 adds the E\u266d.",
+          "Right \u2014 bar 5 is F7 in the dominant-color form.",
+          "C7 owns bars 1\u20134 (and 7\u20138) \u2014 bar 5 is the move away.",
+          "G7 waits for bar 9."
+        ]
+      },
+      {
+        "id": "t7c-q3",
+        "promptText": "The \u266d7 of a chord sits\u2026",
+        "choices": [
+          "A half step above the root",
+          "A whole step below the root\u2019s octave",
+          "A whole step above the 5th",
+          "Anywhere you like"
+        ],
+        "answerIndex": 1,
+        "explanation": "Count down two half steps from the octave.",
+        "choiceExplanations": [
+          "A half step above the root is the \u266d9 \u2014 spicy jazz territory.",
+          "Right \u2014 from the root\u2019s octave, come down a whole step: C\u2192B\u266d, F\u2192E\u266d, G\u2192F.",
+          "A whole step above the 5th is the 6th, not the 7th.",
+          "The interval is fixed \u2014 that\u2019s what makes the sound reproducible."
+        ]
+      },
+      {
+        "id": "t7c-q4",
+        "promptText": "You hear a chord that buzzes and leans. Your ear says\u2026",
+        "choices": [
+          "Major triad",
+          "Dominant 7th",
+          "Single note",
+          "Octave"
+        ],
+        "answerIndex": 1,
+        "explanation": "The lean is the seventh talking.",
+        "choiceExplanations": [
+          "A major triad rings settled \u2014 no lean.",
+          "Right \u2014 restless-and-buzzy is the dominant 7th signature you drilled.",
+          "A single note has no chord quality at all.",
+          "Octaves are the most settled sound there is."
+        ]
+      },
+      {
+        "id": "t7c-q5",
+        "promptText": "Bar 9 of the dominant-color form is\u2026",
+        "choices": [
+          "G7",
+          "F7",
+          "C7",
+          "G"
+        ],
+        "answerIndex": 0,
+        "explanation": "The V chord, with its seventh, at the form\u2019s peak.",
+        "choiceExplanations": [
+          "Right \u2014 G7: the most charged bar of the form, now with maximum lean.",
+          "F7 answers it in bar 10.",
+          "C7 is home \u2014 bar 9 is the farthest from home.",
+          "Plain G was Tier 6 \u2014 Tier 7 keeps the seventh on."
+        ]
+      },
+      {
+        "id": "t7c-q6",
+        "promptText": "Moving C7 \u2192 F7, which notes can STAY under your fingers?",
+        "choices": [
+          "None \u2014 all four move",
+          "C, and E moves a half step to E\u266d",
+          "Only the 7th stays",
+          "The whole chord stays"
+        ],
+        "answerIndex": 1,
+        "explanation": "Shared tones are the secret of clean changes.",
+        "choiceExplanations": [
+          "Watch the two chords side by side \u2014 there\u2019s real overlap.",
+          "Right \u2014 C carries over (it\u2019s the 5th of F7) and E slides one half step down to E\u266d.",
+          "The 7th of C7 (B\u266d) actually resolves \u2014 it\u2019s the 3rd (A) of F7 that arrives near it.",
+          "F7 has different notes \u2014 something must move."
+        ]
+      },
+      {
+        "id": "t7c-q7",
+        "promptText": "Why does the blues put sevenths on ALL THREE chords?",
+        "choices": [
+          "To sound unfinished everywhere \u2014 that IS the style",
+          "Because triads are too hard",
+          "It\u2019s a notation shortcut",
+          "Only beginners do this"
+        ],
+        "answerIndex": 0,
+        "explanation": "Constant lean = the blues sound.",
+        "choiceExplanations": [
+          "Right \u2014 classical harmony resolves its tension; the blues chooses to live inside it.",
+          "Triads are easier \u2014 the sevenths are added for sound, not simplicity.",
+          "The symbols mean exactly what they say.",
+          "The pros lean hardest of all."
+        ]
+      },
+      {
+        "id": "t7c-q8",
+        "promptText": "Your bandmate calls \u201cblues in C \u2014 watch bar 12.\u201d They mean\u2026",
+        "choices": [
+          "End on C7 and stop",
+          "The G7 turnaround pointing back to bar 1",
+          "A key change",
+          "Play bar 12 silent"
+        ],
+        "answerIndex": 1,
+        "explanation": "Bar 12 is the turnaround.",
+        "choiceExplanations": [
+          "A final chorus can end on C7 \u2014 but \u201cwatch bar 12\u201d means the turnaround is coming.",
+          "Right \u2014 bar 12\u2019s G7 leans back to the top so the next chorus launches.",
+          "The blues form never changes key mid-chorus.",
+          "Silence would drop the lean the form runs on."
+        ]
+      }
+    ]
   }
 ]

@@ -35,7 +35,9 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 
 - [ ] ⏳ Listen through each new arrangement once and flag anything musically off (they are original simplifications): When the Saints, Oh! Susanna, She'll Be Comin' 'Round the Mountain (both charts), Amazing Grace.
 - [ ] ⏳ Listen through the two challenge-song arrangements (2026-07-28, original simplifications): Camptown Races (melody + LH roots), Will the Circle Be Unbroken (melody + LH blocked triads/inversions).
-- [ ] ⏳ Challenge songs in Free Play: locked cards show "Bonus · Tier N Challenge" + "Unlocks at Level N" with a level-fraction bar; passing Tier 1 unlocks Camptown Races (and the wrap/report mentions the unlock).
+- [ ] ⏳ Challenge songs in Free Play: locked cards show "Bonus · Tier N Challenge" + "Unlocks at Level N" with a level-fraction bar; passing Tier 1 unlocks Camptown Races (and the wrap/report mentions the unlock). (2026-07-28: section render, badge, level bar, and the unlocked/locked split verified in-browser on the :5199 profile.)
+- [ ] ⏳ Tier 6–7 module walkthrough (human pass): the 12-bar form lessons feel right in sequence (listen → theory → blocked comping → V7 preview → ear → roots walk → symbols-only → apply → checkpoint → boss), the dom7 change drills sit under the hands, and the "Eyes on the symbols" lessons are playable without falling notes at the authored tempos.
+- [ ] ⏳ Tier 6–7 ear lessons on real audio: the major-vs-dom7 chord-ear prompts are distinguishable through the sampled piano at normal volume.
 - [ ] ⏳ Amazing Grace (3/4): metronome accents in three, falling notes align to keys, report heat-map bars are 3 beats wide, pickup beat behaves.
 - [ ] ⏳ Saints pickup: count-in then an empty beat 1 — falling notes and scoring line up.
 - [ ] ⏳ Mountain full arrangement: chords + bass playable hands-together at 50% tempo; live grading colors sensible.
