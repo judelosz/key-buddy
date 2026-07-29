@@ -23,6 +23,7 @@ import { MidiConnectButton } from '@/ui/components/MidiConnectButton';
 interface AppShellProps {
   screen: Screen;
   onNavigate: (screen: Screen) => void;
+  focusMode?: boolean;
   children: ReactNode;
 }
 
@@ -34,7 +35,18 @@ const NAV: { id: Screen; label: string; icon: typeof Map }[] = [
   { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ];
 
-export function AppShell({ screen, onNavigate, children }: AppShellProps) {
+export function AppShell({ screen, onNavigate, focusMode = false, children }: AppShellProps) {
+  if (focusMode) {
+    return (
+      <div
+        data-testid="focus-shell"
+        className="mx-auto min-h-full w-full max-w-[70rem] px-5 py-5 sm:px-6 lg:px-8 lg:py-7"
+      >
+        <main>{children}</main>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto min-h-full w-full max-w-[92.5rem] px-5 py-5 sm:px-6 lg:px-5 xl:px-6">
       <CompactHeader screen={screen} onNavigate={onNavigate} />

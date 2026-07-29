@@ -25,6 +25,8 @@ interface AppState {
   showOnboarding: boolean;
   /** A practice session takeover is open (mutually exclusive with activeLesson). */
   sessionActive: boolean;
+  /** A Free Play chart is open; transient shell state, never persisted. */
+  freePlayActive: boolean;
   activeLesson: ActiveLesson | null;
   inputStatus: InputStatus;
   midiEnabled: boolean;
@@ -34,6 +36,7 @@ interface AppState {
   setScreen: (s: Screen) => void;
   setShowOnboarding: (v: boolean) => void;
   setSessionActive: (v: boolean) => void;
+  setFreePlayActive: (v: boolean) => void;
   setActiveLesson: (l: ActiveLesson | null) => void;
   setInputStatus: (s: InputStatus) => void;
   setMidiEnabled: (v: boolean) => void;
@@ -48,6 +51,7 @@ export const useAppStore = create<AppState>((set) => ({
   screen: 'missions',
   showOnboarding: false,
   sessionActive: false,
+  freePlayActive: false,
   activeLesson: null,
   inputStatus: { kind: 'no-provider' },
   midiEnabled: false,
@@ -58,9 +62,23 @@ export const useAppStore = create<AppState>((set) => ({
   setShowOnboarding: (showOnboarding) => set({ showOnboarding }),
   // A session and a single open lesson are mutually exclusive takeovers.
   setSessionActive: (sessionActive) =>
-    set(sessionActive ? { sessionActive, activeLesson: null } : { sessionActive }),
+    set(
+      sessionActive
+        ? { sessionActive, activeLesson: null, freePlayActive: false }
+        : { sessionActive },
+    ),
+  setFreePlayActive: (freePlayActive) =>
+    set(
+      freePlayActive
+        ? { freePlayActive, activeLesson: null, sessionActive: false }
+        : { freePlayActive },
+    ),
   setActiveLesson: (activeLesson) =>
-    set(activeLesson ? { activeLesson, sessionActive: false } : { activeLesson }),
+    set(
+      activeLesson
+        ? { activeLesson, sessionActive: false, freePlayActive: false }
+        : { activeLesson },
+    ),
   setInputStatus: (inputStatus) => set({ inputStatus }),
   setMidiEnabled: (midiEnabled) => set({ midiEnabled }),
   setCalibrationOffsetMs: (calibrationOffsetMs) => set({ calibrationOffsetMs }),

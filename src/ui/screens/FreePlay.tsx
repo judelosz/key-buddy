@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Star, Lock } from 'lucide-react';
 import type { Chart, Song } from '@/core/types';
 import { getContent } from '@/core/content/bundled';
 import { useGameStore } from '@/ui/store/gameStore';
 import { ChartPlayer, FREE_PLAY_POLICY } from '@/ui/components/ChartPlayer';
 import { ProgressBar } from '@/ui/components/ProgressBar';
+import { useAppStore } from '@/ui/store/appStore';
 
 /**
  * Free Play — open practice of unlocked songs. Same player, scoring, and
@@ -14,11 +15,22 @@ import { ProgressBar } from '@/ui/components/ProgressBar';
 export function FreePlay() {
   const content = getContent();
   const [picked, setPicked] = useState<{ song: Song; chart: Chart } | null>(null);
+  const setFreePlayActive = useAppStore((state) => state.setFreePlayActive);
 
   const pick = useCallback((s: Song) => {
     const c = getContent().getChart(s.chartIds[0]);
-    if (c) setPicked({ song: s, chart: c });
-  }, []);
+    if (c) {
+      setPicked({ song: s, chart: c });
+      setFreePlayActive(true);
+    }
+  }, [setFreePlayActive]);
+
+  useEffect(
+    () => () => {
+      setFreePlayActive(false);
+    },
+    [setFreePlayActive],
+  );
 
   if (!picked) {
     return <SongPicker songs={[...content.songs]} onPick={pick} />;
@@ -29,7 +41,10 @@ export function FreePlay() {
       song={picked.song}
       chart={picked.chart}
       policy={FREE_PLAY_POLICY}
-      onExit={() => setPicked(null)}
+      onExit={() => {
+        setPicked(null);
+        setFreePlayActive(false);
+      }}
     />
   );
 }

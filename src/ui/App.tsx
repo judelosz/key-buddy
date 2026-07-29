@@ -22,6 +22,8 @@ export default function App() {
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
   const sessionActive = useAppStore((s) => s.sessionActive);
+  const activeLesson = useAppStore((s) => s.activeLesson);
+  const freePlayActive = useAppStore((s) => s.freePlayActive);
   const activeLessonView = useActiveLessonView();
   const showOnboarding = useAppStore((s) => s.showOnboarding);
   const setShowOnboarding = useAppStore((s) => s.setShowOnboarding);
@@ -40,7 +42,11 @@ export default function App() {
   }
 
   return (
-    <AppShell screen={screen} onNavigate={setScreen}>
+    <AppShell
+      screen={screen}
+      onNavigate={setScreen}
+      focusMode={sessionActive || activeLesson !== null || freePlayActive}
+    >
       <>
         {screen === 'missions' &&
           (sessionActive ? <SessionRunner /> : (activeLessonView ?? <Missions />))}
