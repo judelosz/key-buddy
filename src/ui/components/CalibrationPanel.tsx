@@ -97,7 +97,7 @@ export function CalibrationPanel({ showIntro = true }: CalibrationPanelProps) {
       </div>
 
       {phase === 'done' && result && (
-        <div className="flex items-center gap-3 rounded-2xl bg-mint-soft px-4 py-3 text-sm text-mint-deep">
+        <div className="flex items-center gap-3 rounded-2xl bg-mint-soft px-4 py-3 text-sm text-mint-ink">
           <Check size={18} />
           <span>
             Measured <span className="font-medium tabular-nums">{Math.round(result.offsetMs)} ms</span>{' '}

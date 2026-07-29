@@ -132,7 +132,7 @@ function SongCard({ song: s, onPick }: { song: Song; onPick: (s: Song) => void }
           {s.title}
         </h3>
         {s.challengeTier !== undefined ? (
-          <span className="whitespace-nowrap rounded-full bg-peri-soft px-2.5 py-0.5 font-display text-xs font-semibold text-peri-deep">
+          <span className="whitespace-nowrap rounded-full bg-peri-soft px-2.5 py-0.5 font-display text-xs font-semibold text-peri-ink">
             Bonus · Tier {s.challengeTier} Challenge
           </span>
         ) : (
@@ -150,7 +150,7 @@ function SongCard({ song: s, onPick }: { song: Song; onPick: (s: Song) => void }
             <Star
               key={n}
               size={16}
-              className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
+              className={n <= stars ? 'fill-amber text-amber-ink' : 'text-line'}
             />
           ))}
           {stars === 0 && <span className="ml-1 text-xs text-ink-soft">Not yet played</span>}

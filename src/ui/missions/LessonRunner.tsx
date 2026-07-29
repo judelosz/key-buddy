@@ -127,7 +127,7 @@ export function LessonRunner({ lesson, module }: { lesson: CurriculumLesson; mod
           practiceRun={retryOverride !== null}
           banner={
             retryOverride ? (
-              <div className="rounded-2xl bg-peri-soft px-4 py-3 text-sm text-peri-deep">
+              <div className="rounded-2xl bg-peri-soft px-4 py-3 text-sm text-peri-ink">
                 <span className="font-display font-semibold">Adjusted: </span>
                 {retryOverride.message}
                 {practiceOnly && (

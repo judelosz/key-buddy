@@ -41,7 +41,7 @@ export function SongMasteryCard() {
                       <Star
                         key={n}
                         size={13}
-                        className={n <= stars ? 'fill-amber text-amber-deep' : 'text-line'}
+                        className={n <= stars ? 'fill-amber text-amber-ink' : 'text-line'}
                       />
                     ))}
                   </span>
@@ -66,7 +66,7 @@ export function SongMasteryCard() {
               {/* Ladder legend at rest — hover-only titles hid the best copy
                   in the system (level names). */}
               <p className="mt-1 text-[11px] text-ink-soft">
-                <span className="font-medium text-rose-deep">{levelLabel}</span>
+                <span className="font-medium text-rose-ink">{levelLabel}</span>
                 {mastery.level < SONG_MASTERY_LABELS.length - 1 && (
                   <span> → next: {SONG_MASTERY_LABELS[mastery.level + 1]}</span>
                 )}
@@ -77,7 +77,7 @@ export function SongMasteryCard() {
                   {weakLabels.map((label) => (
                     <span
                       key={label}
-                      className="inline-flex items-center gap-1 rounded-full bg-amber-soft px-2 py-0.5 text-[11px] font-medium text-amber-deep"
+                      className="inline-flex items-center gap-1 rounded-full bg-amber-soft px-2 py-0.5 text-[11px] font-medium text-amber-ink"
                     >
                       <AlertTriangle size={10} /> {label}
                     </span>

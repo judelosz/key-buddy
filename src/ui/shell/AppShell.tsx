@@ -243,7 +243,7 @@ function PlayerRail({
           current={meter.tierHandsXP}
           target={meter.band}
           fillClass="bg-amber-deep"
-          iconClass="text-amber-deep"
+          iconClass="text-amber-ink"
         />
         <div className="my-3 h-px bg-line" />
         <TrackMeter
@@ -252,13 +252,13 @@ function PlayerRail({
           current={player.tierHeadXP}
           target={headBand ?? Math.max(1, player.tierHeadXP)}
           fillClass="bg-peri-deep"
-          iconClass="text-peri-deep"
+          iconClass="text-peri-ink"
         />
       </section>
 
       {screen === 'missions' && (
         <section className="rounded-[1.75rem] bg-peri-soft p-4">
-          <p className="font-display text-sm font-semibold text-peri-deep">
+          <p className="font-display text-sm font-semibold text-peri-ink">
             {dueCount > 0 ? `${dueCount} review${dueCount === 1 ? '' : 's'} ready` : 'Daily practice'}
           </p>
           <p className="mt-1 text-xs leading-relaxed text-ink-soft">

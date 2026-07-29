@@ -81,7 +81,7 @@ export function ExerciseShell({
               <button
                 type="button"
                 onClick={onReplayAudio}
-                className="inline-flex items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1.5 text-sm font-medium text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+                className="inline-flex items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1.5 text-sm font-medium text-peri-ink transition hover:-translate-y-px active:translate-y-px"
               >
                 <Volume2 size={14} /> Play again
               </button>
@@ -92,7 +92,7 @@ export function ExerciseShell({
       {lastResult && (
         <div
           className={`flex flex-col gap-2 rounded-2xl px-4 py-3 text-sm animate-fade-up ${
-            lastResult.correct ? 'bg-mint-soft text-mint-deep' : 'bg-amber-soft text-amber-deep'
+            lastResult.correct ? 'bg-mint-soft text-mint-ink' : 'bg-amber-soft text-amber-ink'
           }`}
         >
           <div className="flex items-start gap-2">
@@ -126,12 +126,12 @@ export function ExerciseShell({
                 return (
                   <li key={i} className="flex items-start gap-2">
                     {isAnswer ? (
-                      <Check size={14} className="mt-0.5 shrink-0 text-mint-deep" />
+                      <Check size={14} className="mt-0.5 shrink-0 text-mint-ink" />
                     ) : (
-                      <X size={14} className="mt-0.5 shrink-0 text-rose-deep/60" />
+                      <X size={14} className="mt-0.5 shrink-0 text-rose-ink/60" />
                     )}
                     <span className="min-w-0">
-                      <span className={`font-medium ${isAnswer ? 'text-mint-deep' : 'text-ink'}`}>
+                      <span className={`font-medium ${isAnswer ? 'text-mint-ink' : 'text-ink'}`}>
                         {choice}
                       </span>
                       {isPick && (

@@ -39,7 +39,7 @@ export function MidiConnectButton({ compact = false }: { compact?: boolean }) {
   const tone = connected
     ? 'bg-mint text-ink'
     : problem
-      ? 'bg-amber-soft text-amber-deep'
+      ? 'bg-amber-soft text-amber-ink'
       : 'bg-surface text-ink';
 
   return (

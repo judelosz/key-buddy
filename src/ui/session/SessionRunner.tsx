@@ -229,7 +229,7 @@ export function SessionRunner() {
   if (phase.kind === 'run') {
     const banner =
       current.adaptation || phase.practice ? (
-        <div className="rounded-2xl bg-peri-soft px-4 py-3 text-sm text-peri-deep">
+        <div className="rounded-2xl bg-peri-soft px-4 py-3 text-sm text-peri-ink">
           <span className="font-display font-semibold">Adjusted: </span>
           {phase.practice && lastAdaptation?.directive
             ? lastAdaptation.directive.message
@@ -329,10 +329,10 @@ export function SessionRunner() {
           <span
             className={`flex h-14 w-14 items-center justify-center rounded-full shadow-soft ${
               isStretch
-                ? 'bg-peri-soft text-peri-deep'
+                ? 'bg-peri-soft text-peri-ink'
                 : d.passed
-                  ? 'bg-mint-soft text-mint-deep'
-                  : 'bg-amber-soft text-amber-deep'
+                  ? 'bg-mint-soft text-mint-ink'
+                  : 'bg-amber-soft text-amber-ink'
             }`}
           >
             {isStretch ? <Compass size={24} /> : d.passed ? <TrendingUp size={24} /> : <RotateCcw size={22} />}
@@ -343,12 +343,12 @@ export function SessionRunner() {
           {d.gradedAttempt && <GradeBadge attempt={d.gradedAttempt} />}
           {d.xp > 0 && <XpChip xp={d.xp} track={d.track} size="sm" />}
           {d.tierAdvanced && (
-            <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
+            <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-ink">
               <TrendingUp size={15} /> Level up!
             </div>
           )}
           {d.passed && d.songLeveledTo !== undefined && (
-            <div className="animate-pop rounded-2xl bg-rose-soft px-4 py-2 text-sm font-medium text-rose-deep">
+            <div className="animate-pop rounded-2xl bg-rose-soft px-4 py-2 text-sm font-medium text-rose-ink">
               Song mastery leveled up
             </div>
           )}
@@ -443,7 +443,7 @@ export function SessionRunner() {
         {/* What this segment builds toward — the level-up math, per card. */}
         <p className="max-w-md text-xs font-medium text-ink-soft">{buildsFor(current.purpose)}</p>
         {current.adaptation && (
-          <p className="rounded-2xl bg-peri-soft px-4 py-2 text-xs text-peri-deep">
+          <p className="rounded-2xl bg-peri-soft px-4 py-2 text-xs text-peri-ink">
             {current.adaptation.message}
           </p>
         )}

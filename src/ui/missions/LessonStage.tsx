@@ -121,9 +121,9 @@ function ChartLesson({
           <div
             className={`rounded-2xl px-4 py-3 text-sm ${
               lesson.mode === 'performance'
-                ? 'bg-rose-soft text-rose-deep'
+                ? 'bg-rose-soft text-rose-ink'
                 : lesson.mode === 'scouting'
-                  ? 'bg-peri-soft text-peri-deep'
+                  ? 'bg-peri-soft text-peri-ink'
                   : 'bg-sand text-ink-soft'
             }`}
           >

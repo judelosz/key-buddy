@@ -14,22 +14,22 @@ export interface SegmentFraming {
 }
 
 const FRAMING: Record<SegmentPurpose, SegmentFraming> = {
-  'familiar-win': { eyebrow: 'A familiar win to warm up', tone: 'bg-mint-soft text-mint-deep' },
-  'new-material': { eyebrow: 'Something new', tone: 'bg-amber-soft text-amber-deep' },
+  'familiar-win': { eyebrow: 'A familiar win to warm up', tone: 'bg-mint-soft text-mint-ink' },
+  'new-material': { eyebrow: 'Something new', tone: 'bg-amber-soft text-amber-ink' },
   'due-review': {
     eyebrow: 'Bring back a foundation skill',
-    tone: 'bg-peri-soft text-peri-deep',
+    tone: 'bg-peri-soft text-peri-ink',
     honesty: 'Mixing old and new feels harder than drilling one thing — and it works better. That’s the science, not a scheduling glitch.',
   },
-  'theory-ear': { eyebrow: 'Ear & theory — keep it sharp', tone: 'bg-peri-soft text-peri-deep' },
+  'theory-ear': { eyebrow: 'Ear & theory — keep it sharp', tone: 'bg-peri-soft text-peri-ink' },
   remediation: { eyebrow: 'A smaller step first', tone: 'bg-sand text-ink-soft' },
-  'song-application': { eyebrow: 'Song time', tone: 'bg-rose-soft text-rose-deep' },
-  'section-drill': { eyebrow: 'Zoom in on the tricky bars', tone: 'bg-rose-soft text-rose-deep' },
-  'independent-check': { eyebrow: 'Checkpoint — show it sticks', tone: 'bg-rose-soft text-rose-deep' },
-  'transfer-reentry': { eyebrow: 'Old skill, new context', tone: 'bg-peri-soft text-peri-deep' },
+  'song-application': { eyebrow: 'Song time', tone: 'bg-rose-soft text-rose-ink' },
+  'section-drill': { eyebrow: 'Zoom in on the tricky bars', tone: 'bg-rose-soft text-rose-ink' },
+  'independent-check': { eyebrow: 'Checkpoint — show it sticks', tone: 'bg-rose-soft text-rose-ink' },
+  'transfer-reentry': { eyebrow: 'Old skill, new context', tone: 'bg-peri-soft text-peri-ink' },
   'stretch-boss': {
     eyebrow: 'Boss Challenge — where today’s skills live in a much bigger piece',
-    tone: 'bg-peri-soft text-peri-deep',
+    tone: 'bg-peri-soft text-peri-ink',
   },
 };
 

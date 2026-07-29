@@ -80,13 +80,13 @@ export function ChoiceExerciseView({
  * the chart player EVERY tap gets a verdict (this IS the timing feedback). */
 const TAP_FLASH_STYLES: Record<string, { label: string; style: string }> = {
   perfect: { label: 'Perfect!', style: 'bg-mint-deep text-white' },
-  great: { label: 'Great', style: 'bg-mint-soft text-mint-deep' },
-  good: { label: 'Good', style: 'bg-amber-soft text-amber-deep' },
-  early: { label: 'Early', style: 'bg-peri-soft text-peri-deep' },
-  late: { label: 'Late', style: 'bg-peri-soft text-peri-deep' },
-  miss: { label: 'Missed', style: 'bg-rose-soft text-rose-deep' },
+  great: { label: 'Great', style: 'bg-mint-soft text-mint-ink' },
+  good: { label: 'Good', style: 'bg-amber-soft text-amber-ink' },
+  early: { label: 'Early', style: 'bg-peri-soft text-peri-ink' },
+  late: { label: 'Late', style: 'bg-peri-soft text-peri-ink' },
+  miss: { label: 'Missed', style: 'bg-rose-soft text-rose-ink' },
   countIn: { label: '✓ synced', style: 'bg-sand text-ink-soft' },
-  extra: { label: 'Extra tap', style: 'bg-rose-soft text-rose-deep' },
+  extra: { label: 'Extra tap', style: 'bg-rose-soft text-rose-ink' },
 };
 const TAP_FLASH_MS = 750;
 
@@ -134,7 +134,7 @@ export function RhythmTapExerciseView({
   return (
     <div className="flex flex-col gap-4">
       {!runner.tapsRunning ? (
-        <p className="flex items-center gap-2 font-display text-sm font-medium text-amber-deep">
+        <p className="flex items-center gap-2 font-display text-sm font-medium text-amber-ink">
           <Drum size={16} className="animate-pop" />
           Tap any key when you&rsquo;re ready — your first tap starts the count-in.
         </p>
@@ -148,7 +148,7 @@ export function RhythmTapExerciseView({
             className={`flex h-24 w-24 items-center justify-center rounded-full font-display text-4xl font-semibold shadow-soft animate-pop ${
               beat === null || inCountIn
                 ? 'bg-amber text-ink'
-                : 'bg-rose-soft text-rose-deep'
+                : 'bg-rose-soft text-rose-ink'
             }`}
           >
             {beat === null ? '…' : barBeat + 1}
@@ -179,7 +179,7 @@ export function RhythmTapExerciseView({
           </div>
           <p
             className={`font-display text-base font-semibold ${
-              beat === null || inCountIn ? 'text-amber-deep' : 'text-rose-deep'
+              beat === null || inCountIn ? 'text-amber-ink' : 'text-rose-ink'
             }`}
           >
             {beat === null || inCountIn
@@ -259,7 +259,7 @@ export function ListenExerciseView({
           <button
             type="button"
             onClick={() => runner.markWatched()}
-            className="inline-flex items-center gap-2 rounded-full bg-mint-soft px-5 py-2.5 font-display text-sm font-semibold text-mint-deep transition hover:-translate-y-px active:translate-y-px"
+            className="inline-flex items-center gap-2 rounded-full bg-mint-soft px-5 py-2.5 font-display text-sm font-semibold text-mint-ink transition hover:-translate-y-px active:translate-y-px"
           >
             <Check size={16} /> Got it — continue
           </button>

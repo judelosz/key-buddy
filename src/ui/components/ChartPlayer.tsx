@@ -41,9 +41,9 @@ const TEMPO_OPTIONS = [
  */
 const LIVE_FLASH: Partial<Record<NoteGrade, { label: string; style: string }>> = {
   perfect: { label: 'Perfect!', style: 'bg-mint-deep text-white' },
-  good: { label: 'A little off', style: 'bg-amber-soft text-amber-deep' },
-  early: { label: 'Early', style: 'bg-peri-soft text-peri-deep' },
-  late: { label: 'Late', style: 'bg-peri-soft text-peri-deep' },
+  good: { label: 'A little off', style: 'bg-amber-soft text-amber-ink' },
+  early: { label: 'Early', style: 'bg-peri-soft text-peri-ink' },
+  late: { label: 'Late', style: 'bg-peri-soft text-peri-ink' },
 };
 const LIVE_FLASH_MS = 750;
 
@@ -337,7 +337,7 @@ export function ChartPlayer({
             disabled={active}
             onClick={() => setShowFalling((v) => !v)}
             className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
-              showFalling ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
+              showFalling ? 'bg-peri-soft text-peri-ink' : 'bg-sand text-ink-soft'
             }`}
             title="The falling-notes view is scaffolding — turn it off for the mastery star."
           >
@@ -350,7 +350,7 @@ export function ChartPlayer({
           type="button"
           onClick={() => setShowStaff((v) => !v)}
           className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition ${
-            showStaff ? 'bg-peri-soft text-peri-deep' : 'bg-sand text-ink-soft'
+            showStaff ? 'bg-peri-soft text-peri-ink' : 'bg-sand text-ink-soft'
           }`}
         >
           <FileMusic size={15} /> Staff
@@ -365,7 +365,7 @@ export function ChartPlayer({
                 <button
                   type="button"
                   onClick={() => void start('preview')}
-                  className="inline-flex items-center gap-2 rounded-full bg-peri-soft px-4 py-2.5 font-display text-sm font-semibold text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+                  className="inline-flex items-center gap-2 rounded-full bg-peri-soft px-4 py-2.5 font-display text-sm font-semibold text-peri-ink transition hover:-translate-y-px active:translate-y-px"
                   title="Watch and hear the song play through first, without scoring."
                 >
                   <PlayCircle size={16} /> Watch
@@ -427,12 +427,12 @@ export function ChartPlayer({
       {showStaff && <StaffNotation chart={chart} />}
 
       {phase === 'count-in' && mode === 'play' && (
-        <p className="text-center font-display text-sm font-medium text-amber-deep">
+        <p className="text-center font-display text-sm font-medium text-amber-ink">
           Count-in — start on the next bar.
         </p>
       )}
       {mode === 'preview' && active && (
-        <p className="text-center font-display text-sm font-medium text-peri-deep">
+        <p className="text-center font-display text-sm font-medium text-peri-ink">
           Preview — watch and listen, then hit Play when you&rsquo;re ready.
         </p>
       )}

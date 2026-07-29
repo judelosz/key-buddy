@@ -62,7 +62,7 @@ export function LessonResult({
       <Celebration show={reward.tierAdvanced} />
       <span
         className={`flex h-16 w-16 items-center justify-center rounded-full shadow-soft ${
-          reward.passed ? 'bg-mint-soft text-mint-deep' : 'bg-amber-soft text-amber-deep'
+          reward.passed ? 'bg-mint-soft text-mint-ink' : 'bg-amber-soft text-amber-ink'
         }`}
       >
         {reward.passed ? <Award size={28} /> : <RotateCcw size={26} />}
@@ -92,13 +92,13 @@ export function LessonResult({
 
       {/* Warm celebration tier (§4a): milestone chips pop in, staggered. */}
       {reward.moduleCompleted && (
-        <div className="flex animate-pop items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2.5 text-sm font-medium text-mint-deep">
+        <div className="flex animate-pop items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2.5 text-sm font-medium text-mint-ink">
           <Sparkles size={16} /> Module complete!
         </div>
       )}
       {reward.tierAdvanced && (
         <div
-          className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-deep"
+          className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-ink"
           style={{ animationDelay: '120ms' }}
         >
           <TrendingUp size={16} /> Level up — welcome to Tier {reward.newLearningTier}!
@@ -106,7 +106,7 @@ export function LessonResult({
       )}
       {reward.newlyUnlockedSongIds.length > 0 && (
         <div
-          className="animate-pop rounded-2xl bg-peri-soft px-4 py-2.5 text-sm font-medium text-peri-deep"
+          className="animate-pop rounded-2xl bg-peri-soft px-4 py-2.5 text-sm font-medium text-peri-ink"
           style={{ animationDelay: '240ms' }}
         >
           New song unlocked — find it in Free Play.
@@ -116,7 +116,7 @@ export function LessonResult({
           level-up still recorded; it just waits for the next pass to shine. */}
       {reward.passed && reward.chartReward?.songMasteryLeveledTo !== undefined && (
         <div
-          className="animate-pop rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep"
+          className="animate-pop rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-ink"
           style={{ animationDelay: '180ms' }}
         >
           Song mastery leveled up →{' '}
@@ -151,7 +151,7 @@ export function LessonResult({
         <button
           type="button"
           onClick={remediation.onOpen}
-          className="flex items-center gap-2 rounded-2xl bg-peri-soft px-4 py-2.5 text-sm font-medium text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+          className="flex items-center gap-2 rounded-2xl bg-peri-soft px-4 py-2.5 text-sm font-medium text-peri-ink transition hover:-translate-y-px active:translate-y-px"
         >
           <LifeBuoy size={16} /> Fix the foundation first: “{remediation.title}”
         </button>

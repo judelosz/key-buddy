@@ -15,7 +15,7 @@ function StepFrame({ kicker, title, children }: { kicker: string; title: string;
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">{kicker}</p>
+        <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-ink">{kicker}</p>
         <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">{title}</h2>
       </div>
       {children}
@@ -28,21 +28,21 @@ export function PromiseStep() {
     <StepFrame kicker="Welcome" title="Learn blues, gospel & country piano — for real.">
       <div className="flex flex-col gap-3 text-sm text-ink">
         <div className="flex items-start gap-3 rounded-2xl bg-surface p-4 shadow-soft">
-          <Music size={18} className="mt-0.5 shrink-0 text-amber-deep" />
+          <Music size={18} className="mt-0.5 shrink-0 text-amber-ink" />
           <span>
             <span className="font-medium">Play real songs from day one.</span> Every exercise exists
             to unlock music you actually want to play.
           </span>
         </div>
         <div className="flex items-start gap-3 rounded-2xl bg-surface p-4 shadow-soft">
-          <Drum size={18} className="mt-0.5 shrink-0 text-amber-deep" />
+          <Drum size={18} className="mt-0.5 shrink-0 text-amber-ink" />
           <span>
             <span className="font-medium">Progress you can trust.</span> The app listens to your
             playing — accuracy <em>and</em> timing — and advances you only when your hands prove it.
           </span>
         </div>
         <div className="flex items-start gap-3 rounded-2xl bg-surface p-4 shadow-soft">
-          <Sparkles size={18} className="mt-0.5 shrink-0 text-amber-deep" />
+          <Sparkles size={18} className="mt-0.5 shrink-0 text-amber-ink" />
           <span>
             <span className="font-medium">No grinding.</span> Replaying easy material pays almost
             nothing. Getting better is the only way forward.
@@ -73,7 +73,7 @@ export function InputSetupStep() {
         <MidiConnectButton />
         <InputStatusBanner status={status} />
         {heard && (
-          <span className="inline-flex items-center gap-1.5 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
+          <span className="inline-flex items-center gap-1.5 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-ink">
             <Check size={16} /> We heard you — input works!
           </span>
         )}
@@ -108,7 +108,7 @@ export function StrandsStep() {
       <div className="grid gap-3 sm:grid-cols-2">
         {STRANDS.map(({ icon: Icon, name, blurb }) => (
           <div key={name} className="flex items-start gap-3 rounded-2xl bg-surface p-4 shadow-soft">
-            <Icon size={18} className="mt-0.5 shrink-0 text-peri-deep" />
+            <Icon size={18} className="mt-0.5 shrink-0 text-peri-ink" />
             <div>
               <div className="text-sm font-medium text-ink">{name}</div>
               <div className="text-xs text-ink-soft">{blurb}</div>
@@ -145,7 +145,7 @@ export function HowItWorksStep() {
                 <span className="font-medium text-ink">The Hands lock</span> — can you{' '}
                 <em>play</em> it: right notes, in time, at tempo, with no visual help. Opened only
                 at the keyboard. Playing earns{' '}
-                <span className="font-medium text-amber-deep">Hands XP</span>.
+                <span className="font-medium text-amber-ink">Hands XP</span>.
               </p>
             </div>
             <div className="flex items-start gap-2.5">
@@ -153,7 +153,7 @@ export function HowItWorksStep() {
               <p className="text-ink-soft">
                 <span className="font-medium text-ink">The Head lock</span> — do you{' '}
                 <em>know and hear</em> it: ear training and theory. That work earns{' '}
-                <span className="font-medium text-peri-deep">Head XP</span>. A skill goes gold only
+                <span className="font-medium text-peri-ink">Head XP</span>. A skill goes gold only
                 when both locks are open.
               </p>
             </div>
@@ -180,9 +180,9 @@ export function HowItWorksStep() {
               level advances through a five-part gate, and this ring IS that gate:
             </p>
             <p className="mt-1.5 text-xs">
-              <span className="font-medium text-amber-deep">amber segments</span> = hands work
+              <span className="font-medium text-amber-ink">amber segments</span> = hands work
               (practice XP band · core skills · boss song star · a review after a day away) ·{' '}
-              <span className="font-medium text-peri-deep">the peri segment</span> = your head work
+              <span className="font-medium text-peri-ink">the peri segment</span> = your head work
               (the tier&rsquo;s theory &amp; ear checkpoint). Full ring = level up — the ring never
               looks fuller than the truth.
             </p>
@@ -240,7 +240,7 @@ export function LaunchStep({ replay }: { replay: boolean }) {
 
       {!replay && firstModule && firstLessons.length > 0 && (
         <div className="rounded-3xl bg-surface p-5 shadow-soft">
-          <p className="font-display text-xs font-medium uppercase tracking-wide text-rose-deep">
+          <p className="font-display text-xs font-medium uppercase tracking-wide text-rose-ink">
             Mission 1
           </p>
           <h3 className="mt-0.5 font-display text-lg font-semibold text-ink">

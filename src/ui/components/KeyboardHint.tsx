@@ -25,7 +25,7 @@ export function KeyboardHint({ defaultOpen = false }: KeyboardHintProps) {
         {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
       </button>
       {open && (
-        <p className="mt-1.5 rounded-2xl bg-peri-soft px-4 py-3 text-peri-deep animate-fade-up">
+        <p className="mt-1.5 rounded-2xl bg-peri-soft px-4 py-3 text-peri-ink animate-fade-up">
           <span className="font-semibold">Use your computer keys.</span>{' '}
           <span className="text-ink-soft">
             <kbd className="font-display">Z X C V B N M</kbd> are the white keys C–B,{' '}

@@ -75,7 +75,7 @@ export function ModulePath() {
       <section data-testid="mission-horizon" className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-rose-deep">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-rose-ink">
               Your path
             </p>
             <h2 className="mt-0.5 font-display text-2xl font-semibold tracking-tight text-ink">
@@ -144,7 +144,7 @@ function ModulePreview({
       </div>
       <div className="flex shrink-0 items-center gap-2">
         {view.completed && (
-          <span className="font-display text-xs font-semibold text-mint-deep">Done</span>
+          <span className="font-display text-xs font-semibold text-mint-ink">Done</span>
         )}
         <span
           className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
@@ -170,7 +170,7 @@ function CurrentModulePath({ view }: { view: ModuleView }) {
         />
         <div className="relative flex items-end justify-between gap-4">
           <div>
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-amber-deep">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-amber-ink">
               Tier {view.module.tier} · Current room
             </p>
             <h3 className="mt-1 font-display text-2xl font-semibold tracking-tight text-ink">
@@ -319,7 +319,7 @@ function CurriculumDialog({
     >
       <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-line bg-paper/95 px-6 py-5 backdrop-blur sm:px-7">
         <div>
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-rose-deep">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-rose-ink">
             The whole journey
           </p>
           <h2 id="curriculum-title" className="mt-1 font-display text-2xl font-semibold text-ink">
@@ -419,7 +419,7 @@ function CurriculumModule({
         <span className="flex shrink-0 items-center gap-2 text-xs text-ink-soft">
           {view.completed ? (
             <>
-              <Check size={14} className="text-mint-deep" /> Done
+              <Check size={14} className="text-mint-ink" /> Done
             </>
           ) : view.available ? (
             `${view.completedLessons}/${view.module.lessonIds.length}`
@@ -452,7 +452,7 @@ function CurriculumModule({
                 <span
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
                     done
-                      ? 'bg-mint-soft text-mint-deep'
+                      ? 'bg-mint-soft text-mint-ink'
                       : clickable
                         ? 'bg-amber text-ink'
                         : 'bg-sand text-ink-soft'

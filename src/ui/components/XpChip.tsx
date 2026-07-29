@@ -18,9 +18,9 @@ export function XpChip({ xp, track, size = 'md' }: XpChipProps) {
   return (
     <div className={`flex items-center gap-2 rounded-full bg-surface shadow-soft ${pad}`}>
       {track === 'hands' ? (
-        <Hand size={16} className="text-amber-deep" />
+        <Hand size={16} className="text-amber-ink" />
       ) : (
-        <Brain size={16} className="text-peri-deep" />
+        <Brain size={16} className="text-peri-ink" />
       )}
       <span className="font-display text-lg font-semibold tabular-nums text-ink">
         +{value} XP

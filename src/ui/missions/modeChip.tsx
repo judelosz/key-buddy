@@ -13,9 +13,9 @@ const MODE_STYLES: Record<LessonMode, string> = {
   guided: 'bg-sand text-ink-soft',
   supported: 'bg-sand text-ink-soft',
   independent: 'bg-ink text-paper',
-  performance: 'bg-rose-soft text-rose-deep ring-1 ring-rose-deep/30',
-  scouting: 'bg-peri-soft text-peri-deep',
-  woodshed: 'bg-peri-soft text-peri-deep',
+  performance: 'bg-rose-soft text-rose-ink ring-1 ring-rose-deep/30',
+  scouting: 'bg-peri-soft text-peri-ink',
+  woodshed: 'bg-peri-soft text-peri-ink',
 };
 
 export function ModeChip({ mode }: { mode: LessonMode }) {

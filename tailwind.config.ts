@@ -16,10 +16,10 @@ export default {
         line: '#E9E0D2', // hairline borders
 
         // Accents: soft (bg tint) · DEFAULT (fill) · deep (text/icon on light)
-        rose: { soft: '#FBE3E8', DEFAULT: '#F4A9B8', deep: '#C77489' }, // gospel blush — primary
-        amber: { soft: '#FCEFD2', DEFAULT: '#F6D08A', deep: '#C79445' }, // Rhodes/Wurli — hero
-        mint: { soft: '#E2F2EA', DEFAULT: '#A9DBC4', deep: '#5AA284' }, // sage
-        peri: { soft: '#E7E9FB', DEFAULT: '#B7C0F0', deep: '#7681CE' }, // blues
+        rose: { soft: '#FBE3E8', DEFAULT: '#F4A9B8', deep: '#C77489', ink: '#8C4058' }, // gospel blush — primary
+        amber: { soft: '#FCEFD2', DEFAULT: '#F6D08A', deep: '#C79445', ink: '#7D591C' }, // Rhodes/Wurli — hero
+        mint: { soft: '#E2F2EA', DEFAULT: '#A9DBC4', deep: '#5AA284', ink: '#2F6F59' }, // sage
+        peri: { soft: '#E7E9FB', DEFAULT: '#B7C0F0', deep: '#7681CE', ink: '#4D57A8' }, // blues
 
         // Functional grade colors (scoring) — deepened for legibility on ivory.
         grade: {

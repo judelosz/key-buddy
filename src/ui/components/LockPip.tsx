@@ -7,7 +7,7 @@ export function LockPip({ on, icon, title }: { on: boolean; icon: ReactNode; tit
     <span
       title={title}
       className={`flex h-6 w-6 items-center justify-center rounded-full ${
-        on ? 'bg-mint-soft text-mint-deep' : 'bg-sand text-ink-soft'
+        on ? 'bg-mint-soft text-mint-ink' : 'bg-sand text-ink-soft'
       }`}
     >
       {icon}

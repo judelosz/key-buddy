@@ -17,7 +17,7 @@ export function AfkComingSoon() {
       <section className="relative overflow-hidden rounded-[2rem] bg-surface p-8 shadow-soft">
         <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-peri-soft opacity-70 blur-2xl" />
         <div className="relative flex flex-col gap-4">
-          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1 text-xs font-medium text-peri-deep">
+          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-peri-soft px-3 py-1 text-xs font-medium text-peri-ink">
             <Sparkles size={13} /> Coming soon
           </span>
           <h3 className="font-display text-xl font-semibold text-ink">
@@ -34,13 +34,13 @@ export function AfkComingSoon() {
           </p>
           <div className="mt-2 grid gap-3 sm:grid-cols-3">
             <div className="flex items-center gap-3 rounded-2xl bg-sand px-4 py-3 text-sm text-ink">
-              <Ear size={18} className="shrink-0 text-peri-deep" /> Chord &amp; interval ear training
+              <Ear size={18} className="shrink-0 text-peri-ink" /> Chord &amp; interval ear training
             </div>
             <div className="flex items-center gap-3 rounded-2xl bg-sand px-4 py-3 text-sm text-ink">
-              <Drum size={18} className="shrink-0 text-peri-deep" /> Rhythm tap &amp; feel games
+              <Drum size={18} className="shrink-0 text-peri-ink" /> Rhythm tap &amp; feel games
             </div>
             <div className="flex items-center gap-3 rounded-2xl bg-sand px-4 py-3 text-sm text-ink">
-              <Brain size={18} className="shrink-0 text-peri-deep" /> Theory tied to your songs
+              <Brain size={18} className="shrink-0 text-peri-ink" /> Theory tied to your songs
             </div>
           </div>
         </div>

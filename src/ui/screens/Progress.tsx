@@ -126,7 +126,7 @@ export function Progress() {
           <div>
             <div className="mb-1 flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-ink">
-                <Hand size={13} className="text-amber-deep" /> Hands XP — fills the gate&rsquo;s
+                <Hand size={13} className="text-amber-ink" /> Hands XP — fills the gate&rsquo;s
                 practice band
               </span>
               <span className="tabular-nums text-ink-soft">
@@ -138,7 +138,7 @@ export function Progress() {
           <div>
             <div className="mb-1 flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-ink">
-                <Brain size={13} className="text-peri-deep" /> Head XP — knowledge &amp; ear this
+                <Brain size={13} className="text-peri-ink" /> Head XP — knowledge &amp; ear this
                 tier
               </span>
               <span className="tabular-nums text-ink-soft">
@@ -237,7 +237,7 @@ export function Progress() {
               return (
                 <div key={song.id}>
                   <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className={prog.unlocked ? 'font-medium text-mint-deep' : 'text-ink'}>
+                    <span className={prog.unlocked ? 'font-medium text-mint-ink' : 'text-ink'}>
                       {song.title} {prog.unlocked && '· unlocked'}
                     </span>
                     <span className="text-xs text-ink-soft">
@@ -352,7 +352,7 @@ function ChecklistItem({
     >
       <span
         className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-          done ? 'bg-mint-soft text-mint-deep' : 'bg-surface text-ink-soft'
+          done ? 'bg-mint-soft text-mint-ink' : 'bg-surface text-ink-soft'
         }`}
       >
         {done ? <Check size={12} /> : (icon ?? <Circle size={10} />)}

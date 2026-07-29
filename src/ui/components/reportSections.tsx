@@ -13,8 +13,8 @@ const pct = (v: number) => `${Math.round(v * 100)}%`;
 /** Accent per letter band — A range celebrates, the rest stay warm-neutral
  * (no red anywhere; a rough recital is information, not punishment). */
 function gradeClasses(letter: string): string {
-  if (letter.startsWith('A')) return 'bg-mint-soft text-mint-deep';
-  if (letter.startsWith('B')) return 'bg-amber-soft text-amber-deep';
+  if (letter.startsWith('A')) return 'bg-mint-soft text-mint-ink';
+  if (letter.startsWith('B')) return 'bg-amber-soft text-amber-ink';
   return 'bg-sand text-ink-soft';
 }
 
@@ -118,7 +118,7 @@ export function BarHeatMapCard({ attempt, chart }: { attempt: Attempt; chart: Ch
 export function TipCard({ tip }: { tip: string }) {
   return (
     <div className="flex items-start gap-3 rounded-3xl bg-amber-soft p-5">
-      <Lightbulb size={18} className="mt-0.5 shrink-0 text-amber-deep" />
+      <Lightbulb size={18} className="mt-0.5 shrink-0 text-amber-ink" />
       <p className="text-sm text-ink">{tip}</p>
     </div>
   );

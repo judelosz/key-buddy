@@ -23,7 +23,7 @@ export function SessionWrap({
       data-testid="session-wrap"
       className="mx-auto flex max-w-xl flex-col items-center gap-6 py-10 text-center animate-fade-up"
     >
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-mint-soft text-mint-deep shadow-soft">
+      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-mint-soft text-mint-ink shadow-soft">
         <PartyPopper size={28} />
       </span>
       <div>
@@ -51,7 +51,7 @@ export function SessionWrap({
       )}
 
       {summary.tierAdvanced && (
-        <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-deep">
+        <div className="flex animate-pop items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2.5 text-sm font-medium text-amber-ink">
           <TrendingUp size={16} /> You leveled up this session!
         </div>
       )}
@@ -66,7 +66,7 @@ export function SessionWrap({
           {summary.gateProgress.map((line) => (
             <span
               key={line}
-              className="rounded-full bg-amber-soft px-2.5 py-0.5 text-[11px] font-medium text-amber-deep"
+              className="rounded-full bg-amber-soft px-2.5 py-0.5 text-[11px] font-medium text-amber-ink"
             >
               {line}
             </span>
@@ -76,7 +76,7 @@ export function SessionWrap({
       {summary.songLevelUps.map(({ songId, level }, i) => (
         <div
           key={`${songId}-${level}`}
-          className="flex animate-pop items-center gap-2 rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-deep"
+          className="flex animate-pop items-center gap-2 rounded-2xl bg-rose-soft px-4 py-2.5 text-sm font-medium text-rose-ink"
           style={{ animationDelay: `${(i + 1) * 120}ms` }}
         >
           <Music size={16} />

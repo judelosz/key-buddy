@@ -25,7 +25,7 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
     <div className="flex flex-col gap-5" data-testid="session-report">
       <div className="flex items-end justify-between">
         <div>
-          <p className="font-display text-xs font-medium uppercase tracking-wide text-rose-deep">
+          <p className="font-display text-xs font-medium uppercase tracking-wide text-rose-ink">
             Session report
           </p>
           <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">{song.title}</h2>
@@ -40,7 +40,7 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
                 style={{ animationDelay: `${s * 120}ms` }}
                 className={
                   s <= attempt.stars
-                    ? 'animate-pop fill-amber text-amber-deep'
+                    ? 'animate-pop fill-amber text-amber-ink'
                     : 'text-line'
                 }
               />
@@ -50,7 +50,7 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
       </div>
 
       {attempt.masteryStar && (
-        <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2.5 text-sm font-medium text-mint-deep">
+        <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2.5 text-sm font-medium text-mint-ink">
           <Star size={16} className="fill-mint-deep" /> Mastery star — 3 stars at target tempo,
           un-assisted.
         </div>
@@ -124,13 +124,13 @@ function RewardPanel({ reward }: { reward: AttemptReward }) {
       </div>
 
       {reward.encoreTriggered && (
-        <div className="flex animate-fade-up items-center gap-2 rounded-2xl bg-amber-soft px-3 py-2 text-sm font-medium text-amber-deep">
+        <div className="flex animate-fade-up items-center gap-2 rounded-2xl bg-amber-soft px-3 py-2 text-sm font-medium text-amber-ink">
           <Sparkles size={15} /> Encore! +{reward.encoreRiffs} bonus Riffs for a great take.
         </div>
       )}
 
       {unlockedTitles.length > 0 && (
-        <div className="flex animate-fade-up items-center gap-2 rounded-2xl bg-mint-soft px-3 py-2 text-sm font-medium text-mint-deep">
+        <div className="flex animate-fade-up items-center gap-2 rounded-2xl bg-mint-soft px-3 py-2 text-sm font-medium text-mint-ink">
           <Unlock size={15} /> Unlocked {unlockedTitles.join(', ')} — earned by getting better.
         </div>
       )}
@@ -139,10 +139,10 @@ function RewardPanel({ reward }: { reward: AttemptReward }) {
 }
 
 const CHIP_TONES = {
-  amber: 'bg-amber-soft text-amber-deep',
-  mint: 'bg-mint-soft text-mint-deep',
-  rose: 'bg-rose-soft text-rose-deep',
-  peri: 'bg-peri-soft text-peri-deep',
+  amber: 'bg-amber-soft text-amber-ink',
+  mint: 'bg-mint-soft text-mint-ink',
+  rose: 'bg-rose-soft text-rose-ink',
+  peri: 'bg-peri-soft text-peri-ink',
 } as const;
 
 function RewardChip({

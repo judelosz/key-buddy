@@ -52,7 +52,7 @@ export function Missions() {
         <div className="pointer-events-none absolute -bottom-12 right-24 h-40 w-40 rounded-full bg-rose-soft opacity-60 blur-2xl" />
         {hero === 'new-material' && next ? (
           <div className="relative">
-            <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
+            <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-ink">
               {`${next.module.title} · ${
                 moduleProgressFor(next.module.id)?.completedLessons ?? 0
               }/${next.module.lessonIds.length}`}
@@ -91,7 +91,7 @@ export function Missions() {
           </div>
         ) : (
           <div className="relative">
-            <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-deep">
+            <p className="font-display text-sm font-medium uppercase tracking-wide text-rose-ink">
               {dueCount > 0 ? 'Reviews are ready' : 'All caught up'}
             </p>
             <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-ink">
@@ -128,7 +128,7 @@ export function Missions() {
         <button
           type="button"
           onClick={beginPractice}
-          className="flex items-center gap-3 rounded-3xl bg-peri-soft px-5 py-3.5 text-left text-sm text-peri-deep transition hover:-translate-y-px active:translate-y-px"
+          className="flex items-center gap-3 rounded-3xl bg-peri-soft px-5 py-3.5 text-left text-sm text-peri-ink transition hover:-translate-y-px active:translate-y-px xl:hidden"
         >
           <RefreshCcw size={16} className="shrink-0" />
           <span>
@@ -146,7 +146,7 @@ export function Missions() {
         <button
           type="button"
           onClick={() => setScreen('free-play')}
-          className="group flex items-center justify-between rounded-3xl bg-surface p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
+          className="group flex items-center justify-between rounded-3xl bg-surface p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift xl:hidden"
         >
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 text-xs font-medium text-ink-soft">

@@ -8,14 +8,14 @@ import { PianoKeyboard } from '@/ui/components/PianoKeyboard';
 export function InputStatusBanner({ status }: { status: InputStatus }) {
   if (status.kind === 'ready' && status.source === 'midi') {
     return (
-      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
+      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-ink">
         <Piano size={16} /> MIDI connected: {status.deviceName}
       </div>
     );
   }
   if (status.kind === 'ready') {
     return (
-      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-deep">
+      <div className="flex items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2 text-sm font-medium text-mint-ink">
         <Check size={16} /> On-screen &amp; computer keys ready
       </div>
     );
@@ -28,7 +28,7 @@ export function InputStatusBanner({ status }: { status: InputStatus }) {
       ? status.message
       : 'No input active.';
   return (
-    <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-deep">
+    <div className="flex items-center gap-2 rounded-2xl bg-amber-soft px-4 py-2 text-sm font-medium text-amber-ink">
       <AlertTriangle size={16} /> {message}
     </div>
   );
