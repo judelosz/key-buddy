@@ -136,9 +136,18 @@ describe('#3 Song unlocks require demonstrated (Hands) skill, never currency', (
   };
   it('stays locked with Head progress + infinite Riffs, unlocks only on Hands mastery', () => {
     const headAndRich = new Map([['req', sp({ skillId: 'req', headLock: 1, handsLock: 0 })]]);
-    expect(isSongUnlocked(song, headAndRich)).toBe(false); // riffs/head can't unlock
+    expect(isSongUnlocked(song, headAndRich, 1)).toBe(false); // riffs/head can't unlock
     const handsMastered = new Map([['req', sp({ skillId: 'req', handsLock: 1 })]]);
-    expect(isSongUnlocked(song, handsMastered)).toBe(true);
+    expect(isSongUnlocked(song, handsMastered, 1)).toBe(true);
+  });
+
+  it('a challenge song unlocks only via learningTier (itself hands-gated) — Head mastery of everything cannot open it', () => {
+    const challenge: Song = { ...song, requiredSkills: [], challengeTier: 2 };
+    // Full Head mastery on every skill, still learning tier 1 → locked.
+    const allHead = new Map([['req', sp({ skillId: 'req', headLock: 1, handsLock: 0 })]]);
+    expect(isSongUnlocked(challenge, allHead, 1)).toBe(false);
+    // Reaching learning tier 2 (only possible through the hands-locked gate) opens it.
+    expect(isSongUnlocked(challenge, new Map(), 2)).toBe(true);
   });
 });
 

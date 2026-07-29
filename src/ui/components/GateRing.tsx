@@ -64,7 +64,7 @@ export function GateRing({ level, segments, size = 48 }: GateRingProps) {
           : []),
       ]
     : null;
-  const doneCount = fills ? fills.filter((f) => f.fraction >= 1).length : (fills?.length ?? 5);
+  const doneCount = fills ? fills.filter((f) => f.fraction >= 1).length : 5;
 
   // Each segment: a sand track arc plus a fill arc from the segment's start.
   let cursor = 0;

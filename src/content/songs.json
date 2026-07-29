@@ -51,7 +51,8 @@
     "feel": "shuffle",
     "requiredSkills": [
       "mech-five-finger-c",
-      "rhythm-steady-pulse"
+      "rhythm-steady-pulse",
+      "harmony-12bar-form"
     ],
     "taughtSkills": [
       "harmony-12bar-form",
@@ -249,5 +250,67 @@
       "frag-pinetops-change-cell",
       "frag-pinetops-run-cell"
     ]
+  },
+  {
+    "id": "camptown-races",
+    "title": "Camptown Races",
+    "source": "Stephen Foster",
+    "year": 1850,
+    "publicDomain": true,
+    "licenseNote": "Public domain; arrangement is original to this app.",
+    "genre": "country",
+    "tier": 4,
+    "key": "C",
+    "tempoTargetBPM": 104,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "straight",
+    "requiredSkills": [],
+    "challengeTier": 2,
+    "taughtSkills": [
+      "mech-five-finger-c",
+      "rhythm-steady-pulse",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "camptown-races--simplified"
+    ],
+    "fragmentIds": []
+  },
+  {
+    "id": "will-the-circle",
+    "title": "Will the Circle Be Unbroken",
+    "source": "Ada R. Habershon / Charles H. Gabriel",
+    "year": 1907,
+    "publicDomain": true,
+    "licenseNote": "Public domain; arrangement is original to this app.",
+    "genre": "gospel",
+    "tier": 7,
+    "key": "C",
+    "tempoTargetBPM": 88,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "straight",
+    "requiredSkills": [],
+    "challengeTier": 5,
+    "taughtSkills": [
+      "chord-major-triad",
+      "harmony-i-iv-v",
+      "lh-root-notes"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "will-the-circle--simplified"
+    ],
+    "fragmentIds": []
   }
 ]

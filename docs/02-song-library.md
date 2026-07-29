@@ -122,6 +122,8 @@ Because the genres overlap (dom7s and shuffle bridge blues↔country; blues/pent
 
 **How the stretch song is chosen from this library:** at any time the app picks one song roughly **10 tiers above** the user's current working tier (e.g., a Band-B learner gets a Band-D/E stretch song). Its learnable fragments — one riff, one voicing, one groove — are extracted and fed into interleaved daily practice. Progress is tracked as *fragments explored*, never as *percent-of-song-completed*. When the user's tier rises enough that the stretch song becomes on-level, a new one ~10 tiers up is selected.
 
+**Tier-tied challenge songs (2026-07-28):** separate from the stretch mechanic, the library sets aside **bonus challenge songs** that unlock with Tier 2 and then every third tier (5, 8, 11…). They are full playable songs in Free Play, labeled "Bonus · Tier N Challenge Song", pitched a couple of tiers above their unlock point, and deliberately drawn from *outside* the curriculum-boss repertoire so curriculum songs stay fresh when their tier arrives. Unlock is by learning tier (itself pure Hands evidence — guardrail-compatible), never by skill list or currency. Authored so far: *Camptown Races* (Tier-2 challenge, song tier ≈4) and *Will the Circle Be Unbroken* (Tier-5 challenge, song tier ≈7); Tier-8/11 slots get authored as those tiers are built.
+
 ---
 
 ## 7. Song metadata schema (for the build spec)

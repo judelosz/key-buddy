@@ -80,8 +80,8 @@ describe('skill-gated unlocks', () => {
 
   it('locks a song until every required skill is Hands-mastered', () => {
     const partial = new Map([['a', sp({ skillId: 'a', handsLock: 1 })]]);
-    expect(isSongUnlocked(song, partial)).toBe(false);
-    expect(songUnlockProgress(song, partial)).toMatchObject({
+    expect(isSongUnlocked(song, partial, 1)).toBe(false);
+    expect(songUnlockProgress(song, partial, 1)).toMatchObject({
       masteredCount: 1, requiredCount: 2, remainingSkillIds: ['b'], unlocked: false,
     });
   });
@@ -91,7 +91,30 @@ describe('skill-gated unlocks', () => {
       ['a', sp({ skillId: 'a', handsLock: 1 })],
       ['b', sp({ skillId: 'b', handsLock: 1 })],
     ]);
-    expect(isSongUnlocked(song, full)).toBe(true);
+    expect(isSongUnlocked(song, full, 1)).toBe(true);
+  });
+});
+
+describe('tier-tied challenge songs', () => {
+  const challenge: Song = {
+    id: 'c', title: 'C', source: 't', publicDomain: true, genre: 'country', tier: 4,
+    key: 'C', tempoTargetBPM: 100, timeSignature: { beatsPerBar: 4, beatUnit: 4 }, feel: 'straight',
+    requiredSkills: [], challengeTier: 2, taughtSkills: [], arrangementLevels: ['simplified'],
+    chartIds: ['c--simplified'], fragmentIds: [],
+  };
+
+  it('unlocks exactly when learningTier reaches challengeTier — skills irrelevant', () => {
+    expect(isSongUnlocked(challenge, new Map(), 1)).toBe(false);
+    expect(isSongUnlocked(challenge, new Map(), 2)).toBe(true);
+    expect(isSongUnlocked(challenge, new Map(), 5)).toBe(true);
+  });
+
+  it('unlock progress reports the level condition, never a skill fraction', () => {
+    expect(songUnlockProgress(challenge, new Map(), 1)).toEqual({
+      songId: 'c', masteredCount: 0, requiredCount: 0, remainingSkillIds: [],
+      unlocked: false, challengeTier: 2,
+    });
+    expect(songUnlockProgress(challenge, new Map(), 2).unlocked).toBe(true);
   });
 });
 

@@ -302,7 +302,7 @@ function collectCandidates(
   // Song time — unlocked songs with started mastery: weak-section drills
   // first, otherwise a full take toward the next evidence level.
   const song: Candidate[] = [];
-  const unlocked = unlockedSongIds(content.songs, skillProgressById);
+  const unlocked = unlockedSongIds(content.songs, skillProgressById, player.learningTier);
   for (const s of content.songs) {
     if (!unlocked.has(s.id) || s.chartIds.length === 0) continue;
     const mastery = inputs.songMasteryById.get(s.id);

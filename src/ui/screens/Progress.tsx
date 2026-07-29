@@ -19,7 +19,9 @@ export function Progress() {
   const unlockProgress = useGameStore((s) => s.unlockProgress);
   const gateStatus = useGameStore((s) => s.tierGateStatus)();
 
-  const lockedSongs = content.songs.filter((s) => s.requiredSkills.length > 0);
+  const lockedSongs = content.songs.filter(
+    (s) => s.requiredSkills.length > 0 || s.challengeTier !== undefined,
+  );
   const band = gateStatus?.handsXp.band ?? 100;
   const headBand = content.tierGates.find((g) => g.tier === player.learningTier)?.headXpBand;
 
@@ -231,6 +233,7 @@ export function Progress() {
           <div className="flex flex-col gap-3">
             {lockedSongs.map((song) => {
               const prog = unlockProgress(song);
+              const isChallenge = prog.challengeTier !== undefined;
               return (
                 <div key={song.id}>
                   <div className="mb-1 flex items-center justify-between text-sm">
@@ -238,10 +241,18 @@ export function Progress() {
                       {song.title} {prog.unlocked && '· unlocked'}
                     </span>
                     <span className="text-xs text-ink-soft">
-                      {prog.masteredCount}/{prog.requiredCount} skills
+                      {isChallenge
+                        ? `Bonus · unlocks at Level ${prog.challengeTier}`
+                        : `${prog.masteredCount}/${prog.requiredCount} skills`}
                     </span>
                   </div>
-                  <ProgressBar fraction={prog.masteredCount / prog.requiredCount} />
+                  <ProgressBar
+                    fraction={
+                      isChallenge && prog.challengeTier !== undefined
+                        ? Math.min(1, player.learningTier / prog.challengeTier)
+                        : prog.masteredCount / prog.requiredCount
+                    }
+                  />
                 </div>
               );
             })}

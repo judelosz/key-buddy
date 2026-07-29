@@ -120,6 +120,13 @@ export interface Song {
   timeSignature: TimeSignature;
   feel: Feel;
   requiredSkills: string[]; // skill IDs — gates the unlock (doc 03 §4.4)
+  /**
+   * Bonus challenge song: unlocks when learningTier reaches this value
+   * (tiers 2, 5, 8, 11… — every third tier). Tier advancement is pure Hands
+   * evidence, so this stays within guardrail #3. Challenge songs keep
+   * requiredSkills empty (validator-enforced) — the tier IS the gate.
+   */
+  challengeTier?: Tier;
   taughtSkills: string[];
   arrangementLevels: ArrangementLevel[];
   chartIds: string[]; // one chart per arrangement level

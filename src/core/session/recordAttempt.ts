@@ -204,9 +204,7 @@ export function recordChartAttempt(input: RecordAttemptInput): RecordAttemptResu
   for (const s of changedSkills) nextMap.set(s.skillId, s);
 
   const tier = computePlayingTier(input.allSkills, nextMap);
-  const before = unlockedSongIds(input.allSongs, skillProgressById);
-  const after = unlockedSongIds(input.allSongs, nextMap);
-  const newlyUnlockedSongIds = [...after].filter((id) => !before.has(id));
+  const before = unlockedSongIds(input.allSongs, skillProgressById, playerState.learningTier);
 
   // ── SongMastery (never for fragments or scouting/stretch takes) ───────────
   const prevMastery = normalizeSongMastery(input.songMastery ?? initialSongMastery(song.id));
@@ -279,6 +277,11 @@ export function recordChartAttempt(input: RecordAttemptInput): RecordAttemptResu
   } else {
     nextPlayer = { ...nextPlayer, playerLevel: nextPlayer.learningTier };
   }
+
+  // Unlock detection runs AFTER the gate step so a tier-up take also reports
+  // the challenge songs that tier just opened.
+  const after = unlockedSongIds(input.allSongs, nextMap, nextPlayer.learningTier);
+  const newlyUnlockedSongIds = [...after].filter((id) => !before.has(id));
 
   return {
     playerState: nextPlayer,

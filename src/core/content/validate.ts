@@ -107,6 +107,19 @@ export function validateContent(raw: RawContent, requireCharts = false): string[
         }
       }
     }
+    if (song.challengeTier !== undefined) {
+      // Challenge songs unlock by learning tier (pure Hands evidence) — a
+      // skill list on top would be a second, contradictory gate.
+      if (song.requiredSkills.length > 0) {
+        problems.push(`Challenge song ${song.id} must have empty requiredSkills`);
+      }
+      if (song.challengeTier < 2 || song.challengeTier > 30) {
+        problems.push(`Challenge song ${song.id} has out-of-range challengeTier ${song.challengeTier}`);
+      }
+      if (song.chartIds.length === 0) {
+        problems.push(`Challenge song ${song.id} needs at least one chart`);
+      }
+    }
   }
 
   for (const chart of raw.charts) {

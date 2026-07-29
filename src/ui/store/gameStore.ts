@@ -318,7 +318,7 @@ export const useGameStore = create<GameState>((set, get) => {
           chartMasteryById: new Map(Object.entries(chartMastery)),
           lessonProgressById: new Map(lessonProgress.map((p) => [p.lessonId, p])),
           songMasteryById: new Map(songMastery.map((m) => [m.songId, m])),
-          unlockedIds: unlockedSongIds(content.songs, skillProgressById),
+          unlockedIds: unlockedSongIds(content.songs, skillProgressById, player.learningTier),
           recentResults,
           recentAttempts,
           adaptationByRef: new Map(adaptation.map((a) => [a.refId, a])),
@@ -363,7 +363,7 @@ export const useGameStore = create<GameState>((set, get) => {
         chartBestById: nextBest,
         chartMasteryById: nextMastery,
         songMasteryById: nextSongMastery,
-        unlockedIds: unlockedSongIds(content.songs, nextSkills),
+        unlockedIds: unlockedSongIds(content.songs, nextSkills, res.playerState.learningTier),
         lastReward: res.reward,
         recentAttempts: [res.attempt, ...get().recentAttempts].slice(0, RECENT_CAP),
       });
@@ -467,7 +467,7 @@ export const useGameStore = create<GameState>((set, get) => {
         chartBestById: nextBest,
         chartMasteryById: nextChartMastery,
         songMasteryById: nextSongMastery,
-        unlockedIds: unlockedSongIds(content.songs, nextSkills),
+        unlockedIds: unlockedSongIds(content.songs, nextSkills, outcome.playerState.learningTier),
         lastLessonReward: outcome.reward,
         recentResults: [outcome.lessonResult, ...get().recentResults].slice(0, RECENT_CAP),
         recentAttempts: outcome.chart
@@ -631,7 +631,8 @@ export const useGameStore = create<GameState>((set, get) => {
     },
 
     isUnlocked: (songId) => get().unlockedIds.has(songId),
-    unlockProgress: (song) => songUnlockProgress(song, get().skillProgressById),
+    unlockProgress: (song) =>
+      songUnlockProgress(song, get().skillProgressById, get().player.learningTier),
     bestStars: (chartId) => get().chartBestById.get(chartId) ?? 0,
 
     moduleProgressFor: (moduleId) => {

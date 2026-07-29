@@ -4,7 +4,8 @@ import { seamReady, skipOnboarding } from './helpers';
 /**
  * Plays a canned mastery take through the real progression/reward/persistence
  * path (via the dev test seam), then asserts the earned state survives a reload
- * and that the skill-gated unlock fired.
+ * and that the skill-gated unlock fired. (12-Bar Blues now waits for its Tier-6
+ * curriculum skill — the Tier-1 mastery unlock vehicle is When the Saints.)
  */
 test('progress and unlocks persist across reload', async ({ page }) => {
   await page.goto('/');
@@ -21,20 +22,20 @@ test('progress and unlocks persist across reload', async ({ page }) => {
     return window.__pianoTest.recordCanned();
   });
   expect(reward.xp).toBeGreaterThan(0);
-  expect(reward.newlyUnlockedSongIds).toContain('12-bar-blues-c');
+  expect(reward.newlyUnlockedSongIds).toContain('when-the-saints');
 
   // Progress screen reflects the earned state.
   await page.getByRole('button', { name: 'Progress', exact: true }).click();
   await expect(page.getByText('Advancing to Level 2')).toBeVisible();
-  await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
+  await expect(page.getByText('When the Saints Go Marching In · unlocked')).toBeVisible();
 
   // Reload — state is loaded from IndexedDB, not reset (incl. onboardedAt).
   await page.reload();
   await seamReady(page);
   await page.getByRole('button', { name: 'Progress', exact: true }).click();
-  await expect(page.getByText('12-Bar Blues in C · unlocked')).toBeVisible();
+  await expect(page.getByText('When the Saints Go Marching In · unlocked')).toBeVisible();
 
   // The unlocked song is now playable in the picker.
   await page.getByRole('button', { name: 'Free Play' }).click();
-  await expect(page.getByTestId('song-12-bar-blues-c')).toBeEnabled();
+  await expect(page.getByTestId('song-when-the-saints')).toBeEnabled();
 });

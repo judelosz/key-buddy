@@ -172,11 +172,18 @@ function handsMasteredSet(progressById: ReadonlyMap<string, SkillProgress>): Set
   return set;
 }
 
-/** A song is unlocked when every required skill is Hands-mastered. */
+/**
+ * A song is unlocked when every required skill is Hands-mastered — except
+ * challenge songs, which unlock when the learning tier reaches their
+ * challengeTier. Both paths are pure Hands evidence (tier gates are
+ * hands-locked), so guardrail #3 holds either way.
+ */
 export function isSongUnlocked(
   song: Song,
   progressById: ReadonlyMap<string, SkillProgress>,
+  learningTier: Tier,
 ): boolean {
+  if (song.challengeTier !== undefined) return learningTier >= song.challengeTier;
   const mastered = handsMasteredSet(progressById);
   return song.requiredSkills.every((id) => mastered.has(id));
 }
@@ -187,13 +194,26 @@ export interface UnlockProgress {
   requiredCount: number;
   remainingSkillIds: string[];
   unlocked: boolean;
+  /** Set for challenge songs — the level that unlocks them (no skill list). */
+  challengeTier?: Tier;
 }
 
 /** Progress toward unlocking a song — powers the "N skills away" endowed bar. */
 export function songUnlockProgress(
   song: Song,
   progressById: ReadonlyMap<string, SkillProgress>,
+  learningTier: Tier,
 ): UnlockProgress {
+  if (song.challengeTier !== undefined) {
+    return {
+      songId: song.id,
+      masteredCount: 0,
+      requiredCount: 0,
+      remainingSkillIds: [],
+      unlocked: learningTier >= song.challengeTier,
+      challengeTier: song.challengeTier,
+    };
+  }
   const mastered = handsMasteredSet(progressById);
   const remaining = song.requiredSkills.filter((id) => !mastered.has(id));
   return {
@@ -208,6 +228,9 @@ export function songUnlockProgress(
 export function unlockedSongIds(
   songs: readonly Song[],
   progressById: ReadonlyMap<string, SkillProgress>,
+  learningTier: Tier,
 ): Set<string> {
-  return new Set(songs.filter((s) => isSongUnlocked(s, progressById)).map((s) => s.id));
+  return new Set(
+    songs.filter((s) => isSongUnlocked(s, progressById, learningTier)).map((s) => s.id),
+  );
 }

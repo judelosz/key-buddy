@@ -34,6 +34,8 @@ Last full pass: 2026-07-23 (Phase 5 — partial: session start → intro → rea
 ## Songs & charts (musical pass)
 
 - [ ] ⏳ Listen through each new arrangement once and flag anything musically off (they are original simplifications): When the Saints, Oh! Susanna, She'll Be Comin' 'Round the Mountain (both charts), Amazing Grace.
+- [ ] ⏳ Listen through the two challenge-song arrangements (2026-07-28, original simplifications): Camptown Races (melody + LH roots), Will the Circle Be Unbroken (melody + LH blocked triads/inversions).
+- [ ] ⏳ Challenge songs in Free Play: locked cards show "Bonus · Tier N Challenge" + "Unlocks at Level N" with a level-fraction bar; passing Tier 1 unlocks Camptown Races (and the wrap/report mentions the unlock).
 - [ ] ⏳ Amazing Grace (3/4): metronome accents in three, falling notes align to keys, report heat-map bars are 3 beats wide, pickup beat behaves.
 - [ ] ⏳ Saints pickup: count-in then an empty beat 1 — falling notes and scoring line up.
 - [ ] ⏳ Mountain full arrangement: chords + bass playable hands-together at 50% tempo; live grading colors sensible.
