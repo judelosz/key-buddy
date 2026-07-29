@@ -36,26 +36,34 @@ const NAV: { id: Screen; label: string; icon: typeof Map }[] = [
 ];
 
 export function AppShell({ screen, onNavigate, focusMode = false, children }: AppShellProps) {
-  if (focusMode) {
-    return (
-      <div
-        data-testid="focus-shell"
-        className="mx-auto min-h-full w-full max-w-[70rem] px-5 py-5 sm:px-6 lg:px-8 lg:py-7"
-      >
-        <main>{children}</main>
-      </div>
-    );
-  }
-
   return (
-    <div className="mx-auto min-h-full w-full max-w-[92.5rem] px-5 py-5 sm:px-6 lg:px-5 xl:px-6">
-      <CompactHeader screen={screen} onNavigate={onNavigate} />
-      <div className="lg:grid lg:grid-cols-[4.5rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[13.5rem_minmax(0,1fr)_16rem]">
-        <NavigationRail screen={screen} onNavigate={onNavigate} />
-        <main className="min-w-0 pt-6 lg:pt-2">
-          <div className="mx-auto w-full max-w-[60rem]">{children}</div>
+    <div
+      data-testid={focusMode ? 'focus-shell' : 'app-shell'}
+      className={`mx-auto min-h-full w-full px-5 py-5 sm:px-6 ${
+        focusMode ? 'max-w-[70rem] lg:px-8 lg:py-7' : 'max-w-[92.5rem] lg:px-5 xl:px-6'
+      }`}
+    >
+      <div className={focusMode ? 'hidden' : ''}>
+        <CompactHeader screen={screen} onNavigate={onNavigate} />
+      </div>
+      <div
+        className={
+          focusMode
+            ? ''
+            : 'lg:grid lg:grid-cols-[4.5rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[13.5rem_minmax(0,1fr)_16rem]'
+        }
+      >
+        <div className={focusMode ? 'hidden' : ''}>
+          <NavigationRail screen={screen} onNavigate={onNavigate} />
+        </div>
+        <main className={`min-w-0 ${focusMode ? '' : 'pt-6 lg:pt-2'}`}>
+          <div className={`mx-auto w-full ${focusMode ? 'max-w-[70rem]' : 'max-w-[60rem]'}`}>
+            {children}
+          </div>
         </main>
-        <PlayerRail screen={screen} onNavigate={onNavigate} />
+        <div className={focusMode ? 'hidden' : ''}>
+          <PlayerRail screen={screen} onNavigate={onNavigate} />
+        </div>
       </div>
     </div>
   );
@@ -220,6 +228,7 @@ function PlayerRail({
       <button
         type="button"
         onClick={() => onNavigate('progress')}
+        aria-label="View your progress"
         className="flex flex-col items-center rounded-[1.75rem] border border-line bg-surface p-5 text-center shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
       >
         <GateRing level={meter.level} segments={gateRingSegments(gateStatus)} size={88} />
