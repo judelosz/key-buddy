@@ -1,6 +1,6 @@
 # Key-Buddy
 
-A personal-use, gamified piano-learning web app for a complete beginner working toward **blues, gospel, and country**. It teaches through a research-backed loop: play a charted song on a MIDI keyboard, get fair note-and-timing scoring, and earn honest progression where every reward is a byproduct of actually getting better.
+A personal-use, gamified piano-learning web app for a complete beginner working toward **mastery of the piano**. It teaches through a research-backed loop: play a charted song on a MIDI keyboard, get fair note-and-timing scoring, and earn honest progression where every reward is a byproduct of actually getting better.
 
 > **v1 input is a MIDI keyboard** connected to the computer. Microphone/acoustic listening is a deferred future capability (see `docs/05-build-spec.md` §12). A built-in on-screen **virtual keyboard** lets you run and test the app without hardware.
 
