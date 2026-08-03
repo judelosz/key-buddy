@@ -13,10 +13,12 @@ import {
   windowsForTier,
   type TimingWindows,
 } from '@/core/scoring/timingWindows';
+import { isOffbeatEighth, swingReport, swungBeat } from '@/core/scoring/swing';
 import type {
   ExercisePrompt,
   ExerciseResult,
   ExerciseSpec,
+  ExerciseSwing,
   PromptResult,
   ResponseEvent,
 } from './types';
@@ -95,6 +97,9 @@ export interface TapFeedback {
   grade?: NoteGrade;
   /** Bias-corrected signed ms (negative = early). Present when graded. */
   deviationMs?: number;
+  /** Swung prompts: an early offbeat tap leaning back toward the straight
+   * position — the specific coaching verdict, not just "early" (doc 09 §5). */
+  tooStraight?: boolean;
 }
 
 export class ExerciseEngine {
@@ -218,7 +223,10 @@ export class ExerciseEngine {
   private tapTargets(expected: Extract<ExercisePrompt['expected'], { kind: 'taps' }>): number[] {
     const anchor = this.promptShownAt ?? 0;
     const beatMs = 60_000 / expected.bpm;
-    return expected.beats.map((b) => anchor + (expected.countInBeats + b) * beatMs);
+    // A swung prompt's offbeat targets sit at the ratio split (doc 09 §2).
+    const beatOf = (b: number): number =>
+      expected.swingRatio ? swungBeat(b, expected.swingRatio) : b;
+    return expected.beats.map((b) => anchor + (expected.countInBeats + beatOf(b)) * beatMs);
   }
 
   private matchTap(
@@ -277,10 +285,19 @@ export class ExerciseEngine {
     if (best >= 0 && bestAbs <= matchMs) {
       this.taps.deviations[best] = atMs - targets[best]; // stored raw
       const corrected = atMs - targets[best] - this.tapBiasMs;
+      // Swung offbeat tap leaning at least halfway back toward the straight
+      // position → name the failure mode, don't just say "early".
+      let tooStraight = false;
+      if (expected.swingRatio && isOffbeatEighth(expected.beats[best])) {
+        const split = expected.swingRatio / (expected.swingRatio + 1);
+        const straightGapMs = (split - 0.5) * beatMs;
+        tooStraight = corrected <= -straightGapMs / 2;
+      }
       return {
         kind: 'graded',
         grade: gradeTiming(corrected, windows, matchMs),
         deviationMs: Math.round(corrected),
+        ...(tooStraight ? { tooStraight } : {}),
       };
     }
     this.taps.extras += 1;
@@ -306,16 +323,49 @@ export class ExerciseEngine {
     const denominator = expected.beats.length + this.taps.extras;
     const scorePct = denominator === 0 ? 0 : goodOrBetter / denominator;
 
-    // Update the take's bias estimate for the next prompt.
-    if (matched.length >= TAP_BIAS_MIN_SAMPLES) {
-      const rawMean = matched.reduce((s, d) => s + d, 0) / matched.length;
+    // Update the take's bias estimate for the next prompt. On swung prompts
+    // the estimate uses ONBEAT taps only — feeding offbeat error into it would
+    // forgive swing-flattening, the exact failure mode being graded (doc 09 §4).
+    const biasSamples = expected.beats
+      .map((b, i) => ({ beat: b, dev: this.taps.deviations[i] ?? null }))
+      .filter((x): x is { beat: number; dev: number } => x.dev !== null)
+      .filter((x) => !expected.swingRatio || !isOffbeatEighth(x.beat))
+      .map((x) => x.dev);
+    if (biasSamples.length >= TAP_BIAS_MIN_SAMPLES) {
+      const rawMean = biasSamples.reduce((s, d) => s + d, 0) / biasSamples.length;
       this.tapBiasMs = Math.max(-TAP_BIAS_CLAMP_MS, Math.min(TAP_BIAS_CLAMP_MS, rawMean));
+    }
+
+    // Swung prompts carry measured ratio evidence (deviations are stored
+    // relative to the swung targets, which is what swingReport expects).
+    let swing: ExerciseSwing | undefined;
+    if (expected.swingRatio) {
+      swing = swingReport({
+        events: expected.beats.map((b, i) => ({
+          id: `tap${i}`,
+          pitches: [0],
+          startBeat: b,
+          durationBeats: 0.5,
+          hand: 'right' as const,
+        })),
+        perNoteGrades: expected.beats.map((b, i) => ({
+          noteEventId: `tap${i}`,
+          grade: 'good' as const,
+          deviationMs: this.taps.deviations[i] ?? null,
+          pitchCorrect: true,
+        })),
+        beatMs,
+        bpm: expected.bpm,
+        beatsPerBar: expected.beatsPerBar,
+        ratio: expected.swingRatio,
+      });
     }
 
     return this.finishPrompt(prompt, {
       correct: scorePct >= TAPS_PASS_PCT,
       scorePct,
       deviationsMs: matched,
+      ...(swing ? { swing } : {}),
       detail:
         this.taps.extras > 0
           ? `${goodOrBetter}/${expected.beats.length} in time, ${this.taps.extras} extra tap${this.taps.extras === 1 ? '' : 's'}`
@@ -360,6 +410,25 @@ export class ExerciseEngine {
     const allDeviations = this.results.flatMap((r) => r.deviationsMs ?? []);
     const hasTaps = this.results.some((r) => r.deviationsMs !== undefined);
 
+    // Pool swing evidence across prompts, weighted by pair count.
+    const swings = this.results
+      .map((r) => r.swing)
+      .filter((s): s is ExerciseSwing => s !== undefined);
+    let swing: ExerciseSwing | undefined;
+    if (swings.length > 0) {
+      const pairs = swings.reduce((a, s) => a + s.offbeatPairs, 0);
+      const flattening = swings.find((s) => s.flattening)?.flattening;
+      swing = {
+        measuredRatio:
+          Math.round(
+            (swings.reduce((a, s) => a + s.measuredRatio * s.offbeatPairs, 0) / pairs) * 100,
+          ) / 100,
+        inBandPct: swings.reduce((a, s) => a + s.inBandPct * s.offbeatPairs, 0) / pairs,
+        offbeatPairs: pairs,
+        ...(flattening ? { flattening } : {}),
+      };
+    }
+
     return {
       lessonId: this.spec.lessonId,
       exerciseType: this.spec.exerciseType,
@@ -368,6 +437,7 @@ export class ExerciseEngine {
       scorePct,
       goodOrBetterPct: hasTaps ? scorePct : undefined,
       timingHistogram: hasTaps ? buildHistogram(allDeviations) : undefined,
+      ...(swing ? { swing } : {}),
       details: this.results,
     };
   }

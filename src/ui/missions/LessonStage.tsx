@@ -255,7 +255,8 @@ function ExerciseLesson({
         {prompt &&
           (lesson.exerciseType === 'theory-quiz' ||
             lesson.exerciseType === 'interval-ear' ||
-            lesson.exerciseType === 'chord-ear') && (
+            lesson.exerciseType === 'chord-ear' ||
+            lesson.exerciseType === 'feel-id') && (
             <ChoiceExerciseView prompt={prompt} runner={runner} disabled={false} />
           )}
       </ExerciseShell>

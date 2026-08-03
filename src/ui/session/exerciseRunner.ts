@@ -84,7 +84,9 @@ export class ExerciseRunner {
         const stagger = chord.arpeggiate ? i * 0.22 : 0;
         audioService.playNote(p, dur, 0.85, startAudio + offset + stagger);
       });
-      offset += dur + 0.25;
+      // Rhythm cells (feel-id) set gapAfterSec 0 so durationSec alone carries
+      // the timing; discrete ear prompts keep the default breathing gap.
+      offset += dur + (chord.gapAfterSec ?? 0.25);
     }
   }
 

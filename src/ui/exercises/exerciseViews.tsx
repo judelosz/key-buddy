@@ -113,7 +113,13 @@ export function RhythmTapExerciseView({
     const t = window.setTimeout(() => setFlashVisible(false), TAP_FLASH_MS);
     return () => window.clearTimeout(t);
   }, [tapFlash]);
-  const flash = flashVisible && tapFlash ? TAP_FLASH_STYLES[tapFlash.f.grade ?? tapFlash.f.kind] : null;
+  const flash =
+    flashVisible && tapFlash
+      ? tapFlash.f.tooStraight
+        ? // The specific swung-prompt failure mode beats a generic "Early".
+          { label: 'Too straight — lean the pair', style: 'bg-peri-soft text-peri-ink' }
+        : TAP_FLASH_STYLES[tapFlash.f.grade ?? tapFlash.f.kind]
+      : null;
 
   useEffect(() => {
     if (!runner.tapsRunning) {

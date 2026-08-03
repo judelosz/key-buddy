@@ -4,14 +4,20 @@
  * never touches audio, input, or timers — the runner feeds it ResponseEvents
  * with timestamps and plays ExercisePrompt.audio itself.
  */
-import type { NotePlayed, Pitch, Tier, TimingHistogram } from '@/core/types';
+import type { Attempt, NotePlayed, Pitch, Tier, TimingHistogram } from '@/core/types';
 import type { ExerciseType } from '@/core/curriculum/types';
+
+/** Measured swing evidence (doc 09) — same shape as Attempt.swing. */
+export type ExerciseSwing = NonNullable<Attempt['swing']>;
 
 /** A chord (or single note) the runner plays for ear prompts. */
 export interface AudioChord {
   pitches: Pitch[];
   arpeggiate?: boolean;
   durationSec?: number;
+  /** Silence inserted after this chord before the next one (default 0.25 s).
+   * Rhythm cells (feel-id) set 0 so durationSec alone carries the timing. */
+  gapAfterSec?: number;
 }
 
 export type ExpectedAnswer =
@@ -21,8 +27,18 @@ export type ExpectedAnswer =
   | { kind: 'pitch-set'; pitchClasses: number[]; collectWindowMs: number }
   /** Pick a choice button. */
   | { kind: 'choice'; answerIndex: number }
-  /** Tap this beat pattern against the metronome (beats relative to bar 0). */
-  | { kind: 'taps'; beats: number[]; bpm: number; countInBeats: number; beatsPerBar: number }
+  /** Tap this beat pattern against the metronome (beats relative to bar 0).
+   * `swingRatio` (doc 09) marks a swung prompt: offbeat-eighth targets shift
+   * to the ratio split, bias learns from onbeat taps only, and the result
+   * carries measured swing evidence. */
+  | {
+      kind: 'taps';
+      beats: number[];
+      bpm: number;
+      countInBeats: number;
+      beatsPerBar: number;
+      swingRatio?: number;
+    }
   /** Just watch/listen (completion = engagement). */
   | { kind: 'watch' };
 
@@ -77,6 +93,8 @@ export interface PromptResult {
   detail?: string;
   /** Choice prompts: the index the learner picked (drives "Explain my answer"). */
   chosenIndex?: number;
+  /** Swung tap prompts: the measured ratio evidence for this prompt. */
+  swing?: ExerciseSwing;
 }
 
 export interface ExerciseResult {
@@ -89,5 +107,8 @@ export interface ExerciseResult {
   /** Rhythm prompts only: share of taps with Good-or-better timing. */
   goodOrBetterPct?: number;
   timingHistogram?: TimingHistogram;
+  /** Swung tap lessons: pooled swing evidence across prompts (pair-weighted).
+   * Consumed by passCriteria.minSwingInBandPct in the lesson reducer. */
+  swing?: ExerciseSwing;
   details: PromptResult[];
 }

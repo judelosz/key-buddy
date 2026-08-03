@@ -153,7 +153,7 @@ const QUALITY_CONTRAST: Record<string, string> = {
   dim: 'tense and unstable',
 };
 
-/** params: { beats: number[], bpm: number, countInBeats?, beatsPerBar?, reps? } */
+/** params: { beats: number[], bpm: number, countInBeats?, beatsPerBar?, reps?, swingRatio? } */
 function rhythmTap(lesson: CurriculumLesson): ExercisePrompt[] {
   const p = lesson.generatorParams ?? {};
   const beats = numArray(p.beats);
@@ -161,12 +161,124 @@ function rhythmTap(lesson: CurriculumLesson): ExercisePrompt[] {
   const countInBeats = num(p.countInBeats, 4);
   const beatsPerBar = num(p.beatsPerBar, 4);
   const reps = num(p.reps, 1);
+  // Swung echo prompts (doc 09 §7): offbeat targets shift to the ratio split
+  // and the result carries measured swing evidence.
+  const swingRatio = typeof p.swingRatio === 'number' ? p.swingRatio : undefined;
   return Array.from({ length: reps }, (_, i) => ({
     id: `${lesson.id}-p${i}`,
-    displayText: str(p.promptText, 'Tap along — any key, right on the click'),
-    expected: { kind: 'taps' as const, beats, bpm, countInBeats, beatsPerBar },
-    explanation: 'Listen to the count-in, then land your taps with the click.',
+    displayText: str(
+      p.promptText,
+      swingRatio
+        ? 'Tap the long-short shuffle — LONG on the click, short on the "and"'
+        : 'Tap along — any key, right on the click',
+    ),
+    expected: {
+      kind: 'taps' as const,
+      beats,
+      bpm,
+      countInBeats,
+      beatsPerBar,
+      ...(swingRatio ? { swingRatio } : {}),
+    },
+    explanation: swingRatio
+      ? 'Say "doo-dah, doo-dah" with the click — the first of each pair is twice as long.'
+      : 'Listen to the count-in, then land your taps with the click.',
   }));
+}
+
+// ─── Feel identification (doc 09 §7: teach the feel before grading it) ───────
+
+/** A shuffle-bass ear cell: root-5 / root-6 rock on C, one bar of eighths. */
+const FEEL_CELL: { pitch: number; startBeat: number }[] = [
+  { pitch: 48, startBeat: 0 },
+  { pitch: 55, startBeat: 0.5 },
+  { pitch: 48, startBeat: 1 },
+  { pitch: 57, startBeat: 1.5 },
+  { pitch: 48, startBeat: 2 },
+  { pitch: 55, startBeat: 2.5 },
+  { pitch: 48, startBeat: 3 },
+  { pitch: 57, startBeat: 3.5 },
+];
+
+/** Render the cell at a swing ratio as gapless AudioChords (timing lives in
+ * durationSec; gapAfterSec 0). ratio 1 = straight. */
+function feelCellAudio(ratio: number, bpm: number, gapAfterSec = 0): AudioChord[] {
+  const beatSec = 60 / bpm;
+  const split = ratio / (ratio + 1);
+  const chords: AudioChord[] = FEEL_CELL.map((n, i) => {
+    const isOffbeat = n.startBeat % 1 !== 0;
+    const durationSec = (isOffbeat ? 1 - split : split) * beatSec;
+    return {
+      pitches: [n.pitch],
+      durationSec,
+      gapAfterSec: i === FEEL_CELL.length - 1 ? gapAfterSec : 0,
+    };
+  });
+  return chords;
+}
+
+const FEEL_ID_BPM_DEFAULT = 88;
+/** Swing-dial comparison ratios (doc-08 2.11): subtle → target → hard. */
+const DIAL_RATIOS = [1.5, 2, 3];
+
+/**
+ * A/B and swing-dial feel identification.
+ * params: { variant: 'ab' | 'dial', count?, bpm? }
+ *  - 'ab':   the same cell twice — once straight, once swung — "which swings?"
+ *  - 'dial': the cell at two different swing ratios — "which swings harder?"
+ */
+function feelId(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
+  const p = lesson.generatorParams ?? {};
+  const variant = str(p.variant, 'ab');
+  const count = num(p.count, 6);
+  const bpm = num(p.bpm, FEEL_ID_BPM_DEFAULT);
+  const betweenSec = 0.9;
+
+  return Array.from({ length: count }, (_, i) => {
+    if (variant === 'dial') {
+      const [a, b] = shuffled(DIAL_RATIOS, rand).slice(0, 2);
+      const harderFirst = a > b;
+      return {
+        id: `${lesson.id}-p${i}`,
+        displayText: 'Two shuffles — which one swings harder?',
+        audio: [...feelCellAudio(a, bpm, betweenSec), ...feelCellAudio(b, bpm)],
+        choices: ['The first', 'The second'],
+        choiceExplanations: harderFirst
+          ? [
+              'Yes — the first leaned harder: its LONG-shorts were more lopsided, closer to a skip.',
+              'The second was the gentler one — its pairs were more even, a lighter lean.',
+            ]
+          : [
+              'The first was the gentler one — its pairs were more even, a lighter lean.',
+              'Yes — the second leaned harder: its LONG-shorts were more lopsided, closer to a skip.',
+            ],
+        expected: { kind: 'choice' as const, answerIndex: harderFirst ? 0 : 1 },
+        explanation:
+          'Both swung — listen for HOW lopsided the long-short pairs are, not whether they lean.',
+      };
+    }
+    const swungFirst = rand() < 0.5;
+    return {
+      id: `${lesson.id}-p${i}`,
+      displayText: 'The same riff twice — which one swings?',
+      audio: swungFirst
+        ? [...feelCellAudio(2, bpm, betweenSec), ...feelCellAudio(1, bpm)]
+        : [...feelCellAudio(1, bpm, betweenSec), ...feelCellAudio(2, bpm)],
+      choices: ['The first', 'The second'],
+      choiceExplanations: swungFirst
+        ? [
+            'Yes — the first skipped along in LONG-short pairs ("doo-dah"); that lean is the swing.',
+            'The second walked evenly — every eighth the same length. Straight, not swung.',
+          ]
+        : [
+            'The first walked evenly — every eighth the same length. Straight, not swung.',
+            'Yes — the second skipped along in LONG-short pairs ("doo-dah"); that lean is the swing.',
+          ],
+      expected: { kind: 'choice' as const, answerIndex: swungFirst ? 0 : 1 },
+      explanation:
+        'Swing pairs the eighths LONG-short ("doo-dah"); straight eighths are all the same length.',
+    };
+  });
 }
 
 /** Samples from the concept's question pool. params: { count?: number } */
@@ -306,6 +418,9 @@ export function generateExercise(
       break;
     case 'rhythm-tap':
       prompts = rhythmTap(lesson);
+      break;
+    case 'feel-id':
+      prompts = feelId(lesson, rand);
       break;
     case 'interval-ear':
       prompts = intervalEar(lesson, rand);
