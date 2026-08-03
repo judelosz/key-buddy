@@ -2663,5 +2663,327 @@
         ]
       }
     ]
+  },
+  {
+    "id": "theory-swing-feel",
+    "name": "Swing & shuffle",
+    "explanation": "Shuffle pairs the eighth notes LONG-short \u2014 written straight, played leaning. The first of each pair takes about two-thirds of the beat, the second rides light on the 'and'. Blues, gospel, and country all live on this lean.",
+    "examples": [
+      "Say \"doo-dah, doo-dah\" with a click \u2014 that's the shuffle.",
+      "The left-hand rock: root-5, root-6, root-5, root-6."
+    ],
+    "linkedSkillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass"
+    ],
+    "linkedSongIds": [
+      "frankie-and-johnny"
+    ],
+    "questions": [
+      {
+        "id": "tsf-q1",
+        "promptText": "In a shuffle, how do the two eighth notes of a beat split the time?",
+        "choices": [
+          "Evenly \u2014 half and half",
+          "LONG-short \u2014 about two-thirds, then one-third",
+          "Short-LONG \u2014 the second note is longer",
+          "The first note is silent"
+        ],
+        "answerIndex": 1,
+        "explanation": "The shuffle lean is LONG-short: the first eighth takes roughly two-thirds of the beat.",
+        "choiceExplanations": [
+          "That's straight eighths \u2014 even halves are exactly what a shuffle is not.",
+          "Yes \u2014 the first eighth stretches to about two-thirds of the beat, and the second rides light.",
+          "Backwards \u2014 short-LONG is a different feel (a 'scotch snap'), not the shuffle.",
+          "Both notes sound \u2014 the shuffle changes their lengths, not whether they play."
+        ]
+      },
+      {
+        "id": "tsf-q2",
+        "promptText": "How is swing usually written on the page?",
+        "choices": [
+          "As exact triplet rhythms on every beat",
+          "As straight eighths, with a 'swing' or 'shuffle' marking",
+          "With special swing noteheads",
+          "It can't be written down"
+        ],
+        "answerIndex": 1,
+        "explanation": "Real-world convention: notate straight, mark the feel, and let the player lean the pairs.",
+        "choiceExplanations": [
+          "Writing triplets everywhere is technically close but nobody does it \u2014 the page would be a thicket.",
+          "Yes \u2014 the notes are written straight and one marking tells you to swing them all.",
+          "There's no such notehead \u2014 the feel lives in the marking, not the shapes.",
+          "It can \u2014 straight notation plus a feel marking is exactly how."
+        ]
+      },
+      {
+        "id": "tsf-q3",
+        "promptText": "You're playing a shuffle and your eighths slowly even out until they're straight. What just happened?",
+        "choices": [
+          "Your swing flattened \u2014 the most common shuffle mistake",
+          "You started over-swinging",
+          "Nothing \u2014 that's fine in a shuffle",
+          "You sped up"
+        ],
+        "answerIndex": 0,
+        "explanation": "Flattening \u2014 the lean evening out mid-take \u2014 is the #1 documented shuffle failure mode.",
+        "choiceExplanations": [
+          "Yes \u2014 that evening-out is called flattening, and it's the thing to guard against.",
+          "Over-swinging is the opposite \u2014 pairs getting MORE lopsided, not less.",
+          "It matters \u2014 straight eighths in a shuffle lose exactly the feel the style is built on.",
+          "Tempo can stay perfectly steady while the pairs inside each beat even out."
+        ]
+      },
+      {
+        "id": "tsf-q4",
+        "promptText": "Which syllables capture the shuffle feel?",
+        "choices": [
+          "\"doo-dah, doo-dah\"",
+          "\"ta-ta-ta-ta\", all even",
+          "\"one-and-two-and\", perfectly square",
+          "\"rest-rest-rest-rest\""
+        ],
+        "answerIndex": 0,
+        "explanation": "\"doo-dah\" \u2014 long syllable, short syllable \u2014 is how players vocalize the lean.",
+        "choiceExplanations": [
+          "Yes \u2014 DOO takes the long two-thirds, dah rides the light third.",
+          "Even \"ta\"s describe straight eighths \u2014 no lean anywhere.",
+          "Square counting is for straight time; the shuffle drawls the 'and' later.",
+          "The shuffle is about note lengths, not rests."
+        ]
+      },
+      {
+        "id": "tsf-q5",
+        "promptText": "In the left-hand shuffle bass, which note trades places with the 5th?",
+        "choices": [
+          "The 6th \u2014 root-5 rocks to root-6",
+          "The 7th",
+          "The octave",
+          "The 3rd"
+        ],
+        "answerIndex": 0,
+        "explanation": "The classic rock is root-5 \u2194 root-6 \u2014 that 6th is what makes it sound like blues.",
+        "choiceExplanations": [
+          "Yes \u2014 the pinky holds the root while 5 rocks up to 6 and back.",
+          "The \u266d7 is the dominant-CHORD color you met in Tier 7 \u2014 the bass rock uses the 6th.",
+          "Octave bass comes later (boogie patterns) \u2014 the first shuffle rocks 5 to 6.",
+          "The 3rd lives in the right-hand chords \u2014 the bass rock stays on 5 and 6."
+        ]
+      },
+      {
+        "id": "tsf-q6",
+        "promptText": "A shuffle at a faster tempo usually swings\u2026",
+        "choices": [
+          "Harder \u2014 more lopsided",
+          "A little less \u2014 the lean tightens as tempo rises",
+          "Exactly the same ratio at any speed",
+          "Not at all \u2014 fast tunes are straight"
+        ],
+        "answerIndex": 1,
+        "explanation": "Measured players tighten the ratio as tempo rises \u2014 around 2:1 at medium tempos, less when fast.",
+        "choiceExplanations": [
+          "The opposite \u2014 cramming a hard lean into a fast beat sounds jerky, so players ease it.",
+          "Yes \u2014 swing is tempo-dependent: relaxed 2:1-ish at medium tempos, tightening as it speeds up.",
+          "Real swing breathes with tempo \u2014 a fixed ratio is a drum machine, not a player.",
+          "Plenty of fast blues still swings \u2014 just with a slightly gentler lean."
+        ]
+      },
+      {
+        "id": "tsf-q7",
+        "promptText": "Which beats does the shuffle LEAN change \u2014 and which stay put?",
+        "choices": [
+          "The 'and's move later; the main beats stay on the grid",
+          "Every note moves later",
+          "The main beats move; the 'and's stay",
+          "Nothing moves \u2014 swing is about volume"
+        ],
+        "answerIndex": 0,
+        "explanation": "Only the offbeats shift: the downbeats anchor the groove while each 'and' arrives late.",
+        "choiceExplanations": [
+          "Yes \u2014 downbeats are the anchor; the lean lives entirely in the delayed 'and's.",
+          "If everything moved later you'd just be dragging \u2014 the downbeats must hold the grid.",
+          "Backwards \u2014 move the downbeats and you've lost the pulse itself.",
+          "Volume shapes accents, but swing is a TIMING lean on the offbeats."
+        ]
+      },
+      {
+        "id": "tsf-q8",
+        "promptText": "Why does the count-in matter extra in a shuffle?",
+        "choices": [
+          "It sets the pulse that your long-shorts hang from",
+          "It doesn't \u2014 you can start cold",
+          "It tells you which chord comes first",
+          "It makes the song shorter"
+        ],
+        "answerIndex": 0,
+        "explanation": "The lean is measured against the beat \u2014 locking the pulse first is what makes the 'and's land.",
+        "choiceExplanations": [
+          "Yes \u2014 without a locked pulse there's nothing for the long-short pairs to lean against.",
+          "Starting cold means guessing the beat \u2014 and a guessed beat can't hold a lean.",
+          "The chart shows the chords \u2014 the count-in is about time, not harmony.",
+          "The count-in adds a bar \u2014 it spends time to save the take."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "theory-tier8-checkpoint",
+    "name": "Tier 8 checkpoint \u2014 the shuffle",
+    "explanation": "Cross-strand check for Tier 8: the shuffle lean, the notation convention, the left-hand rock, and the 12-bar form it lives in.",
+    "examples": [],
+    "linkedSkillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass",
+      "harmony-12bar-form"
+    ],
+    "linkedSongIds": [
+      "frankie-and-johnny"
+    ],
+    "questions": [
+      {
+        "id": "t8c-q1",
+        "promptText": "A shuffle eighth-note pair splits the beat roughly\u2026",
+        "choices": [
+          "50 / 50",
+          "67 / 33",
+          "33 / 67",
+          "90 / 10"
+        ],
+        "answerIndex": 1,
+        "explanation": "About two-thirds then one-third \u2014 the triplet-flavored 2:1 lean.",
+        "choiceExplanations": [
+          "Even halves are straight eighths, not a shuffle.",
+          "Yes \u2014 the long note takes about two-thirds, the short one rides the last third.",
+          "That's short-LONG \u2014 the reverse of the shuffle.",
+          "90/10 is a grace-note flick, far past any musical swing."
+        ]
+      },
+      {
+        "id": "t8c-q2",
+        "promptText": "Your chart shows plain straight eighths but the tune is marked 'shuffle'. You should\u2026",
+        "choices": [
+          "Play them long-short anyway \u2014 the marking wins",
+          "Play them exactly as written",
+          "Skip every second eighth",
+          "Slow down until they feel straight"
+        ],
+        "answerIndex": 0,
+        "explanation": "The marking wins: written straight, played leaning \u2014 that's the convention.",
+        "choiceExplanations": [
+          "Yes \u2014 'shuffle' converts every written pair into a long-short pair.",
+          "Playing it as written ignores the one instruction that defines the style.",
+          "Every note still sounds \u2014 only the timing inside the beat changes.",
+          "Tempo doesn't change the feel \u2014 the lean exists at every speed."
+        ]
+      },
+      {
+        "id": "t8c-q3",
+        "promptText": "The left-hand shuffle rock on C uses which two upper notes?",
+        "choices": [
+          "G and A \u2014 the 5th and 6th",
+          "E and F \u2014 the 3rd and 4th",
+          "B and C \u2014 the 7th and octave",
+          "G and B \u2014 the 5th and 7th"
+        ],
+        "answerIndex": 0,
+        "explanation": "C's rock is G (the 5th) trading with A (the 6th) over a held root.",
+        "choiceExplanations": [
+          "Yes \u2014 root-5 to root-6: C+G rocking to C+A.",
+          "3-4 motion is a melody move \u2014 the bass rock lives on 5 and 6.",
+          "7-octave is boogie territory, tiers away \u2014 the first rock is 5\u21946.",
+          "G and B skips the 6th \u2014 and the 6th IS the blues sound of the pattern."
+        ]
+      },
+      {
+        "id": "t8c-q4",
+        "promptText": "Mid-chorus of a 12-bar blues in C, bar 9 usually brings\u2026",
+        "choices": [
+          "The V chord \u2014 G7",
+          "The IV chord \u2014 F",
+          "Back to C",
+          "A key change"
+        ],
+        "answerIndex": 0,
+        "explanation": "Bar 9 is the form's tension point: the V chord (G7) leans the music home.",
+        "choiceExplanations": [
+          "Yes \u2014 bar 9 is where the V (G7) arrives and the turnaround begins.",
+          "The IV showed up back in bar 5 \u2014 bar 9 raises the stakes with the V.",
+          "Home comes at bar 11 \u2014 bar 9 is the furthest point from it.",
+          "The 12-bar form stays in one key; the drama is in the chords, not a modulation."
+        ]
+      },
+      {
+        "id": "t8c-q5",
+        "promptText": "Which mistake is the shuffle's most common failure mode?",
+        "choices": [
+          "The lean flattening toward straight as you play",
+          "Playing too quietly",
+          "Using the wrong fingers",
+          "Rushing the count-in"
+        ],
+        "answerIndex": 0,
+        "explanation": "Flattening \u2014 the pairs evening out mid-take \u2014 is the documented #1 shuffle error.",
+        "choiceExplanations": [
+          "Yes \u2014 attention drifts, the 'and's creep earlier, and the swing quietly dies.",
+          "Dynamics are style polish \u2014 the defining shuffle error is the timing lean dissolving.",
+          "Fingering matters for comfort, but the shuffle lives or dies on the lean.",
+          "A rushed count-in hurts any take \u2014 flattening is the specifically-shuffle trap."
+        ]
+      },
+      {
+        "id": "t8c-q6",
+        "promptText": "In the shuffle, the 'and' of each beat lands\u2026",
+        "choices": [
+          "Later than in straight time",
+          "Earlier than in straight time",
+          "Exactly on the midpoint",
+          "Wherever you like"
+        ],
+        "answerIndex": 0,
+        "explanation": "The offbeat waits \u2014 it arrives around two-thirds through the beat instead of the middle.",
+        "choiceExplanations": [
+          "Yes \u2014 the delayed 'and' IS the swing.",
+          "Earlier would be a rushed straight feel \u2014 the shuffle drawls, it never snaps forward.",
+          "The midpoint is straight time \u2014 the shuffle pushes past it.",
+          "The lean is loose but not lawless \u2014 it sits in a pocket around 2:1."
+        ]
+      },
+      {
+        "id": "t8c-q7",
+        "promptText": "Why does the left hand keep rocking 5-6 even during a chord change?",
+        "choices": [
+          "The groove must survive the change \u2014 stopping breaks the music",
+          "It doesn't \u2014 you pause at each change",
+          "To play louder",
+          "The right hand takes over"
+        ],
+        "answerIndex": 0,
+        "explanation": "Changes are where grooves die: the rock carries the pulse THROUGH the barline.",
+        "choiceExplanations": [
+          "Yes \u2014 moving to F or G7 changes the notes under your hand, never the motion.",
+          "Pausing at changes is exactly the habit this tier trains out.",
+          "Volume has nothing to do with it \u2014 continuity does.",
+          "The left hand IS the groove here; the melody rides on top."
+        ]
+      },
+      {
+        "id": "t8c-q8",
+        "promptText": "What does a measured \"2.0 : 1\" swing ratio tell you about a take?",
+        "choices": [
+          "The long eighths were twice the short ones \u2014 right in the pocket",
+          "It was played twice as fast",
+          "Half the notes were wrong",
+          "The left hand was twice as loud"
+        ],
+        "answerIndex": 0,
+        "explanation": "The ratio is long-vs-short time: 2:1 is the relaxed triplet-feel pocket.",
+        "choiceExplanations": [
+          "Yes \u2014 2:1 long-to-short is the classic shuffle lean.",
+          "Ratio measures the split INSIDE each beat, not the tempo.",
+          "It says nothing about pitches \u2014 only where your offbeats landed.",
+          "It's a timing measure, not a dynamics one."
+        ]
+      }
+    ]
   }
 ]

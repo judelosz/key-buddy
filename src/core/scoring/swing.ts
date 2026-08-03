@@ -14,6 +14,13 @@ import type { Attempt, Feel, NoteEvent, PerNoteGrade } from '@/core/types';
 export const SWING_TARGET_RATIO = 2;
 /** Fewer playable long-short pairs than this → no swing evidence at all. */
 export const SWING_MIN_PAIRS = 4;
+/**
+ * The mastery-star swing bar (doc 09 §6): on a swung chart with measurable
+ * pairs, the at-tempo/un-assisted mastery star ALSO requires this in-band
+ * share — otherwise a Free Play take could earn tier-gate boss evidence
+ * while playing the shuffle flat (guardrail #4: mastered = played as music).
+ */
+export const SWING_MASTERY_IN_BAND = 0.7;
 
 const BAND_MIN = 1.7;
 const BAND_MAX_SLOW = 2.5;

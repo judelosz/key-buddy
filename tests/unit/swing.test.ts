@@ -179,6 +179,16 @@ describe('swung per-note grading', () => {
     const attempt = scoreAttempt(base({ played: playedAtRatio(SWING_TARGET_RATIO) }));
     expect(attempt.perNoteGrades.every((g) => g.grade === 'perfect')).toBe(true);
     expect(attempt.stars).toBe(3);
+    expect(attempt.masteryStar).toBe(true);
+  });
+
+  it('withholds the mastery star from a flat take on a swung chart', () => {
+    // A 1.4:1 half-lean stays inside every timing window (≈55 ms early at
+    // 60 BPM) — 3★ quality — but it does not swing, so no mastery star.
+    const attempt = scoreAttempt(base({ played: playedAtRatio(1.4) }));
+    expect(attempt.stars).toBe(3);
+    expect(attempt.swing!.inBandPct).toBe(0);
+    expect(attempt.masteryStar).toBe(false);
   });
 
   it('a straight player on a swung chart is early on every offbeat at 60 BPM', () => {

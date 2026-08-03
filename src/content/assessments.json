@@ -78,5 +78,17 @@
       "l-dc-ear",
       "l-dc-build"
     ]
+  },
+  {
+    "id": "assess-t8-checkpoint",
+    "scope": "tier",
+    "tier": 8,
+    "lessonId": "l-sf-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-sf-theory",
+      "l-sf-ab",
+      "l-sf-dial"
+    ]
   }
 ]

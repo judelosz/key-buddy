@@ -101,5 +101,20 @@
     "requiresDelayedReview": true,
     "handsXpBand": 32,
     "headXpBand": 55
+  },
+  {
+    "tier": 8,
+    "coreSkillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass"
+    ],
+    "bossSongId": "frankie-and-johnny",
+    "bossChartId": "frankie-and-johnny--full",
+    "checkpointAssessmentIds": [
+      "assess-t8-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 34,
+    "headXpBand": 55
   }
 ]

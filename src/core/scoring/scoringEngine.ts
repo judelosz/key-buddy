@@ -28,7 +28,7 @@ import type {
 } from '@/core/types';
 import { matchWindowMs, windowsForTier, type TimingWindows } from './timingWindows';
 import { gradeTiming } from './grade';
-import { applySwing, isSwungFeel, swingReport } from './swing';
+import { SWING_MASTERY_IN_BAND, applySwing, isSwungFeel, swingReport } from './swing';
 
 export interface ScoreParams {
   chart: Chart;
@@ -288,7 +288,6 @@ export function scoreAttempt(params: ScoreParams): Attempt {
 
   const stars = ratePerformance(notesCorrectPct, goodOrBetterPct, greatOrBetterPct);
   const atTempo = tempoBPM >= targetTempoBPM * 0.99;
-  const masteryStar = stars === 3 && atTempo && assistsUsed.length === 0;
   const continuity = computeContinuity(played, events, onsetMs, beatMs);
   const swing = isSwungFeel(feel)
     ? swingReport({
@@ -299,6 +298,11 @@ export function scoreAttempt(params: ScoreParams): Attempt {
         beatsPerBar: chart.timeSignature.beatsPerBar,
       })
     : undefined;
+  // On a swung chart with measurable pairs, mastery also means it SWUNG
+  // (doc 09 §6) — otherwise a flat Free Play take could bank tier-gate boss
+  // evidence that the declared lesson bar exists to prevent.
+  const swungEnough = swing === undefined || swing.inBandPct >= SWING_MASTERY_IN_BAND;
+  const masteryStar = stars === 3 && atTempo && assistsUsed.length === 0 && swungEnough;
 
   return {
     ...(swing ? { swing } : {}),

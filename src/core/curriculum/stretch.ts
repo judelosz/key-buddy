@@ -6,8 +6,17 @@
 import type { Fragment, PlayerState, Song, Tier } from '@/core/types';
 
 export const STRETCH_TIER_OFFSET = 10;
+/**
+ * A stretch song must sit well beyond the path frontier. Without this floor,
+ * fragment-bearing songs a few tiers up (Frankie at Tier 8 for a Tier-4
+ * player) hijack the slot from the true deep-end song — and their
+ * current-tier-tagged fragments then match nothing, silently killing the
+ * stretch segment. Near-future path songs are not "the deep end".
+ */
+export const STRETCH_MIN_AHEAD = 6;
 
-/** The locked song with fragments whose tier is closest to learningTier + 10. */
+/** The locked song with fragments whose tier is closest to learningTier + 10
+ * (and at least STRETCH_MIN_AHEAD tiers out). */
 export function stretchSongFor(
   player: Pick<PlayerState, 'learningTier'>,
   songs: readonly Song[],
@@ -15,7 +24,10 @@ export function stretchSongFor(
 ): Song | null {
   const target: Tier = player.learningTier + STRETCH_TIER_OFFSET;
   const candidates = songs.filter(
-    (s) => s.fragmentIds.length > 0 && s.tier > player.learningTier && !isUnlocked(s.id),
+    (s) =>
+      s.fragmentIds.length > 0 &&
+      s.tier >= player.learningTier + STRETCH_MIN_AHEAD &&
+      !isUnlocked(s.id),
   );
   if (candidates.length === 0) return null;
   return candidates.reduce((best, s) =>

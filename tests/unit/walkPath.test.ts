@@ -39,6 +39,10 @@ function cannedAttempt(refId: string, refKind: 'chart' | 'fragment', performance
     assistsUsed: [],
     xpAwarded: 0,
     riffsAwarded: 0,
+    // The perfect player flows and swings: continuity/swing evidence so
+    // declared maxStops / minSwingInBandPct bars (Tiers 8–9) pass honestly.
+    continuity: { stops: 0, maxGapBeats: 0 },
+    swing: { measuredRatio: 2, inBandPct: 1, offbeatPairs: 8 },
   };
 }
 
@@ -56,7 +60,8 @@ describe('the authored path is completable end to end', () => {
     for (let step = 0; step < 500; step++) {
       const next = nextRecommendedLesson(content, lessons, player.learningTier, skills, nowMs);
       if (!next) {
-        if (player.learningTier >= 6) break;
+        // Past the last authored gate there is nothing left to walk.
+        if (player.learningTier > Math.max(...content.tierGates.map((g) => g.tier))) break;
         nowMs += DAY; // nothing due yet — wait for reviews to age in
         continue;
       }
@@ -92,6 +97,9 @@ describe('the authored path is completable end to end', () => {
               promptCount: 5,
               correctCount: 5,
               scorePct: 1,
+              // Swung tap lessons declare a ratio bar — the perfect player
+              // taps a clean 2:1.
+              swing: { measuredRatio: 2, inBandPct: 1, offbeatPairs: 8 },
               details: [],
             },
         chartOutcome: isChart

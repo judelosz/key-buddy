@@ -30,6 +30,10 @@ function cannedMasteryAttempt(chartId: string): Attempt {
     assistsUsed: [],
     xpAwarded: 0,
     riffsAwarded: 0,
+    // Declared continuity/swing bars (Tiers 8–9) must pass for a canned
+    // mastery take, mirroring the walkPath perfect-player fixture.
+    continuity: { stops: 0, maxGapBeats: 0 },
+    swing: { measuredRatio: 2, inBandPct: 1, offbeatPairs: 8 },
   };
 }
 
@@ -65,6 +69,7 @@ export function installDevTest(): void {
             promptCount: 5,
             correctCount: Math.round(5 * scorePct),
             scorePct,
+            swing: { measuredRatio: 2, inBandPct: 1, offbeatPairs: 8 },
             details: [],
           },
         });
@@ -117,6 +122,7 @@ export function installDevTest(): void {
                     promptCount: 5,
                     correctCount: Math.round(5 * scorePct),
                     scorePct,
+                    swing: { measuredRatio: 2, inBandPct: 1, offbeatPairs: 8 },
                     details: [],
                   },
                 },

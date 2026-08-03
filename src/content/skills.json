@@ -123,7 +123,59 @@
     "prerequisites": [
       "rhythm-steady-pulse"
     ],
-    "description": "Long-short eighth-note subdivision underpinning blues, gospel, country."
+    "description": "Long-short eighth-note subdivision underpinning blues, gospel, country.",
+    "arc": "blues",
+    "strand": "rhythm",
+    "outcome": "Play and tap long-short eighth pairs in the pocket (about 2:1) and hold the lean through a full 12-bar chorus.",
+    "moduleId": "m8-shuffle-feel",
+    "assessment": {
+      "minStars": 3,
+      "minNotesCorrectPct": 0.9,
+      "minGoodOrBetterPct": 0.75,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "harmony-nashville-numbers"
+    ],
+    "commonErrors": [
+      "Eighths evening out toward straight as the take goes on (flattening)",
+      "Over-voicing stiff triplets instead of a relaxed lean",
+      "Accenting every note instead of letting the offbeat sit light"
+    ]
+  },
+  {
+    "id": "lh-shuffle-bass",
+    "name": "Left-hand shuffle bass",
+    "family": "left-hand",
+    "tier": 8,
+    "genre": "blues",
+    "prerequisites": [
+      "lh-root-notes",
+      "rhythm-swing-feel"
+    ],
+    "description": "The root-5\u2194root-6 rock \u2014 the 6th is what makes it sound like blues.",
+    "arc": "blues",
+    "strand": "technique",
+    "outcome": "Rock the shuffle bass between root-5 and root-6 through C, F and G7 without stopping at the changes.",
+    "moduleId": "m8-shuffle-feel",
+    "assessment": {
+      "minStars": 3,
+      "minNotesCorrectPct": 0.9,
+      "minGoodOrBetterPct": 0.7,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "harmony-nashville-numbers"
+    ],
+    "commonErrors": [
+      "Freezing on the 5th and never reaching the 6th",
+      "Losing the lean while thinking about the pitch change",
+      "Tensing the wrist \u2014 the rock comes from a loose hand"
+    ]
   },
   {
     "id": "chord-major-triad",

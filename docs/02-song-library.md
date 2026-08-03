@@ -55,6 +55,7 @@ Blues gives the fastest "I sound real" payoff — a small toolkit (dom7s, blues 
 |---|---|---|---|---|
 | 6 | 12-Bar Blues in C (plain triads) | C | The *form* first, with I-IV-V triads | Harmony, Chords |
 | 7 | Frankie and Johnny | C | Classic blues narrative, basic 12-bar feel | Harmony, Rhythm |
+<!-- 2026-08-03: doc-06's syllabus places Frankie and Johnny at TIER 8 as the shuffle boss (authored so: tier 8, shuffle, simplified + full/shuffle-bass arrangements). This table's tier-7/8 rows predate the Arc II amendments; doc-06 is the syllabus source of truth. -->
 | 8 | 12-Bar Blues with dom7 chords | C | Swap triads → C7/F7/G7, the blues color | Chords, Harmony |
 | 9 | C.C. Rider (See See Rider) | C | Definitive 12-bar standard (Ma Rainey, 1924, PD) | Harmony, Rhythm |
 | 10 | Shuffle-bass Blues | C | LH shuffle pattern + RH chords, hands together | Left-Hand, Rhythm |
@@ -122,7 +123,7 @@ Because the genres overlap (dom7s and shuffle bridge blues↔country; blues/pent
 
 **How the stretch song is chosen from this library:** at any time the app picks one song roughly **10 tiers above** the user's current working tier (e.g., a Band-B learner gets a Band-D/E stretch song). Its learnable fragments — one riff, one voicing, one groove — are extracted and fed into interleaved daily practice. Progress is tracked as *fragments explored*, never as *percent-of-song-completed*. When the user's tier rises enough that the stretch song becomes on-level, a new one ~10 tiers up is selected.
 
-**Tier-tied challenge songs (2026-07-28):** separate from the stretch mechanic, the library sets aside **bonus challenge songs** that unlock with Tier 2 and then every third tier (5, 8, 11…). They are full playable songs in Free Play, labeled "Bonus · Tier N Challenge Song", pitched a couple of tiers above their unlock point, and deliberately drawn from *outside* the curriculum-boss repertoire so curriculum songs stay fresh when their tier arrives. Unlock is by learning tier (itself pure Hands evidence — guardrail-compatible), never by skill list or currency. Authored so far: *Camptown Races* (Tier-2 challenge, song tier ≈4) and *Will the Circle Be Unbroken* (Tier-5 challenge, song tier ≈7); Tier-8/11 slots get authored as those tiers are built.
+**Tier-tied challenge songs (2026-07-28):** separate from the stretch mechanic, the library sets aside **bonus challenge songs** that unlock with Tier 2 and then every third tier (5, 8, 11…). They are full playable songs in Free Play, labeled "Bonus · Tier N Challenge Song", pitched a couple of tiers above their unlock point, and deliberately drawn from *outside* the curriculum-boss repertoire so curriculum songs stay fresh when their tier arrives. Unlock is by learning tier (itself pure Hands evidence — guardrail-compatible), never by skill list or currency. Authored so far: *Camptown Races* (Tier-2 challenge, song tier ≈4), *Will the Circle Be Unbroken* (Tier-5 challenge, song tier ≈7), and *St. Louis Blues* (Tier-8 challenge, song tier ≈10 — Handy 1914, PD; the last four bars carry the shuffle-bass bite); the Tier-11 slot gets authored with its tier.
 
 ---
 

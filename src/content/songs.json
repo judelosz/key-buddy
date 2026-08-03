@@ -311,5 +311,72 @@
       "will-the-circle--simplified"
     ],
     "fragmentIds": []
+  },
+  {
+    "id": "frankie-and-johnny",
+    "title": "Frankie and Johnny",
+    "source": "Traditional (American blues ballad)",
+    "publicDomain": true,
+    "licenseNote": "Traditional melody first published 1904; arrangement is original to this app.",
+    "genre": "blues",
+    "tier": 8,
+    "key": "C",
+    "tempoTargetBPM": 84,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "shuffle",
+    "requiredSkills": [
+      "harmony-12bar-form",
+      "chord-dom7"
+    ],
+    "taughtSkills": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass",
+      "harmony-12bar-form"
+    ],
+    "arrangementLevels": [
+      "simplified",
+      "full"
+    ],
+    "chartIds": [
+      "frankie-and-johnny--simplified",
+      "frankie-and-johnny--full"
+    ],
+    "fragmentIds": [
+      "frag-lh-shuffle-rock",
+      "frag-lh-shuffle-changes",
+      "frag-shuffle-hands-bed"
+    ]
+  },
+  {
+    "id": "st-louis-blues",
+    "title": "St. Louis Blues",
+    "source": "W. C. Handy",
+    "year": 1914,
+    "publicDomain": true,
+    "licenseNote": "Published 1914, public domain; arrangement is original to this app.",
+    "genre": "blues",
+    "tier": 10,
+    "key": "C",
+    "tempoTargetBPM": 88,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "shuffle",
+    "requiredSkills": [],
+    "challengeTier": 8,
+    "taughtSkills": [
+      "rhythm-swing-feel"
+    ],
+    "arrangementLevels": [
+      "simplified"
+    ],
+    "chartIds": [
+      "st-louis-blues--simplified"
+    ],
+    "fragmentIds": []
   }
 ]

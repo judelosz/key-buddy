@@ -533,5 +533,43 @@
     "prepares": [
       "rhythm-swing-feel"
     ]
+  },
+  {
+    "id": "m8-shuffle-feel",
+    "arc": "blues",
+    "tier": 8,
+    "title": "The shuffle",
+    "promise": "The eighths stop walking and start skipping \u2014 learn the lean that makes it blues",
+    "prerequisiteModuleIds": [
+      "m7-dominant-color"
+    ],
+    "lessonIds": [
+      "l-sf-listen",
+      "l-sf-theory",
+      "l-sf-ab",
+      "l-sf-dial",
+      "l-sf-echo",
+      "l-sf-rock",
+      "l-sf-changes",
+      "l-sf-hands",
+      "l-sf-symbols",
+      "l-sf-apply",
+      "l-sf-gate-quiz",
+      "l-sf-boss",
+      "l-sf-stretch"
+    ],
+    "coreSkillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass"
+    ],
+    "bossLessonId": "l-sf-boss",
+    "revisits": [
+      "chord-dom7",
+      "harmony-12bar-form",
+      "lh-root-notes"
+    ],
+    "prepares": [
+      "harmony-nashville-numbers"
+    ]
   }
 ]

@@ -188,7 +188,7 @@ Deduplicated list of things that are *missing* (not mis-tuned) — candidates fo
 | G4 | **Harmonize-a-heard-melody skill** (gospel's entry skill; best Head→Hands bridge) | 2.15 | ~Tiers 11–15 |
 | G5 | **First simple lead sheet** | 1.10 | ~Tiers 10–13 (currently first appears T21) |
 | G6 | **Continuity/no-stop evidence** in scoring + gates | 4.9 | Attempt-level flag; Tier 6+ gates |
-| G7 | **Swing-ratio grading model** (band around tempo-dependent ratio + measured "your swing ratio") | 2.10, 3.9 | Tier 8 scoring; before authoring T8 content |
+| G7 | **Swing-ratio grading model** (band around tempo-dependent ratio + measured "your swing ratio") | 2.10, 3.9 | ~~Tier 8 scoring; before authoring T8 content~~ **Closed 2026-08-03** — `docs/09-swing-grading-spec.md` + `core/scoring/swing.ts` |
 | G8 | **Production ear exercises** (echo-play, lift-a-lick, improvise-an-answer, audiate-then-play) — catalog is recognition-heavy | 2.6, 3.8, 3.21 | Generators; Tiers 1–10 onward |
 | G9 | **Memory mode** (chart hidden after bar N) — the app's only missing retrieval mode for repertoire; unlocks honest `'memory'` transfer | 3.14 | Phase-6 candidate, promoted |
 | G10 | **Metacognition/practice-craft outcome** (pick your own drill target, scored against barAccuracies) | 3.16, 3.20 | Strand decision at the audit; gate evidence Tier 15+ |
@@ -224,7 +224,7 @@ Decisions this research sets up but deliberately does not make:
 1. **Which of gaps G1–G13 get slotted, and where exactly?** (Pedal, walk-ups, slip-notes, harmonize-melody, and lead sheets all have proposed tier bands above; each displaces or joins existing content.)
 2. **Sixth strand or not?** Metacognition/practice-craft (3.16) as a strand vs. gate evidence attached to the technique ladder at 15+.
 3. **Continuity scoring design** (G6): what exactly is "pulse never broken" on MIDI data, what N, and which gates consume it? (Prototype against existing attempt data.)
-4. **Swing grading spec** (G7): ratio-band widths by tempo, bias-correction window, and what "your swing ratio" reporting looks like — needs a design doc before Tier 8 content exists.
+4. ~~**Swing grading spec** (G7)~~ **Resolved 2026-08-03**: `docs/09-swing-grading-spec.md` — band 1.7–2.5 easing to 2.2 by 140 BPM, pair-differencing bias cancellation (onbeat-only learner on taps), `Attempt.swing` + SwingRatioCard reporting.
 5. **Ear-strand rebalance:** how much recognition→production shift (G8), and which generators are Phase-5.x vs Phase-8 work?
 6. **Tier 16–30 calibration strategy:** with no external anchor (1.16), what's the playtest plan for Arc IV–V difficulty steps?
 7. **The doc-06 §12 research-basis section needs an honesty pass:** interleaving claims (3.1), hand-independence timelines (3.19), deliberate-practice framing (3.16 vs quantity), and the harmonic-ahead-of-technical calibration note (1.12).
