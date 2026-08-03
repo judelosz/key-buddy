@@ -5,7 +5,7 @@ import { generateTip } from '@/core/scoring/feedback';
 import type { AttemptReward } from '@/core/session/recordAttempt';
 import { getContent } from '@/core/content/bundled';
 import { useCountUp } from '@/ui/hooks/useCountUp';
-import { BarHeatMapCard, GradeBadge, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
+import { BarHeatMapCard, GradeBadge, SwingRatioCard, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
 
 interface SessionReportProps {
   attempt: Attempt;
@@ -74,6 +74,8 @@ export function SessionReport({ attempt, chart, song, reward, onRetry, onDone }:
       </div>
 
       <TimingHistogramCard attempt={attempt} />
+
+      <SwingRatioCard attempt={attempt} />
 
       <BarHeatMapCard attempt={attempt} chart={chart} />
 

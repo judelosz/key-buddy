@@ -4,7 +4,7 @@
  */
 import { useEffect, useState } from 'react';
 import { Drum, PlayCircle, Check } from 'lucide-react';
-import type { Chart } from '@/core/types';
+import type { Chart, Feel } from '@/core/types';
 import type { ExercisePrompt } from '@/core/exercise/types';
 import type { TapFeedback } from '@/core/exercise/engine';
 import type { ExerciseRunner } from '@/ui/session/exerciseRunner';
@@ -207,10 +207,14 @@ export function ListenExerciseView({
   runner,
   chart,
   tempoBPM,
+  feel,
 }: {
   runner: ExerciseRunner;
   chart: Pick<Chart, 'notes'>;
   tempoBPM: number;
+  /** Swung material plays back long-short (doc 09) — a shuffle listen lesson
+   * must SOUND like a shuffle. */
+  feel?: Feel;
 }) {
   const [state, setState] = useState<'idle' | 'playing' | 'done'>('idle');
 
@@ -218,7 +222,7 @@ export function ListenExerciseView({
 
   const play = async () => {
     setState('playing');
-    const durationMs = await playNotesOnce(chart.notes, tempoBPM);
+    const durationMs = await playNotesOnce(chart.notes, tempoBPM, feel);
     window.setTimeout(() => setState('done'), durationMs);
   };
 

@@ -155,7 +155,9 @@ export interface Fragment {
   sourceSongId: string;
   label: string;
   skillTags: string[]; // skill IDs
-  chart: Pick<Chart, 'timeSignature' | 'chordSymbols' | 'notes'>;
+  /** `feel` lets a cell override its source song (e.g. a straight prep drill
+   * cut from a shuffle song); omitted = the song's feel applies. */
+  chart: Pick<Chart, 'timeSignature' | 'chordSymbols' | 'notes' | 'feel'>;
 }
 
 // ─── Content: skills ────────────────────────────────────────────────────────

@@ -76,6 +76,22 @@ export function generateTip(attempt: Attempt, chart: Chart): string {
     return `The pulse stopped ${s === 1 ? 'once' : `${s} times`} mid-take. Playing through a miss beats stopping to fix it — the band wouldn't wait, and neither does the song.`;
   }
 
+  // Swing coaching sits ABOVE the calibration/rush/drag branches: on a swung
+  // chart a flat player's offbeats read as systematic earliness, and the one
+  // thing they must NOT be told is "re-run calibration" (doc 09 §5).
+  if (attempt.swing) {
+    const s = attempt.swing;
+    if (s.flattening) {
+      return `Your long-short is flattening after bar ${s.flattening.fromBar + 1} — the shuffle evens out as you go. Keep saying "doo-dah" all the way through.`;
+    }
+    if (s.measuredRatio < 1.5) {
+      return `That's reading straight (about ${s.measuredRatio.toFixed(1)}:1) — lean the pairs harder: LONG-short, "doo-dah", the first note twice the second.`;
+    }
+    if (s.measuredRatio > 2.8) {
+      return `You're over-swinging (about ${s.measuredRatio.toFixed(1)}:1) — ease the lean back toward a relaxed triplet feel; swing is loose, not jerky.`;
+    }
+  }
+
   // A LARGE but CONSISTENT lag is usually input/audio latency, not hands —
   // the honest fix is calibration, and the player deserves to be told so.
   if (mean >= 60 && attempt.timingHistogram.stdDevMs <= 60) {

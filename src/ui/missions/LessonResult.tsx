@@ -19,7 +19,7 @@ import { chartForLesson } from '@/core/content/resolveChart';
 import { getContent } from '@/core/content/bundled';
 import { Celebration } from '@/ui/components/Celebration';
 import { XpChip } from '@/ui/components/XpChip';
-import { BarHeatMapCard, GradeBadge, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
+import { BarHeatMapCard, GradeBadge, SwingRatioCard, TimingHistogramCard, TipCard } from '@/ui/components/reportSections';
 import { headline, nextStep } from './resultCopy';
 
 interface LessonResultProps {
@@ -90,6 +90,14 @@ export function LessonResult({
 
       {reward.xp > 0 && <XpChip xp={reward.xp} track={reward.track} />}
 
+      {/* Swung tap lessons: the measured lean, in plain long-short language. */}
+      {reward.exerciseSwing && (
+        <p className="text-sm text-ink-soft" data-testid="exercise-swing">
+          Your swing: {reward.exerciseSwing.measuredRatio.toFixed(2)} : 1 ·{' '}
+          {Math.round(reward.exerciseSwing.inBandPct * 100)}% in the pocket
+        </p>
+      )}
+
       {/* Warm celebration tier (§4a): milestone chips pop in, staggered. */}
       {reward.moduleCompleted && (
         <div className="flex animate-pop items-center gap-2 rounded-2xl bg-mint-soft px-4 py-2.5 text-sm font-medium text-mint-ink">
@@ -138,6 +146,7 @@ export function LessonResult({
           </button>
           {reportOpen && (
             <div className="flex flex-col gap-3 animate-fade-up">
+              <SwingRatioCard attempt={take.attempt} />
               <TimingHistogramCard attempt={take.attempt} />
               <BarHeatMapCard attempt={take.attempt} chart={take.chart} />
             </div>

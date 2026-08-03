@@ -62,6 +62,18 @@ export interface LessonPassCriteria {
   minStars?: 0 | 1 | 2 | 3;
   /** Performance checkpoints: the take must earn the mastery star. */
   requiresMasteryStar?: boolean;
+  /**
+   * Swing bar (doc 09 §6): minimum share of long-short pairs inside the
+   * tempo's ratio band. Legal only on lessons whose resolved chart/fragment
+   * feel is swung (validator-enforced). A take with too few pairs to measure
+   * FAILS the bar — silence is not evidence.
+   */
+  minSwingInBandPct?: number;
+  /**
+   * Continuity bar (doc-08 §4.9, first consumer Tier 9): maximum number of
+   * pulse stops allowed in the take. Chart-backed lessons only.
+   */
+  maxStops?: number;
 }
 
 export interface CurriculumLesson {

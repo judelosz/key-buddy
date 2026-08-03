@@ -7,6 +7,7 @@ import { AlertTriangle, Lightbulb } from 'lucide-react';
 import type { Attempt, Chart } from '@/core/types';
 import { barAccuracies } from '@/core/scoring/feedback';
 import { recitalGrade } from '@/core/scoring/recitalGrade';
+import { swingBandForTempo } from '@/core/scoring/swing';
 
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 
@@ -111,6 +112,57 @@ export function BarHeatMapCard({ attempt, chart }: { attempt: Attempt; chart: Ch
         <span className="font-semibold text-grade-miss">red badge</span> marks how many wrong notes
         landed in that bar.
       </p>
+    </div>
+  );
+}
+
+/**
+ * "Your swing ratio" (doc 09 §5): the measured long-short lean on a
+ * straight↔triplet scale with the pass band shaded. Readout only — the pass
+ * bar, where one exists, is passCriteria.minSwingInBandPct.
+ */
+export function SwingRatioCard({ attempt }: { attempt: Attempt }) {
+  const swing = attempt.swing;
+  if (!swing) return null;
+  const band = swingBandForTempo(attempt.tempoBPM);
+  // Scale 1.0 (straight) … 3.2 (hard swing) mapped to 0–100%.
+  const SCALE_MIN = 1;
+  const SCALE_MAX = 3.2;
+  const toPct = (r: number) =>
+    Math.max(0, Math.min(100, ((r - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100));
+  const inBand = swing.measuredRatio >= band.min && swing.measuredRatio <= band.max;
+  return (
+    <div className="rounded-3xl bg-surface p-5 shadow-soft" data-testid="swing-ratio">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="font-display text-sm font-semibold text-ink">Your swing</h3>
+        <span className={`text-xs font-medium ${inBand ? 'text-mint-ink' : 'text-ink-soft'}`}>
+          {swing.measuredRatio.toFixed(2)} : 1 · {Math.round(swing.inBandPct * 100)}% in the pocket
+        </span>
+      </div>
+      <div className="relative h-3 rounded-full bg-sand">
+        {/* the pocket */}
+        <div
+          className="absolute inset-y-0 rounded-full bg-mint-soft"
+          style={{ left: `${toPct(band.min)}%`, width: `${toPct(band.max) - toPct(band.min)}%` }}
+        />
+        {/* the take */}
+        <div
+          className={`absolute top-1/2 h-5 w-2 -translate-y-1/2 rounded-full shadow-soft ${
+            inBand ? 'bg-mint-deep' : 'bg-peri-deep'
+          }`}
+          style={{ left: `calc(${toPct(swing.measuredRatio)}% - 4px)` }}
+        />
+      </div>
+      <div className="mt-1 flex justify-between text-[10px] text-ink-soft">
+        <span>straight</span>
+        <span>triplet feel</span>
+        <span>hard swing</span>
+      </div>
+      {swing.flattening && (
+        <p className="mt-2 text-xs text-ink-soft">
+          Started in the pocket, then evened out around bar {swing.flattening.fromBar + 1}.
+        </p>
+      )}
     </div>
   );
 }

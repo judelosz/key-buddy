@@ -6,6 +6,7 @@
  */
 import type { Skill } from '@/core/types';
 import type { RawContent } from '@/core/content/contentService';
+import { isSwungFeel } from '@/core/scoring/swing';
 import type { Module } from './types';
 
 /** Assists that count as visual scaffolding — forbidden in independent+ modes. */
@@ -69,6 +70,7 @@ export function validateCurriculum(raw: RawContent): string[] {
   const skillById = new Map(raw.skills.map((s) => [s.id, s]));
   const songById = new Map(raw.songs.map((s) => [s.id, s]));
   const chartIds = new Set(raw.charts.map((c) => c.id));
+  const chartById = new Map(raw.charts.map((c) => [c.id, c]));
   const fragmentById = new Map(raw.fragments.map((f) => [f.id, f]));
   const moduleById = new Map(raw.modules.map((m) => [m.id, m]));
   const lessonById = new Map(raw.lessons.map((l) => [l.id, l]));
@@ -197,7 +199,7 @@ export function validateCurriculum(raw: RawContent): string[] {
     // rhythm-tap is exempt (its timing windows ARE the mistake definition)
     // and scouting/woodshed stays no-fail by design.
     const CLEAN_RUN_TYPES: readonly string[] = [
-      'note-id', 'build-chord', 'theory-quiz', 'interval-ear', 'chord-ear',
+      'note-id', 'build-chord', 'theory-quiz', 'interval-ear', 'chord-ear', 'feel-id',
       'play-chart', 'fragment',
     ];
     if (
@@ -239,6 +241,42 @@ export function validateCurriculum(raw: RawContent): string[] {
         if (!lesson.generatorParams) {
           problems.push(`${lesson.exerciseType} lesson ${lesson.id} has no generatorParams`);
         }
+    }
+
+    // Swing bar (doc 09 §6): only legal where the material actually swings —
+    // a swung chart/fragment, or a rhythm-tap prompt with a swingRatio.
+    if (lesson.passCriteria.minSwingInBandPct !== undefined) {
+      const swungMaterial = (() => {
+        if (lesson.exerciseType === 'rhythm-tap') {
+          return typeof lesson.generatorParams?.swingRatio === 'number';
+        }
+        if (lesson.chartId) {
+          const chart = chartById.get(lesson.chartId);
+          const song = chart ? songById.get(chart.songId) : undefined;
+          return isSwungFeel(chart?.feel ?? song?.feel);
+        }
+        if (lesson.fragmentId) {
+          const fragment = fragmentById.get(lesson.fragmentId);
+          const song = fragment ? songById.get(fragment.sourceSongId) : undefined;
+          return isSwungFeel(fragment?.chart.feel ?? song?.feel);
+        }
+        return false;
+      })();
+      if (!swungMaterial) {
+        problems.push(
+          `Lesson ${lesson.id} declares minSwingInBandPct but its material is not swung (needs a shuffle/swing chart, fragment, or a swingRatio tap prompt)`,
+        );
+      }
+    }
+    // Continuity bar: stops only exist on chart-shaped takes.
+    if (
+      lesson.passCriteria.maxStops !== undefined &&
+      lesson.exerciseType !== 'play-chart' &&
+      lesson.exerciseType !== 'fragment'
+    ) {
+      problems.push(
+        `Lesson ${lesson.id} declares maxStops but is not a chart/fragment lesson — continuity is only measured on chart takes`,
+      );
     }
 
     if (lesson.mode === 'independent') {

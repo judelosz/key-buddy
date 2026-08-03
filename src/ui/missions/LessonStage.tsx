@@ -233,6 +233,7 @@ function ExerciseLesson({
             runner={runner}
             chart={listenChart.chart}
             tempoBPM={Math.round(listenChart.song.tempoTargetBPM * 0.9)}
+            feel={listenChart.chart.feel ?? listenChart.song.feel}
           />
         )}
         {prompt && (lesson.exerciseType === 'note-id' || lesson.exerciseType === 'build-chord') && (

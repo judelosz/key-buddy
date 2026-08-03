@@ -6,6 +6,8 @@
  */
 import { audioService } from '@/audio/audioService';
 import { inputService } from '@/input';
+import type { Feel } from '@/core/types';
+import { applySwing, applySwingDuration } from '@/core/scoring/swing';
 import { ExerciseEngine, type TapFeedback } from '@/core/exercise/engine';
 import type {
   ExercisePrompt,
@@ -173,17 +175,20 @@ export class ExerciseRunner {
 export async function playNotesOnce(
   notes: ReadonlyArray<{ pitches: number[]; startBeat: number; durationBeats: number }>,
   bpm: number,
+  feel?: Feel,
 ): Promise<number> {
   await audioService.init();
   const beatSec = 60 / bpm;
   const startAudio = audioService.perfMsToAudioTime(performance.now()) + 0.2;
   let endBeat = 0;
   for (const n of notes) {
-    const dur = Math.max(0.15, n.durationBeats * beatSec * 0.9);
+    const startBeat = applySwing(feel, n.startBeat);
+    const durationBeats = applySwingDuration(feel, n.startBeat, n.durationBeats);
+    const dur = Math.max(0.15, durationBeats * beatSec * 0.9);
     for (const p of n.pitches) {
-      audioService.playNote(p, dur, 0.85, startAudio + n.startBeat * beatSec);
+      audioService.playNote(p, dur, 0.85, startAudio + startBeat * beatSec);
     }
-    endBeat = Math.max(endBeat, n.startBeat + n.durationBeats);
+    endBeat = Math.max(endBeat, startBeat + durationBeats);
   }
   return (endBeat * beatSec + 0.5) * 1000;
 }

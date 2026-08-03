@@ -86,6 +86,9 @@ export interface LessonReward {
   /** Chart lessons: the scored take, so result screens can show the timing
    * detail (tip, weak bars, full report) without a second recording path. */
   attempt?: Attempt;
+  /** Swung tap lessons: the pooled measured-ratio evidence (doc 09 §5),
+   * so the result screen can show "your swing" without the full Attempt. */
+  exerciseSwing?: NonNullable<Attempt['swing']>;
 }
 
 export interface RecordLessonOutcome {
@@ -112,6 +115,13 @@ export function chartLessonPassed(lesson: CurriculumLesson, attempt: Attempt): b
   if (c.minStars !== undefined && attempt.stars < c.minStars) return false;
   if (c.requiresMasteryStar && !attempt.masteryStar) return false;
   if (c.minScorePct !== undefined && attempt.notesCorrectPct < c.minScorePct) return false;
+  if (c.minSwingInBandPct !== undefined) {
+    // No measurable swing evidence (too few pairs) fails a declared swing bar.
+    if (!attempt.swing || attempt.swing.inBandPct < c.minSwingInBandPct) return false;
+  }
+  if (c.maxStops !== undefined) {
+    if (!attempt.continuity || attempt.continuity.stops > c.maxStops) return false;
+  }
   if (lesson.mode === 'independent') {
     if (attempt.assistsUsed.some((a) => (VISUAL_ASSISTS as readonly string[]).includes(a))) {
       return false;
@@ -254,7 +264,13 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
   const result = input.result;
   if (!result) throw new Error(`Lesson ${lesson.id} recorded with neither result nor chartOutcome`);
   const scorePct = result.scorePct;
-  const passed = scorePct >= (lesson.passCriteria.minScorePct ?? 0.8);
+  let passed = scorePct >= (lesson.passCriteria.minScorePct ?? 0.8);
+  // Swung tap lessons can declare a ratio bar (doc 09 §6): in-time taps that
+  // don't actually swing don't pass. Missing evidence fails the bar too.
+  const swingBar = lesson.passCriteria.minSwingInBandPct;
+  if (passed && swingBar !== undefined) {
+    passed = result.swing !== undefined && result.swing.inBandPct >= swingBar;
+  }
   const track = trackForExerciseType(lesson.exerciseType);
   const isScouting = lesson.mode === 'scouting';
 
@@ -377,6 +393,7 @@ export function recordLessonAttempt(input: RecordLessonInput): RecordLessonOutco
       newlyUnlockedSongIds: [],
       moduleCompleted:
         passed && moduleCompleted(module, input.lessonProgressById, lessonProgress),
+      ...(result.swing ? { exerciseSwing: result.swing } : {}),
     },
   };
 }

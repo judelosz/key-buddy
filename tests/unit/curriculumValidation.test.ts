@@ -393,4 +393,51 @@ describe('validateCurriculum', () => {
     const problems = validateContent(raw);
     expect(problems.some((p) => p.includes('out-of-range answerIndex'))).toBe(true);
   });
+
+  it('rejects a swing bar on straight material and accepts it on swung material (doc 09 §6)', () => {
+    // Straight chart lesson declaring the bar → problem.
+    let raw = validBundle();
+    raw.lessons = raw.lessons.map((l) =>
+      l.id === 'lesson-1'
+        ? lesson('lesson-1', {
+            exerciseType: 'play-chart',
+            chartId: 'boss-song--simplified',
+            generatorParams: undefined,
+            passCriteria: { minScorePct: 1, minSwingInBandPct: 0.7 },
+          })
+        : l,
+    );
+    let problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('minSwingInBandPct'))).toBe(true);
+
+    // Same lesson on a shuffle-feel song → clean.
+    raw.songs = raw.songs.map((s) => ({ ...s, feel: 'shuffle' as const }));
+    problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('minSwingInBandPct'))).toBe(false);
+
+    // A swung rhythm-tap prompt also qualifies.
+    raw = validBundle();
+    raw.lessons = raw.lessons.map((l) =>
+      l.id === 'lesson-1'
+        ? lesson('lesson-1', {
+            exerciseType: 'rhythm-tap',
+            generatorParams: { beats: [0, 0.5], bpm: 84, swingRatio: 2 },
+            passCriteria: { minSwingInBandPct: 0.7 },
+          })
+        : l,
+    );
+    problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('minSwingInBandPct'))).toBe(false);
+  });
+
+  it('rejects maxStops on a non-chart lesson', () => {
+    const raw = validBundle();
+    raw.lessons = raw.lessons.map((l) =>
+      l.id === 'lesson-1'
+        ? lesson('lesson-1', { passCriteria: { minScorePct: 1, maxStops: 0 } })
+        : l,
+    );
+    const problems = validateContent(raw);
+    expect(problems.some((p) => p.includes('maxStops'))).toBe(true);
+  });
 });
