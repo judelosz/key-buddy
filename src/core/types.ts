@@ -96,6 +96,13 @@ export interface Chart {
    * (fragments' embedded charts are exempt). */
   sections?: ChartSection[];
   /**
+   * Arrangement-level feel override (doc 09 §1): resolution everywhere is
+   * `chart.feel ?? song.feel`, so a song's simplified chart can stay straight
+   * while its full arrangement swings. Charts are still notated on the
+   * straight grid — the swing transform lives in core/scoring/swing.ts.
+   */
+  feel?: Feel;
+  /**
    * Per-arrangement skill attribution: when set, a take on THIS chart credits
    * only these skills (must be a subset of the song's taughtSkills). Without
    * it the song's full list applies. Exists so e.g. the triad arrangement of
@@ -275,6 +282,16 @@ export interface Attempt {
    * continuity above error counts; note percentages can't see a stop.
    * Optional — absent on pre-2026-07-28 attempts and canned test takes. */
   continuity?: { stops: number; maxGapBeats: number };
+  /** Measured swing evidence (doc 09 §5) — present only on swung-feel takes
+   * with enough playable long-short pairs (SWING_MIN_PAIRS). The honest,
+   * un-gameable feel metric; consumed by declared pass criteria only, never
+   * by the star matrix or recital grade. */
+  swing?: {
+    measuredRatio: number;
+    inBandPct: number;
+    offbeatPairs: number;
+    flattening?: { fromBar: number };
+  };
 }
 
 export type Assist = 'falling-notes' | 'note-names' | 'one-hand' | 'slow-down' | 'metronome-count-in';

@@ -5,9 +5,10 @@
  * offline ScoringEngine (a chord lights on its first matched tone); the
  * end-of-take Attempt from ScoringEngine remains authoritative for stars/XP.
  */
-import type { Chart, NoteGrade, NotePlayed, Tier } from '@/core/types';
+import type { Chart, Feel, NoteGrade, NotePlayed, Tier } from '@/core/types';
 import { matchWindowMs, windowsForTier, type TimingWindows } from './timingWindows';
 import { gradeTiming } from './grade';
+import { applySwing } from './swing';
 
 export interface LiveGrade {
   noteEventId: string;
@@ -25,6 +26,8 @@ export class LiveGrader {
     tempoBPM: number,
     tier: Tier,
     private readonly chartStartPerfMs: number,
+    /** The take's feel — swung feels grade against the swung grid (doc 09). */
+    private readonly feel?: Feel,
   ) {
     this.beatMs = 60000 / tempoBPM;
     this.windows = windowsForTier(tier);
@@ -40,7 +43,7 @@ export class LiveGrader {
     for (const event of this.chart.notes) {
       if (this.consumed.has(event.id)) continue;
       if (!event.pitches.includes(note.pitch)) continue;
-      const expected = this.chartStartPerfMs + event.startBeat * this.beatMs;
+      const expected = this.chartStartPerfMs + applySwing(this.feel, event.startBeat) * this.beatMs;
       const dev = note.timestampMs - expected;
       const abs = Math.abs(dev);
       if (abs <= this.matchMs && abs < bestAbs) {

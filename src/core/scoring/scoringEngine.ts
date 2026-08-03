@@ -18,6 +18,7 @@ import type {
   Assist,
   Attempt,
   Chart,
+  Feel,
   NoteEvent,
   NoteGrade,
   NotePlayed,
@@ -27,6 +28,7 @@ import type {
 } from '@/core/types';
 import { matchWindowMs, windowsForTier, type TimingWindows } from './timingWindows';
 import { gradeTiming } from './grade';
+import { applySwing, isSwungFeel, swingReport } from './swing';
 
 export interface ScoreParams {
   chart: Chart;
@@ -41,6 +43,13 @@ export interface ScoreParams {
   assistsUsed?: Assist[];
   /** Override id generation for deterministic tests. */
   attemptId?: string;
+  /**
+   * The take's feel (doc 09): resolution is `chart.feel ?? song.feel`.
+   * Swung feels shift every expected offbeat-eighth onset to the swing split
+   * and produce the Attempt.swing ratio evidence. Omitted/straight/waltz =
+   * byte-identical grading to before.
+   */
+  feel?: Feel;
 }
 
 const gradeGoodOrBetter = (g: NoteGrade): boolean =>
@@ -177,13 +186,13 @@ export const STOP_GAP_BEATS = 2;
 function computeContinuity(
   played: readonly { timestampMs: number }[],
   sortedEvents: readonly { startBeat: number }[],
-  startTimeMs: number,
+  onsetMs: (beat: number) => number,
   beatMs: number,
 ): { stops: number; maxGapBeats: number } {
   if (sortedEvents.length === 0) return { stops: 0, maxGapBeats: 0 };
-  const first = startTimeMs + sortedEvents[0].startBeat * beatMs;
-  const last = startTimeMs + sortedEvents[sortedEvents.length - 1].startBeat * beatMs;
-  const expected = sortedEvents.map((e) => startTimeMs + e.startBeat * beatMs);
+  const first = onsetMs(sortedEvents[0].startBeat);
+  const last = onsetMs(sortedEvents[sortedEvents.length - 1].startBeat);
+  const expected = sortedEvents.map((e) => onsetMs(e.startBeat));
 
   const onsets = played
     .map((n) => n.timestampMs)
@@ -210,20 +219,21 @@ function computeContinuity(
 }
 
 export function scoreAttempt(params: ScoreParams): Attempt {
-  const { chart, played, tempoBPM, targetTempoBPM, tier, startTimeMs } = params;
+  const { chart, played, tempoBPM, targetTempoBPM, tier, startTimeMs, feel } = params;
   const assistsUsed = params.assistsUsed ?? [];
   const windows = windowsForTier(tier);
   const beatMs = 60000 / tempoBPM;
   const matchMs = matchWindowMs(windows, beatMs);
+  /** Beat → expected ms on the (possibly swung) grid — the grading truth. */
+  const onsetMs = (beat: number): number => startTimeMs + applySwing(feel, beat) * beatMs;
 
   const slots: PlayedSlot[] = played.map((note) => ({ note, consumed: false }));
 
   // Judge in time order so earlier notes claim their matches first.
   const events = [...chart.notes].sort((a, b) => a.startBeat - b.startBeat);
-  const perNoteGrades: PerNoteGrade[] = events.map((event) => {
-    const expectedOnsetMs = startTimeMs + event.startBeat * beatMs;
-    return judgeEvent(event, expectedOnsetMs, slots, windows, matchMs);
-  });
+  const perNoteGrades: PerNoteGrade[] = events.map((event) =>
+    judgeEvent(event, onsetMs(event.startBeat), slots, windows, matchMs),
+  );
 
   const total = perNoteGrades.length;
   const correct = perNoteGrades.filter((g) => g.pitchCorrect);
@@ -233,7 +243,7 @@ export function scoreAttempt(params: ScoreParams): Attempt {
   // note or a double isn't double-penalized). These count against accuracy.
   const onsetsByPitch = new Map<number, number[]>();
   for (const event of events) {
-    const onset = startTimeMs + event.startBeat * beatMs;
+    const onset = onsetMs(event.startBeat);
     for (const pitch of event.pitches) {
       const arr = onsetsByPitch.get(pitch);
       if (arr) arr.push(onset);
@@ -279,9 +289,19 @@ export function scoreAttempt(params: ScoreParams): Attempt {
   const stars = ratePerformance(notesCorrectPct, goodOrBetterPct, greatOrBetterPct);
   const atTempo = tempoBPM >= targetTempoBPM * 0.99;
   const masteryStar = stars === 3 && atTempo && assistsUsed.length === 0;
-  const continuity = computeContinuity(played, events, startTimeMs, beatMs);
+  const continuity = computeContinuity(played, events, onsetMs, beatMs);
+  const swing = isSwungFeel(feel)
+    ? swingReport({
+        events,
+        perNoteGrades,
+        beatMs,
+        bpm: tempoBPM,
+        beatsPerBar: chart.timeSignature.beatsPerBar,
+      })
+    : undefined;
 
   return {
+    ...(swing ? { swing } : {}),
     continuity,
     id: params.attemptId ?? crypto.randomUUID(),
     refId: chart.id,

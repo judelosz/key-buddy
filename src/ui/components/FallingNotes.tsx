@@ -1,7 +1,8 @@
 import { useEffect, useRef, type RefObject } from 'react';
-import type { Chart, NoteGrade } from '@/core/types';
+import type { Chart, Feel, NoteGrade } from '@/core/types';
 import { midiToName } from '@/core/music';
 import { keyRectMap } from '@/core/pianoLayout';
+import { applySwing, applySwingDuration } from '@/core/scoring/swing';
 import { audioService } from '@/audio/audioService';
 
 /** Canvas can't read Tailwind classes — these MUST mirror tailwind.config.ts
@@ -26,6 +27,9 @@ interface FallingNotesProps {
   liveGradesRef: RefObject<Map<string, NoteGrade>>;
   /** Whether the take is running (drives the rAF clock read). */
   active: boolean;
+  /** The take's feel — swung feels draw eighth pairs long-short so the lane
+   * agrees with what grading expects and playback sounds (doc 09). */
+  feel?: Feel;
   height?: number;
 }
 
@@ -39,6 +43,7 @@ export function FallingNotes({
   highPitch,
   liveGradesRef,
   active,
+  feel,
   height = 300,
 }: FallingNotesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -106,12 +111,14 @@ export function FallingNotes({
       // notes — one rect per pitch, positioned exactly over its key
       const grades = liveGradesRef.current;
       for (const note of chart.notes) {
-        const y = hitLineY - (note.startBeat - playheadBeat) * pxPerBeat;
-        const noteH = Math.max(6, note.durationBeats * pxPerBeat - 3);
+        const startBeat = applySwing(feel, note.startBeat);
+        const durationBeats = applySwingDuration(feel, note.startBeat, note.durationBeats);
+        const y = hitLineY - (startBeat - playheadBeat) * pxPerBeat;
+        const noteH = Math.max(6, durationBeats * pxPerBeat - 3);
         if (y - noteH > height || y < -40) continue; // off-screen
 
         const grade = grades?.get(note.id);
-        const passed = note.startBeat < playheadBeat - 0.5;
+        const passed = startBeat < playheadBeat - 0.5;
         let color: string;
         if (grade) color = GRADE_COLORS[grade];
         else if (passed) color = 'rgba(229,100,107,0.30)'; // un-hit & passed → faint miss

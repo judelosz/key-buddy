@@ -13,6 +13,8 @@
  * Browser-only (needs AudioContext); not imported by unit tests.
  */
 import * as Tone from 'tone';
+import type { Feel } from '@/core/types';
+import { applySwing, applySwingDuration } from '@/core/scoring/swing';
 
 export interface MetronomeTick {
   beat: number; // absolute beat index since start
@@ -202,16 +204,22 @@ export class AudioService {
   /**
    * Schedule the chart's notes to play back on the sampled piano (for Preview /
    * "watch it first"). Times are anchored to the running Transport start, after
-   * the count-in. Call right after startMetronome.
+   * the count-in. Call right after startMetronome. A swung `feel` shifts and
+   * reshapes eighth-note pairs via the shared swing helper (doc 09) — the SAME
+   * transform grading uses, so preview, visuals, and scoring can never desync.
+   * (Deliberately not Tone's Transport.swing, which would swing playback only.)
    */
   scheduleChartAudio(
     notes: ReadonlyArray<{ pitches: number[]; startBeat: number; durationBeats: number }>,
     countInBeats: number,
+    feel?: Feel,
   ): void {
     const transport = Tone.getTransport();
     for (const n of notes) {
-      const at = (countInBeats + n.startBeat) * this.currentBeatSec; // transport seconds
-      const dur = Math.max(0.15, n.durationBeats * this.currentBeatSec * 0.9);
+      const startBeat = applySwing(feel, n.startBeat);
+      const durationBeats = applySwingDuration(feel, n.startBeat, n.durationBeats);
+      const at = (countInBeats + startBeat) * this.currentBeatSec; // transport seconds
+      const dur = Math.max(0.15, durationBeats * this.currentBeatSec * 0.9);
       const id = transport.schedule((time) => {
         for (const p of n.pitches) this.playNote(p, dur, 0.85, time);
       }, at);

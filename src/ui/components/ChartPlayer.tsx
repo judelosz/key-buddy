@@ -212,6 +212,7 @@ export function ChartPlayer({
         countInBeats: COUNT_IN_BEATS,
         assists,
         mode: playMode,
+        feel: chart.feel ?? song.feel,
       });
     },
     [song, chart, tempoPct, showFalling, policy.tempo],
@@ -469,6 +470,7 @@ export function ChartPlayer({
             highPitch={range.high}
             liveGradesRef={liveGradesRef}
             active={active}
+            feel={chart.feel ?? song.feel}
           />
         ) : (
           <div className="flex h-32 items-center justify-center text-sm text-ink-soft">

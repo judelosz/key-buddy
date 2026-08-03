@@ -11,7 +11,7 @@
  *
  * Supports pause/resume and restart during a scored take.
  */
-import type { Assist, Attempt, Chart, NotePlayed, Tier } from '@/core/types';
+import type { Assist, Attempt, Chart, Feel, NotePlayed, Tier } from '@/core/types';
 import { scoreAttempt } from '@/core/scoring/scoringEngine';
 import { LiveGrader, type LiveGrade } from '@/core/scoring/liveGrader';
 import { audioService } from '@/audio/audioService';
@@ -29,6 +29,9 @@ export interface PlaySessionOptions {
   countInBeats: number;
   assists: Assist[];
   mode?: PlayMode;
+  /** The take's feel (`chart.feel ?? song.feel`) — swung feels grade, play
+   * back, and render on the swung grid (doc 09). */
+  feel?: Feel;
 }
 
 export interface PlaySessionCallbacks {
@@ -73,7 +76,7 @@ export class PlaySession {
     this.offTick = audioService.onTick((tick) => {
       if (tick.beat === opts.countInBeats) {
         this.chartStartPerfMs = tick.perfMs;
-        this.grader = new LiveGrader(opts.chart, opts.tempoBPM, opts.tier, tick.perfMs);
+        this.grader = new LiveGrader(opts.chart, opts.tempoBPM, opts.tier, tick.perfMs, opts.feel);
         this.setPhase('playing');
         // Admit late-count-in notes (an anticipated first note) into the take
         // so scoring grades them as Early instead of erasing them. Anything
@@ -92,7 +95,7 @@ export class PlaySession {
 
     audioService.startMetronome(opts.tempoBPM, opts.beatsPerBar);
     if (this.mode === 'preview') {
-      audioService.scheduleChartAudio(opts.chart.notes, opts.countInBeats);
+      audioService.scheduleChartAudio(opts.chart.notes, opts.countInBeats, opts.feel);
     }
   }
 
@@ -159,6 +162,7 @@ export class PlaySession {
       tier: opts.tier,
       startTimeMs: this.chartStartPerfMs,
       assistsUsed: opts.assists,
+      feel: opts.feel,
     });
     this.setPhase('done');
     this.cb.onComplete?.(attempt);
