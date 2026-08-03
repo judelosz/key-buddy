@@ -87,3 +87,14 @@ Last full pass: 2026-07-29 (Modern Music Room shell — responsive screenshots a
 - [ ] ⏳ Reduced-motion OS setting: animations gone, nothing broken.
 - [ ] ⏳ Keyboard-only navigation with visible focus rings across the shell, onboarding, and a lesson.
 - [ ] ⏳ v1 IndexedDB (pre-Phase-4) upgrade: old profile keeps XP/skills/unlocks, resumes at learning tier 1.
+
+## Swing / Tiers 8–9 (added 2026-08-03 — the doc-09 tunables await this pass)
+
+- [ ] ⏳ **Swing band feel on MIDI (the big one):** play the Frankie boss honestly swung at 84 BPM — does `minSwingInBandPct: 0.7` pass a real musical shuffle and fail deliberate straight play? Tune `swingBandForTempo` / `SWING_MASTERY_IN_BAND` in `core/scoring/swing.ts` from real takes, not synthetic ones.
+- [ ] ⏳ Swung echo taps (`l-sf-echo`): the "Too straight — lean the pair" pill fires when you flatten; a relaxed doo-dah passes; the count-in still self-calibrates.
+- [ ] ⏳ Feel-ID and swing-dial lessons: the A/B cells are audibly different at 88 BPM through real speakers; the dial's 1.5-vs-2.0 comparison isn't too subtle.
+- [ ] ⏳ SwingRatioCard sanity: the measured ratio on a deliberately straight take reads ≈1.0, a hard triplet take ≈2.0+; the flattening note names a believable bar.
+- [ ] ⏳ Swung preview/falling notes: Watch mode on Frankie--full sounds long-short AND the lane looks long-short (visual pairs match the audio).
+- [ ] ⏳ Continuity bar (`l-sc-apply`/`l-sc-boss`): a mid-take freeze fails with the stop message; a flubbed-but-flowing take passes.
+- [ ] ⏳ **Musical listen-through** of the three new arrangements (Frankie and Johnny, St. Louis Blues, C.C. Rider) — melodies are trivially editable in `src/content/charts/*.json`.
+- [ ] ⏳ Tier 8 challenge unlock: St. Louis Blues appears in Free Play's challenge section at Level 8 with the shuffle turnaround playable.

@@ -1,0 +1,600 @@
+{
+  "id": "cc-rider--simplified",
+  "songId": "cc-rider",
+  "arrangementLevel": "simplified",
+  "timeSignature": {
+    "beatsPerBar": 4,
+    "beatUnit": 4
+  },
+  "chordSymbols": [
+    {
+      "bar": 0,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 1,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 2,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 3,
+      "beat": 0,
+      "symbol": "C7"
+    },
+    {
+      "bar": 4,
+      "beat": 0,
+      "symbol": "F"
+    },
+    {
+      "bar": 5,
+      "beat": 0,
+      "symbol": "F"
+    },
+    {
+      "bar": 6,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 7,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 8,
+      "beat": 0,
+      "symbol": "G7"
+    },
+    {
+      "bar": 9,
+      "beat": 0,
+      "symbol": "F"
+    },
+    {
+      "bar": 10,
+      "beat": 0,
+      "symbol": "C"
+    },
+    {
+      "bar": 11,
+      "beat": 0,
+      "symbol": "C"
+    }
+  ],
+  "notes": [
+    {
+      "id": "e0",
+      "pitches": [
+        48
+      ],
+      "startBeat": 0,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e1",
+      "pitches": [
+        67
+      ],
+      "startBeat": 0,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e2",
+      "pitches": [
+        48
+      ],
+      "startBeat": 2,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e3",
+      "pitches": [
+        64
+      ],
+      "startBeat": 2,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e4",
+      "pitches": [
+        67
+      ],
+      "startBeat": 3,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e5",
+      "pitches": [
+        48
+      ],
+      "startBeat": 4,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e6",
+      "pitches": [
+        69
+      ],
+      "startBeat": 4,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e7",
+      "pitches": [
+        48
+      ],
+      "startBeat": 6,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e8",
+      "pitches": [
+        67
+      ],
+      "startBeat": 6,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e9",
+      "pitches": [
+        48
+      ],
+      "startBeat": 8,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e10",
+      "pitches": [
+        64
+      ],
+      "startBeat": 8,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e11",
+      "pitches": [
+        67
+      ],
+      "startBeat": 9,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e12",
+      "pitches": [
+        48
+      ],
+      "startBeat": 10,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e13",
+      "pitches": [
+        64
+      ],
+      "startBeat": 10,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e14",
+      "pitches": [
+        62
+      ],
+      "startBeat": 11,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e15",
+      "pitches": [
+        48
+      ],
+      "startBeat": 12,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e16",
+      "pitches": [
+        60
+      ],
+      "startBeat": 12,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e17",
+      "pitches": [
+        48
+      ],
+      "startBeat": 14,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e18",
+      "pitches": [
+        64
+      ],
+      "startBeat": 14,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e19",
+      "pitches": [
+        41
+      ],
+      "startBeat": 16,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e20",
+      "pitches": [
+        65
+      ],
+      "startBeat": 16,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e21",
+      "pitches": [
+        41
+      ],
+      "startBeat": 18,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e22",
+      "pitches": [
+        69
+      ],
+      "startBeat": 18,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e23",
+      "pitches": [
+        72
+      ],
+      "startBeat": 19,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e24",
+      "pitches": [
+        41
+      ],
+      "startBeat": 20,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e25",
+      "pitches": [
+        69
+      ],
+      "startBeat": 20,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e26",
+      "pitches": [
+        41
+      ],
+      "startBeat": 22,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e27",
+      "pitches": [
+        65
+      ],
+      "startBeat": 22,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e28",
+      "pitches": [
+        48
+      ],
+      "startBeat": 24,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e29",
+      "pitches": [
+        64
+      ],
+      "startBeat": 24,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e30",
+      "pitches": [
+        67
+      ],
+      "startBeat": 25,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e31",
+      "pitches": [
+        48
+      ],
+      "startBeat": 26,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e32",
+      "pitches": [
+        64
+      ],
+      "startBeat": 26,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e33",
+      "pitches": [
+        62
+      ],
+      "startBeat": 27,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e34",
+      "pitches": [
+        48
+      ],
+      "startBeat": 28,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e35",
+      "pitches": [
+        64
+      ],
+      "startBeat": 28,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e36",
+      "pitches": [
+        48
+      ],
+      "startBeat": 30,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e37",
+      "pitches": [
+        67
+      ],
+      "startBeat": 30,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e38",
+      "pitches": [
+        43
+      ],
+      "startBeat": 32,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e39",
+      "pitches": [
+        74
+      ],
+      "startBeat": 32,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e40",
+      "pitches": [
+        43
+      ],
+      "startBeat": 34,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e41",
+      "pitches": [
+        71
+      ],
+      "startBeat": 34,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e42",
+      "pitches": [
+        67
+      ],
+      "startBeat": 35,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e43",
+      "pitches": [
+        41
+      ],
+      "startBeat": 36,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e44",
+      "pitches": [
+        69
+      ],
+      "startBeat": 36,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e45",
+      "pitches": [
+        41
+      ],
+      "startBeat": 38,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e46",
+      "pitches": [
+        65
+      ],
+      "startBeat": 38,
+      "durationBeats": 2,
+      "hand": "right"
+    },
+    {
+      "id": "e47",
+      "pitches": [
+        48
+      ],
+      "startBeat": 40,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e48",
+      "pitches": [
+        64
+      ],
+      "startBeat": 40,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e49",
+      "pitches": [
+        67
+      ],
+      "startBeat": 41,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e50",
+      "pitches": [
+        48
+      ],
+      "startBeat": 42,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e51",
+      "pitches": [
+        62
+      ],
+      "startBeat": 42,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e52",
+      "pitches": [
+        62
+      ],
+      "startBeat": 43,
+      "durationBeats": 1,
+      "hand": "right"
+    },
+    {
+      "id": "e53",
+      "pitches": [
+        48
+      ],
+      "startBeat": 44,
+      "durationBeats": 2,
+      "hand": "left"
+    },
+    {
+      "id": "e54",
+      "pitches": [
+        60
+      ],
+      "startBeat": 44,
+      "durationBeats": 3,
+      "hand": "right"
+    },
+    {
+      "id": "e55",
+      "pitches": [
+        48
+      ],
+      "startBeat": 46,
+      "durationBeats": 2,
+      "hand": "left"
+    }
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "label": "Bars 1\u20134 \u2014 see, see rider",
+      "startBar": 0,
+      "endBar": 3
+    },
+    {
+      "id": "A2",
+      "label": "Bars 5\u20138 \u2014 you made me love you",
+      "startBar": 4,
+      "endBar": 7
+    },
+    {
+      "id": "B",
+      "label": "Bars 9\u201312 \u2014 oh lawdy",
+      "startBar": 8,
+      "endBar": 11
+    }
+  ],
+  "taughtSkills": [
+    "harmony-harmonic-rhythm"
+  ]
+}

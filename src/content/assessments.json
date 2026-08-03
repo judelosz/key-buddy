@@ -90,5 +90,17 @@
       "l-sf-ab",
       "l-sf-dial"
     ]
+  },
+  {
+    "id": "assess-t9-checkpoint",
+    "scope": "tier",
+    "tier": 9,
+    "lessonId": "l-sc-gate-quiz",
+    "passScorePct": 0.8,
+    "remediationLessonIds": [
+      "l-sc-theory",
+      "l-sc-inv-cf",
+      "l-sc-inv-cg"
+    ]
   }
 ]

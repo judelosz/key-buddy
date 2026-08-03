@@ -2985,5 +2985,326 @@
         ]
       }
     ]
+  },
+  {
+    "id": "theory-inversions",
+    "name": "Chord inversions",
+    "explanation": "A chord is the same chord whichever note sits on the bottom. Re-stacking it \u2014 an inversion \u2014 lets your hand move to the NEAREST shape at a change instead of jumping. Keep the common tone, move the rest.",
+    "examples": [
+      "C (C-E-G) \u2192 F/C (C-F-A): the C never moves.",
+      "G7/B puts B on the bottom \u2014 one half-step below home."
+    ],
+    "linkedSkillIds": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ],
+    "linkedSongIds": [
+      "cc-rider"
+    ],
+    "questions": [
+      {
+        "id": "ti-q1",
+        "promptText": "What is a chord inversion?",
+        "choices": [
+          "The same chord with a different note on the bottom",
+          "A different chord with the same name",
+          "A chord played backwards in time",
+          "A chord in a different key"
+        ],
+        "answerIndex": 0,
+        "explanation": "Re-stack the same notes \u2014 the chord keeps its name, only the bottom changes.",
+        "choiceExplanations": [
+          "Yes \u2014 same three notes, re-stacked; C-E-G, E-G-C, and G-C-E are all C.",
+          "The name follows the NOTES \u2014 re-stacking doesn't change what chord it is.",
+          "Inversions are about vertical stacking, not the order in time.",
+          "All inversions live in the same key \u2014 nothing transposes."
+        ]
+      },
+      {
+        "id": "ti-q2",
+        "promptText": "Moving C (C-E-G) to F, the smoothest choice is F/C (C-F-A) because\u2026",
+        "choices": [
+          "The common tone C stays put and two fingers move one step",
+          "It's louder",
+          "It uses fewer notes",
+          "F/C is a different chord than F"
+        ],
+        "answerIndex": 0,
+        "explanation": "Voice leading: hold what's shared, move the rest the shortest distance.",
+        "choiceExplanations": [
+          "Yes \u2014 C holds, E slides to F, G slides to A. Minimal movement, no jump.",
+          "Inversions don't change volume \u2014 they change geography.",
+          "Both shapes have three notes \u2014 the win is the shorter trip.",
+          "F/C IS an F chord \u2014 same notes, C on the bottom."
+        ]
+      },
+      {
+        "id": "ti-q3",
+        "promptText": "Why does G7/B (B on the bottom) pull so strongly back to C?",
+        "choices": [
+          "B is the leading tone \u2014 a half-step below home",
+          "B is the loudest note",
+          "It doesn't \u2014 G7 is restful",
+          "Because B is a black key"
+        ],
+        "answerIndex": 0,
+        "explanation": "The leading tone sits one half-step under the tonic and leans on it.",
+        "choiceExplanations": [
+          "Yes \u2014 B wants to rise to C; putting it in the bass aims the whole chord home.",
+          "Pull comes from voice-leading distance, not volume.",
+          "G7 is the tension chord of the key \u2014 the least restful of the three.",
+          "B is a white key \u2014 and the pull would exist either way."
+        ]
+      },
+      {
+        "id": "ti-q4",
+        "promptText": "\"Harmonic rhythm\" means\u2026",
+        "choices": [
+          "WHEN the chords change",
+          "How fast the melody moves",
+          "The drummer's pattern",
+          "How loud each chord is"
+        ],
+        "answerIndex": 0,
+        "explanation": "Harmony has its own rhythm: the schedule of the changes.",
+        "choiceExplanations": [
+          "Yes \u2014 one chord per bar, two per bar: that schedule is the harmonic rhythm.",
+          "Melody rhythm is separate \u2014 the chords underneath keep their own schedule.",
+          "No drums needed \u2014 the changes themselves make the rhythm.",
+          "Dynamics are expression; harmonic rhythm is timing."
+        ]
+      },
+      {
+        "id": "ti-q5",
+        "promptText": "You're mid-chorus and the next shape won't come. The musical move is\u2026",
+        "choices": [
+          "Keep the pulse and rejoin at the next change",
+          "Stop, find the notes, then continue",
+          "Start the whole song over",
+          "Play any loud chord"
+        ],
+        "answerIndex": 0,
+        "explanation": "The band wouldn't wait: keeping time through a fumble is the skill this tier trains.",
+        "choiceExplanations": [
+          "Yes \u2014 hold the groove, let one change go by, land the next one on time.",
+          "Stopping breaks the one thing the music can't survive without \u2014 the pulse.",
+          "A restart throws away eleven good bars for one bad beat.",
+          "A wrong crash is worse than a beat of space \u2014 space keeps the form."
+        ]
+      },
+      {
+        "id": "ti-q6",
+        "promptText": "In the 12-bar form, chord changes usually land\u2026",
+        "choices": [
+          "On the barline \u2014 beat 1",
+          "On beat 3",
+          "Anywhere you like",
+          "Between bars"
+        ],
+        "answerIndex": 0,
+        "explanation": "The 12-bar's harmonic rhythm is bar-aligned: new bar, (maybe) new chord.",
+        "choiceExplanations": [
+          "Yes \u2014 the change belongs to the downbeat of its bar.",
+          "Beat-3 changes exist in other styles \u2014 the basic 12-bar changes on 1.",
+          "The form is a shared map \u2014 the changes land where everyone expects them.",
+          "\"Between bars\" isn't a place the band can meet you."
+        ]
+      },
+      {
+        "id": "ti-q7",
+        "promptText": "Which trip is SHORTEST for the right hand?",
+        "choices": [
+          "C (C-E-G) \u2192 F/C (C-F-A)",
+          "C (C-E-G) \u2192 F root position (F-A-C) an octave up",
+          "C (C-E-G) \u2192 F (F-A-C) a fourth up, whole hand",
+          "They're all the same distance"
+        ],
+        "answerIndex": 0,
+        "explanation": "C\u2192F/C moves two fingers by a step and holds the third \u2014 nothing else comes close.",
+        "choiceExplanations": [
+          "Yes \u2014 hold C, nudge E\u2192F and G\u2192A. Two steps, zero jumps.",
+          "An octave-up root position is the LONGEST trip on offer.",
+          "Jumping the whole hand a fourth works, but it's exactly the jump inversions remove.",
+          "Distances differ wildly \u2014 that difference is the whole point of inversions."
+        ]
+      },
+      {
+        "id": "ti-q8",
+        "promptText": "Why learn inversions right after the dominant 7th tier?",
+        "choices": [
+          "Dom7 changes are where jumping hands stumble \u2014 inversions smooth them",
+          "Inversions only work on 7th chords",
+          "They replace the left hand",
+          "They make the song shorter"
+        ],
+        "answerIndex": 0,
+        "explanation": "Tier 7 gave you the chords; Tier 9 makes moving BETWEEN them effortless.",
+        "choiceExplanations": [
+          "Yes \u2014 C7\u2192F7\u2192G7 with root-position jumps is a stumble factory; nearest-shape moves fix it.",
+          "Inversions work on any chord \u2014 triads included.",
+          "The left hand keeps its own job (roots, shuffle) \u2014 inversions live in the right.",
+          "Same length \u2014 the changes just stop costing you the pulse."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "theory-tier9-checkpoint",
+    "name": "Tier 9 checkpoint \u2014 smooth changes",
+    "explanation": "Cross-strand check for Tier 9: inversions, voice leading, harmonic rhythm, and playing through a miss.",
+    "examples": [],
+    "linkedSkillIds": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ],
+    "linkedSongIds": [
+      "cc-rider"
+    ],
+    "questions": [
+      {
+        "id": "t9c-q1",
+        "promptText": "C-E-G, E-G-C, and G-C-E are\u2026",
+        "choices": [
+          "All C major \u2014 three stackings of one chord",
+          "Three different chords",
+          "C, E minor, and G major",
+          "A scale"
+        ],
+        "answerIndex": 0,
+        "explanation": "Same notes, same chord \u2014 the bottom note names the inversion, not the chord.",
+        "choiceExplanations": [
+          "Yes \u2014 root position, first inversion, second inversion of C major.",
+          "Count the pitch classes: C, E, G every time \u2014 one chord.",
+          "The names follow the full stack, not just the bottom note.",
+          "A scale runs stepwise \u2014 these are stacked thirds."
+        ]
+      },
+      {
+        "id": "t9c-q2",
+        "promptText": "The common tone between C (C-E-G) and F (F-A-C) is\u2026",
+        "choices": [
+          "C",
+          "E",
+          "G",
+          "A"
+        ],
+        "answerIndex": 0,
+        "explanation": "C lives in both chords \u2014 the finger that never moves at that change.",
+        "choiceExplanations": [
+          "Yes \u2014 C belongs to both; hold it and move the other two.",
+          "E belongs only to the C chord \u2014 it slides up to F.",
+          "G belongs only to the C chord \u2014 it slides up to A.",
+          "A belongs only to the F chord \u2014 it's where G is headed."
+        ]
+      },
+      {
+        "id": "t9c-q3",
+        "promptText": "Two chords per bar instead of one means\u2026",
+        "choices": [
+          "A faster harmonic rhythm",
+          "A faster tempo",
+          "A louder left hand",
+          "A different key"
+        ],
+        "answerIndex": 0,
+        "explanation": "The changes come twice as often \u2014 the harmony's own rhythm sped up.",
+        "choiceExplanations": [
+          "Yes \u2014 tempo can stay identical while the chord schedule doubles.",
+          "The beat hasn't changed \u2014 only how often the harmony moves on it.",
+          "Density of changes, not volume.",
+          "Same key \u2014 busier schedule."
+        ]
+      },
+      {
+        "id": "t9c-q4",
+        "promptText": "Your Tier-9 boss demands 'no stops'. That means\u2026",
+        "choices": [
+          "The pulse never breaks \u2014 even if a note goes wrong",
+          "Every note must be perfect",
+          "You can't slow down before starting",
+          "No rests anywhere"
+        ],
+        "answerIndex": 0,
+        "explanation": "Continuity is the graded evidence: a flubbed note that keeps time beats a perfect note that stops it.",
+        "choiceExplanations": [
+          "Yes \u2014 misses happen; the take fails only when the PULSE breaks.",
+          "Perfection isn't the bar \u2014 an unbroken pulse is.",
+          "Tempo choice happens before the take; stops happen inside it.",
+          "Written rests are music \u2014 a stop is an unplanned hole where notes belonged."
+        ]
+      },
+      {
+        "id": "t9c-q5",
+        "promptText": "Best voicing for G7 when you're coming from C and going back to C?",
+        "choices": [
+          "G7/B \u2014 leading tone on the bottom, one step from home",
+          "G7 root position two octaves down",
+          "Any random stack",
+          "Skip the G7"
+        ],
+        "answerIndex": 0,
+        "explanation": "G7/B keeps the hand in place and aims B straight at C.",
+        "choiceExplanations": [
+          "Yes \u2014 B sits a half-step under C; the return trip is one finger-width.",
+          "Two octaves away is maximal jump \u2014 the opposite of smooth.",
+          "Voicings are chosen for the TRIP, not at random.",
+          "Bar 9's tension is the story of the form \u2014 it can't be skipped."
+        ]
+      },
+      {
+        "id": "t9c-q6",
+        "promptText": "Bar 9 of the 12-bar form brings the V chord. With inversions, your hand should\u2026",
+        "choices": [
+          "Slide to the nearest G7 shape and stay in position",
+          "Leap to root-position G7",
+          "Stop and reset",
+          "Play the C chord louder"
+        ],
+        "answerIndex": 0,
+        "explanation": "The V arrives on time BECAUSE the trip is short.",
+        "choiceExplanations": [
+          "Yes \u2014 nearest shape, minimal motion, change lands on the barline.",
+          "The leap is exactly what makes bar 9 late.",
+          "Stopping to reset is the failure mode this tier exists to end.",
+          "Volume isn't harmony \u2014 bar 9 needs the G7."
+        ]
+      },
+      {
+        "id": "t9c-q7",
+        "promptText": "Which take passes a 'changes without stopping' bar?",
+        "choices": [
+          "One wrong note in bar 6, pulse never breaks",
+          "All notes right, but a two-beat freeze at bar 9",
+          "Stopping twice to fix chords",
+          "Restarting at every mistake"
+        ],
+        "answerIndex": 0,
+        "explanation": "The bar reads continuity, not perfection-at-any-cost.",
+        "choiceExplanations": [
+          "Yes \u2014 the pulse survived; that's the evidence the gate wants.",
+          "A freeze at the V change is precisely the stop being measured.",
+          "Two stops is two broken pulses.",
+          "Restarts never finish a chorus at all."
+        ]
+      },
+      {
+        "id": "t9c-q8",
+        "promptText": "Why do the drills pair C\u2194F/C and C\u2194G7/B separately before the full form?",
+        "choices": [
+          "Each change gets blocked practice before they interleave in the form",
+          "F and G7 can't appear in one song",
+          "To make practice longer",
+          "The full form is impossible"
+        ],
+        "answerIndex": 0,
+        "explanation": "Blocked-then-interleaved: own each trip alone, then mix them under the real schedule.",
+        "choiceExplanations": [
+          "Yes \u2014 the same pattern Tier 7 used for its chord changes.",
+          "They share every chorus of the form \u2014 bars 5 and 9.",
+          "Fewer, better-aimed reps \u2014 not more.",
+          "You'll play the full form by the end of this module."
+        ]
+      }
+    ]
   }
 ]

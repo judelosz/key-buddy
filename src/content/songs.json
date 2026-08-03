@@ -378,5 +378,44 @@
       "st-louis-blues--simplified"
     ],
     "fragmentIds": []
+  },
+  {
+    "id": "cc-rider",
+    "title": "C.C. Rider",
+    "source": "Ma Rainey (traditional blues)",
+    "year": 1924,
+    "publicDomain": true,
+    "licenseNote": "First recorded 1924, public domain; arrangement is original to this app.",
+    "genre": "blues",
+    "tier": 9,
+    "key": "C",
+    "tempoTargetBPM": 88,
+    "timeSignature": {
+      "beatsPerBar": 4,
+      "beatUnit": 4
+    },
+    "feel": "shuffle",
+    "requiredSkills": [
+      "harmony-12bar-form",
+      "chord-dom7",
+      "rhythm-swing-feel"
+    ],
+    "taughtSkills": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ],
+    "arrangementLevels": [
+      "simplified",
+      "full"
+    ],
+    "chartIds": [
+      "cc-rider--simplified",
+      "cc-rider--full"
+    ],
+    "fragmentIds": [
+      "frag-inversion-cf",
+      "frag-inversion-cg",
+      "frag-cc-comp-form"
+    ]
   }
 ]

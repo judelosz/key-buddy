@@ -348,7 +348,7 @@ export class ExerciseEngine {
           durationBeats: 0.5,
           hand: 'right' as const,
         })),
-        perNoteGrades: expected.beats.map((b, i) => ({
+        perNoteGrades: expected.beats.map((_b, i) => ({
           noteEventId: `tap${i}`,
           grade: 'good' as const,
           deviationMs: this.taps.deviations[i] ?? null,

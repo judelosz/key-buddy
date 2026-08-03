@@ -178,6 +178,69 @@
     ]
   },
   {
+    "id": "chord-inversions",
+    "name": "Chord inversions",
+    "family": "chords-voicings",
+    "tier": 9,
+    "genre": "blues",
+    "prerequisites": [
+      "chord-major-triad",
+      "chord-dom7"
+    ],
+    "description": "The same chord, re-stacked \u2014 move to the nearest shape instead of jumping.",
+    "arc": "blues",
+    "strand": "harmony",
+    "outcome": "Move C \u2192 F/C \u2192 G7/B with minimal hand movement, holding the common tone and letting the leading tone resolve.",
+    "moduleId": "m9-smooth-changes",
+    "assessment": {
+      "minStars": 3,
+      "minNotesCorrectPct": 0.9,
+      "minGoodOrBetterPct": 0.75,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "harmony-nashville-numbers"
+    ],
+    "commonErrors": [
+      "Jumping to root position on every change instead of the nearest inversion",
+      "Losing the common tone that should never move",
+      "Re-fingering the whole hand at the barline"
+    ]
+  },
+  {
+    "id": "harmony-harmonic-rhythm",
+    "name": "Harmonic rhythm",
+    "family": "harmony-progressions",
+    "tier": 9,
+    "genre": "blues",
+    "prerequisites": [
+      "harmony-12bar-form"
+    ],
+    "description": "WHEN the chords change \u2014 landing every change on time without stopping.",
+    "arc": "blues",
+    "strand": "harmony",
+    "outcome": "Place every chord change of a 12-bar chorus on its barline, on time, without breaking the pulse.",
+    "moduleId": "m9-smooth-changes",
+    "assessment": {
+      "minStars": 3,
+      "minNotesCorrectPct": 0.85,
+      "minGoodOrBetterPct": 0.75,
+      "requiresAtTempo": true,
+      "requiresNoAssists": true,
+      "repeatedSessions": 2
+    },
+    "transferTargets": [
+      "harmony-nashville-numbers"
+    ],
+    "commonErrors": [
+      "Stopping the pulse to find the next shape",
+      "Changing late \u2014 the new chord limping in after the barline",
+      "Rushing the bar before a change out of anxiety"
+    ]
+  },
+  {
     "id": "chord-major-triad",
     "name": "Major triads & inversions",
     "family": "chords-voicings",

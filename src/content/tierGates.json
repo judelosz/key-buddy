@@ -116,5 +116,20 @@
     "requiresDelayedReview": true,
     "handsXpBand": 34,
     "headXpBand": 55
+  },
+  {
+    "tier": 9,
+    "coreSkillIds": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ],
+    "bossSongId": "cc-rider",
+    "bossChartId": "cc-rider--full",
+    "checkpointAssessmentIds": [
+      "assess-t9-checkpoint"
+    ],
+    "requiresDelayedReview": true,
+    "handsXpBand": 36,
+    "headXpBand": 55
   }
 ]

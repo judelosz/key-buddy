@@ -569,6 +569,44 @@
       "lh-root-notes"
     ],
     "prepares": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ]
+  },
+  {
+    "id": "m9-smooth-changes",
+    "arc": "blues",
+    "tier": 9,
+    "title": "Smooth changes",
+    "promise": "Stop jumping at the barline \u2014 the nearest shape is always one step away",
+    "prerequisiteModuleIds": [
+      "m8-shuffle-feel"
+    ],
+    "lessonIds": [
+      "l-sc-listen",
+      "l-sc-theory",
+      "l-sc-build",
+      "l-sc-ear",
+      "l-sc-inv-cf",
+      "l-sc-inv-cg",
+      "l-sc-form",
+      "l-sc-symbols",
+      "l-sc-apply",
+      "l-sc-gate-quiz",
+      "l-sc-boss",
+      "l-sc-stretch"
+    ],
+    "coreSkillIds": [
+      "chord-inversions",
+      "harmony-harmonic-rhythm"
+    ],
+    "bossLessonId": "l-sc-boss",
+    "revisits": [
+      "chord-dom7",
+      "harmony-12bar-form",
+      "rhythm-swing-feel"
+    ],
+    "prepares": [
       "harmony-nashville-numbers"
     ]
   }
