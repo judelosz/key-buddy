@@ -22,6 +22,7 @@ import type { LessonReward } from '@/core/session/recordLesson';
 import {
   directiveLabel,
   generatorOverridesFor,
+  isSteppable,
   policyOverrideFor,
   practiceGeneratorOverridesFor,
   practicePolicyOverrideFor,
@@ -314,7 +315,11 @@ export function SessionRunner() {
     const refId =
       current.activity.kind === 'lesson' ? current.activity.lessonId : ref.split(':')[1];
     const directive =
-      !d.passed && lastAdaptation?.next.refId === refId ? lastAdaptation?.directive : undefined;
+      !d.passed &&
+      lastAdaptation?.next.refId === refId &&
+      (resolved.lesson === undefined || resolved.lesson === null || isSteppable(resolved.lesson))
+        ? lastAdaptation?.directive
+        : undefined;
     const practiceOnly =
       resolved.lesson?.mode === 'independent' || resolved.lesson?.mode === 'performance';
 

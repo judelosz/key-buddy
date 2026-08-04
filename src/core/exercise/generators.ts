@@ -188,36 +188,42 @@ function rhythmTap(lesson: CurriculumLesson): ExercisePrompt[] {
 
 // ─── Feel identification (doc 09 §7: teach the feel before grading it) ───────
 
-/** A shuffle-bass ear cell: root-5 / root-6 rock on C, one bar of eighths. */
-const FEEL_CELL: { pitch: number; startBeat: number }[] = [
-  { pitch: 48, startBeat: 0 },
-  { pitch: 55, startBeat: 0.5 },
-  { pitch: 48, startBeat: 1 },
-  { pitch: 57, startBeat: 1.5 },
-  { pitch: 48, startBeat: 2 },
-  { pitch: 55, startBeat: 2.5 },
-  { pitch: 48, startBeat: 3 },
-  { pitch: 57, startBeat: 3.5 },
+/**
+ * Blues-flavored one-bar ear cells — 8 straight eighths each, all alternating
+ * onbeat/offbeat so the swing transform reshapes every pair. A pool (plus
+ * register and tempo variation) keeps the mission from droning one riff
+ * (test-window feedback); the two cells WITHIN a prompt always share cell,
+ * register, and tempo so the only difference to hear is the lean.
+ */
+const FEEL_CELLS: readonly (readonly number[])[] = [
+  [48, 55, 48, 57, 48, 55, 48, 57], // shuffle-bass rock on C (root-5 / root-6)
+  [41, 48, 41, 50, 41, 48, 41, 50], // the same rock on F
+  [48, 52, 55, 57, 60, 57, 55, 52], // boogie arpeggio, up and back
+  [60, 63, 65, 67, 70, 67, 65, 63], // C minor pentatonic climb
+  [72, 70, 67, 65, 63, 65, 62, 60], // descending blues answer phrase
 ];
+const FEEL_ID_BPMS = [80, 88, 96];
+/** Keep transposed cells inside the sampled piano's comfortable range. */
+const FEEL_CELL_TRANSPOSE_CEILING = 79;
 
-/** Render the cell at a swing ratio as gapless AudioChords (timing lives in
+/** Render a cell at a swing ratio as gapless AudioChords (timing lives in
  * durationSec; gapAfterSec 0). ratio 1 = straight. */
-function feelCellAudio(ratio: number, bpm: number, gapAfterSec = 0): AudioChord[] {
+function feelCellAudio(
+  cell: readonly number[],
+  ratio: number,
+  bpm: number,
+  transpose: number,
+  gapAfterSec = 0,
+): AudioChord[] {
   const beatSec = 60 / bpm;
   const split = ratio / (ratio + 1);
-  const chords: AudioChord[] = FEEL_CELL.map((n, i) => {
-    const isOffbeat = n.startBeat % 1 !== 0;
-    const durationSec = (isOffbeat ? 1 - split : split) * beatSec;
-    return {
-      pitches: [n.pitch],
-      durationSec,
-      gapAfterSec: i === FEEL_CELL.length - 1 ? gapAfterSec : 0,
-    };
-  });
-  return chords;
+  return cell.map((pitch, i) => ({
+    pitches: [pitch + transpose],
+    durationSec: (i % 2 === 1 ? 1 - split : split) * beatSec,
+    gapAfterSec: i === cell.length - 1 ? gapAfterSec : 0,
+  }));
 }
 
-const FEEL_ID_BPM_DEFAULT = 88;
 /** Swing-dial comparison ratios (doc-08 2.11): subtle → target → hard. */
 const DIAL_RATIOS = [1.5, 2, 3];
 
@@ -226,22 +232,32 @@ const DIAL_RATIOS = [1.5, 2, 3];
  * params: { variant: 'ab' | 'dial', count?, bpm? }
  *  - 'ab':   the same cell twice — once straight, once swung — "which swings?"
  *  - 'dial': the cell at two different swing ratios — "which swings harder?"
+ * Each prompt draws its own cell, register, and tempo (bpm param pins tempo).
  */
 function feelId(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
   const p = lesson.generatorParams ?? {};
   const variant = str(p.variant, 'ab');
   const count = num(p.count, 6);
-  const bpm = num(p.bpm, FEEL_ID_BPM_DEFAULT);
+  const pinnedBpm = typeof p.bpm === 'number' ? p.bpm : undefined;
   const betweenSec = 0.9;
 
+  // Cycle the cell pool so a 6-prompt mission never repeats before it must.
+  const cells = sampleCycle(FEEL_CELLS, count, rand);
+
   return Array.from({ length: count }, (_, i) => {
+    const cell = cells[i];
+    const bpm = pinnedBpm ?? FEEL_ID_BPMS[Math.floor(rand() * FEEL_ID_BPMS.length)];
+    const canTranspose = Math.max(...cell) + 12 <= FEEL_CELL_TRANSPOSE_CEILING;
+    const transpose = canTranspose && rand() < 0.4 ? 12 : 0;
+    const cellAt = (ratio: number, gap = 0) => feelCellAudio(cell, ratio, bpm, transpose, gap);
+
     if (variant === 'dial') {
       const [a, b] = shuffled(DIAL_RATIOS, rand).slice(0, 2);
       const harderFirst = a > b;
       return {
         id: `${lesson.id}-p${i}`,
         displayText: 'Two shuffles — which one swings harder?',
-        audio: [...feelCellAudio(a, bpm, betweenSec), ...feelCellAudio(b, bpm)],
+        audio: [...cellAt(a, betweenSec), ...cellAt(b)],
         choices: ['The first', 'The second'],
         choiceExplanations: harderFirst
           ? [
@@ -262,8 +278,8 @@ function feelId(lesson: CurriculumLesson, rand: Rand): ExercisePrompt[] {
       id: `${lesson.id}-p${i}`,
       displayText: 'The same riff twice — which one swings?',
       audio: swungFirst
-        ? [...feelCellAudio(2, bpm, betweenSec), ...feelCellAudio(1, bpm)]
-        : [...feelCellAudio(1, bpm, betweenSec), ...feelCellAudio(2, bpm)],
+        ? [...cellAt(2, betweenSec), ...cellAt(1)]
+        : [...cellAt(1, betweenSec), ...cellAt(2)],
       choices: ['The first', 'The second'],
       choiceExplanations: swungFirst
         ? [

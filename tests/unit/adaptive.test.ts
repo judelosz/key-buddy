@@ -7,6 +7,7 @@ import {
   generatorOverridesFor,
   initialAdaptation,
   policyOverrideFor,
+  isSteppable,
   stepDownFor,
   workingTempoPct,
 } from '@/core/adaptive/adaptive';
@@ -172,5 +173,14 @@ describe('override mapping', () => {
     const quiz = lesson({ exerciseType: 'theory-quiz', theoryConceptId: 'tc', chartId: undefined });
     const adapt = initialAdaptation(quiz.id, quiz, NOW);
     expect(stepDownFor(quiz, adapt, { scorePct: 0.8, passed: false }, NOW)).toBeNull();
+  });
+
+  it('isSteppable separates chart/tap lessons from discrete ones (result surfaces use it)', () => {
+    expect(isSteppable({ exerciseType: 'play-chart' })).toBe(true);
+    expect(isSteppable({ exerciseType: 'fragment' })).toBe(true);
+    expect(isSteppable({ exerciseType: 'rhythm-tap' })).toBe(true);
+    for (const t of ['theory-quiz', 'chord-ear', 'interval-ear', 'feel-id', 'note-id', 'listen'] as const) {
+      expect(isSteppable({ exerciseType: t })).toBe(false);
+    }
   });
 });

@@ -25,6 +25,11 @@ export interface ExerciseRunnerCallbacks {
   onTapFeedback?: (f: TapFeedback) => void;
 }
 
+/** Prompt-audio timers fire this far ahead of each note's due time; the note
+ * itself is still placed on the audio clock, so rhythm cells stay precise
+ * while cancellation can catch everything not yet handed to the context. */
+const PROMPT_AUDIO_LOOKAHEAD_MS = 120;
+
 export class ExerciseRunner {
   readonly engine: ExerciseEngine;
   private offNote: (() => void) | null = null;
@@ -32,6 +37,16 @@ export class ExerciseRunner {
   private disposed = false;
   /** True while a taps prompt is running its metronome. */
   tapsRunning = false;
+  /** Pending setTimeout ids for the current prompt's scheduled audio. */
+  private promptAudioTimers: number[] = [];
+  /**
+   * Set after a CHOICE prompt is answered: the runner holds here — no next
+   * prompt armed, no audio started, results not delivered — until the learner
+   * continues from the per-question review screen. `done` is carried when the
+   * answered question was the last one.
+   */
+  pendingReview: { prompt: ExercisePrompt; result: PromptResult; done?: ExerciseResult } | null =
+    null;
 
   constructor(
     readonly spec: ExerciseSpec,
@@ -73,23 +88,43 @@ export class ExerciseRunner {
     this.handle(this.engine.feed({ kind: 'watch-complete', atMs: performance.now() }));
   }
 
-  /** Play the current prompt's ear material (replay any time). */
-  async playPromptAudio(): Promise<void> {
-    const prompt = this.currentPrompt;
+  /**
+   * Play a prompt's ear material (defaults to the current prompt; the review
+   * screen replays the ANSWERED one). Notes are placed on the audio clock for
+   * precision, but each is dispatched by a short-lookahead timer so
+   * `cancelPromptAudio` can stop a riff mid-flight — an answered question must
+   * never bleed its audio into the next one.
+   */
+  async playPromptAudio(prompt: ExercisePrompt | null = this.currentPrompt): Promise<void> {
     if (!prompt?.audio) return;
     await audioService.init();
-    const startAudio = audioService.perfMsToAudioTime(performance.now()) + 0.15;
-    let offset = 0;
+    if (this.disposed) return;
+    this.cancelPromptAudio();
+    const startPerfMs = performance.now() + 150;
+    let offsetSec = 0;
     for (const chord of prompt.audio) {
       const dur = chord.durationSec ?? 1;
-      chord.pitches.forEach((p, i) => {
-        const stagger = chord.arpeggiate ? i * 0.22 : 0;
-        audioService.playNote(p, dur, 0.85, startAudio + offset + stagger);
-      });
+      const duePerfMs = startPerfMs + offsetSec * 1000;
+      const fireInMs = Math.max(0, duePerfMs - PROMPT_AUDIO_LOOKAHEAD_MS - performance.now());
+      const timer = window.setTimeout(() => {
+        const at = audioService.perfMsToAudioTime(duePerfMs);
+        chord.pitches.forEach((p, i) => {
+          const stagger = chord.arpeggiate ? i * 0.22 : 0;
+          audioService.playNote(p, dur, 0.85, at + stagger);
+        });
+      }, fireInMs);
+      this.promptAudioTimers.push(timer);
       // Rhythm cells (feel-id) set gapAfterSec 0 so durationSec alone carries
       // the timing; discrete ear prompts keep the default breathing gap.
-      offset += dur + (chord.gapAfterSec ?? 0.25);
+      offsetSec += dur + (chord.gapAfterSec ?? 0.25);
     }
+  }
+
+  /** Stop the current prompt's audio: clear unfired timers, release the rest. */
+  private cancelPromptAudio(): void {
+    for (const t of this.promptAudioTimers) window.clearTimeout(t);
+    this.promptAudioTimers = [];
+    if (audioService.isInitialized) audioService.stopAllNotes();
   }
 
   /**
@@ -151,6 +186,19 @@ export class ExerciseRunner {
         (w.__tapDebug ??= []).push({ ...out.tapFeedback, at: Math.round(performance.now()) });
       }
     }
+    if (out.promptResult) {
+      // Choice prompts pause on a per-question review screen: cut the riff the
+      // moment the answer lands, show verdict + "Explain my answer", and only
+      // move on (or deliver the final result) when the learner continues.
+      const answered = this.spec.prompts.find((p) => p.id === out.promptResult!.promptId);
+      if (answered?.expected.kind === 'choice') {
+        this.cancelPromptAudio();
+        this.pendingReview = { prompt: answered, result: out.promptResult, done: out.done };
+        this.cb.onPromptResult(out.promptResult);
+        this.cb.onChange();
+        return;
+      }
+    }
     if (out.promptResult) this.cb.onPromptResult(out.promptResult);
     if (out.done) {
       this.stopTaps();
@@ -160,10 +208,24 @@ export class ExerciseRunner {
     if (out.promptResult) this.armPrompt();
   }
 
+  /** Leave the per-question review: arm the next prompt, or deliver the
+   * lesson result if the reviewed question was the last one. */
+  continueAfterReview(): void {
+    const review = this.pendingReview;
+    if (!review || this.disposed) return;
+    this.pendingReview = null;
+    if (review.done) {
+      this.cb.onDone(review.done);
+      return;
+    }
+    this.armPrompt();
+  }
+
   dispose(): void {
     this.disposed = true;
     this.offNote?.();
     this.offNote = null;
+    this.cancelPromptAudio();
     this.stopTaps();
   }
 }

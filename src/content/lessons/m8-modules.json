@@ -6,14 +6,18 @@
     "title": "Hear the lean",
     "mode": "guided",
     "exerciseType": "listen",
-    "skillIds": ["rhythm-swing-feel"],
-    "prompt": "Frankie and Johnny — the left hand rocks in long-short pairs. Just listen for the skip in its step.",
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
+    "prompt": "Frankie and Johnny \u2014 the left hand rocks in long-short pairs. Just listen for the skip in its step.",
     "successRule": "Listen through once.",
-    "passCriteria": { "minScorePct": 0 },
+    "passCriteria": {
+      "minScorePct": 0
+    },
     "assistOptions": [],
     "chartId": "frankie-and-johnny--full",
     "generatorParams": {
-      "promptText": "This is a shuffle — the eighths aren't even. Say \"doo-dah, doo-dah\" along with the bass and you've found the lean."
+      "promptText": "This is a shuffle \u2014 the eighths aren't even. Say \"doo-dah, doo-dah\" along with the bass and you've found the lean."
     }
   },
   {
@@ -23,13 +27,19 @@
     "title": "Long-short, on paper",
     "mode": "guided",
     "exerciseType": "theory-quiz",
-    "skillIds": ["rhythm-swing-feel"],
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
     "prompt": "What the shuffle actually is: written straight, played leaning.",
-    "successRule": "Answer all 5 correctly — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
+    "successRule": "Answer all 5 correctly \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
     "theoryConceptId": "theory-swing-feel",
-    "generatorParams": { "count": 5 }
+    "generatorParams": {
+      "count": 5
+    }
   },
   {
     "id": "l-sf-ab",
@@ -38,12 +48,19 @@
     "title": "Straight or shuffled?",
     "mode": "guided",
     "exerciseType": "feel-id",
-    "skillIds": ["rhythm-swing-feel"],
-    "prompt": "The same riff, twice — one walks even, one skips. Catch the one that swings.",
-    "successRule": "Get all 6 right — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
+    "prompt": "The same riff, twice \u2014 one walks even, one skips. Catch the one that swings.",
+    "successRule": "Get all 6 right \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "variant": "ab", "count": 6, "bpm": 88 }
+    "generatorParams": {
+      "variant": "ab",
+      "count": 6
+    }
   },
   {
     "id": "l-sf-dial",
@@ -52,12 +69,19 @@
     "title": "The swing dial",
     "mode": "supported",
     "exerciseType": "feel-id",
-    "skillIds": ["rhythm-swing-feel"],
-    "prompt": "Both cells swing — but not equally. Hear HOW lopsided each lean is.",
-    "successRule": "Get all 6 right — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
+    "prompt": "Both cells swing \u2014 but not equally. Hear HOW lopsided each lean is.",
+    "successRule": "Get all 6 right \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
-    "generatorParams": { "variant": "dial", "count": 6, "bpm": 88 }
+    "generatorParams": {
+      "variant": "dial",
+      "count": 6
+    }
   },
   {
     "id": "l-sf-echo",
@@ -66,13 +90,26 @@
     "title": "Echo the shuffle",
     "mode": "supported",
     "exerciseType": "rhythm-tap",
-    "skillIds": ["rhythm-swing-feel"],
-    "prompt": "Tap the long-short pairs with the click — LONG on the beat, short on the drawled 'and'. Say \"doo-dah\" while you tap.",
-    "successRule": "Most taps in time AND genuinely leaning — straight taps don't count as swing.",
-    "passCriteria": { "minSwingInBandPct": 0.6 },
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
+    "prompt": "Tap the long-short pairs with the click \u2014 LONG on the beat, short on the drawled 'and'. Say \"doo-dah\" while you tap.",
+    "successRule": "Most taps in time AND genuinely leaning \u2014 straight taps don't count as swing.",
+    "passCriteria": {
+      "minSwingInBandPct": 0.6
+    },
     "assistOptions": [],
     "generatorParams": {
-      "beats": [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
+      "beats": [
+        0,
+        0.5,
+        1,
+        1.5,
+        2,
+        2.5,
+        3,
+        3.5
+      ],
       "bpm": 76,
       "countInBeats": 4,
       "beatsPerBar": 4,
@@ -87,11 +124,18 @@
     "title": "The left-hand rock",
     "mode": "supported",
     "exerciseType": "fragment",
-    "skillIds": ["lh-shuffle-bass"],
-    "prompt": "Pinky on C, rock 5-to-6 in long-short pairs. The 6th is the blues sound — keep the wrist loose.",
-    "successRule": "Every note right — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "skillIds": [
+      "lh-shuffle-bass"
+    ],
+    "prompt": "Pinky on C, rock 5-to-6 in long-short pairs. The 6th is the blues sound \u2014 keep the wrist loose.",
+    "successRule": "Every note right \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-lh-shuffle-rock"
   },
   {
@@ -101,11 +145,19 @@
     "title": "Rock through the changes",
     "mode": "supported",
     "exerciseType": "fragment",
-    "skillIds": ["lh-shuffle-bass", "rhythm-swing-feel"],
+    "skillIds": [
+      "lh-shuffle-bass",
+      "rhythm-swing-feel"
+    ],
     "prompt": "Same rock, new homes: C to F to G7 and back. The motion never stops at a barline.",
-    "successRule": "Every note right — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "successRule": "Every note right \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-lh-shuffle-changes"
   },
   {
@@ -115,11 +167,19 @@
     "title": "Melody over the shuffle",
     "mode": "supported",
     "exerciseType": "fragment",
-    "skillIds": ["rhythm-swing-feel", "lh-shuffle-bass"],
-    "prompt": "Frankie's first phrase rides on top of your rock — hands together, lean intact.",
-    "successRule": "Every note right — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "skillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass"
+    ],
+    "prompt": "Frankie's first phrase rides on top of your rock \u2014 hands together, lean intact.",
+    "successRule": "Every note right \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-shuffle-hands-bed"
   },
   {
@@ -129,11 +189,19 @@
     "title": "Eyes on the symbols",
     "mode": "supported",
     "exerciseType": "play-chart",
-    "skillIds": ["harmony-12bar-form", "lh-shuffle-bass"],
-    "prompt": "No falling notes — the simplified Frankie straight off the chord symbols, counting the form.",
-    "successRule": "Earn at least one star from the symbols alone — every note right; a slip means a replay.",
-    "passCriteria": { "minStars": 1, "minScorePct": 1 },
-    "assistOptions": ["slow-down"],
+    "skillIds": [
+      "harmony-12bar-form",
+      "lh-shuffle-bass"
+    ],
+    "prompt": "No falling notes \u2014 the simplified Frankie straight off the chord symbols, counting the form.",
+    "successRule": "Earn at least one star from the symbols alone \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "minStars": 1,
+      "minScorePct": 1
+    },
+    "assistOptions": [
+      "slow-down"
+    ],
     "chartId": "frankie-and-johnny--simplified"
   },
   {
@@ -143,11 +211,21 @@
     "title": "The whole shuffle",
     "mode": "supported",
     "exerciseType": "play-chart",
-    "skillIds": ["rhythm-swing-feel", "lh-shuffle-bass", "harmony-12bar-form"],
-    "prompt": "The full Frankie and Johnny — melody over the rocking bass, leaning all twelve bars.",
-    "successRule": "Every note right AND the take actually swings — flat eighths mean a replay.",
-    "passCriteria": { "minScorePct": 1, "minSwingInBandPct": 0.6 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "skillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass",
+      "harmony-12bar-form"
+    ],
+    "prompt": "The full Frankie and Johnny \u2014 melody over the rocking bass, leaning all twelve bars.",
+    "successRule": "Every note right AND the take actually swings \u2014 flat eighths mean a replay.",
+    "passCriteria": {
+      "minScorePct": 1,
+      "minSwingInBandPct": 0.6
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "chartId": "frankie-and-johnny--full"
   },
   {
@@ -157,13 +235,20 @@
     "title": "Checkpoint: the shuffle",
     "mode": "independent",
     "exerciseType": "theory-quiz",
-    "skillIds": ["rhythm-swing-feel", "lh-shuffle-bass"],
-    "prompt": "The Tier 8 cross-strand check — lean, notation, the rock, and the form.",
-    "successRule": "Answer all 6 correctly — a slip means a replay.",
-    "passCriteria": { "minScorePct": 1 },
+    "skillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass"
+    ],
+    "prompt": "The Tier 8 cross-strand check \u2014 lean, notation, the rock, and the form.",
+    "successRule": "Answer all 6 correctly \u2014 a slip means a replay.",
+    "passCriteria": {
+      "minScorePct": 1
+    },
     "assistOptions": [],
     "theoryConceptId": "theory-tier8-checkpoint",
-    "generatorParams": { "count": 6 }
+    "generatorParams": {
+      "count": 6
+    }
   },
   {
     "id": "l-sf-boss",
@@ -172,10 +257,18 @@
     "title": "Performance: Frankie and Johnny",
     "mode": "performance",
     "exerciseType": "play-chart",
-    "skillIds": ["rhythm-swing-feel", "lh-shuffle-bass", "harmony-12bar-form"],
-    "prompt": "The Tier 8 boss: the full shuffle at 84 BPM, unassisted — and it has to swing.",
-    "successRule": "Earn the mastery star with a real lean: three stars at tempo, no assists, most pairs in the pocket — every note right; a slip means a replay.",
-    "passCriteria": { "requiresMasteryStar": true, "minScorePct": 1, "minSwingInBandPct": 0.7 },
+    "skillIds": [
+      "rhythm-swing-feel",
+      "lh-shuffle-bass",
+      "harmony-12bar-form"
+    ],
+    "prompt": "The Tier 8 boss: the full shuffle at 84 BPM, unassisted \u2014 and it has to swing.",
+    "successRule": "Earn the mastery star with a real lean: three stars at tempo, no assists, most pairs in the pocket \u2014 every note right; a slip means a replay.",
+    "passCriteria": {
+      "requiresMasteryStar": true,
+      "minScorePct": 1,
+      "minSwingInBandPct": 0.7
+    },
     "assistOptions": [],
     "chartId": "frankie-and-johnny--full"
   },
@@ -186,11 +279,18 @@
     "title": "Boss Challenge: Pinetop's groove",
     "mode": "scouting",
     "exerciseType": "fragment",
-    "skillIds": ["rhythm-swing-feel"],
-    "prompt": "Your shuffle, sixteen tiers up — Pinetop's boogie groove cell. Just explore the deep end.",
-    "successRule": "No stars, no failure — feel how far the lean can go.",
-    "passCriteria": { "minScorePct": 0 },
-    "assistOptions": ["falling-notes", "slow-down"],
+    "skillIds": [
+      "rhythm-swing-feel"
+    ],
+    "prompt": "Your shuffle, sixteen tiers up \u2014 Pinetop's boogie groove cell. Just explore the deep end.",
+    "successRule": "No stars, no failure \u2014 feel how far the lean can go.",
+    "passCriteria": {
+      "minScorePct": 0
+    },
+    "assistOptions": [
+      "falling-notes",
+      "slow-down"
+    ],
     "fragmentId": "frag-pinetops-groove-cell",
     "stretchBoss": true
   }

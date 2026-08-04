@@ -9,6 +9,12 @@ interface ExerciseShellProps {
   lastResult: PromptResult | null;
   /** The prompt `lastResult` belongs to — powers "Explain my answer". */
   answeredPrompt?: ExercisePrompt | null;
+  /**
+   * Per-question review mode: the shell is showing the ANSWERED question with
+   * its verdict — render the Continue button and nothing advances until it's
+   * pressed. Keeps "Explain my answer" attached to the question it explains.
+   */
+  onContinue?: () => void;
   onReplayAudio?: () => void;
   children?: ReactNode;
 }
@@ -22,6 +28,7 @@ export function ExerciseShell({
   progress,
   lastResult,
   answeredPrompt,
+  onContinue,
   onReplayAudio,
   children,
 }: ExerciseShellProps) {
@@ -149,6 +156,20 @@ export function ExerciseShell({
             </ul>
           )}
         </div>
+      )}
+
+      {/* Review mode: the answer is in, this question stays on screen with its
+          verdict and explanations until the learner moves on themselves. */}
+      {onContinue && (
+        <button
+          type="button"
+          autoFocus
+          onClick={onContinue}
+          data-testid="review-continue"
+          className="inline-flex items-center justify-center gap-2 self-end rounded-full bg-amber px-5 py-2.5 font-display text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-px hover:shadow-lift active:translate-y-px"
+        >
+          Continue <ChevronRight size={15} />
+        </button>
       )}
       </div>
 

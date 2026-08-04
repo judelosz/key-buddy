@@ -218,15 +218,37 @@ function ExerciseLesson({
   const listenChart =
     lesson.exerciseType === 'listen' ? chartForLesson(getContent(), lesson) : null;
 
+  // Per-question review (choice prompts): the runner holds after an answer —
+  // keep the ANSWERED question on screen (its text, its audio, its verdict and
+  // explanations) and advance only on Continue. The engine has already moved
+  // on internally, so display state is derived from pendingReview, not from
+  // currentPrompt.
+  const review = runner.pendingReview;
+  const displayPrompt = review ? review.prompt : prompt;
+  const engineProgress = runner.engine.progress;
+  // The engine has already advanced past the answered prompt (or finished),
+  // so the dots step back one while its review is on screen.
+  const displayProgress = review
+    ? { index: Math.max(0, engineProgress.index - 1), total: engineProgress.total }
+    : engineProgress;
+
   return (
     <div className="flex flex-col gap-4">
       {banner ?? <p className="text-sm text-ink-soft">{lesson.prompt}</p>}
       <ExerciseShell
-        prompt={prompt}
-        progress={runner.engine.progress}
+        prompt={displayPrompt}
+        progress={displayProgress}
         lastResult={lastResult}
         answeredPrompt={answeredPrompt}
-        onReplayAudio={() => void runner.playPromptAudio()}
+        onContinue={
+          review
+            ? () => {
+                setLastResult(null);
+                runner.continueAfterReview();
+              }
+            : undefined
+        }
+        onReplayAudio={() => void runner.playPromptAudio(displayPrompt)}
       >
         {prompt && lesson.exerciseType === 'listen' && listenChart && (
           <ListenExerciseView
@@ -253,7 +275,8 @@ function ExerciseLesson({
         {prompt && lesson.exerciseType === 'rhythm-tap' && (
           <RhythmTapExerciseView runner={runner} tapFlash={tapFlash} />
         )}
-        {prompt &&
+        {!review &&
+          prompt &&
           (lesson.exerciseType === 'theory-quiz' ||
             lesson.exerciseType === 'interval-ear' ||
             lesson.exerciseType === 'chord-ear' ||

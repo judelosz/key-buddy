@@ -16,6 +16,11 @@ import * as Tone from 'tone';
 import type { Feel } from '@/core/types';
 import { applySwing, applySwingDuration } from '@/core/scoring/swing';
 
+/** How long init() waits for the sampled piano before letting the synth
+ * cover. Cached loads land in well under a second; first-ever loads on a
+ * normal connection in 1–2 s. Past this, offline mode proceeds on the synth. */
+const SAMPLER_WAIT_MS = 3000;
+
 export interface MetronomeTick {
   beat: number; // absolute beat index since start
   barBeat: number; // 0-based beat within the bar
@@ -50,30 +55,40 @@ export class AudioService {
     if (this.initialized) return;
     await Tone.start();
 
-    // Fallback synth — plays immediately while the piano samples download.
+    // Fallback synth — plays only if the piano samples can't load (offline).
     this.synth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle' },
       envelope: { attack: 0.005, decay: 0.2, sustain: 0.3, release: 0.8 },
     }).toDestination();
     this.synth.volume.value = -8;
 
-    // Sampled grand piano (Salamander, via the Tone.js sample CDN). Loads in the
-    // background; playNote swaps to it once ready, and stays on the synth if
-    // offline. Samples every minor third, pitch-shifted between.
-    this.sampler = new Tone.Sampler({
-      urls: {
-        A2: 'A2.mp3', C3: 'C3.mp3', 'D#3': 'Ds3.mp3', 'F#3': 'Fs3.mp3',
-        A3: 'A3.mp3', C4: 'C4.mp3', 'D#4': 'Ds4.mp3', 'F#4': 'Fs4.mp3',
-        A4: 'A4.mp3', C5: 'C5.mp3', 'D#5': 'Ds5.mp3', 'F#5': 'Fs5.mp3',
-        A5: 'A5.mp3', C6: 'C6.mp3',
-      },
-      baseUrl: 'https://tonejs.github.io/audio/salamander/',
-      release: 1,
-      onload: () => {
-        this.samplerReady = true;
-      },
-    }).toDestination();
-    this.sampler.volume.value = -4;
+    // Sampled grand piano (Salamander, via the Tone.js sample CDN). Samples
+    // every minor third, pitch-shifted between.
+    const samplerLoaded = new Promise<void>((resolve) => {
+      this.sampler = new Tone.Sampler({
+        urls: {
+          A2: 'A2.mp3', C3: 'C3.mp3', 'D#3': 'Ds3.mp3', 'F#3': 'Fs3.mp3',
+          A3: 'A3.mp3', C4: 'C4.mp3', 'D#4': 'Ds4.mp3', 'F#4': 'Fs4.mp3',
+          A4: 'A4.mp3', C5: 'C5.mp3', 'D#5': 'Ds5.mp3', 'F#5': 'Fs5.mp3',
+          A5: 'A5.mp3', C6: 'C6.mp3',
+        },
+        baseUrl: 'https://tonejs.github.io/audio/salamander/',
+        release: 1,
+        onload: () => {
+          this.samplerReady = true;
+          resolve();
+        },
+      }).toDestination();
+      this.sampler.volume.value = -4;
+    });
+    // The first sound a learner hears should be the PIANO, not the synth —
+    // especially the Tier-1 "just listen" mission (test-window feedback).
+    // Wait for the samples up to a bound; past it (offline / very slow
+    // network) the synth covers and playNote swaps to the piano when it lands.
+    await Promise.race([
+      samplerLoaded,
+      new Promise<void>((resolve) => setTimeout(resolve, SAMPLER_WAIT_MS)),
+    ]);
 
     // Woodblock click: a dry pitched "tok" + a short band-passed noise transient.
     this.clickTone = new Tone.Synth({
@@ -142,6 +157,14 @@ export class AudioService {
   /** True once the sampled piano has finished downloading (else the synth plays). */
   get pianoReady(): boolean {
     return this.samplerReady;
+  }
+
+  /** Release every ringing/held note on the melodic instruments (natural
+   * release tail, no click). Cancelling scheduled prompt audio pairs this
+   * with clearing the not-yet-fired timers. */
+  stopAllNotes(): void {
+    this.sampler?.releaseAll();
+    this.synth?.releaseAll();
   }
 
   /**

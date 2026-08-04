@@ -287,6 +287,15 @@ export function directiveLabel(directive: AdaptationDirective, practiceOnly: boo
 /** Exercise types with a real dimension to step down (tempo/guides). */
 const STEPPABLE_TYPES: readonly string[] = ['play-chart', 'fragment', 'rhythm-tap'];
 
+/**
+ * Whether a lesson has anything to step down. Every surface that turns a
+ * stored adaptive directive into a learner-facing offer must check this —
+ * discrete-answer lessons (quizzes, note-id, ear/feel IDs) have no tempo or
+ * guides, and "Try at 65% tempo" on one is nonsense (clean-run ADR).
+ */
+export const isSteppable = (lesson: Pick<CurriculumLesson, 'exerciseType'>): boolean =>
+  STEPPABLE_TYPES.includes(lesson.exerciseType);
+
 /** The post-fail step-down offer for a lesson's "Try Again" flow. */
 export function stepDownFor(
   lesson: CurriculumLesson,

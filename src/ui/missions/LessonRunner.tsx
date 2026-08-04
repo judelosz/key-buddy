@@ -5,6 +5,7 @@ import { getContent } from '@/core/content/bundled';
 import type { LessonReward } from '@/core/session/recordLesson';
 import {
   directiveLabel,
+  isSteppable,
   practiceGeneratorOverridesFor,
   practicePolicyOverrideFor,
   type AdaptationDirective,
@@ -44,12 +45,12 @@ export function LessonRunner({ lesson, module }: { lesson: CurriculumLesson; mod
   };
 
   // The store already folded this result into the adaptive state; the offer
-  // presents THAT directive (no double-stepping).
+  // presents THAT directive (no double-stepping). Discrete-answer lessons
+  // have nothing to step down — never offer them a tempo/guides retry.
   const failedHere =
     reward !== null && !reward.passed && lastAdaptation?.next.refId === lesson.id;
-  const directive: AdaptationDirective | undefined = failedHere
-    ? lastAdaptation?.directive
-    : undefined;
+  const directive: AdaptationDirective | undefined =
+    failedHere && isSteppable(lesson) ? lastAdaptation?.directive : undefined;
   const practiceOnly = lesson.mode === 'independent' || lesson.mode === 'performance';
 
   const stepDown =
