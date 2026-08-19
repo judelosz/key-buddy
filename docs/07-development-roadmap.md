@@ -621,7 +621,7 @@ These should wait until the MIDI-first curriculum is genuinely useful:
 - richer instrument sound packs and cosmetics;
 - optional sharing or social milestones;
 - broader repertoire licensing;
-- cloud sync or accounts.
+- ~~cloud sync or accounts~~ — implemented 2026-08-18 as one login = one pianist, Supabase Auth/Postgres + RLS, with a per-account Dexie cache and durable write-behind queue;
 
 Mic input should not be allowed to delay the core teaching loop. The source-agnostic input interface already preserves a path for it.
 

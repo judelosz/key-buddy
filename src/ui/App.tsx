@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
 import { useInputWiring } from '@/ui/hooks/useInputWiring';
@@ -12,13 +12,51 @@ import { FreePlay } from '@/ui/screens/FreePlay';
 import { Progress } from '@/ui/screens/Progress';
 import { Settings } from '@/ui/screens/Settings';
 import { AfkComingSoon } from '@/ui/screens/AfkComingSoon';
+import { useAuthStore } from '@/auth/authStore';
+import { AuthScreen } from '@/ui/auth/AuthScreen';
+import { configureAccountRepository, useLegacyRepository } from '@/data';
+import { KeyBuddyMark } from '@/ui/components/KeyBuddyMark';
 
 export default function App() {
-  useInputWiring();
-  const initGame = useGameStore((s) => s.init);
+  const bypassAuth = import.meta.env.DEV && import.meta.env.VITE_E2E_BYPASS_AUTH === 'true';
+  return bypassAuth ? <AuthenticatedApp userId={null} /> : <AuthBoundary />;
+}
+
+function AuthBoundary() {
+  const initAuth = useAuthStore((s) => s.init);
+  const status = useAuthStore((s) => s.status);
+  const user = useAuthStore((s) => s.user);
+  const recoveryMode = useAuthStore((s) => s.recoveryMode);
+  const error = useAuthStore((s) => s.error);
+
   useEffect(() => {
-    void initGame();
-  }, [initGame]);
+    void initAuth();
+  }, [initAuth]);
+
+  if (status === 'loading') return <AppLoading label="Opening your music room…" />;
+  if (recoveryMode || status === 'signed-out') return <AuthScreen />;
+  if (status === 'error' || !user) {
+    return <AppLoading label={error ?? 'Account services are unavailable right now.'} />;
+  }
+  return <AuthenticatedApp key={user.id} userId={user.id} />;
+}
+
+function AuthenticatedApp({ userId }: { userId: string | null }) {
+  useInputWiring();
+  const [prepared, setPrepared] = useState(false);
+  const initGame = useGameStore((s) => s.init);
+  const resetForAccount = useGameStore((s) => s.resetForAccount);
+
+  useEffect(() => {
+    if (userId) configureAccountRepository(userId);
+    else useLegacyRepository();
+    resetForAccount();
+    setPrepared(true);
+  }, [resetForAccount, userId]);
+
+  useEffect(() => {
+    if (prepared) void initGame();
+  }, [initGame, prepared]);
   const screen = useAppStore((s) => s.screen);
   const setScreen = useAppStore((s) => s.setScreen);
   const sessionActive = useAppStore((s) => s.sessionActive);
@@ -36,7 +74,7 @@ export default function App() {
     if (firstRun) setShowOnboarding(true);
   }, [firstRun, setShowOnboarding]);
 
-  if (!loaded) return null;
+  if (!prepared || !loaded) return <AppLoading label="Loading your progress…" />;
   if (showOnboarding || firstRun) {
     return <Onboarding replay={player.onboardedAt !== undefined} />;
   }
@@ -56,6 +94,15 @@ export default function App() {
         {screen === 'settings' && <Settings />}
       </>
     </AppShell>
+  );
+}
+
+function AppLoading({ label }: { label: string }) {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
+      <KeyBuddyMark size={58} />
+      <p className="font-display text-lg font-semibold text-ink">{label}</p>
+    </main>
   );
 }
 

@@ -59,7 +59,7 @@ import {
   type AdaptationState,
 } from '@/core/adaptive/adaptive';
 import { initialPlayerState } from '@/data/repository';
-import { repository } from '@/data/dexieRepository';
+import { repository } from '@/data';
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
@@ -132,6 +132,8 @@ interface GameState {
   sessionStartGate: TierGateStatus | null;
 
   init: () => Promise<void>;
+  /** Clears in-memory state before a different authenticated pianist loads. */
+  resetForAccount: () => void;
   recordAttempt: (
     song: Song,
     chart: Chart,
@@ -325,6 +327,29 @@ export const useGameStore = create<GameState>((set, get) => {
         });
       })();
       return initPromise;
+    },
+
+    resetForAccount: () => {
+      initPromise = null;
+      set({
+        loaded: false,
+        player: initialPlayerState(),
+        skillProgressById: new Map(),
+        chartBestById: new Map(),
+        chartMasteryById: new Map(),
+        lessonProgressById: new Map(),
+        songMasteryById: new Map(),
+        unlockedIds: new Set(),
+        lastReward: null,
+        lastLessonReward: null,
+        recentResults: [],
+        recentAttempts: [],
+        adaptationByRef: new Map(),
+        lastAdaptation: null,
+        activeSession: null,
+        sessionEvents: { songLevelUps: [], tierAdvanced: false },
+        sessionStartGate: null,
+      });
     },
 
     recordAttempt: async (song, chart, attempt, opts) => {

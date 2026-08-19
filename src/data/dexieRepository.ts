@@ -1,7 +1,8 @@
 /**
  * Dexie/IndexedDB implementation of the Repository (build-spec §6 data layer).
- * Local-first, no backend for v1. The DB is opened lazily so importing this
- * module never touches IndexedDB until first use.
+ * Local-first persistence and account cache. The pre-account `piano-pro` DB is
+ * retained for one-time claiming; authenticated pianists use a user-scoped DB
+ * plus Supabase write-behind. DBs open lazily so imports never touch IndexedDB.
  *
  * Schema v2 (Phase 4): lessonResults, lessonProgress, songMastery, and
  * chartMastery tables; playerState gains the learning-tier fields (upgraded
@@ -43,6 +44,15 @@ interface ChartMasteryRow {
   masteryStar: boolean;
 }
 
+/** Durable write-behind item used by the account-backed repository. Payloads
+ * are validated by the operation kind before they reach the cloud adapter. */
+export interface SyncOperation {
+  id: string;
+  kind: string;
+  payload: unknown;
+  createdAt: number;
+}
+
 class PianoDB extends Dexie {
   playerState!: EntityTable<PlayerRow, 'id'>;
   skillProgress!: EntityTable<SkillProgress, 'skillId'>;
@@ -54,9 +64,10 @@ class PianoDB extends Dexie {
   chartMastery!: EntityTable<ChartMasteryRow, 'chartId'>;
   sessions!: EntityTable<PracticeSession, 'id'>;
   adaptation!: EntityTable<AdaptationState, 'refId'>;
+  syncOperations!: EntityTable<SyncOperation, 'id'>;
 
-  constructor() {
-    super('piano-pro');
+  constructor(name: string) {
+    super(name);
     this.version(1).stores({
       playerState: 'id',
       skillProgress: 'skillId',
@@ -117,14 +128,29 @@ class PianoDB extends Dexie {
             Object.assign(row, normalizeSongMastery(row));
           });
       });
+    this.version(4).stores({
+      playerState: 'id',
+      skillProgress: 'skillId',
+      chartBest: 'chartId',
+      attempts: 'id, timestamp, refId, sessionId',
+      lessonResults: 'id, lessonId, timestamp, sessionId',
+      lessonProgress: 'lessonId',
+      songMastery: 'songId',
+      chartMastery: 'chartId',
+      sessions: 'id, startedAt',
+      adaptation: 'refId',
+      syncOperations: 'id, createdAt',
+    });
   }
 }
 
 export class DexieRepository implements Repository {
   private db: PianoDB | null = null;
 
+  constructor(private readonly dbName = 'piano-pro') {}
+
   private get(): PianoDB {
-    this.db ??= new PianoDB();
+    this.db ??= new PianoDB(this.dbName);
     return this.db;
   }
 
@@ -228,6 +254,18 @@ export class DexieRepository implements Repository {
     await this.get().adaptation.put(state);
   }
 
+  async enqueueSyncOperation(operation: SyncOperation): Promise<void> {
+    await this.get().syncOperations.put(operation);
+  }
+
+  async loadSyncOperations(): Promise<SyncOperation[]> {
+    return this.get().syncOperations.orderBy('createdAt').toArray();
+  }
+
+  async deleteSyncOperation(id: string): Promise<void> {
+    await this.get().syncOperations.delete(id);
+  }
+
   async clearAll(): Promise<void> {
     const db = this.get();
     await Promise.all([
@@ -241,8 +279,11 @@ export class DexieRepository implements Repository {
       db.chartMastery.clear(),
       db.sessions.clear(),
       db.adaptation.clear(),
+      db.syncOperations.clear(),
     ]);
   }
 }
 
-export const repository: Repository = new DexieRepository();
+/** The pre-account browser database. It remains readable so a pianist can
+ * claim their existing progress the first time they sign in. */
+export const legacyRepository = new DexieRepository();

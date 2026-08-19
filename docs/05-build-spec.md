@@ -47,7 +47,7 @@ A single-user web app that teaches piano through a gamified, research-backed loo
 
 ## 2. Guiding engineering principles
 
-- **Local-first, no backend for v1.** It's a personal prototype; persist everything on-device (IndexedDB). This removes auth, servers, and privacy concerns and makes the app instantly runnable. Design the data layer behind an interface so a sync backend can be added later without rewrites.
+- **Local-first, no backend for the original v1 scope.** It's a personal prototype; persist everything on-device (IndexedDB). This removes auth, servers, and privacy concerns and makes the app instantly runnable. Design the data layer behind an interface so a sync backend can be added later without rewrites. **Amended 2026-08-18:** the interface paid off—Supabase Auth/Postgres now provide one-pianist accounts and cloud continuity while per-account IndexedDB remains the offline cache; see the AGENTS.md ADR.
 - **The scoring engine is the foundation.** Everything downstream (XP, stars, mastery, unlocks) depends on it being accurate and *fair*. Build and test it first and hardest.
 - **Enforce the design guardrails in code, centrally.** The honesty rules (Section 0.1 #4) should live in one place (e.g., a rewards/progression service), not be scattered, so they can't be accidentally bypassed.
 - **Data-driven content.** Skills, songs, and mini-games are data (JSON), not hardcoded logic, so the curriculum can grow without code changes.

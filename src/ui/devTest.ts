@@ -8,7 +8,7 @@ import { getContent } from '@/core/content/bundled';
 import { chartForLesson, fragmentAsChart } from '@/core/content/resolveChart';
 import { xpPurposeFor } from '@/core/session/sessionTypes';
 import { useGameStore } from '@/ui/store/gameStore';
-import { repository } from '@/data/dexieRepository';
+import { repository } from '@/data';
 
 function cannedMasteryAttempt(chartId: string): Attempt {
   return {
