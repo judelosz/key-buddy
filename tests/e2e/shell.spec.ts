@@ -6,9 +6,15 @@ test('desktop shell uses both functional rails', async ({ page }) => {
   await page.goto('/');
   await skipOnboarding(page);
 
+  await expect(page).toHaveTitle('Key-Buddy — Learn the Piano from Scratch');
   await expect(page.getByTestId('app-shell')).toBeVisible();
-  await expect(page.getByTestId('navigation-rail')).toBeVisible();
-  await expect(page.getByTestId('player-rail')).toBeVisible();
+  const navigationRail = page.getByTestId('navigation-rail');
+  const playerRail = page.getByTestId('player-rail');
+  await expect(navigationRail).toBeVisible();
+  await expect(playerRail).toBeVisible();
+  await expect(navigationRail.getByTestId('rail-midi-control')).toBeVisible();
+  await expect(navigationRail.getByText('Piano input')).toBeVisible();
+  await expect(playerRail.getByText('Piano input')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'View your progress' })).toBeVisible();
 });
 
@@ -20,6 +26,7 @@ test('intermediate width keeps the icon rail and drops the player rail', async (
   await expect(page.getByTestId('navigation-rail')).toBeVisible();
   await expect(page.getByTestId('player-rail')).toBeHidden();
   await expect(page.getByRole('button', { name: 'Missions', exact: true })).toBeVisible();
+  await expect(page.getByTestId('rail-midi-control').getByRole('button', { name: 'MIDI' })).toBeVisible();
 });
 
 test('mobile uses compact top navigation without either rail', async ({ page }) => {

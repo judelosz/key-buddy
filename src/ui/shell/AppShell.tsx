@@ -1,16 +1,19 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   Armchair,
   Brain,
   Hand,
   Lock,
+  LogOut,
   Map,
   Music,
   Play,
   RefreshCcw,
   SlidersHorizontal,
   TrendingUp,
+  UserRound,
 } from 'lucide-react';
+import { useAuthStore } from '@/auth/authStore';
 import type { Screen } from '@/ui/store/appStore';
 import { useAppStore } from '@/ui/store/appStore';
 import { useGameStore } from '@/ui/store/gameStore';
@@ -108,10 +111,101 @@ function NavigationRail({
           <RailButton key={item.id} item={item} active={screen === item.id} onNavigate={onNavigate} />
         ))}
       </nav>
-      {NAV.filter((item) => item.id === 'settings').map((item) => (
-        <RailButton key={item.id} item={item} active={screen === item.id} onNavigate={onNavigate} />
-      ))}
+      <div className="space-y-1.5 border-t border-line pt-2">
+        <RailMidiControl />
+        {NAV.filter((item) => item.id === 'settings').map((item) => (
+          <RailButton key={item.id} item={item} active={screen === item.id} onNavigate={onNavigate} />
+        ))}
+        <RailAccountControl />
+      </div>
     </aside>
+  );
+}
+
+function RailMidiControl() {
+  const inputStatus = useAppStore((s) => s.inputStatus);
+  const inputLabel =
+    inputStatus.kind === 'ready' && inputStatus.source === 'midi'
+      ? inputStatus.deviceName
+      : inputStatus.kind === 'ready'
+        ? 'Virtual keys ready'
+        : 'Virtual keys available';
+
+  return (
+    <section
+      data-testid="rail-midi-control"
+      aria-label="Piano input"
+      className="rounded-2xl bg-sand/60 p-2 xl:p-3"
+    >
+      <div className="flex justify-center xl:hidden">
+        <MidiConnectButton compact iconOnly />
+      </div>
+      <div className="hidden xl:block">
+        <p className="font-display text-xs font-semibold text-ink">Piano input</p>
+        <p className="mt-0.5 truncate text-[11px] text-ink-soft" title={inputLabel}>
+          {inputLabel}
+        </p>
+        <div className="mt-2">
+          <MidiConnectButton compact />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RailAccountControl() {
+  const status = useAuthStore((s) => s.status);
+  const profile = useAuthStore((s) => s.profile);
+  const user = useAuthStore((s) => s.user);
+  const signOut = useAuthStore((s) => s.signOut);
+  const [signingOut, setSigningOut] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  if (status !== 'signed-in' || !user) return null;
+
+  const logout = async () => {
+    setSigningOut(true);
+    setError(null);
+    try {
+      await signOut();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Sign out failed.');
+      setSigningOut(false);
+    }
+  };
+
+  return (
+    <div data-testid="rail-account-control">
+      <div className="mb-1 hidden min-w-0 items-center gap-2 rounded-2xl px-2 py-2 xl:flex">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-soft text-amber-ink">
+          <UserRound size={16} />
+        </span>
+        <div className="min-w-0">
+          <p className="truncate font-display text-xs font-semibold text-ink">
+            {profile?.displayName ?? 'Pianist'}
+          </p>
+          <p className="truncate text-[10px] text-ink-soft" title={user.email}>
+            {user.email}
+          </p>
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={() => void logout()}
+        disabled={signingOut}
+        aria-label="Sign out"
+        title="Sign out"
+        className="flex min-h-11 w-full items-center justify-center gap-3 rounded-2xl px-3 text-sm font-semibold text-rose-ink transition hover:bg-rose-soft disabled:cursor-wait disabled:opacity-60 xl:justify-start"
+      >
+        <LogOut size={18} className="shrink-0" />
+        <span className="hidden xl:inline">{signingOut ? 'Signing out…' : 'Sign out'}</span>
+      </button>
+      {error && (
+        <p className="mt-1 hidden px-2 text-[10px] leading-snug text-rose-ink xl:block" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -203,7 +297,6 @@ function PlayerRail({
   const unlockProgress = useGameStore((s) => s.unlockProgress);
   const startSession = useGameStore((s) => s.startSession);
   const setSessionActive = useAppStore((s) => s.setSessionActive);
-  const inputStatus = useAppStore((s) => s.inputStatus);
   const content = getContent();
   const headBand = content.tierGates.find((gate) => gate.tier === meter.level)?.headXpBand;
   const dueCount = dueReviewSkillIds().length;
@@ -312,22 +405,6 @@ function PlayerRail({
           </span>
         </button>
       )}
-
-      <section className="rounded-[1.75rem] border border-line bg-surface p-4 shadow-soft">
-        <div className="flex items-center justify-between gap-2">
-          <div className="min-w-0">
-            <p className="font-display text-sm font-semibold text-ink">Piano input</p>
-            <p className="truncate text-xs text-ink-soft">
-              {inputStatus.kind === 'ready' && inputStatus.source === 'midi'
-                ? inputStatus.deviceName
-                : inputStatus.kind === 'ready'
-                  ? 'Virtual keys ready'
-                  : 'Virtual keys available'}
-            </p>
-          </div>
-          <MidiConnectButton compact />
-        </div>
-      </section>
     </aside>
   );
 }

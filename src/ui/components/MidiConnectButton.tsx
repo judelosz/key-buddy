@@ -11,7 +11,13 @@ import { useAppStore } from '@/ui/store/appStore';
  * Connect / disconnect a MIDI keyboard from anywhere. MIDI runs alongside the
  * always-on virtual keyboard, so connecting here also works while playing a song.
  */
-export function MidiConnectButton({ compact = false }: { compact?: boolean }) {
+export function MidiConnectButton({
+  compact = false,
+  iconOnly = false,
+}: {
+  compact?: boolean;
+  iconOnly?: boolean;
+}) {
   const midiEnabled = useAppStore((s) => s.midiEnabled);
   const setMidiEnabled = useAppStore((s) => s.setMidiEnabled);
   const status = useAppStore((s) => s.inputStatus);
@@ -46,10 +52,11 @@ export function MidiConnectButton({ compact = false }: { compact?: boolean }) {
     <button
       type="button"
       onClick={() => void toggle()}
+      aria-label={iconOnly ? label : undefined}
       title="MIDI plays alongside the on-screen keyboard"
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium shadow-soft transition hover:-translate-y-px active:translate-y-px ${tone}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full py-1.5 text-sm font-medium shadow-soft transition hover:-translate-y-px active:translate-y-px ${iconOnly ? 'px-2.5' : 'px-3'} ${tone}`}
     >
-      <Usb size={15} /> {label}
+      <Usb size={15} /> {!iconOnly && label}
     </button>
   );
 }
