@@ -88,3 +88,65 @@ test('Missions limits the horizon and exposes the complete curriculum dialog', a
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test('mission stepping-stone icons stay compact, semantic, and clear of copy', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/');
+  await skipOnboarding(page);
+
+  const pathSteps = page.locator('[data-testid^="path-step-"]');
+  await expect(pathSteps).toHaveCount(7);
+  await expect
+    .poll(() =>
+      pathSteps.evaluateAll((steps) =>
+        steps
+          .filter((step) => {
+            const button = step.querySelector('button');
+            const copy = step.querySelector('[data-mission-copy]');
+            if (!button || !copy) return true;
+            const iconBox = button.getBoundingClientRect();
+            const copyBox = copy.getBoundingClientRect();
+            return !(
+              iconBox.right <= copyBox.left ||
+              iconBox.left >= copyBox.right ||
+              iconBox.bottom <= copyBox.top ||
+              iconBox.top >= copyBox.bottom
+            );
+          })
+          .map((step) => step.getAttribute('data-testid')),
+      ),
+    )
+    .toEqual([]);
+
+  const glyphs = await pathSteps.locator('svg[data-glyph]').evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      kind: node.getAttribute('data-glyph'),
+      width: node.getBoundingClientRect().width,
+    })),
+  );
+  expect(glyphs.map(({ kind }) => kind)).toEqual([
+    'listen',
+    'keyboard',
+    'theory',
+    'keyboard',
+    'keyboard',
+    'interval-ear',
+    'challenge',
+  ]);
+  expect(Math.max(...glyphs.map(({ width }) => width))).toBeLessThanOrEqual(20);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileOverlaps = await pathSteps.evaluateAll((steps) =>
+    steps
+      .filter((step) => {
+        const button = step.querySelector('button');
+        const copy = step.querySelector('[data-mission-copy]');
+        if (!button || !copy) return true;
+        const iconBox = button.getBoundingClientRect();
+        const copyBox = copy.getBoundingClientRect();
+        return iconBox.right > copyBox.left && iconBox.left < copyBox.right;
+      })
+      .map((step) => step.getAttribute('data-testid')),
+  );
+  expect(mobileOverlaps).toEqual([]);
+});

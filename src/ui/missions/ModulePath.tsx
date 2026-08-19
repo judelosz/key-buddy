@@ -187,7 +187,7 @@ function CurrentModulePath({ view }: { view: ModuleView }) {
       <ol className="relative mx-auto flex max-w-3xl flex-col gap-3 px-5 py-7 sm:px-8">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-12 left-[3.25rem] top-12 w-px -translate-x-1/2 bg-line sm:left-1/2"
+          className="pointer-events-none absolute bottom-12 left-[2.875rem] top-12 w-px -translate-x-1/2 bg-line sm:left-1/2"
         />
         {lessons.map((lesson, index) => (
           <PathLesson
@@ -220,14 +220,16 @@ function PathLesson({
   const isBoss = module.bossLessonId === lesson.id;
   const clickable = done || isNext;
   const side = index % 2 === 0 ? 'left' : 'right';
-  const offset =
-    index % 3 === 0 ? 'sm:-translate-x-3' : index % 3 === 2 ? 'sm:translate-x-3' : '';
 
   return (
-    <li className="relative z-[1] grid min-h-[4.5rem] grid-cols-[3.5rem_1fr] items-center gap-3 sm:grid-cols-[1fr_4rem_1fr] sm:gap-2">
+    <li
+      data-testid={`path-step-${lesson.id}`}
+      className="relative z-[1] grid min-h-[4.5rem] grid-cols-[3.25rem_minmax(0,1fr)] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_4rem_minmax(0,1fr)] sm:gap-3"
+    >
       <div
-        className={`col-start-2 row-start-1 text-left ${
-          side === 'left' ? 'sm:col-start-1 sm:text-right' : 'sm:col-start-3'
+        data-mission-copy
+        className={`min-w-0 col-start-2 row-start-1 text-left ${
+          side === 'left' ? 'sm:col-start-1 sm:pr-1 sm:text-right' : 'sm:col-start-3 sm:pl-1'
         }`}
       >
         <p className={`text-sm font-semibold ${clickable ? 'text-ink' : 'text-ink-soft'}`}>
@@ -246,22 +248,22 @@ function PathLesson({
         data-testid={`lesson-${lesson.id}`}
         aria-label={`${lesson.title}${isNext ? ' — current mission' : done ? ' — completed' : ' — locked'}`}
         onClick={() => setActiveLesson({ moduleId: module.id, lessonId: lesson.id })}
-        className={`col-start-1 row-start-1 flex h-14 w-14 items-center justify-center justify-self-center rounded-[1.15rem] border-b-[3px] transition sm:col-start-2 ${offset} ${
+        className={`col-start-1 row-start-1 flex h-12 w-12 items-center justify-center justify-self-center rounded-2xl border-b-[3px] transition sm:col-start-2 ${
           done
             ? 'border-mint-deep/25 bg-mint text-ink hover:-translate-y-px'
             : isNext
               ? 'border-amber-deep/35 bg-amber text-ink shadow-soft animate-pop hover:-translate-y-0.5 hover:shadow-lift'
               : 'cursor-not-allowed border-line bg-sand text-ink-soft'
-        } ${isBoss ? 'h-16 w-16 rounded-[1.35rem]' : ''}`}
+        } ${isBoss ? 'h-14 w-14 rounded-[1.2rem]' : ''}`}
       >
         {done ? (
-          <Check size={21} />
+          <Check size={18} />
         ) : (
           <LessonGlyph
             type={lesson.exerciseType}
             boss={isBoss}
             stretch={lesson.stretchBoss}
-            size={isBoss ? 24 : 21}
+            size={isBoss ? 20 : 18}
           />
         )}
       </button>
